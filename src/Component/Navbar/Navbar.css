@@ -1,0 +1,71 @@
+.HeaderStiky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050; /* Ensure it is above other elements */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.navbar-toggler {
+  border: none; /* Remove outline or border */
+  color: #000; /* Set color to match your theme */
+  font-size: 1.5rem; /* Ensure it's large enough */
+}
+
+.navbar-toggler-icon {
+  background-color: rgba(0, 0, 0, 0.5); /* Add background for better visibility */
+}
+  .content{
+    flex:1 0 auto;
+  }
+
+  .navbar-brand img {
+    margin-right: 0.25rem;
+    width: 25% !important;
+}
+
+.makeStyles-logo-13 {
+  width: 100% !important;
+  
+}
+/* Centering UniTrav */
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Styling the system name */
+.navbar-system-name {
+  font-family: Georgia, serif; /* For Georgia */
+  font-size: 2rem;
+  font-weight: bold;
+  /* text-transform: uppercase; */
+  display: flex;
+}
+
+/* Specific colors for each part of UniTrav */
+.navbar-uni {
+  color: #293b8d !important; /* Blue */
+}
+
+/* Specific colors for each part of UniTrav */
+.navbar-it {
+  color: #d73738 !important; /* Blue */
+}
+
+/* Specific colors for each part of UniTrav */
+.navbar-raw {
+  color: #d73738 !important; /* Blue */
+}
+
+/* Place the toggle button on the right in mobile view */
+.toggle-container {
+  margin-left: auto; /* Push it to the right */
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 992px) {
+  .toggle-container {
+    order: 1; /* Ensure it's first in line in mobile view */
+  }
+}

@@ -1,0 +1,7 @@
+.btn-danger, .btn-outline-danger, .btn-success{
+    margin-right: 2%;
+    margin-left: 2%;
+    font-size: larger;
+    border-width: 3px;
+    border-radius: 1rem;
+}

@@ -1,0 +1,24 @@
+.print-button {
+    background-color: #007f20; /* Primary color */
+    color: #fff; /* Text color */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .print-button:hover {
+    background-color: #00a30e; /* Darker shade on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .print-button:active {
+    background-color: #00a30e; /* Even darker on click */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98); /* Slightly shrink for click effect */
+  }
+  

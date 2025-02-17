@@ -1,0 +1,21 @@
+.ModalTitle {
+    font-size: medium;
+    color: #BF112B;;
+}
+/*button span {
+    color: #BF112B;
+    text-decoration: none;
+    text-shadow: none;
+}*/
+.close:hover {
+    font-weight: bolder;
+    color: rgb(231, 178, 186) !important;
+}
+.close {
+    color: #BF112B !important;
+    font-weight: bold;
+}
+span.sr-only {
+    color: #BF112B;
+    font-style: normal;
+}

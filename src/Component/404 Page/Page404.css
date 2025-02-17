@@ -1,0 +1,10 @@
+.buttonHome{
+    background-color: #57636f;
+    border: 2px solid #57636f; 
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    color:#FFFF;
+}

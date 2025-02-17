@@ -1,0 +1,16 @@
+.frame {
+  background-color: #e9e8e8;
+  border-radius: 19px;
+  border: 2px solid #343a40 !important;
+  padding: 15px;
+  font-size: 15px !important;
+  font-weight: bold !important;
+    /* Background image only on the right */
+    background: linear-gradient(to left, transparent 50%, #e9e8e8 70%),
+    url('../Assets/airplane-interior-view-stockcake1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Ensure proper layering for text */
+  position: relative;
+}

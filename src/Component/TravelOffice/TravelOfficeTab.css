@@ -1,0 +1,92 @@
+.MuiTab-textColorInherit.Mui-selected {
+    opacity: 1;
+    background-color: #d0d0d0 !important;
+    color: black !important;
+    
+}
+/* .PrivateTabIndicator-colorSecondary {
+    background-color: black !important;
+}
+.PrivateTabIndicator-colorSecondary-4 {
+    background-color: black !important;
+} */
+/* .MuiTab-root {
+    padding: 6px 12px;
+    overflow: hidden;
+    position: relative;
+    font-size: 0.875rem;
+    max-width: 264px;
+    min-width: 72px;
+    box-sizing: border-box;
+    min-height: 48px;
+    text-align: center;
+    flex-shrink: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 1.75;
+    white-space: normal;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    background-color: #860007 !important;
+    color: white !important;
+    transition: all 0.3s ease-in-out !important;
+} */
+/* .MuiTab-root:hover {
+    color: white !important;
+    text-decoration: none;
+    opacity: 1;
+    background-color: #e6000b !important;
+} */
+.MuiTab-fullWidth {
+    transition: all 0.3s ease-in-out;
+}
+
+.MuiTab-fullWidth:hover {
+    color: white !important;
+    text-decoration: none;
+    opacity: 1;
+    background-color: #57636f !important;
+}
+
+/* .PrivateTabIndicator-colorSecondary-22 {
+    background-color: transparent !important;
+} */
+
+.MuiTab-fullWidth {
+    flex-grow: 0;
+    color: black !important;
+    max-width: none;
+    flex-basis: 0;
+    flex-shrink: 0;
+    background-color: #e9e8e8 !important;
+    /* border-right: solid 3px white !important; */
+}
+
+.MuiTab-textColorInherit {
+    color: inherit;
+    opacity: 1 !important;
+}
+
+.allowance-header-section {
+    background-color: #f9f9f9; /* Light background */
+    padding: 10px 15px;        /* Padding for spacing */
+    border-radius: 6px;        /* Rounded corners */
+    text-align: center;        /* Centers the entire content */
+  }
+  
+  .allowance-header {
+    color: #343a40;   /* Darker font for better visibility */
+    font-weight: 600; /* Bold */
+    text-align: center;  /* Ensure text is centered */
+  }
+  
+  .allowance-header i {
+    color: #860007; /* Icon color */
+  }
+  
+  .allowance-header-divider {
+    border-top: 2px solid #860007; /* Customize the line */
+    width: 50%;                    /* Centered and limited width for the divider */
+    margin: 10px auto;              /* Center the divider */
+  }
+  

@@ -1,0 +1,181 @@
+.card-container-home.card-home {
+    max-width: 500px;
+    padding: 40px 40px;
+  }
+  
+  .inputmargin
+  {
+    margin-left: 17%;
+  }
+  /*
+   * Card component
+   */
+  .card-home {
+    background-color: #ffffff;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  .form-img-card {
+    width: 100%;
+    height: 50%;
+    margin: 0px auto 10px;
+    margin-bottom: 20px;
+    display: block;
+}
+  
+  /*
+   * Form styles
+   */
+  .profile-name-card {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0;
+    min-height: 1em;
+  }
+  
+  .reauth-email {
+    display: block;
+    color: #404040;
+    line-height: 2;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  .btn.btn-signin {
+    /*background-color: #4d90fe; */
+    background-color: #bf112b;
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 36px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+  }
+  
+  .btn.btn-signin:active {
+    background-color: #bf112b;
+  }
+  
+  .btn.btn-signin:hover,
+  .btn.btn-signin:active,
+  .btn.btn-signin:focus {
+    background-color: rgb(156, 15, 36);
+  }
+  
+  .floating-input {
+    font-size: 16px;
+    padding: 20px 0px;
+    height: 56px;
+    border: none;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    min-width: 70%;
+    box-sizing: border-box;
+    transition: all 0.3s linear;
+    color: #000;
+    font-weight: 400;
+    -webkit-appearance: none;
+  }
+  .floating-input:focus {
+    border-bottom: solid 1px #b69de6;
+    outline: 0;
+    box-shadow: 0 2px 6px -8px rgba(182, 157, 230, 0.45);
+  }
+  
+  .floating-label {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .floating-label label {
+    position: absolute;
+    top: calc(50% - 7px);
+    left: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .floating-label input:not(:placeholder-shown) {
+    padding: 28px 0px 12px 0px;
+  }
+  .floating-label input:not(:placeholder-shown) + label {
+    -webkit-transform: translateY(-20px);
+    transform: translateY(-20px);
+    opacity: 0.7;
+  }
+  
+  .label-login {
+    font-size: 15.5px;
+    color: #57636f;
+    /* opacity: 0.5; */
+    font-weight: normal;
+  }
+  
+  ::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #000;
+    font-weight: normal;
+    text-align: center;
+  }
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #000;
+    font-weight: normal;
+    text-align: center;
+  }
+  :-ms-input-placeholder {
+    /* IE 10+ */
+    color: #000;
+    font-weight: normal;
+    text-align: center;
+  }
+  :-moz-placeholder {
+    /* Firefox 18- */
+    color: #000;
+    font-weight: normal;
+    text-align: center;
+  }
+  
+  #items {
+    color: #bf112b;
+  }
+  
+  #items li {
+    display: inline;
+  }
+  
+  #items a {
+    padding-right: 15px;
+    text-decoration: none;
+    color: #bf112b;
+  }
+  
+  #items a:hover {
+    color: red;
+    cursor: pointer;
+  }
+  
+  

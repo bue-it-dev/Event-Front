@@ -1,0 +1,105 @@
+.report-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.report-title {
+  text-align: center;
+  color: #333;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.report-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 22px;
+  color: #7f0008;
+  border-bottom: 2px solid #7f0008;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.print-report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.report-table th,
+.report-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.report-table th {
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+}
+
+.report-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.travel-purpose {
+  white-space: pre-wrap; /* Preserves whitespace and wraps text */
+  word-wrap: break-word; /* Wraps long words to prevent overflow */
+  overflow-wrap: break-word; /* Ensures long words break if needed */
+}
+
+/* Flexbox layout for sections to align items side by side */
+.section-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px; /* Space between items */
+}
+
+.section-content .field {
+  flex: 1 1 45%; /* Flex items take up 45% of the space */
+  min-width: 250px; /* Ensure items don’t shrink too small */
+}
+
+.section-content .field strong {
+  font-weight: bold;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .section-content .field {
+    flex: 1 1 100%; /* On smaller screens, stack the fields */
+  }
+
+  .report-title {
+    font-size: 24px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between items */
+}
+
+.flex-row p {
+  flex: 1 1 200px; /* Each item takes up minimum width, wraps if needed */
+  margin: 0;
+  padding: 5px 0;
+}
