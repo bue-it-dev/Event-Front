@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import DependantInfo from "../shared_components/DependantInfo";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
+import EventSelections from "../shared_components/EventSelections";  
 
 const AddHomeTravelRequest = () => {
   const history = useHistory();
@@ -390,11 +391,6 @@ const AddHomeTravelRequest = () => {
                       borderColor: "black",
                       border: "2px black",
                       color: "white",
-                      // width: "30px",
-                      // height: "3opx",
-                      // // fontSize: "20px",
-                      // textAlign: "center",
-                      // alignItems: "center",
                       marginRight: "10px", // Adjust the margin to your liking
                     }}
                     onClick={addTraveller}
@@ -420,203 +416,12 @@ const AddHomeTravelRequest = () => {
                 ) : null}
                 <br />
                 <div className="horizontal-rule mb-4">
-                  <hr />
-                  <h5 className="horizontal-rule-text fs-5">Flight Class</h5>
-                </div>
                 
-                    
-                <br />
-                <div className="horizontal-rule mb-4">
-                  <hr />
-                  <h5 className="horizontal-rule-text fs-5">
-                    Itinerary (Airport)
-                  </h5>
-                </div>
-                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-                  <div className="mb-4 flex-grow-1">
-                    <label
-                      htmlFor="firstDepartureAirportName"
-                      className="form-label fs-6"
-                    >
-                      From:
-                    </label>
-                    <input
-                      type="text"
-                      id="firstDepartureAirportName"
-                      name="firstDepartureAirportName"
-                      value={hometravelData.firstDepartureAirportName}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Allow only letters and spaces, but not only spaces
-                        if (/^[a-zA-Z ]*$/.test(value) && value.trim() !== "") {
-                          sethometravelData({
-                            ...hometravelData,
-                            firstDepartureAirportName: value,
-                          });
-                        } else if (value === "") {
-                          // Allow clearing the input
-                          sethometravelData({
-                            ...hometravelData,
-                            firstDepartureAirportName: value,
-                          });
-                        }
-                      }}
-                      className="form-control form-control-lg"
-                      required
-                      pattern="[a-zA-Z ]+"
-                    />
-                  </div>
-                  <div className="mb-4 flex-grow-1">
-                    <label
-                      htmlFor="firstArrivalAirportName"
-                      className="form-label fs-6"
-                    >
-                      To:
-                    </label>
-                    <input
-                      type="text"
-                      id="firstArrivalAirportName"
-                      name="firstArrivalAirportName"
-                      value={hometravelData.firstArrivalAirportName}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Allow only letters and spaces, but not only spaces
-                        if (/^[a-zA-Z ]*$/.test(value) && value.trim() !== "") {
-                          sethometravelData({
-                            ...hometravelData,
-                            firstArrivalAirportName: value,
-                          });
-                        } else if (value === "") {
-                          // Allow clearing the input
-                          sethometravelData({
-                            ...hometravelData,
-                            firstArrivalAirportName: value,
-                          });
-                        }
-                      }}
-                      className="form-control form-control-lg"
-                      required
-                      pattern="[a-zA-Z ]+"
-                      title="Only letters and spaces are allowed"
-                    />
-                  </div>
-                  <div className="mb-4 flex-grow-1">
-                    <label htmlFor="departureDate" className="form-label fs-6">
-                      Departure Date:
-                    </label>
-                    <input
-                      type="date"
-                      id="departureDate"
-                      name="departureDate"
-                      value={hometravelData.departureDate}
-                      onChange={(e) => {
-                        sethometravelData({
-                          ...hometravelData,
-                          departureDate: e.target.value,
-                        });
-                      }}
-                      className="form-control form-control-lg custom-date-input"
-                      required
-                      // min={
-                      //   new Date(new Date().setDate(new Date().getDate() + 1))
-                      //     .toISOString()
-                      //     .split("T")[0]
-                      // } // Set min date to tomorrow
-                    />
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "16px",
-                    marginTop: "16px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div className="mb-4 flex-grow-1">
-                    <label
-                      htmlFor="secondDepartureAirportName"
-                      className="form-label fs-6"
-                    >
-                      From (Optional):
-                    </label>
-                    <input
-                      type="text"
-                      id="secondDepartureAirportName"
-                      name="secondDepartureAirportName"
-                      value={hometravelData.secondDepartureAirportName}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Allow only letters and spaces, but not only spaces
-                        if (/^[a-zA-Z ]*$/.test(value) && value.trim() !== "") {
-                          sethometravelData({
-                            ...hometravelData,
-                            secondDepartureAirportName: value,
-                          });
-                        } else if (value === "") {
-                          // Allow clearing the input
-                          sethometravelData({
-                            ...hometravelData,
-                            secondDepartureAirportName: value,
-                          });
-                        }
-                      }}
-                      className="form-control form-control-lg"
-                      pattern="[a-zA-Z ]+"
-                    />
-                  </div>
-                  <div className="mb-4 flex-grow-1">
-                    <label
-                      htmlFor="secondArrivalAirportName"
-                      className="form-label fs-6"
-                    >
-                      To (Optional):
-                    </label>
-                    <input
-                      type="text"
-                      id="secondArrivalAirportName"
-                      name="secondArrivalAirportName"
-                      value={hometravelData.secondArrivalAirportName}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        // Allow only letters and spaces, but not only spaces
-                        if (/^[a-zA-Z ]*$/.test(value) && value.trim() !== "") {
-                          sethometravelData({
-                            ...hometravelData,
-                            secondArrivalAirportName: value,
-                          });
-                        } else if (value === "") {
-                          // Allow clearing the input
-                          sethometravelData({
-                            ...hometravelData,
-                            secondArrivalAirportName: value,
-                          });
-                        }
-                      }}
-                      className="form-control form-control-lg"
-                      pattern="[a-zA-Z ]+"
-                      title="Only letters and spaces are allowed"
-                    />
-                  </div>
-                  <div className="mb-4 flex-grow-1">
-                    <label htmlFor="arrivalDate" className="form-label fs-6">
-                      Return Date (Optional):
-                    </label>
-                    <input
-                      type="date"
-                      id="arrivalDate"
-                      name="arrivalDate"
-                      value={hometravelData.arrivalDate}
-                      onChange={(e) => {
-                        sethometravelData({
-                          ...hometravelData,
-                          arrivalDate: e.target.value,
-                        });
-                      }}
-                      className="form-control form-control-lg custom-date-input"
+                <EventSelections eventData={eventData} setEventData={seteventData} />
+ 
+
+                
                   
-                    />
-                  </div>
                 </div>
                 <br />
                 <button
