@@ -27,7 +27,7 @@
   width: 100% !important;
   
 }
-/* Centering UniTrav */
+/* Centering Event */
 .navbar-center {
   position: absolute;
   left: 50%;
@@ -42,17 +42,17 @@
   display: flex;
 }
 
-/* Specific colors for each part of UniTrav */
+/* Specific colors for each part of Event */
 .navbar-uni {
   color: #293b8d !important; /* Blue */
 }
 
-/* Specific colors for each part of UniTrav */
+/* Specific colors for each part of Event */
 .navbar-it {
   color: #d73738 !important; /* Blue */
 }
 
-/* Specific colors for each part of UniTrav */
+/* Specific colors for each part of Event */
 .navbar-raw {
   color: #d73738 !important; /* Blue */
 }

@@ -1,7 +1,6 @@
-import { SaveHomeTravel } from "../Requests/mutators";
+import { AddFiles, SaveEvent } from "../Requests/mutators";
 import React, { useState, useEffect } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import TextField from "@material-ui/core/TextField";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
@@ -13,50 +12,25 @@ import DependantInfo from "../shared_components/DependantInfo";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";  
-
+import EventFilesSection from "../shared_components/EventFilesSection";
 const AddHomeTravelRequest = () => {
   const history = useHistory();
+  const userToken = localStorage.getItem("accessToken");
 
   const [isLoading, setisLoading] = React.useState(true);
   const [rows, setRows] = useState([{ name: "", relation: "" }]);
   const [required, setrequired] = React.useState(false);
-  const [roomTypes, setRoomTypes] = React.useState([]);
-  const [transportationType, setransportationType] = React.useState([]);
   const [buildings, setbuildings] = React.useState([]);
   const [venuse, setvenuse] = React.useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [hometravelData, sethometravelData] = React.useState({
-    requestId: 0,
-    hasDependent: 0,
-    approvingDepName: "",
-    roomTypes: "",
-    dependentTravelerName: [],
-    dependentPassportNumber: [],
-    dependentIssueDate: [],
-    dependentExpiryDate: [],
-    dependentDateOfBirth: [],
-    relation: [],
-    firstDepartureAirportName: "",
-    firstArrivalAirportName: "",
-    secondDepartureAirportName: "",
-    secondArrivalAirportName: "",
-    departureDate: null,
-    arrivalDate: null,
-    passportName: "",
-    passportNumber: "",
-    issueDate: null,
-    expiryDate: null,
-    dateOfBirth: null,
-  });
-
+  const [passportFiles, setPassportFiles] = useState([[]]);  // Inside the component
   const [eventData, seteventData] = React.useState({
-    ApprovingDepTypeId: null,
     EventTitle: "",
     NomParticipants: null,
     EventStartDate: null,
     EventEndDate: null,
     HasIt: 0,
-    HasAccomdation: 0,
+    HasAccomodation: 0,
     HasTransportation: 0,
     OrganizerName: "",
     OrganizerMobile: "",
@@ -68,6 +42,7 @@ const AddHomeTravelRequest = () => {
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
     OfficeOfPresedentFile: null,
+    passportFiles:[],
     VisitAgendaFile: null,
     ItcomponentEvents: [],
     Transportations: [],
@@ -84,6 +59,7 @@ const AddHomeTravelRequest = () => {
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
+      
       data: data,
     };
     axios(config)
@@ -93,40 +69,6 @@ const AddHomeTravelRequest = () => {
       .catch(function (error) {});
   };
 
-  const GetRoomTypes = () => {
-    var data = "";
-    var config = {
-      method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-rooms`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data: data,
-    };
-    axios(config)
-      .then(function (response) {
-        setRoomTypes(response.data.data);
-      })
-      .catch(function (error) {});
-  };
-  
-  
-  const GettransportationType = () => {
-    var data = "";
-    var config = {
-      method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-transportationType`,
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
-      data: data,
-    };
-    axios(config)
-      .then(function (response) {
-        setransportationType(response.data.data);
-      })
-      .catch(function (error) {});
-  };
   const Getbuildings = () => {
     var data = "";
     var config = {
@@ -166,34 +108,43 @@ const AddHomeTravelRequest = () => {
   const onSubmit = async () => {
     try {
       setisLoading(true);
-      if (hometravelData.arrivalDate == null) {
-        hometravelData.arrivalDate = "";
-      }
-      if (hometravelData.dependentIssueDate == null) {
-        hometravelData.dependentIssueDate = "";
-      }
-      if (hometravelData.dependentExpiryDate == null) {
-        hometravelData.dependentExpiryDate = "";
-      }
-      if (hometravelData.dependentDateOfBirth == null) {
-        hometravelData.dependentDateOfBirth = "";
-      }
-      await SaveHomeTravel(hometravelData);
+     
+      
+      // Send the FormData to the backend
+      const data = await SaveEvent(eventData);
+      const eventId = data.data
+      localStorage.setItem("eventId", eventId);
+      const EventId = localStorage.getItem("eventId");
+
+      if (EventId) {
+         await AddFiles(
+          EventId,
+          passportFiles || [],  
+          eventData.OfficeOfPresedentFile,
+          eventData.LedOfTheUniversityOrganizerFile,
+          eventData.VisitAgendaFile
+        );
+      }      
       setisLoading(false);
-      toast.success("Addition Occured Successfully", {
-        position: "top-center",
-      });
-      setrequired(false);
-      history.push("/my-home-requests");
+      toast.success("Event added successfully", { position: "top-center" });
+     // history.push("/my-home-requests"); // Redirect to the appropriate page
+    
+      
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      toast.error("An error occurred. Please try again later.", { position: "top-center" });
     }
   };
 
-  const addTraveller = () => {
+  const handleFileChange = (e, index) => {
+    const files = Array.from(e.target.files); 
+    const newPassportFiles = [...passportFiles];
+    newPassportFiles[index] = files; 
+    setPassportFiles(newPassportFiles);
+  };
+  
+
+ /* const addTraveller = () => {
     sethometravelData((prevData) => ({
       ...prevData,
       hasDependent: prevData.hasDependent + 1,
@@ -205,12 +156,11 @@ const AddHomeTravelRequest = () => {
       dependentDateOfBirth: [...prevData.dependentDateOfBirth, ""],
     }));
   };
+  */
 
   useEffect(() => {
     setisLoading(false);
     GetApprovalDepartmentSchema();
-    GetRoomTypes();
-    GettransportationType();
     Getbuildings();
     Getvenuse();
   }, []);
@@ -252,8 +202,8 @@ const AddHomeTravelRequest = () => {
                 <select
                   className="form-select form-select-lg custom-select"
                   onChange={(e) => {
-                    sethometravelData({
-                      ...hometravelData,
+                    seteventData({
+                      ...eventData,
                       approvingDepName: e.target.value,
                     });
                   }}
@@ -266,64 +216,22 @@ const AddHomeTravelRequest = () => {
                   {approvalDepartments.map((data) => (
                     <option key={data.depName} value={data.depName}>
                       {data.depName}
+                      console.log(data);
+
                     </option>
                   ))}
                 </select>
               </div>
+             
+ 
+              
               <div>
               <select
                   className="form-select form-select-lg custom-select"
                   onChange={(e) => {
-                    sethometravelData({
-                      ...hometravelData,
-                      approvingDepName: e.target.value,
-                    });
-                  }}
-                  name="approvingDepName"
-                  required
-                >
-                  <option value="">
-                    Select your Room
-                  </option>
-                  {roomTypes.map((data) => (
-                    <option key={data.roomTypeName} value={data.roomTypeName}>
-                      {data.roomTypeName}
-                    </option>
-                  ))}
-                </select>
-
-              </div>
-
-              <div>
-              <select
-                  className="form-select form-select-lg custom-select"
-                  onChange={(e) => {
-                    sethometravelData({
-                      ...hometravelData,
-                      approvingDepName: e.target.value,
-                    });
-                  }}
-                  name="approvingDepName"
-                  required
-                >
-                  <option value="">
-                    Select your Room
-                  </option>
-                  {venuse.map((data) => (
-                    <option key={data.venueName} value={data.venueName}>
-                      {data.venueName}
-                    </option>
-                  ))}
-                </select>
-
-              </div>
-              <div>
-              <select
-                  className="form-select form-select-lg custom-select"
-                  onChange={(e) => {
-                    sethometravelData({
-                      ...hometravelData,
-                      approvingDepName: e.target.value,
+                    seteventData({
+                      ...eventData,
+                      buildings: e.target.value,
                     });
                   }}
                   name="approvingDepName"
@@ -340,32 +248,10 @@ const AddHomeTravelRequest = () => {
                 </select>
 
               </div>
-              <div>
-              <select
-                  className="form-select form-select-lg custom-select"
-                  onChange={(e) => {
-                    sethometravelData({
-                      ...hometravelData,
-                      approvingDepName: e.target.value,
-                    });
-                  }}
-                  name="approvingDepName"
-                  required
-                >
-                  <option value="">
-                    Select your transportationType
-                  </option>
-                  {transportationType.map((data) => (
-                    <option key={data.transportationType1} value={data.transportationType1}>
-                      {data.transportationType1}
-                    </option>
-                  ))}
-                </select>
-
-              </div>
+             
               <div className="horizontal-rule mb-4">
                 <hr />
-                <h5 className="horizontal-rule-text fs-5">Passport Info</h5>
+                <h5 className="horizontal-rule-text fs-5">Event Info</h5>
               </div>
               {/* <PassportInfoSection
                 eventData={eventData}
@@ -376,7 +262,7 @@ const AddHomeTravelRequest = () => {
               seteventData={seteventData}
               />
               <ValidatorForm onSubmit={onSubmit} className="px-md-2">
-                <div className="horizontal-rule mb-4">
+               {/* <div className="horizontal-rule mb-4">
                   <hr />
                   <h5 className="horizontal-rule-text fs-5">
                     Number of Travelers (If Any)
@@ -414,11 +300,17 @@ const AddHomeTravelRequest = () => {
                     )}
                   </>
                 ) : null}
+                */}
                 <br />
                 <div className="horizontal-rule mb-4">
                 
                 <EventSelections eventData={eventData} setEventData={seteventData} />
- 
+                <EventFilesSection 
+                eventData={eventData} 
+                setEventData={seteventData} 
+                handleFileChange={handleFileChange} 
+
+              />
 
                 
                   

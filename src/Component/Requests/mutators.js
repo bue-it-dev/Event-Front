@@ -1,6 +1,7 @@
 import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
+
 const SaveHomeTravel = async (application) => {
   try {
     await axios.post(
@@ -269,6 +270,95 @@ const AddHRHomeApprovalRequest = async (application) => {
     throw err;
   }
 };
+
+const SaveEvent = async (application) => {
+  try {
+    const response = await axios.post(
+      `${URL.BASE_URL}/api/EventEntity/add-event`,
+      { ...application },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    console.log(response)
+    return response.data; 
+  } catch (err) {
+    console.error("Error in SaveEvent:", err);
+    throw err;
+  }
+};
+
+
+
+ const AddFiles = async (EventId, passportData = [], OfficeOfPresedentFile, LedOfTheUniversityOrganizerFile, VisitAgendaFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("EventId", EventId);
+    if (Array.isArray(passportData) && passportData.length > 0) {
+      passportData.forEach((file) => {
+        formData.append("passportData", file);
+      });
+    }
+
+    if (OfficeOfPresedentFile) formData.append("OfficeOfPresedentFile", OfficeOfPresedentFile);
+    if (LedOfTheUniversityOrganizerFile) formData.append("LedOfTheUniversityOrganizerFile", LedOfTheUniversityOrganizerFile);
+    if (VisitAgendaFile) formData.append("VisitAgendaFile", VisitAgendaFile);
+    for (let pair of formData.entries()) {
+      console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
+    }
+    
+    const response = await axios.post(`${URL.BASE_URL}/api/EventEntity/add-files`, formData, {
+      headers: { 
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("Files uploaded successfully:", response.data); // Debugging
+  } catch (error) {
+    console.error("Error uploading files:", error);
+    throw error;
+  }
+};
+
+
+const ConfrimEventRequest = async (eventId) => {
+  try {
+    await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/submit/${eventId}`,
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const UpdateEventRequest = async (application) => {
+  try {
+    await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/Update?eventId=${application.eventId}`,
+      { ...application },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export {
   DeleteHomeRequest,
   SaveHomeTravel,
@@ -285,4 +375,8 @@ export {
   AddBusinessApprovalRequest,
   UpdateBOMData,
   ConfrimBusinessRequest,
+  SaveEvent,
+  ConfrimEventRequest,
+  UpdateEventRequest,
+  AddFiles
 };

@@ -73,7 +73,7 @@ const TokenExpired = () => {
   toast.error("Error while updating user details, please try again", {
     position: "top-center",
   });
-  window.location.replace("UniTrav/#/login");
+  window.location.replace("Event/#/login");
 };
 
 export {
