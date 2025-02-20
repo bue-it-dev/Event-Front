@@ -1,29 +1,25 @@
 import { AddFiles, SaveEvent } from "../Requests/mutators";
 import React, { useState, useEffect } from "react";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
-import "./Applicant.css"; // Import your CSS file
+import "./Applicant.css";
 import ApplicantTabs from "./ApplicantTabs";
 import { useHistory } from "react-router-dom";
-// import PassportInfoSection from "../shared_components/RequesterPassportInfo";
-import DependantInfo from "../shared_components/DependantInfo";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";  
 import EventFilesSection from "../shared_components/EventFilesSection";
+
 const AddHomeTravelRequest = () => {
   const history = useHistory();
-  const userToken = localStorage.getItem("accessToken");
-
   const [isLoading, setisLoading] = React.useState(true);
-  const [rows, setRows] = useState([{ name: "", relation: "" }]);
-  const [required, setrequired] = React.useState(false);
-  const [buildings, setbuildings] = React.useState([]);
-  const [venuse, setvenuse] = React.useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);  // Inside the component
+  const [buildings, setbuildings] = React.useState([]);
+  const [selectedBuildingId, setSelectedBuildingId] = useState(null);
+  const [venuse, setvenuse] = React.useState([]);
+  const [passportFiles, setPassportFiles] = useState([[]]);  
   const [eventData, seteventData] = React.useState({
     EventTitle: "",
     NomParticipants: null,
@@ -47,77 +43,75 @@ const AddHomeTravelRequest = () => {
     ItcomponentEvents: [],
     Transportations: [],
     Accommodations: [],
-    BuildingVenues: []
+    BuildingVenues: [],
+    Venues: null
   });
 
   // Get List of Approval Department Schema
   const GetApprovalDepartmentSchema = () => {
-    var data = "";
     var config = {
       method: "get",
       url: `${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      },
-      
-      data: data,
+      }
     };
     axios(config)
       .then(function (response) {
         setapprovalDepartments(response.data.data);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.error("Error fetching departments:", error);
+      });
   };
 
+  // Get List of Buildings
   const Getbuildings = () => {
-    var data = "";
     var config = {
       method: "get",
       url: `${URL.BASE_URL}/api/EventEntity/get-buildings`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      },
-      data: data,
+      }
     };
     axios(config)
       .then(function (response) {
         setbuildings(response.data.data);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.error("Error fetching buildings:", error);
+      });
   };
 
-  const Getvenuse = () => {
-    var data = "";
+  // Get List of Venues for Selected Building
+  const Getvenuse = (buildingId) => {
+    console.log(buildingId)
     var config = {
       method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-venuse`,
+      url: `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      },
-      data: data,
+      }
     };
     axios(config)
       .then(function (response) {
         setvenuse(response.data.data);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.error("Error fetching venues:", error);
+      });
   };
 
-
-  
   const onSubmit = async () => {
     try {
       setisLoading(true);
-     
-      
-      // Send the FormData to the backend
       const data = await SaveEvent(eventData);
-      const eventId = data.data
+      const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
 
       if (EventId) {
-         await AddFiles(
+        await AddFiles(
           EventId,
           passportFiles || [],  
           eventData.OfficeOfPresedentFile,
@@ -127,8 +121,7 @@ const AddHomeTravelRequest = () => {
       }      
       setisLoading(false);
       toast.success("Event added successfully", { position: "top-center" });
-     // history.push("/my-home-requests"); // Redirect to the appropriate page
-    
+      history.push("/my-event-requests");
       
     } catch (err) {
       setisLoading(false);
@@ -142,27 +135,11 @@ const AddHomeTravelRequest = () => {
     newPassportFiles[index] = files; 
     setPassportFiles(newPassportFiles);
   };
-  
-
- /* const addTraveller = () => {
-    sethometravelData((prevData) => ({
-      ...prevData,
-      hasDependent: prevData.hasDependent + 1,
-      dependentTravelerName: [...prevData.dependentTravelerName, ""],
-      relation: [...prevData.relation, ""],
-      dependentPassportNumber: [...prevData.dependentPassportNumber, ""],
-      dependentIssueDate: [...prevData.dependentIssueDate, ""],
-      dependentExpiryDate: [...prevData.dependentExpiryDate, ""],
-      dependentDateOfBirth: [...prevData.dependentDateOfBirth, ""],
-    }));
-  };
-  */
 
   useEffect(() => {
     setisLoading(false);
     GetApprovalDepartmentSchema();
     Getbuildings();
-    Getvenuse();
   }, []);
 
   return (
@@ -181,24 +158,6 @@ const AddHomeTravelRequest = () => {
               </div>
 
               <div className="mb-4 flex-grow-1">
-                <p
-                  style={{
-                    color: "#7f0008",
-                    fontWeight: "bold",
-                    fontSize: "16px",
-                    backgroundColor: "#ffe6e6",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <span style={{ marginRight: "8px", fontSize: "16px" }}>
-                    ⚠️
-                  </span>
-                  Once you select your department, further changes to the
-                  selected department will not be permitted.
-                </p>
                 <select
                   className="form-select form-select-lg custom-select"
                   onChange={(e) => {
@@ -216,110 +175,70 @@ const AddHomeTravelRequest = () => {
                   {approvalDepartments.map((data) => (
                     <option key={data.depName} value={data.depName}>
                       {data.depName}
-                      console.log(data);
-
                     </option>
                   ))}
                 </select>
               </div>
-             
- 
               
               <div>
-              <select
+                <select
                   className="form-select form-select-lg custom-select"
                   onChange={(e) => {
+                    const buildingId = e.target.value;
+                    setSelectedBuildingId(buildingId);
                     seteventData({
                       ...eventData,
-                      buildings: e.target.value,
+                      BuildingVenues: buildingId,
                     });
+                    Getvenuse(buildingId); 
                   }}
-                  name="approvingDepName"
+                  name="buildings"
                   required
                 >
-                  <option value="">
-                    Select buildings
-                  </option>
+                  <option value="">Select building</option>
                   {buildings.map((data) => (
-                    <option key={data.building} value={data.building}>
+                    <option key={data.buildingId} value={data.buildingId}>
                       {data.building}
                     </option>
                   ))}
                 </select>
+              </div>
 
-              </div>
-             
-              <div className="horizontal-rule mb-4">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">Event Info</h5>
-              </div>
-              {/* <PassportInfoSection
-                eventData={eventData}
-                seteventData={seteventData}
-              /> */}
-              <EventInfo
-              eventData={eventData}
-              seteventData={seteventData}
-              />
-              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
-               {/* <div className="horizontal-rule mb-4">
-                  <hr />
-                  <h5 className="horizontal-rule-text fs-5">
-                    Number of Travelers (If Any)
-                  </h5>
-                </div>
-                <div className="d-flex align-items-center mb-4">
-                  <button
-                    type="button"
-                    className="btn btn-success btn-lg"
-                    style={{
-                      backgroundColor: "#57636f",
-                      borderColor: "black",
-                      border: "2px black",
-                      color: "white",
-                      marginRight: "10px", // Adjust the margin to your liking
+              {selectedBuildingId && (
+                <div className="mt-4">
+                  <h5 className="fs-5">Select Venue</h5>
+                  <select
+                    className="form-select form-select-lg custom-select"
+                    onChange={(e) => {
+                      seteventData({
+                        ...eventData,
+                        Venues: e.target.value,
+                      });
                     }}
-                    onClick={addTraveller}
+                    name="venues"
+                    required
                   >
-                    +
-                  </button>
-                  <p style={{ color: "black", fontSize: "16px", margin: 0 }}>
-                    Add Traveler(s)
-                  </p>
+                    <option value="">Select venue</option>
+                    {venuse.map((venue) => (
+                      <option key={venue.id} value={venue.id}>
+                        {venue.venueName}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {hometravelData.hasDependent > 0 ? (
-                  <>
-                    {Array.from({ length: hometravelData.hasDependent }).map(
-                      (_, index) => (
-                        <DependantInfo
-                          index={index}
-                          hometravelData={hometravelData}
-                          sethometravelData={sethometravelData}
-                        />
-                      )
-                    )}
-                  </>
-                ) : null}
-                */}
-                <br />
-                <div className="horizontal-rule mb-4">
-                
+              )}
+
+              <EventInfo eventData={eventData} seteventData={seteventData} />
+              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
                 <EventSelections eventData={eventData} setEventData={seteventData} />
                 <EventFilesSection 
-                eventData={eventData} 
-                setEventData={seteventData} 
-                handleFileChange={handleFileChange} 
-
-              />
-
-                
-                  
-                </div>
-                <br />
+                  eventData={eventData} 
+                  setEventData={seteventData} 
+                  handleFileChange={handleFileChange} 
+                />
                 <button
                   type="submit"
                   className="btn btn-success btn-lg col-12"
-                  style={{ backgroundColor: "#57636f", borderColor: "#7f0008" }}
                   disabled={isLoading}
                 >
                   {isLoading ? "Submitting Request..." : "Submit"}

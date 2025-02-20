@@ -5,189 +5,164 @@ import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { DeleteHomeRequest } from "../Requests/mutators";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import ApplicantTabs from "./ApplicantTabs";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const MyHomeRequests = () => {
-  const [homerequests, sethomerequests] = useState([]);
-  const [isLoading, setisLoading] = useState(true);
+const MyEvents = () => {
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const userToken = localStorage.getItem("accessToken");
   const decodedToken = jwt(userToken);
   const empID = decodedToken.nameid;
 
-  const GetHomeRequests = async (empID) => {
+  const GetEvents = async (empID) => {
     try {
-      const response = await axios.post(
-        `${URL.BASE_URL}/api/HomeRequest/get-by-empId`,
-        empID,
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-events-by-empId/${empID}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
           },
         }
       );
-      sethomerequests(response.data);
+      setEvents(response.data);
     } catch (error) {
-      console.error("Error fetching home request details:", error);
-      setError("Failed to fetch home requests. Please try again later.");
+      console.error("Error fetching event details:", error);
+      setError("Failed to fetch events. Please try again later.");
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const onDelete = async (id) => {
-    const confirmAction = () =>
-      new Promise((resolve) => {
-        const toastId = toast.info(
-          <>
-            <div style={{ textAlign: "center" }}>
-              <p>Are you sure you want to confirm this request?</p>
-              <div style={{ marginTop: "10px" }}>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(true); // Proceed with confirmation
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "green",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(false); // Cancel the operation
-                  }}
-                  style={{
-                    backgroundColor: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </>,
-          {
-            autoClose: false,
-            closeOnClick: false,
-            draggable: false,
-            position: "top-center", // Center the toast
-          }
-        );
-      });
-
-    const userConfirmed = await confirmAction();
-    if (userConfirmed) {
-      try {
-        setisLoading(true);
-        await DeleteHomeRequest(id);
-        toast.success("Operation completed successfully.", {
-          position: "top-center",
-        });
-        sethomerequests((prev) =>
-          prev.filter((request) => request.requestId !== id)
-        );
-      } catch (err) {
-        toast.error("An error occurred. Please try again later", {
-          position: "top-center",
-        });
-      } finally {
-        setisLoading(false);
+  const handleDelete = (eventId) => {
+    const toastId = "delete-confirmation"; // Unique ID to control this toast
+  
+    // Check if the confirmation toast is already active
+    if (toast.isActive(toastId)) return;
+  
+    toast(
+      <div>
+        Are you sure you want to delete this event?
+        <div className="mt-2">
+          <button
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              border: "none",
+              padding: "5px 10px",
+              borderRadius: "3px"
+            }}
+            onClick={async () => {
+              toast.dismiss(toastId); // Dismiss the confirmation toast
+              try {
+                const response = await axios.delete(
+                  `${URL.BASE_URL}/api/EventEntity/delete/${eventId}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${getToken()}`,
+                    },
+                  }
+                );
+                // Success toast
+                toast.success("Event deleted successfully!", {
+                  position: "top-center",
+                  autoClose: 3000,
+                });
+                // Refresh events
+                GetEvents(empID);
+              } catch (error) {
+                console.error("Error deleting event:", error);
+                // Error toast
+                toast.error("Failed to delete event. Please try again.", {
+                  position: "top-center",
+                  autoClose: 3000,
+                });
+              }
+            }}
+          >
+            Yes
+          </button>
+          <button
+            style={{
+              backgroundColor: "red",
+              color: "white",
+              border: "none",
+              padding: "5px 10px",
+              borderRadius: "3px",
+              marginLeft: "10px"
+            }}
+            onClick={() => toast.dismiss(toastId)}
+          >
+            No
+          </button>
+        </div>
+      </div>,
+      {
+        toastId: toastId, // Ensure it's unique
+        autoClose: false,
+        closeButton: false,
+        position: "top-center"
       }
-    }
+    );
   };
+  
+  
+
+  const handleUpdate = (eventId) => {
+    window.location.href = `/update-event/${eventId}`;
+  };
+
   useEffect(() => {
-    GetHomeRequests(empID);
+    GetEvents(empID);
   }, [empID]);
 
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Name", field: "requestName", sort: "asc" },
-      // { label: "Head Department", field: "parentDep", sort: "asc" },
-      { label: "Department", field: "dep", sort: "asc" },
-      { label: "Class", field: "planeClass", sort: "asc" },
-      { label: "Dependents", field: "numberOfDependents", sort: "asc" },
-      { label: "Creation Date", field: "createdAt", sort: "asc" },
-      { label: "Modification Date", field: "updatedAt", sort: "asc" },
-      { label: "Status", field: "statusname", sort: "asc" },
-      { label: "Action", field: "action", sort: "asc" },
+      { label: "Created At", field: "createdAt", sort: "asc" },
+      { label: "Updated At", field: "updateAt", sort: "asc" },
+      { label: "Title", field: "eventTitle", sort: "asc" },
+      { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Status", field: "statusName", sort: "asc" },
+      { label: "Actions", field: "actions", sort: "disabled" },
     ],
-    rows: homerequests.map((data, i) => ({
+    rows: events.map((event, i) => ({
       Number: i + 1,
-      requestId: data.requestId,
-      requestName: data.requestName,
-      parentDep: data.parentDep ?? data.dep,
-      dep: data.dep,
-      planeClass: data.planeClass,
-      numberOfDependents:
-        data.numberOfDependents === 0
-          ? "No Dependent Traveler"
-          : `${data.numberOfDependents} Traveler(s)`,
-      createdAt: new Date(data.createdAt).toLocaleDateString(),
-      updatedAt:
-        data.updatedAt == "Date Modification Doesn't Exist"
-          ? "No Modification"
-          : new Date(data.updatedAt).toLocaleDateString(),
-      statusname: data.statusname,
-      action:
-        data.statusname.toLowerCase() === "pending" ? (
-          <div className="d-flex justify-content-around">
-            <Link
-              to={{
-                pathname: "/home-request-details",
-                state: {
-                  requestId: data.requestId,
-                  statusname: data.statusname,
-                },
-              }}
-            >
-              <button type="button" className="btn btn-success btn-sm">
-                View
-              </button>
-            </Link>
-            <button
-              onClick={() => onDelete(data.requestId)}
-              type="button"
-              className="btn btn-danger btn-sm"
-            >
-              Delete
-            </button>
-          </div>
-        ) : (
-          <Link
-            to={{
-              pathname: "/home-request-details",
-              state: { requestId: data.requestId, statusname: data.statusname },
-            }}
+      createdAt: new Date(event.createdAt).toLocaleDateString(),
+      updateAt: event.updateAt
+        ? new Date(event.updateAt).toLocaleDateString()
+        : "N/A",
+      eventTitle: event.eventTitle,
+      eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
+      eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+      statusName: event.statusName,
+      actions: (
+        <>
+          <button
+            className="btn btn-warning btn-sm mx-1"
+            onClick={() => handleUpdate(event.eventId)}
           >
-            <button type="button" className="btn btn-success btn-sm w-100">
-              View
-            </button>
-          </Link>
-        ),
+            Update
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => handleDelete(event.eventId)}
+          >
+            Delete
+          </button>
+        </>
+      ),
     })),
   };
 
   return (
-    <div className="my-home-requests">
+    <div className="my-events">
       <ApplicantTabs />
       {error && <Alert variant="danger">{error}</Alert>}
 
@@ -212,8 +187,9 @@ const MyHomeRequests = () => {
           </Table>
         </div>
       )}
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
 
-export default MyHomeRequests;
+export default MyEvents;

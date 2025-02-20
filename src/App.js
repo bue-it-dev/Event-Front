@@ -601,7 +601,7 @@ function App() {
                 <>
                   <Switch>
                     <ProtectedRoute
-                      path="/home-travel-request"
+                      path="/Event-request"
                       exact
                       component={AddHomeTravel}
                     />
@@ -611,7 +611,7 @@ function App() {
                       component={AddBusinessTravelRequest}
                     />
                     <ProtectedRoute
-                      path="/my-home-requests"
+                      path="/my-event-requests"
                       exact
                       component={MyHomeRequests}
                     />
