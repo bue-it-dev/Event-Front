@@ -56,14 +56,10 @@ const ApplicantTabs = () => {
   // Map URL paths to tab index
   const getTabIndexFromPath = (path) => {
     switch (path) {
-      case "/home-travel-request":
+      case "/Event-request":
         return 0;
-      case "/business-travel-request":
+      case "/my-event-requests":
         return 1;
-      case "/my-home-requests":
-        return 2;
-      case "/my-business-requests":
-        return 3;
       default:
         return 0; // Default tab if no matching route
     }
@@ -84,10 +80,10 @@ const ApplicantTabs = () => {
     // Navigate to the corresponding route
     switch (newValue) {
       case 0:
-        history.push("/home-travel-request");
+        history.push("/Event-request");
         break;
-      case 2:
-        history.push("/my-home-requests");
+      case 1:
+        history.push("/my-event-requests");
         break;
       default:
         break;
@@ -105,7 +101,7 @@ const ApplicantTabs = () => {
           aria-label="nav tabs example"
         >
           <Tab label="New Event Request" {...a11yProps(0)} />
-          <Tab label="My Event Requests" {...a11yProps(2)} />
+          <Tab label="My Event Requests" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
     </div>

@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom"; // useHistory instead of useNavig
 const Applicant = () => {
   const history = useHistory(); // useHistory hook
   React.useEffect(() => {
-    history.push("/home-travel-request");
+    history.push("/Event-request");
   }, [history]);
   return (
     <div>

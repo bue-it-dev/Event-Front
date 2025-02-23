@@ -37,13 +37,13 @@ const Menu = () => {
                   style={{ fontSize: "38px", paddingTop: "20px" }}
                   className="navbar-it"
                 >
-                  T
+                  E
                 </span>
                 <span
                   style={{ fontSize: "38px", paddingTop: "20px" }}
                   className="navbar-raw"
                 >
-                  rav
+                  vent
                 </span>
               </span>
             </div>
