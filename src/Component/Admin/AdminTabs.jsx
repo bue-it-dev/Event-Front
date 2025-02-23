@@ -56,18 +56,12 @@ const AdminTabs = () => {
   // Map URL paths to tab index
   const getTabIndexFromPath = (path) => {
     switch (path) {
-      case "/hod-add-home-travel-request":
+      case "/hod-add-event-request":
         return 0;
-      case "/hod-my-home-travel-request":
+      case "/hod-my-events-request":
         return 1;
       case "/hod-add-business-travel-request":
         return 2;
-      case "/hod-my-business-travel-request":
-        return 3;
-      case "/home-request-list-hod":
-        return 4;
-      case "/business-request-list-hod":
-        return 5;
       default:
         return 0; // Default tab if no matching route
     }
@@ -96,15 +90,6 @@ const AdminTabs = () => {
       case 2:
         history.push("/hod-add-business-travel-request");
         break;
-      case 3:
-        history.push("/hod-my-business-travel-request");
-        break;
-      case 4:
-        history.push("/home-request-list-hod");
-        break;
-      case 5:
-        history.push("/business-request-list-hod");
-        break;
       default:
         break;
     }
@@ -120,12 +105,9 @@ const AdminTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Home Leave Request" {...a11yProps(0)} />
-          <Tab label="My Home Request" {...a11yProps(1)} />
-          <Tab label="New Business Leave Request" {...a11yProps(2)} />
-          <Tab label="My Business Request" {...a11yProps(3)} />
-          <Tab label="Home Request Approvals" {...a11yProps(4)} />
-          <Tab label="Business Request Approvals" {...a11yProps(5)} />
+          <Tab label="New Event Request" {...a11yProps(0)} />
+          <Tab label="My Events" {...a11yProps(1)} />
+          <Tab label="Event Approvals" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
     </div>

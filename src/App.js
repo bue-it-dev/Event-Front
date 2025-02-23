@@ -29,63 +29,6 @@ import { useUser } from "./Component/Entities";
 import ProtectedRoute from "./Component/Common/ProtectedRoute";
 import Header from "./Component/Header/Header";
 import Footer from "./Component/NewFooter/Footer";
-import HomeRequestDetails from "./Component/Applicant/HomeRequestDetails";
-import HomeRequestListHOD from "./Component/Admin/HomeRequestListHOD";
-import HomeRequestDetailsHOD from "./Component/Admin/HomeRequestDetailsHOD";
-import HomeRequestDetailsVCB from "./Component/VCB/HomeRequestDetailsVCB";
-import HomeRequestListVCB from "./Component/VCB/HomeRequestListVCB";
-import HomeRequestListHR from "./Component/HR/HomeRequestListHR";
-import BusinessRequestListHR from "./Component/HR/BusinessRequestListHR";
-import HomeRequestDetailsHR from "./Component/HR/HomeRequestDetailsHR";
-import HomeRequestListBOM from "./Component/BOM/HomeRequestListBOM";
-import HomeRequestDetailsBOM from "./Component/BOM/HomeRequestDetailsBOM";
-import HomeRequestListCOO from "./Component/COO/HomeRequestListCOO";
-import HomeRequestDetailsCOO from "./Component/COO/HomeRequestDetailsCOO";
-import HomeRequestDetailsTravel from "./Component/TravelOffice/HomeRequestDetailsTravel";
-import HomeRequestListTravel from "./Component/TravelOffice/HomeRequestListTravel";
-import AdminAddHomeRequest from "./Component/Admin/AdminAddHomeRequest";
-import AdminMyRequests from "./Component/Admin/AdminMyRequests";
-import VCBAddHomeRequest from "./Component/VCB/VCBAddHomeRequest";
-import VCBMyRequests from "./Component/VCB/VCBMyRequests";
-import HomeRequestDetailsPRE from "./Component/President/HomeRequestDetailsPRE";
-import HomeRequestListPRE from "./Component/President/HomeRequestListPRE";
-import PresidentAddHomeRequest from "./Component/President/PresidentAddHomeRequest";
-import PresidentMyRequests from "./Component/President/PresidentMyRequests";
-import HRAddHomeRequest from "./Component/HR/HRAddHomeRequest";
-import HRMyRequests from "./Component/HR/HRMyRequests";
-import AddBusinessTravelRequest from "./Component/Applicant/AddBusinessTravelRequest";
-import MyBusinessRequests from "./Component/Applicant/MyBusinessRequests";
-import BusinessRequestDetails from "./Component/Applicant/BusinessRequestDetails";
-import BusinessRequestDetailsHR from "./Component/HR/BusinessRequestDetailsHR";
-import BusinessRequestListTravel from "./Component/TravelOffice/BusinessRequestListTravel";
-import BusinessRequestDetailsTO from "./Component/TravelOffice/BusinessRequestDetailsTO";
-import BusinessRequestListBudget from "./Component/BudgetOffice/BusinessRequestListBudget";
-import BusinessRequestDetailsBO from "./Component/BudgetOffice/BusinessRequestDetailsBO";
-import BusinessRequestListHOD from "./Component/Admin/BusinessRequestListHOD";
-import BusinessRequestDetailsHOD from "./Component/Admin/BusinessRequestDetailsHOD";
-import BusinessRequestListVCB from "./Component/VCB/BusinessRequestListVCB";
-import BusinessRequestDetailsVCB from "./Component/VCB/BusinessRequestDetailsVCB";
-import BusinessRequestListBOM from "./Component/BOM/BusinessRequestListBOM";
-import BusinessRequestDetailsBOM from "./Component/BOM/BusinessRequestDetailsBOM";
-import BusinessRequestListCOO from "./Component/COO/BusinessRequestListCOO";
-import BusinessRequestDetailsCOO from "./Component/COO/BusinessRequestDetailsCOO";
-import Dashboard from "./Component/Dashboard/Dashboard";
-import BusinessRequestListPRE from "./Component/President/BusinessRequestListPRE";
-import BusinessRequestDetailsPRE from "./Component/President/BusinessRequestDetailsPRE";
-import Home from "./Component/Dashboard/Home";
-import BOMAddHomeRequest from "./Component/BOM/BOMAddHomeRequest";
-import BOMMyRequests from "./Component/BOM/BOMMyRequests";
-// import Reports from "./Component/Dashboard/Reports";
-import BusinessReports from "./Component/Dashboard/BusinessReports";
-import HomeReports from "./Component/Dashboard/HomeReports";
-import Statistics from "./Component/Dashboard/Statistics";
-
-import AdminAddBusinessRequest from "./Component/Admin/AdminAddBusinessRequest";
-import AdminMyBusinessRequest from "./Component/Admin/AdminMyBusinessRequest";
-import VCBAddBusinessRequest from "./Component/VCB/VCBAddBusinessRequest";
-import VCBMyBusinessRequest from "./Component/VCB/VCBMyBusinessRequests";
-import PresidentMyBusinessRequest from "./Component/President/PresidentMyBusinessRequest";
-import PresidentAddBusinessRequest from "./Component/President/PresidentAddBusinessRequest";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -126,17 +69,17 @@ function App() {
                     ? Admin
                     : user.type === "VCB"
                     ? VCB
-                    : user.type === "HR"
-                    ? HR
-                    : user.type === "President"
+                    : user.type === "OfficeOfThePresident"
                     ? President
-                    : user.type === "Business_operation_manager"
+                    : user.type === "SecurityCheck"
+                    ? HR
+                    : user.type === "BOM"
                     ? BOM
                     : user.type === "COO"
                     ? COO
                     : user.type === "Travel_Office"
                     ? TravelOffice
-                    : user.type === "Budget_Office"
+                    : user.type === "BudgetOffice"
                     ? BudgetOffice
                     : Applicant
                 }
@@ -144,7 +87,9 @@ function App() {
               {user.type === "HOD" ? (
                 <>
                   <Switch>
-                    <ProtectedRoute
+                    <Route path="/" exact component={Admin} />
+                    <Route path="*" exact component={Page404} />
+                    {/* <ProtectedRoute
                       path="/business-request-list-hod"
                       component={BusinessRequestListHOD}
                     />
@@ -213,9 +158,7 @@ function App() {
                     <ProtectedRoute
                       path="/dashboard-menu"
                       component={Dashboard}
-                    />
-                    <Route path="/" exact component={Admin} />
-                    <Route path="*" exact component={Page404} />
+                    /> */}
                     {/* <ProtectedRoute
                       path="/dashboard-menu/reports/business-reports"
                       component={BusinessReports}
@@ -239,7 +182,9 @@ function App() {
                   {currentUser.isAcademic === "0" ? (
                     <>
                       <Switch>
-                        <ProtectedRoute
+                        <Route path="/" exact component={VCB} />
+                        <Route path="*" exact component={Page404} />
+                        {/* <ProtectedRoute
                           path="/home-request-create-vcb"
                           exact
                           component={VCBAddHomeRequest}
@@ -308,15 +253,15 @@ function App() {
                         <ProtectedRoute
                           path="/dashboard-menu/home"
                           component={Home}
-                        />
-                        <Route path="/" exact component={VCB} />
-                        <Route path="*" exact component={Page404} />
+                        /> */}
                       </Switch>
                     </>
                   ) : (
                     <>
                       <Switch>
-                        <ProtectedRoute
+                        <Route path="/" exact component={VCB} />
+                        <Route path="*" exact component={Page404} />
+                        {/* <ProtectedRoute
                           path="/home-request-create-vcb"
                           exact
                           component={VCBAddHomeRequest}
@@ -361,9 +306,7 @@ function App() {
                         <ProtectedRoute
                           path="/business-request-details-vcb"
                           component={BusinessRequestDetailsVCB}
-                        />
-                        <Route path="/" exact component={VCB} />
-                        <Route path="*" exact component={Page404} />
+                        /> */}
                       </Switch>
                     </>
                   )}
@@ -371,7 +314,9 @@ function App() {
               ) : user.type === "President" ? (
                 <>
                   <Switch>
-                    <ProtectedRoute
+                    <Route path="/" exact component={President} />
+                    <Route path="*" exact component={Page404} />
+                    {/* <ProtectedRoute
                       path="/president-add-home-travel-request"
                       exact
                       component={PresidentAddHomeRequest}
@@ -418,15 +363,15 @@ function App() {
                     <ProtectedRoute
                       path="/business-request-details-president"
                       component={BusinessRequestDetailsPRE}
-                    />
-                    <Route path="/" exact component={President} />
-                    <Route path="*" exact component={Page404} />
+                    /> */}
                   </Switch>
                 </>
               ) : user.type === "HR" ? (
                 <>
                   <Switch>
-                    {/* <ProtectedRoute
+                    <Route path="/" exact component={HR} />
+                    <Route path="*" exact component={Page404} />
+                    {/* {/* <ProtectedRoute
                       path="/hr-add-home-travel-request"
                       exact
                       component={HRAddHomeRequest}
@@ -441,7 +386,7 @@ function App() {
                       exact
                       component={HomeRequestDetails}
                     /> */}
-                    <ProtectedRoute
+                    {/* <ProtectedRoute
                       path="/business-request-details-hr"
                       exact
                       component={BusinessRequestDetailsHR}
@@ -457,14 +402,14 @@ function App() {
                     <ProtectedRoute
                       path="/home-request-details-hr"
                       component={HomeRequestDetailsHR}
-                    />
-                    <Route path="/" exact component={HR} />
-                    <Route path="*" exact component={Page404} />
+                    /> */}
                   </Switch>
                 </>
               ) : user.type === "Business_operation_manager" ? (
                 <>
                   <Switch>
+                    <Route path="/" exact component={BOM} />
+                    <Route path="*" exact component={Page404} />
                     {/* <ProtectedRoute
                       path="/bom-add-home-travel-request"
                       exact
@@ -480,7 +425,7 @@ function App() {
                       exact
                       component={HomeRequestDetails}
                     /> */}
-                    <ProtectedRoute
+                    {/* <ProtectedRoute
                       path="/home-request-list-bom"
                       component={HomeRequestListBOM}
                     />
@@ -507,15 +452,15 @@ function App() {
                     <ProtectedRoute
                       path="/dashboard-menu/home"
                       component={Home}
-                    />
-                    <Route path="/" exact component={BOM} />
-                    <Route path="*" exact component={Page404} />
+                    /> */}
                   </Switch>
                 </>
               ) : user.type === "COO" ? (
                 <>
                   <Switch>
-                    <ProtectedRoute
+                    <Route path="/" exact component={COO} />
+                    <Route path="*" exact component={Page404} />
+                    {/* <ProtectedRoute
                       path="/home-request-list-coo"
                       component={HomeRequestListCOO}
                     />
@@ -550,22 +495,20 @@ function App() {
                     <ProtectedRoute
                       path="/dashboard-menu/home"
                       component={Home}
-                    />
-                    <Route path="/" exact component={COO} />
-                    <Route path="*" exact component={Page404} />
+                    /> */}
                   </Switch>
                 </>
               ) : user.type === "Budget_Office" ? (
                 <>
                   <Switch>
-                    <ProtectedRoute
+                    {/* <ProtectedRoute
                       path="/business-request-list-budget-office"
                       component={BusinessRequestListBudget}
                     />
                     <ProtectedRoute
                       path="/business-request-details-budget-office"
                       component={BusinessRequestDetailsBO}
-                    />
+                    /> */}
                     <Route path="/" exact component={BudgetOffice} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -573,7 +516,7 @@ function App() {
               ) : user.type === "Travel_Office" ? (
                 <>
                   <Switch>
-                    <ProtectedRoute
+                    {/* <ProtectedRoute
                       path="/home-request-list-travel-office"
                       component={HomeRequestListTravel}
                     />
@@ -592,7 +535,7 @@ function App() {
                     <ProtectedRoute
                       path="/dashboard-menu"
                       component={Dashboard}
-                    />
+                    /> */}
                     <Route path="/" exact component={TravelOffice} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -606,16 +549,17 @@ function App() {
                       component={AddHomeTravel}
                     />
                     <ProtectedRoute
-                      path="/business-travel-request"
-                      exact
-                      component={AddBusinessTravelRequest}
-                    />
-                    <ProtectedRoute
                       path="/my-event-requests"
                       exact
                       component={MyHomeRequests}
                     />
-                    <ProtectedRoute
+                    <Route path="*" exact component={Page404} />
+                    {/* <ProtectedRoute
+                      path="/business-travel-request"
+                      exact
+                      component={AddBusinessTravelRequest}
+                    /> */}
+                    {/* <ProtectedRoute
                       path="/my-business-requests"
                       exact
                       component={MyBusinessRequests}
@@ -629,9 +573,8 @@ function App() {
                       path="/business-request-details"
                       exact
                       component={BusinessRequestDetails}
-                    />
+                    /> */}
                     {/* <Route path="/" exact component={Applicant} /> */}
-                    <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
               )}

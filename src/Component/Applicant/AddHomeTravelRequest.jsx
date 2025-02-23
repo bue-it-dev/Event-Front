@@ -9,7 +9,7 @@ import ApplicantTabs from "./ApplicantTabs";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
-import EventSelections from "../shared_components/EventSelections";  
+import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 
 const AddHomeTravelRequest = () => {
@@ -19,7 +19,7 @@ const AddHomeTravelRequest = () => {
   const [buildings, setbuildings] = React.useState([]);
   const [selectedBuildingId, setSelectedBuildingId] = useState(null);
   const [venuse, setvenuse] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);  
+  const [passportFiles, setPassportFiles] = useState([[]]);
   const [eventData, seteventData] = React.useState({
     EventTitle: "",
     NomParticipants: null,
@@ -38,13 +38,13 @@ const AddHomeTravelRequest = () => {
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
     OfficeOfPresedentFile: null,
-    passportFiles:[],
+    passportFiles: [],
     VisitAgendaFile: null,
     ItcomponentEvents: [],
     Transportations: [],
     Accommodations: [],
     BuildingVenues: [],
-    Venues: null
+    Venues: null,
   });
 
   // Get List of Approval Department Schema
@@ -54,7 +54,7 @@ const AddHomeTravelRequest = () => {
       url: `${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      }
+      },
     };
     axios(config)
       .then(function (response) {
@@ -72,7 +72,7 @@ const AddHomeTravelRequest = () => {
       url: `${URL.BASE_URL}/api/EventEntity/get-buildings`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      }
+      },
     };
     axios(config)
       .then(function (response) {
@@ -85,13 +85,13 @@ const AddHomeTravelRequest = () => {
 
   // Get List of Venues for Selected Building
   const Getvenuse = (buildingId) => {
-    console.log(buildingId)
+    console.log(buildingId);
     var config = {
       method: "get",
       url: `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
-      }
+      },
     };
     axios(config)
       .then(function (response) {
@@ -113,26 +113,27 @@ const AddHomeTravelRequest = () => {
       if (EventId) {
         await AddFiles(
           EventId,
-          passportFiles || [],  
+          passportFiles || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
         );
-      }      
+      }
       setisLoading(false);
       toast.success("Event added successfully", { position: "top-center" });
       history.push("/my-event-requests");
-      
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", { position: "top-center" });
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+      });
     }
   };
 
   const handleFileChange = (e, index) => {
-    const files = Array.from(e.target.files); 
+    const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
-    newPassportFiles[index] = files; 
+    newPassportFiles[index] = files;
     setPassportFiles(newPassportFiles);
   };
 
@@ -179,7 +180,7 @@ const AddHomeTravelRequest = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div>
                 <select
                   className="form-select form-select-lg custom-select"
@@ -190,7 +191,7 @@ const AddHomeTravelRequest = () => {
                       ...eventData,
                       BuildingVenues: buildingId,
                     });
-                    Getvenuse(buildingId); 
+                    Getvenuse(buildingId);
                   }}
                   name="buildings"
                   required
@@ -230,11 +231,14 @@ const AddHomeTravelRequest = () => {
 
               <EventInfo eventData={eventData} seteventData={seteventData} />
               <ValidatorForm onSubmit={onSubmit} className="px-md-2">
-                <EventSelections eventData={eventData} setEventData={seteventData} />
-                <EventFilesSection 
-                  eventData={eventData} 
-                  setEventData={seteventData} 
-                  handleFileChange={handleFileChange} 
+                <EventSelections
+                  eventData={eventData}
+                  setEventData={seteventData}
+                />
+                <EventFilesSection
+                  eventData={eventData}
+                  setEventData={seteventData}
+                  handleFileChange={handleFileChange}
                 />
                 <button
                   type="submit"

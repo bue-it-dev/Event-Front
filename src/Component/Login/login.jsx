@@ -88,15 +88,23 @@ const Login = () => {
                         saveTokenToLocalStorage(userObj.accessToken);
                         const decodedToken = jwt(userObj.accessToken);
                         const roles = {
-                          1: "Staff",
-                          2: "HOD",
-                          3: "VCB",
-                          4: "President",
-                          5: "HR",
-                          6: "Business_operation_manager",
-                          7: "COO",
-                          8: "Travel_Office",
-                          9: "Budget_Office",
+                          1: "HOD",
+                          2: "VCB",
+                          3: "OfficeOfThePresident",
+                          4: "SecurityCheck",
+                          5: "public Affairs",
+                          6: "IT",
+                          7: "Accommodation",
+                          8: "Transportation",
+                          9: "BudgetOffice",
+                          10: "Marcom",
+                          11: "Campus",
+                          12: "Security",
+                          13: "HSE",
+                          14: "BOM",
+                          15: "EAF",
+                          16: "COO",
+                          17: "Staff",
                         };
                         setUser({
                           ...user,
