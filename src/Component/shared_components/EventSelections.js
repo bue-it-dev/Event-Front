@@ -209,9 +209,6 @@ const EventSelections = ({ eventData, setEventData }) => {
   return (
     <div className="container-fluid">
       <div className="card shadow-sm px-5 py-4 w-75 mx-auto">
-        {/* Section Title */}
-        <h4 className="card-title text-dark">Additional Requirements</h4>
-
         {/* Accommodation Section */}
         <div className="card shadow-sm p-3 mt-4">
           <div className="d-flex align-items-center">
@@ -223,7 +220,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               onChange={handleAccommodationCheckbox}
             />
             <label
-              className="form-check-label fs-5 font-weight-bold text-dark"
+              className="form-check-label fs-6 font-weight-bold text-dark"
               htmlFor="HasAccomdation"
             >
               Requires Accommodation
@@ -232,9 +229,6 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasAccomdation === 1 && (
             <div className="mt-3">
-              <h5 className="border-bottom pb-2 mb-3 text-dark">
-                Accommodation Options
-              </h5>
               <div className="row g-4">
                 {roomTypes.map((room) => (
                   <div key={room.roomTypeId} className="col-md-4">
@@ -296,7 +290,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               onChange={handleTransportationCheckbox}
             />
             <label
-              className="form-check-label fs-5 font-weight-bold text-dark"
+              className="form-check-label fs-6 font-weight-bold text-dark"
               htmlFor="HasTransportation"
             >
               Requires Transportation
@@ -305,9 +299,6 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasTransportation === 1 && (
             <div className="mt-3">
-              <h5 className="border-bottom pb-2 mb-3 text-dark">
-                Transportation Options
-              </h5>
               <div className="row g-4">
                 {transportationTypes.map((type) => (
                   <div key={type.transportationTypeId} className="col-md-4">
@@ -401,7 +392,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               onChange={handleItComponentsCheckbox}
             />
             <label
-              className="form-check-label fs-5 font-weight-bold text-dark"
+              className="form-check-label fs-6 font-weight-bold text-dark"
               htmlFor="HasIt"
             >
               Requires IT Components
@@ -410,9 +401,6 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasIt === 1 && (
             <div className="mt-3">
-              <h5 className="border-bottom pb-2 mb-3 text-dark">
-                IT Components
-              </h5>
               <div className="row g-4">
                 {itComponentsList.map((component) => (
                   <div key={component.itcomponentId} className="col-md-4">

@@ -28,6 +28,7 @@ const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
               <label
                 htmlFor={`passportData${index}`}
                 className="form-label text-dark font-weight-bold"
+                style={{ fontSize: "14px" }}
               >
                 Upload Passport Files (Traveler {index + 1}):
               </label>
@@ -38,7 +39,7 @@ const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
                 className="btn btn-outline-danger btn-sm"
                 onClick={() => removePassportInput(index)}
               >
-                <i className="bi bi-trash"></i> Delete
+                <i className="bi bi-trash"></i>
               </button>
             </div>
 
@@ -59,8 +60,9 @@ const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
             type="button"
             className="btn btn-outline-primary btn-lg"
             onClick={addPassportInput}
+            style={{ fontSize: "14px" }}
           >
-            + Add Another Passport
+            + Add Passport
           </button>
         </div>
       </div>

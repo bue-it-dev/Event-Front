@@ -56,7 +56,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label
-              className="form-check-label fs-5 font-weight-bold text-dark text-wrap"
+              className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
               htmlFor="IsStaffStudents"
             >
               Is this event exclusively attended by Staff & Students of the
@@ -89,6 +89,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   htmlFor="LedOfTheUniversityOrganizerFile"
                   className="form-label text-dark font-weight-bold"
+                  style={{ fontSize: "14px" }}
                 >
                   Upload the signed approval form from the lead university
                   organizer:
@@ -112,6 +113,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   <label
                     htmlFor="OfficeOfPresedentFile"
                     className="form-label text-dark font-weight-bold"
+                    style={{ fontSize: "14px" }}
                   >
                     Upload the relevant form from the Office of the President:
                   </label>
@@ -145,7 +147,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label
-              className="form-check-label fs-5 font-weight-bold text-dark text-wrap"
+              className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
               htmlFor="IsOthers"
             >
               Will attendees include individuals who are not Staff or Students
@@ -160,6 +162,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   htmlFor="VisitAgendaFile"
                   className="form-label text-dark font-weight-bold"
+                  style={{ fontSize: "14px" }}
                 >
                   Upload the visit agenda file:
                 </label>
@@ -176,14 +179,37 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   }
                 />
               </div>
-
-              {/* Passport Files Section */}
-              <div className="mt-3">
-                <PassportFilesSection
-                  passportFiles={passportFiles}
-                  setPassportFiles={setPassportFiles}
-                />
+              {/* Is Others NOT VIP */}
+              <div className="card shadow-sm p-4 mt-4">
+                <div className="form-check form-check-lg">
+                  <input
+                    type="checkbox"
+                    id="IsOthersNOTVIP"
+                    name="IsOthersNOTVIP"
+                    className="form-check-input"
+                    checked={eventData.IsOthersNOTVIP === 1}
+                    onChange={handleCheckboxChange}
+                  />
+                  <label
+                    className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
+                    htmlFor="IsOthers"
+                  >
+                    Will the event be attended by international guests
+                    (excluding VIPs)
+                  </label>
+                </div>
               </div>
+              {eventData.IsOthersNOTVIP === 1 && (
+                <>
+                  {/* Passport Files Section */}
+                  <div className="mt-3">
+                    <PassportFilesSection
+                      passportFiles={passportFiles}
+                      setPassportFiles={setPassportFiles}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
