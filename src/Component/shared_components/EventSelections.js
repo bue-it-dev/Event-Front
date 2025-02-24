@@ -208,9 +208,15 @@ const EventSelections = ({ eventData, setEventData }) => {
 
   return (
     <div className="container-fluid">
-      <div className="card shadow-sm px-5 py-4 w-75 mx-auto">
+      <div
+        className="card shadow-lg px-5 py-4 w-100 mx-auto"
+        style={{ backgroundColor: "#f8f9fa" }}
+      >
         {/* Accommodation Section */}
-        <div className="card shadow-sm p-3 mt-4">
+        <div
+          className="card shadow-sm p-3 mt-3"
+          style={{ backgroundColor: "#f1f3f5" }}
+        >
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
@@ -220,8 +226,9 @@ const EventSelections = ({ eventData, setEventData }) => {
               onChange={handleAccommodationCheckbox}
             />
             <label
-              className="form-check-label fs-6 font-weight-bold text-dark"
+              className="form-check-label font-weight-bold text-dark"
               htmlFor="HasAccomdation"
+              style={{ fontSize: "14px" }}
             >
               Requires Accommodation
             </label>
@@ -229,9 +236,9 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasAccomdation === 1 && (
             <div className="mt-3">
-              <div className="row g-4">
+              <div className="row g-3">
                 {roomTypes.map((room) => (
-                  <div key={room.roomTypeId} className="col-md-4">
+                  <div key={room.roomTypeId} className="col-md-3">
                     <div className="form-check">
                       <input
                         type="checkbox"
@@ -248,6 +255,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       <label
                         className="form-check-label text-dark"
                         htmlFor={`roomType-${room.roomTypeId}`}
+                        style={{ fontSize: "14px" }}
                       >
                         {room.roomTypeName}
                       </label>
@@ -257,7 +265,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                     ) && (
                       <input
                         type="number"
-                        className="form-control form-control-lg rounded shadow-sm mt-2"
+                        className="form-control form-control-sm rounded shadow-sm mt-2"
                         placeholder="Quantity"
                         value={
                           eventData.Accommodations.find(
@@ -280,18 +288,27 @@ const EventSelections = ({ eventData, setEventData }) => {
         </div>
 
         {/* Transportation Section */}
-        <div className="card shadow-sm p-3 mt-4">
+        <div
+          className="card shadow-sm p-3 mt-3"
+          style={{ backgroundColor: "#f1f3f5" }}
+        >
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
               id="HasTransportation"
               className="form-check-input me-2"
               checked={eventData.HasTransportation === 1}
-              onChange={handleTransportationCheckbox}
+              onChange={() =>
+                setEventData((prev) => ({
+                  ...prev,
+                  HasTransportation: prev.HasTransportation === 1 ? 0 : 1, // Toggle state
+                }))
+              }
             />
             <label
-              className="form-check-label fs-6 font-weight-bold text-dark"
+              className="form-check-label font-weight-bold text-dark"
               htmlFor="HasTransportation"
+              style={{ fontSize: "14px" }}
             >
               Requires Transportation
             </label>
@@ -299,9 +316,9 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasTransportation === 1 && (
             <div className="mt-3">
-              <div className="row g-4">
+              <div className="row g-3">
                 {transportationTypes.map((type) => (
-                  <div key={type.transportationTypeId} className="col-md-4">
+                  <div key={type.transportationTypeId} className="col-md-3">
                     <div className="form-check">
                       <input
                         type="checkbox"
@@ -317,6 +334,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       <label
                         className="form-check-label text-dark"
                         htmlFor={`transportation-${type.transportationTypeId}`}
+                        style={{ fontSize: "14px" }}
                       >
                         {type.transportationType1}
                       </label>
@@ -326,16 +344,19 @@ const EventSelections = ({ eventData, setEventData }) => {
               </div>
 
               {eventData.Transportations.map((transport, index) => (
-                <div key={index} className="row g-4 mt-3">
+                <div key={index} className="row g-3 mt-3">
                   <div className="col-md-3">
-                    <label className="form-label font-weight-bold text-dark">
-                      Type: {transport.TransportationTypeId}
+                    <label
+                      className="form-label font-weight-bold text-dark"
+                      style={{ fontSize: "14px" }}
+                    >
+                      Type: {transport.transportationType1}
                     </label>
                   </div>
                   <div className="col-md-3">
                     <input
                       type="date"
-                      className="form-control form-control-lg rounded shadow-sm"
+                      className="form-control form-control-sm rounded shadow-sm"
                       value={transport.StartDate || ""}
                       onChange={(e) =>
                         handleTransportationChange(
@@ -349,7 +370,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   <div className="col-md-3">
                     <input
                       type="date"
-                      className="form-control form-control-lg rounded shadow-sm"
+                      className="form-control form-control-sm rounded shadow-sm"
                       value={transport.EndDate || ""}
                       onChange={(e) =>
                         handleTransportationChange(
@@ -363,7 +384,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   <div className="col-md-3">
                     <input
                       type="number"
-                      className="form-control form-control-lg rounded shadow-sm"
+                      className="form-control form-control-sm rounded shadow-sm"
                       placeholder="Quantity"
                       value={transport.Quantity || ""}
                       onChange={(e) =>
@@ -382,7 +403,10 @@ const EventSelections = ({ eventData, setEventData }) => {
         </div>
 
         {/* IT Components Section */}
-        <div className="card shadow-sm p-3 mt-4">
+        <div
+          className="card shadow-sm p-3 mt-3"
+          style={{ backgroundColor: "#f1f3f5" }}
+        >
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
@@ -392,8 +416,9 @@ const EventSelections = ({ eventData, setEventData }) => {
               onChange={handleItComponentsCheckbox}
             />
             <label
-              className="form-check-label fs-6 font-weight-bold text-dark"
+              className="form-check-label font-weight-bold text-dark"
               htmlFor="HasIt"
+              style={{ fontSize: "14px" }}
             >
               Requires IT Components
             </label>
@@ -401,9 +426,9 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasIt === 1 && (
             <div className="mt-3">
-              <div className="row g-4">
+              <div className="row g-3">
                 {itComponentsList.map((component) => (
-                  <div key={component.itcomponentId} className="col-md-4">
+                  <div key={component.itcomponentId} className="col-md-3">
                     <div className="form-check">
                       <input
                         type="checkbox"
@@ -419,6 +444,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       <label
                         className="form-check-label text-dark"
                         htmlFor={`itcomponent-${component.itcomponentId}`}
+                        style={{ fontSize: "14px" }}
                       >
                         {component.component}
                       </label>
@@ -428,7 +454,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                     ) && (
                       <input
                         type="number"
-                        className="form-control form-control-lg rounded shadow-sm mt-2"
+                        className="form-control form-control-sm rounded shadow-sm mt-2"
                         placeholder="Quantity"
                         value={
                           eventData.ItcomponentEvents.find(

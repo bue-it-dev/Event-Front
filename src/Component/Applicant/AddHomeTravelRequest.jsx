@@ -129,19 +129,23 @@ const AddHomeTravelRequest = () => {
       <ApplicantTabs />
       <br />
       <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col-lg-8 col-xl-8">
-          <div className="card rounded-3">
-            <div className="card-body p-6 p-md-5">
-              <h5 className="card-header">Request Event</h5>
-              <br />
+        <div className="col-lg-6 col-xl-6">
+          <div className="card rounded-3 shadow-lg border-0">
+            <div className="card-body p-4 p-md-5">
+              <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
+                Request Event
+              </h5>
+
               <div className="horizontal-rule mb-4">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">Department Info</h5>
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">
+                  Department Info
+                </h5>
               </div>
 
               <div className="mb-4 flex-grow-1">
                 <select
-                  className="form-select form-select-lg custom-select"
+                  className="form-select form-select-lg"
                   onChange={(e) => {
                     seteventData({
                       ...eventData,
@@ -161,87 +165,82 @@ const AddHomeTravelRequest = () => {
                   ))}
                 </select>
               </div>
+
               <div className="horizontal-rule mb-4">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">Event Info</h5>
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">
+                  Event Info
+                </h5>
               </div>
+
               <EventInfo eventData={eventData} seteventData={seteventData} />
+
               <div className="horizontal-rule mb-4">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">
                   Requested Services
                 </h5>
               </div>
+
               <ValidatorForm onSubmit={onSubmit} className="px-md-2">
                 <EventSelections
                   eventData={eventData}
                   setEventData={seteventData}
                 />
+
                 <div className="horizontal-rule mb-4">
-                  <hr />
-                  <h5 className="horizontal-rule-text fs-5">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
                     Requested Venues
                   </h5>
-                  <br />
-                  <div className="d-flex align-items-center mb-1">
-                    <button
-                      type="button"
-                      className="btn btn-success"
-                      style={{
-                        backgroundColor: "#57636f",
-                        borderColor: "black",
-                        borderWidth: "2px",
-                        borderStyle: "solid",
-                        color: "white",
-                        width: "32px", // Adjusted width to match font-size
-                        height: "32px", // Ensures a proportional button
-                        fontSize: "16px", // Matches the text font-size
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginRight: "10px",
-                        borderRadius: "5px", // Slightly rounded corners for aesthetics
-                      }}
-                      onClick={addBuildingVenue}
-                    >
-                      +
-                    </button>
-                    <p
-                      style={{
-                        color: "black",
-                        fontSize: "16px",
-                        margin: 0,
-                      }}
-                    >
-                      Add Venue(s)
-                    </p>
-                  </div>
-                  {eventData.BuildingVenues.map((_, index) => (
-                    <EventBuildingVenueListInfo
-                      key={index}
-                      index={index}
-                      eventData={eventData}
-                      seteventData={seteventData}
-                    />
-                  ))}
                 </div>
 
-                <br />
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      fontSize: "18px",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      transition: "0.3s ease",
+                    }}
+                    onClick={addBuildingVenue}
+                  >
+                    +
+                  </button>
+                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                </div>
+
+                {eventData.BuildingVenues.map((_, index) => (
+                  <EventBuildingVenueListInfo
+                    key={index}
+                    index={index}
+                    eventData={eventData}
+                    seteventData={seteventData}
+                  />
+                ))}
+
                 <div className="horizontal-rule mb-4">
-                  <hr />
-                  <h5 className="horizontal-rule-text fs-5">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
                     Event Attendance Section
                   </h5>
                 </div>
+
                 <EventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
+
                 <button
                   type="submit"
-                  className="btn btn-success btn-lg col-12"
+                  className="btn btn-dark btn-lg col-12 mt-3"
                   disabled={isLoading}
+                  style={{ transition: "0.3s ease" }}
                 >
                   {isLoading ? "Submitting Request..." : "Submit"}
                 </button>
