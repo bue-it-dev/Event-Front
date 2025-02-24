@@ -34,7 +34,7 @@ const AddHomeTravelRequest = () => {
     OrganizerMobile: "",
     organizerEmail: "",
     OrganizerExtention: "",
-    approvingDepName: "",
+    approvingDepTypeId: 0,
     DeptId: null,
     IsOthers: null,
     IsOthersNOTVIP: null,
@@ -149,17 +149,17 @@ const AddHomeTravelRequest = () => {
                   onChange={(e) => {
                     seteventData({
                       ...eventData,
-                      approvingDepName: e.target.value,
+                      approvingDepTypeId: Number(e.target.value),
                     });
                   }}
-                  name="approvingDepName"
+                  name="approvingDepTypeId"
                   required
                 >
                   <option value="">
                     Select your First Level Up Department
                   </option>
                   {approvalDepartments.map((data) => (
-                    <option key={data.depName} value={data.depName}>
+                    <option key={data.rowId} value={data.rowId}>
                       {data.depName}
                     </option>
                   ))}

@@ -3,17 +3,21 @@ import React from "react";
 const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
   // Handle file changes for specific passport input
   const handleFileChange = (e, index) => {
-    const { files } = e.target;
+    const selectedFiles = Array.from(e.target.files); // Convert FileList to an array
 
-    const newPassportFiles = [...passportFiles];
-    newPassportFiles[index] = files; // Store files for the specific passport input
-    setPassportFiles(newPassportFiles);
+    setPassportFiles((prevFiles) => {
+      const newPassportFiles = [...prevFiles];
+      newPassportFiles[index] = selectedFiles; // Store files as an array
+      return newPassportFiles;
+    });
   };
 
   // Add a new passport file input
   const addPassportInput = () => {
-    setPassportFiles([...passportFiles, []]); // Add a new empty array for the new passport input
+    setPassportFiles((prevFiles) => [...prevFiles, []]); // Add a new empty array for the new passport input
   };
+
+  // Remove a passport file input
   const removePassportInput = (index) => {
     setPassportFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
@@ -51,6 +55,20 @@ const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
               className="form-control-file"
               onChange={(e) => handleFileChange(e, index)}
             />
+
+            {/* Show selected file names */}
+            {fileArray.length > 0 && (
+              <ul className="mt-2">
+                {fileArray.map((file, fileIndex) => (
+                  <li
+                    key={fileIndex}
+                    style={{ fontSize: "12px", color: "black" }}
+                  >
+                    {file.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
 

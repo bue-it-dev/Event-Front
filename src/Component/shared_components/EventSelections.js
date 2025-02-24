@@ -386,7 +386,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
                       placeholder="Quantity"
-                      value={transport.Quantity || ""}
+                      value={transport.number || ""}
                       onChange={(e) =>
                         handleTransportationChange(
                           index,
