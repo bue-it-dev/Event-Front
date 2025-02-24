@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import PassportFilesSection from '../shared_components/PassportFilesSection '; // Import PassportFilesSection
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import PassportFilesSection from "../shared_components/PassportFilesSection "; // Import PassportFilesSection
 
 const EventFilesSection = ({ eventData, setEventData }) => {
   const [passportFiles, setPassportFiles] = useState([]);
@@ -19,7 +19,8 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
     // Handle event data
     Object.keys(eventData).forEach((key) => {
-      if (key !== 'passportData') { // Don't append passport data here
+      if (key !== "passportData") {
+        // Don't append passport data here
         formData.append(key, eventData[key]);
       }
     });
@@ -35,92 +36,158 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     console.log(formData); // For debugging purposes
 
     // Optionally show a success message
-    toast.success('Event Submitted Successfully', {
-      position: 'top-center',
+    toast.success("Event Submitted Successfully", {
+      position: "top-center",
     });
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="IsStaffStudents">Is Staff or Students:</label>
-        <input
-          type="checkbox"
-          id="IsStaffStudents"
-          name="IsStaffStudents"
-          checked={eventData.IsStaffStudents === 1}
-          onChange={handleCheckboxChange}
-        />
-      </div>
-
-      {eventData.IsStaffStudents === 1 && (
-        <>
-          <div>
-            <label htmlFor="IsChairBoardPrisidentVcb">Is Chair Board President VCB:</label>
+    <div className="container-fluid">
+      <div className="card shadow-sm px-5 py-4 w-100 mx-auto">
+        {/* Is Staff or Students */}
+        <div className="card shadow-sm p-4 mt-4">
+          <div className="form-check form-check-lg">
             <input
               type="checkbox"
-              id="IsChairBoardPrisidentVcb"
-              name="IsChairBoardPrisidentVcb"
-              checked={eventData.IsChairBoardPrisidentVcb === 1}
+              id="IsStaffStudents"
+              name="IsStaffStudents"
+              className="form-check-input"
+              checked={eventData.IsStaffStudents === 1}
               onChange={handleCheckboxChange}
             />
+            <label
+              className="form-check-label fs-5 font-weight-bold text-dark text-wrap"
+              htmlFor="IsStaffStudents"
+            >
+              Is this event exclusively attended by Staff & Students of the
+              British University in Egypt?
+            </label>
           </div>
 
-          <div>
-            <label htmlFor="LedOfTheUniversityOrganizerFile">Upload Led of the University Organizer File:</label>
-            <input
-              type="file"
-              id="LedOfTheUniversityOrganizerFile"
-              name="LedOfTheUniversityOrganizerFile"
-              onChange={(e) => setEventData({ ...eventData, LedOfTheUniversityOrganizerFile: e.target.files[0] })}
-            />
-          </div>
+          {eventData.IsStaffStudents === 1 && (
+            <div className="mt-3">
+              <div className="form-check form-check-lg">
+                <input
+                  type="checkbox"
+                  id="IsChairBoardPrisidentVcb"
+                  name="IsChairBoardPrisidentVcb"
+                  className="form-check-input"
+                  checked={eventData.IsChairBoardPrisidentVcb === 1}
+                  onChange={handleCheckboxChange}
+                />
+                <label
+                  className="form-check-label text-dark text-wrap"
+                  htmlFor="IsChairBoardPrisidentVcb"
+                >
+                  Will the Chair, Board Member, President, or Vice Chancellor be
+                  attending this event?
+                </label>
+              </div>
 
-          {eventData.IsChairBoardPrisidentVcb === 1 && (
-            <div>
-              <label htmlFor="OfficeOfPresedentFile">Upload Office of the President File:</label>
-              <input
-                type="file"
-                id="OfficeOfPresedentFile"
-                name="OfficeOfPresedentFile"
-                onChange={(e) => setEventData({ ...eventData, OfficeOfPresedentFile: e.target.files[0] })}
-              />
+              {/* Upload Led of the University Organizer File */}
+              <div className="mt-3">
+                <label
+                  htmlFor="LedOfTheUniversityOrganizerFile"
+                  className="form-label text-dark font-weight-bold"
+                >
+                  Upload the signed approval form from the lead university
+                  organizer:
+                </label>
+                <input
+                  type="file"
+                  id="LedOfTheUniversityOrganizerFile"
+                  name="LedOfTheUniversityOrganizerFile"
+                  className="form-control-file"
+                  onChange={(e) =>
+                    setEventData({
+                      ...eventData,
+                      LedOfTheUniversityOrganizerFile: e.target.files[0],
+                    })
+                  }
+                />
+              </div>
+
+              {eventData.IsChairBoardPrisidentVcb === 1 && (
+                <div className="mt-3">
+                  <label
+                    htmlFor="OfficeOfPresedentFile"
+                    className="form-label text-dark font-weight-bold"
+                  >
+                    Upload the relevant form from the Office of the President:
+                  </label>
+                  <input
+                    type="file"
+                    id="OfficeOfPresedentFile"
+                    name="OfficeOfPresedentFile"
+                    className="form-control-file"
+                    onChange={(e) =>
+                      setEventData({
+                        ...eventData,
+                        OfficeOfPresedentFile: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+              )}
             </div>
           )}
-        </>
-      )}
+        </div>
 
-      <div>
-        <label htmlFor="IsOthers">Is Others:</label>
-        <input
-          type="checkbox"
-          id="IsOthers"
-          name="IsOthers"
-          checked={eventData.IsOthers === 1}
-          onChange={handleCheckboxChange}
-        />
-      </div>
-
-      {eventData.IsOthers === 1 && (
-        <>
-          <div>
-            <label htmlFor="VisitAgendaFile">Upload Visit Agenda File:</label>
+        {/* Is Others */}
+        <div className="card shadow-sm p-4 mt-4">
+          <div className="form-check form-check-lg">
             <input
-              type="file"
-              id="VisitAgendaFile"
-              name="VisitAgendaFile"
-              onChange={(e) => setEventData({ ...eventData, VisitAgendaFile: e.target.files[0] })}
+              type="checkbox"
+              id="IsOthers"
+              name="IsOthers"
+              className="form-check-input"
+              checked={eventData.IsOthers === 1}
+              onChange={handleCheckboxChange}
             />
+            <label
+              className="form-check-label fs-5 font-weight-bold text-dark text-wrap"
+              htmlFor="IsOthers"
+            >
+              Will attendees include individuals who are not Staff or Students
+              of the British University in Egypt?
+            </label>
           </div>
 
-          {/* Passport file inputs (dynamically added) */}
-          <PassportFilesSection
-            passportFiles={passportFiles}
-            setPassportFiles={setPassportFiles}
-          />
-        </>
-      )}
+          {eventData.IsOthers === 1 && (
+            <div className="mt-3">
+              {/* Upload Visit Agenda File */}
+              <div>
+                <label
+                  htmlFor="VisitAgendaFile"
+                  className="form-label text-dark font-weight-bold"
+                >
+                  Upload the visit agenda file:
+                </label>
+                <input
+                  type="file"
+                  id="VisitAgendaFile"
+                  name="VisitAgendaFile"
+                  className="form-control-file"
+                  onChange={(e) =>
+                    setEventData({
+                      ...eventData,
+                      VisitAgendaFile: e.target.files[0],
+                    })
+                  }
+                />
+              </div>
 
+              {/* Passport Files Section */}
+              <div className="mt-3">
+                <PassportFilesSection
+                  passportFiles={passportFiles}
+                  setPassportFiles={setPassportFiles}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

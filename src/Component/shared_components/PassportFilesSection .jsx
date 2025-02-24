@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
   // Handle file changes for specific passport input
@@ -14,26 +14,56 @@ const PassportFilesSection = ({ passportFiles, setPassportFiles }) => {
   const addPassportInput = () => {
     setPassportFiles([...passportFiles, []]); // Add a new empty array for the new passport input
   };
+  const removePassportInput = (index) => {
+    setPassportFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
 
   return (
-    <div>
-      {/* Passport file inputs (dynamically added) */}
-      {passportFiles.map((fileArray, index) => (
-        <div key={index}>
-          <label htmlFor={`passportData${index}`}>Upload Passport Files (Traveler {index + 1}):</label>
-          <input
-            type="file"
-            id={`passportData${index}`}
-            name={`passportData[${index}]`}
-            multiple
-            onChange={(e) => handleFileChange(e, index)} // Handle file changes per index
-          />
-        </div>
-      ))}
+    <div className="container-fluid">
+      <div className="card shadow-sm px-5 py-4 w-100 mx-auto">
+        {/* Passport file inputs (dynamically added) */}
+        {passportFiles.map((fileArray, index) => (
+          <div key={index} className="card shadow-sm p-3 mt-3">
+            <div className="d-flex justify-content-between align-items-center">
+              <label
+                htmlFor={`passportData${index}`}
+                className="form-label text-dark font-weight-bold"
+              >
+                Upload Passport Files (Traveler {index + 1}):
+              </label>
 
-      <button type="button" onClick={addPassportInput}>
-        Add Another Passport
-      </button>
+              {/* Delete Button */}
+              <button
+                type="button"
+                className="btn btn-outline-danger btn-sm"
+                onClick={() => removePassportInput(index)}
+              >
+                <i className="bi bi-trash"></i> Delete
+              </button>
+            </div>
+
+            <input
+              type="file"
+              id={`passportData${index}`}
+              name={`passportData[${index}]`}
+              multiple
+              className="form-control-file"
+              onChange={(e) => handleFileChange(e, index)}
+            />
+          </div>
+        ))}
+
+        {/* Add Another Passport Button */}
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            className="btn btn-outline-primary btn-lg"
+            onClick={addPassportInput}
+          >
+            + Add Another Passport
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -71,151 +71,182 @@ const EventInfo = ({ eventData, seteventData }) => {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        {/* Event Title */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="EventTitle" className="form-label fs-6">
-            Event Title
-          </label>
-          <input
-            type="text"
-            id="EventTitle"
-            name="EventTitle"
-            value={eventData.EventTitle}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-            required
-          />
-          {errors.EventTitle && (
-            <small className="text-danger">{errors.EventTitle}</small>
-          )}
-        </div>
+    <div className="container-fluid">
+      <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
+        <div className="row g-4">
+          {/* Event Title */}
+          <div className="col-lg-6">
+            <label htmlFor="EventTitle" className="form-label font-weight-bold">
+              Event Title <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              id="EventTitle"
+              name="EventTitle"
+              value={eventData.EventTitle}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+              required
+            />
+            {errors.EventTitle && (
+              <small className="text-danger">{errors.EventTitle}</small>
+            )}
+          </div>
 
-        {/* Number of Participants */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="NomParticipants" className="form-label fs-6">
-            Number of Participants
-          </label>
-          <input
-            type="number"
-            id="NomParticipants"
-            name="NomParticipants"
-            value={eventData.NomParticipants || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-            min="1"
-          />
-          {errors.NomParticipants && (
-            <small className="text-danger">{errors.NomParticipants}</small>
-          )}
-        </div>
+          {/* Number of Participants */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="NomParticipants"
+              className="form-label font-weight-bold"
+            >
+              Number of Participants
+            </label>
+            <input
+              type="number"
+              id="NomParticipants"
+              name="NomParticipants"
+              value={eventData.NomParticipants || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+              min="1"
+            />
+            {errors.NomParticipants && (
+              <small className="text-danger">{errors.NomParticipants}</small>
+            )}
+          </div>
 
-        {/* Event Start Date */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="EventStartDate" className="form-label fs-6">
-            Event Start Date
-          </label>
-          <input
-            type="date"
-            id="EventStartDate"
-            name="EventStartDate"
-            value={eventData.EventStartDate || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-            required
-          />
-          {errors.EventStartDate && (
-            <small className="text-danger">{errors.EventStartDate}</small>
-          )}
-        </div>
+          {/* Event Start Date */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="EventStartDate"
+              className="form-label font-weight-bold"
+            >
+              Event Start Date <span className="text-danger">*</span>
+            </label>
+            <input
+              type="date"
+              id="EventStartDate"
+              name="EventStartDate"
+              value={eventData.EventStartDate || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+              required
+            />
+            {errors.EventStartDate && (
+              <small className="text-danger">{errors.EventStartDate}</small>
+            )}
+          </div>
 
-        {/* Event End Date */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="EventEndDate" className="form-label fs-6">
-            Event End Date
-          </label>
-          <input
-            type="date"
-            id="EventEndDate"
-            name="EventEndDate"
-            value={eventData.EventEndDate || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-          />
-          {errors.EventEndDate && (
-            <small className="text-danger">{errors.EventEndDate}</small>
-          )}
-        </div>
+          {/* Event End Date */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="EventEndDate"
+              className="form-label font-weight-bold"
+            >
+              Event End Date
+            </label>
+            <input
+              type="date"
+              id="EventEndDate"
+              name="EventEndDate"
+              value={eventData.EventEndDate || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+            />
+            {errors.EventEndDate && (
+              <small className="text-danger">{errors.EventEndDate}</small>
+            )}
+          </div>
 
-        {/* Organizer Name */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerName" className="form-label fs-6">
-            Organizer Name
-          </label>
-          <input
-            type="text"
-            id="OrganizerName"
-            name="OrganizerName"
-            value={eventData.OrganizerName || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-          />
-        </div>
+          {/* Organizer Name */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="OrganizerName"
+              className="form-label font-weight-bold"
+            >
+              Organizer Name
+            </label>
+            <input
+              type="text"
+              id="OrganizerName"
+              name="OrganizerName"
+              value={eventData.OrganizerName || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+            />
+          </div>
 
-        {/* Organizer Mobile */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerMobile" className="form-label fs-6">
-            Organizer Mobile
-          </label>
-          <input
-            type="tel"
-            id="OrganizerMobile"
-            name="OrganizerMobile"
-            value={eventData.OrganizerMobile || ""}
-            onChange={handleChange}
-            maxLength={11}
-            className="form-control form-control-lg"
-            placeholder="Enter valid Egyptian phone number"
-          />
-          {errors.OrganizerMobile && (
-            <small className="text-danger">{errors.OrganizerMobile}</small>
-          )}
-        </div>
+          {/* Organizer Mobile */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="OrganizerMobile"
+              className="form-label font-weight-bold"
+            >
+              Organizer Mobile
+            </label>
+            <div className="input-group w-100">
+              <div className="input-group-prepend">
+                <span className="input-group-text">📞</span>
+              </div>
+              <input
+                type="tel"
+                id="OrganizerMobile"
+                name="OrganizerMobile"
+                value={eventData.OrganizerMobile || ""}
+                onChange={handleChange}
+                maxLength={11}
+                className="form-control form-control-lg"
+                placeholder="Enter valid Egyptian phone number"
+              />
+            </div>
+            {errors.OrganizerMobile && (
+              <small className="text-danger">{errors.OrganizerMobile}</small>
+            )}
+          </div>
 
-        {/* Organizer Extension */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerExtention" className="form-label fs-6">
-            Organizer Extension
-          </label>
-          <input
-            type="text"
-            id="OrganizerExtention"
-            name="OrganizerExtention"
-            value={eventData.OrganizerExtention || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-          />
-          {errors.OrganizerExtention && (
-            <small className="text-danger">{errors.OrganizerExtention}</small>
-          )}
-        </div>
-        {/* Organizer Extension */}
-        <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerExtention" className="form-label fs-6">
-            Organizer Email
-          </label>
-          <input
-            type="email"
-            id="OrganizerExtention"
-            name="OrganizerExtention"
-            value={eventData.organizerEmail || ""}
-            onChange={handleChange}
-            className="form-control form-control-lg"
-          />
-          {/* {errors.organizerEmail && (
-            <small className="text-danger">{errors.organizerEmail}</small>
-          )} */}
+          {/* Organizer Extension */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="OrganizerExtention"
+              className="form-label font-weight-bold"
+            >
+              Organizer Extension
+            </label>
+            <input
+              type="text"
+              id="OrganizerExtention"
+              name="OrganizerExtention"
+              value={eventData.OrganizerExtention || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+            />
+            {errors.OrganizerExtention && (
+              <small className="text-danger">{errors.OrganizerExtention}</small>
+            )}
+          </div>
+
+          {/* Organizer Email */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="OrganizerEmail"
+              className="form-label font-weight-bold"
+            >
+              Organizer Email
+            </label>
+            <div className="input-group w-100">
+              <div className="input-group-prepend">
+                <span className="input-group-text">@</span>
+              </div>
+              <input
+                type="email"
+                id="OrganizerEmail"
+                name="organizerEmail"
+                value={eventData.organizerEmail || ""}
+                onChange={handleChange}
+                className="form-control form-control-lg"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

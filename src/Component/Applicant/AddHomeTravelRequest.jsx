@@ -128,7 +128,7 @@ const AddHomeTravelRequest = () => {
       <ApplicantTabs />
       <br />
       <div className="row d-flex justify-content-center align-items-center h-100">
-        <div className="col-lg-8 col-xl-6">
+        <div className="col-lg-8 col-xl-8">
           <div className="card rounded-3">
             <div className="card-body p-6 p-md-5">
               <h5 className="card-header">Request Event</h5>

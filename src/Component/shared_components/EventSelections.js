@@ -207,99 +207,108 @@ const EventSelections = ({ eventData, setEventData }) => {
   };
 
   return (
-    <div>
-      {/* Accommodation Section */}
-      <div className="form-check mb-3">
-        <input
-          type="checkbox"
-          id="HasAccomdation"
-          className="form-check-input"
-          checked={eventData.HasAccomdation === 1}
-          onChange={handleAccommodationCheckbox}
-        />
-        <label className="form-check-label fs-6" htmlFor="HasAccomdation">
-          Requires Accommodation
-        </label>
-      </div>
-      {eventData.HasAccomdation === 1 && (
-        <div>
-          <div className="horizontal-rule mb-3">
-            <hr />
-            <h5 className="horizontal-rule-text fs-5">Accommodation</h5>
+    <div className="container-fluid">
+      <div className="card shadow-sm px-5 py-4 w-75 mx-auto">
+        {/* Section Title */}
+        <h4 className="card-title text-dark">Additional Requirements</h4>
+
+        {/* Accommodation Section */}
+        <div className="card shadow-sm p-3 mt-4">
+          <div className="d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="HasAccomdation"
+              className="form-check-input me-2"
+              checked={eventData.HasAccomdation === 1}
+              onChange={handleAccommodationCheckbox}
+            />
+            <label
+              className="form-check-label fs-5 font-weight-bold text-dark"
+              htmlFor="HasAccomdation"
+            >
+              Requires Accommodation
+            </label>
           </div>
-          <div className="row mb-3">
-            {roomTypes.map((room) => (
-              <div key={room.roomTypeId} className="col-md-4">
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`roomType-${room.roomTypeId}`}
-                    value={room.roomTypeId}
-                    checked={eventData.Accommodations.some(
-                      (item) => item.roomTypeId === room.roomTypeId
-                    )}
-                    onChange={(e) =>
-                      handleAccommodationChange(e, room.roomTypeId)
-                    }
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor={`roomType-${room.roomTypeId}`}
-                  >
-                    {room.roomTypeName}
-                  </label>
-                </div>
-                {eventData.Accommodations.some(
-                  (item) => item.roomTypeId === room.roomTypeId
-                ) && (
-                  <div className="mt-2">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Quantity"
-                      value={
-                        eventData.Accommodations.find(
+
+          {eventData.HasAccomdation === 1 && (
+            <div className="mt-3">
+              <h5 className="border-bottom pb-2 mb-3 text-dark">
+                Accommodation Options
+              </h5>
+              <div className="row g-4">
+                {roomTypes.map((room) => (
+                  <div key={room.roomTypeId} className="col-md-4">
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id={`roomType-${room.roomTypeId}`}
+                        value={room.roomTypeId}
+                        checked={eventData.Accommodations.some(
                           (item) => item.roomTypeId === room.roomTypeId
-                        )?.Quantity || ""
-                      }
-                      onChange={(e) =>
-                        handleAccommodationQuantityChange(
-                          room.roomTypeId,
-                          e.target.value
-                        )
-                      }
-                    />
+                        )}
+                        onChange={(e) =>
+                          handleAccommodationChange(e, room.roomTypeId)
+                        }
+                      />
+                      <label
+                        className="form-check-label text-dark"
+                        htmlFor={`roomType-${room.roomTypeId}`}
+                      >
+                        {room.roomTypeName}
+                      </label>
+                    </div>
+                    {eventData.Accommodations.some(
+                      (item) => item.roomTypeId === room.roomTypeId
+                    ) && (
+                      <input
+                        type="number"
+                        className="form-control form-control-lg rounded shadow-sm mt-2"
+                        placeholder="Quantity"
+                        value={
+                          eventData.Accommodations.find(
+                            (item) => item.roomTypeId === room.roomTypeId
+                          )?.Quantity || ""
+                        }
+                        onChange={(e) =>
+                          handleAccommodationQuantityChange(
+                            room.roomTypeId,
+                            e.target.value
+                          )
+                        }
+                      />
+                    )}
                   </div>
-                )}
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* Transportation Section */}
-      <div className="form-check mb-3">
-        <input
-          type="checkbox"
-          id="HasTransportation"
-          className="form-check-input"
-          checked={eventData.HasTransportation === 1}
-          onChange={handleTransportationCheckbox}
-        />
-        <label className="form-check-label fs-6" htmlFor="HasTransportation">
-          Requires Transportation
-        </label>
-        <div>
+        {/* Transportation Section */}
+        <div className="card shadow-sm p-3 mt-4">
+          <div className="d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="HasTransportation"
+              className="form-check-input me-2"
+              checked={eventData.HasTransportation === 1}
+              onChange={handleTransportationCheckbox}
+            />
+            <label
+              className="form-check-label fs-5 font-weight-bold text-dark"
+              htmlFor="HasTransportation"
+            >
+              Requires Transportation
+            </label>
+          </div>
+
           {eventData.HasTransportation === 1 && (
-            <div>
-              <div className="horizontal-rule mb-3">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">Transportation</h5>
-              </div>
-
-              {/* Transportation Type Checkboxes */}
-              <div className="row mb-3">
+            <div className="mt-3">
+              <h5 className="border-bottom pb-2 mb-3 text-dark">
+                Transportation Options
+              </h5>
+              <div className="row g-4">
                 {transportationTypes.map((type) => (
                   <div key={type.transportationTypeId} className="col-md-4">
                     <div className="form-check">
@@ -307,15 +316,15 @@ const EventSelections = ({ eventData, setEventData }) => {
                         type="checkbox"
                         className="form-check-input"
                         id={`transportation-${type.transportationTypeId}`}
-                        value={type.transportationTypeId} // FIXED: Correct value assignment
+                        value={type.transportationTypeId}
                         checked={eventData.Transportations.some(
                           (t) =>
-                            t.TransportationTypeId === type.transportationTypeId // FIXED: Correct comparison
+                            t.TransportationTypeId === type.transportationTypeId
                         )}
                         onChange={handleTransportationTypeCheckbox}
                       />
                       <label
-                        className="form-check-label"
+                        className="form-check-label text-dark"
                         htmlFor={`transportation-${type.transportationTypeId}`}
                       >
                         {type.transportationType1}
@@ -324,123 +333,136 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
-        </div>
 
-        {/* For each selected transportation type, display date fields and a quantity input */}
-        {eventData.Transportations.map((transport, index) => (
-          <div key={index} className="row mb-3">
-            <div className="col-md-3">
-              <label className="form-label">
-                Type: {transport.TransportationTypeId}
-              </label>
-            </div>
-            <div className="col-md-3">
-              <label className="form-label">Start Date</label>
-              <input
-                type="date"
-                className="form-control"
-                value={transport.StartDate || ""}
-                onChange={(e) =>
-                  handleTransportationChange(index, "StartDate", e.target.value)
-                }
-              />
-            </div>
-            <div className="col-md-3">
-              <label className="form-label">End Date</label>
-              <input
-                type="date"
-                className="form-control"
-                value={transport.EndDate || ""}
-                onChange={(e) =>
-                  handleTransportationChange(index, "EndDate", e.target.value)
-                }
-              />
-            </div>
-            <div className="col-md-3">
-              <label className="form-label">Quantity</label>
-              <input
-                type="number"
-                className="form-control"
-                value={transport.Quantity || ""}
-                onChange={(e) =>
-                  handleTransportationChange(index, "Quantity", e.target.value)
-                }
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* IT Components Section */}
-      <div className="form-check mb-3">
-        <input
-          type="checkbox"
-          id="HasIt"
-          className="form-check-input"
-          checked={eventData.HasIt === 1}
-          onChange={handleItComponentsCheckbox}
-        />
-        <label className="form-check-label fs-6" htmlFor="HasIt">
-          Requires IT Components
-        </label>
-      </div>
-      {eventData.HasIt === 1 && (
-        <div>
-          <div className="horizontal-rule mb-3">
-            <hr />
-            <h5 className="horizontal-rule-text fs-5">IT Components</h5>
-          </div>
-          <div className="row mb-3">
-            {itComponentsList.map((component) => (
-              <div key={component.itcomponentId} className="col-md-4">
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`itcomponent-${component.itcomponentId}`}
-                    value={component.itcomponentId}
-                    checked={eventData.ItcomponentEvents.some(
-                      (item) => item.itcomponentId === component.itcomponentId
-                    )}
-                    onChange={handleItComponentCheckbox}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor={`itcomponent-${component.itcomponentId}`}
-                  >
-                    {component.component}
-                  </label>
-                </div>
-                {eventData.ItcomponentEvents.some(
-                  (item) => item.itcomponentId === component.itcomponentId
-                ) && (
-                  <div className="mt-2">
+              {eventData.Transportations.map((transport, index) => (
+                <div key={index} className="row g-4 mt-3">
+                  <div className="col-md-3">
+                    <label className="form-label font-weight-bold text-dark">
+                      Type: {transport.TransportationTypeId}
+                    </label>
+                  </div>
+                  <div className="col-md-3">
                     <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Quantity"
-                      value={
-                        eventData.ItcomponentEvents.find(
-                          (item) =>
-                            item.itcomponentId === component.itcomponentId
-                        )?.Quantity || ""
-                      }
+                      type="date"
+                      className="form-control form-control-lg rounded shadow-sm"
+                      value={transport.StartDate || ""}
                       onChange={(e) =>
-                        handleItComponentQuantityChange(
-                          component.itcomponentId,
+                        handleTransportationChange(
+                          index,
+                          "StartDate",
                           e.target.value
                         )
                       }
                     />
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  <div className="col-md-3">
+                    <input
+                      type="date"
+                      className="form-control form-control-lg rounded shadow-sm"
+                      value={transport.EndDate || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "EndDate",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="col-md-3">
+                    <input
+                      type="number"
+                      className="form-control form-control-lg rounded shadow-sm"
+                      placeholder="Quantity"
+                      value={transport.Quantity || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "Quantity",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+
+        {/* IT Components Section */}
+        <div className="card shadow-sm p-3 mt-4">
+          <div className="d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="HasIt"
+              className="form-check-input me-2"
+              checked={eventData.HasIt === 1}
+              onChange={handleItComponentsCheckbox}
+            />
+            <label
+              className="form-check-label fs-5 font-weight-bold text-dark"
+              htmlFor="HasIt"
+            >
+              Requires IT Components
+            </label>
+          </div>
+
+          {eventData.HasIt === 1 && (
+            <div className="mt-3">
+              <h5 className="border-bottom pb-2 mb-3 text-dark">
+                IT Components
+              </h5>
+              <div className="row g-4">
+                {itComponentsList.map((component) => (
+                  <div key={component.itcomponentId} className="col-md-4">
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id={`itcomponent-${component.itcomponentId}`}
+                        value={component.itcomponentId}
+                        checked={eventData.ItcomponentEvents.some(
+                          (item) =>
+                            item.itcomponentId === component.itcomponentId
+                        )}
+                        onChange={handleItComponentCheckbox}
+                      />
+                      <label
+                        className="form-check-label text-dark"
+                        htmlFor={`itcomponent-${component.itcomponentId}`}
+                      >
+                        {component.component}
+                      </label>
+                    </div>
+                    {eventData.ItcomponentEvents.some(
+                      (item) => item.itcomponentId === component.itcomponentId
+                    ) && (
+                      <input
+                        type="number"
+                        className="form-control form-control-lg rounded shadow-sm mt-2"
+                        placeholder="Quantity"
+                        value={
+                          eventData.ItcomponentEvents.find(
+                            (item) =>
+                              item.itcomponentId === component.itcomponentId
+                          )?.Quantity || ""
+                        }
+                        onChange={(e) =>
+                          handleItComponentQuantityChange(
+                            component.itcomponentId,
+                            e.target.value
+                          )
+                        }
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
