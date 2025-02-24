@@ -36,7 +36,10 @@ const EventInfo = ({ eventData, seteventData }) => {
       case "EventEndDate":
         if (!value) {
           newErrors[name] = "End date is required.";
-        } else if (eventData.EventStartDate && value < eventData.EventStartDate) {
+        } else if (
+          eventData.EventStartDate &&
+          value < eventData.EventStartDate
+        ) {
           newErrors[name] = "End date cannot be before start date.";
         } else {
           delete newErrors[name];
@@ -72,7 +75,9 @@ const EventInfo = ({ eventData, seteventData }) => {
       <div className="row">
         {/* Event Title */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="EventTitle" className="form-label fs-6">Event Title</label>
+          <label htmlFor="EventTitle" className="form-label fs-6">
+            Event Title
+          </label>
           <input
             type="text"
             id="EventTitle"
@@ -82,12 +87,16 @@ const EventInfo = ({ eventData, seteventData }) => {
             className="form-control form-control-lg"
             required
           />
-          {errors.EventTitle && <small className="text-danger">{errors.EventTitle}</small>}
+          {errors.EventTitle && (
+            <small className="text-danger">{errors.EventTitle}</small>
+          )}
         </div>
 
         {/* Number of Participants */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="NomParticipants" className="form-label fs-6">Number of Participants</label>
+          <label htmlFor="NomParticipants" className="form-label fs-6">
+            Number of Participants
+          </label>
           <input
             type="number"
             id="NomParticipants"
@@ -97,12 +106,16 @@ const EventInfo = ({ eventData, seteventData }) => {
             className="form-control form-control-lg"
             min="1"
           />
-          {errors.NomParticipants && <small className="text-danger">{errors.NomParticipants}</small>}
+          {errors.NomParticipants && (
+            <small className="text-danger">{errors.NomParticipants}</small>
+          )}
         </div>
 
         {/* Event Start Date */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="EventStartDate" className="form-label fs-6">Event Start Date</label>
+          <label htmlFor="EventStartDate" className="form-label fs-6">
+            Event Start Date
+          </label>
           <input
             type="date"
             id="EventStartDate"
@@ -112,12 +125,16 @@ const EventInfo = ({ eventData, seteventData }) => {
             className="form-control form-control-lg"
             required
           />
-          {errors.EventStartDate && <small className="text-danger">{errors.EventStartDate}</small>}
+          {errors.EventStartDate && (
+            <small className="text-danger">{errors.EventStartDate}</small>
+          )}
         </div>
 
         {/* Event End Date */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="EventEndDate" className="form-label fs-6">Event End Date</label>
+          <label htmlFor="EventEndDate" className="form-label fs-6">
+            Event End Date
+          </label>
           <input
             type="date"
             id="EventEndDate"
@@ -126,12 +143,16 @@ const EventInfo = ({ eventData, seteventData }) => {
             onChange={handleChange}
             className="form-control form-control-lg"
           />
-          {errors.EventEndDate && <small className="text-danger">{errors.EventEndDate}</small>}
+          {errors.EventEndDate && (
+            <small className="text-danger">{errors.EventEndDate}</small>
+          )}
         </div>
 
         {/* Organizer Name */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerName" className="form-label fs-6">Organizer Name</label>
+          <label htmlFor="OrganizerName" className="form-label fs-6">
+            Organizer Name
+          </label>
           <input
             type="text"
             id="OrganizerName"
@@ -144,7 +165,9 @@ const EventInfo = ({ eventData, seteventData }) => {
 
         {/* Organizer Mobile */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerMobile" className="form-label fs-6">Organizer Mobile</label>
+          <label htmlFor="OrganizerMobile" className="form-label fs-6">
+            Organizer Mobile
+          </label>
           <input
             type="tel"
             id="OrganizerMobile"
@@ -155,12 +178,16 @@ const EventInfo = ({ eventData, seteventData }) => {
             className="form-control form-control-lg"
             placeholder="Enter valid Egyptian phone number"
           />
-          {errors.OrganizerMobile && <small className="text-danger">{errors.OrganizerMobile}</small>}
+          {errors.OrganizerMobile && (
+            <small className="text-danger">{errors.OrganizerMobile}</small>
+          )}
         </div>
 
         {/* Organizer Extension */}
         <div className="col-md-6 mb-4">
-          <label htmlFor="OrganizerExtention" className="form-label fs-6">Organizer Extension</label>
+          <label htmlFor="OrganizerExtention" className="form-label fs-6">
+            Organizer Extension
+          </label>
           <input
             type="text"
             id="OrganizerExtention"
@@ -169,7 +196,26 @@ const EventInfo = ({ eventData, seteventData }) => {
             onChange={handleChange}
             className="form-control form-control-lg"
           />
-          {errors.OrganizerExtention && <small className="text-danger">{errors.OrganizerExtention}</small>}
+          {errors.OrganizerExtention && (
+            <small className="text-danger">{errors.OrganizerExtention}</small>
+          )}
+        </div>
+        {/* Organizer Extension */}
+        <div className="col-md-6 mb-4">
+          <label htmlFor="OrganizerExtention" className="form-label fs-6">
+            Organizer Email
+          </label>
+          <input
+            type="email"
+            id="OrganizerExtention"
+            name="OrganizerExtention"
+            value={eventData.organizerEmail || ""}
+            onChange={handleChange}
+            className="form-control form-control-lg"
+          />
+          {/* {errors.organizerEmail && (
+            <small className="text-danger">{errors.organizerEmail}</small>
+          )} */}
         </div>
       </div>
     </div>
