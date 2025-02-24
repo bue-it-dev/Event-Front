@@ -50,18 +50,16 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
   }, []);
 
   return (
-    <div className="mt-3 flex-grow-1" style={{ gap: "1rem" }} key={index}>
-      <div className="row">
-        <div>
+    <div className="card shadow-sm p-3 mb-3">
+      <div className="row align-items-center">
+        {/* Building Select */}
+        <div className="col-md-6">
+          <label className="form-label font-weight-bold">Select Building</label>
           <select
-            className="form-select form-select-lg custom-select"
+            className="form-control custom-select custom-select-lg"
             onChange={(e) => {
               const buildingId = e.target.value;
               setSelectedBuildingId(buildingId);
-              //   seteventData({
-              //     ...eventData,
-              //     BuildingVenues: buildingId,
-              //   });
               getVenues(buildingId);
             }}
             name="buildings"
@@ -76,19 +74,20 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
           </select>
         </div>
 
+        {/* Venue Select (Shown Only When Building is Selected) */}
         {selectedBuildingId && (
-          <div className="mt-4">
+          <div className="col-md-5 mt-3 mt-md-0">
+            <label className="form-label font-weight-bold">Select Venue</label>
             <select
-              className="form-select form-select-lg custom-select"
+              className="form-control custom-select custom-select-lg"
               onChange={(e) => {
                 const venueId = e.target.value;
-
                 seteventData((prev) => {
                   const updatedVenues = [...prev.BuildingVenues];
                   updatedVenues[index] = {
                     ...updatedVenues[index],
-                    venueId, // Updating the correct venueId
-                    eventId: prev.eventId, // Ensure eventId is preserved
+                    venueId,
+                    eventId: prev.eventId,
                   };
                   return { ...prev, BuildingVenues: updatedVenues };
                 });
@@ -105,78 +104,26 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
             </select>
           </div>
         )}
-        {/* Building Dropdown */}
-        {/* <select
-          className="form-select form-select-lg custom-select"
-          onChange={(e) => {
-            const buildingId = e.target.value;
-            setSelectedBuildingId(buildingId);
-            seteventData((prev) => {
-              const updatedVenues = [...prev.BuildingVenues];
-              updatedVenues[index] = { ...updatedVenues[index], buildingId };
-              return { ...prev, BuildingVenues: updatedVenues };
-            });
-            getVenues(buildingId);
-          }}
-          name="buildings"
-          required
-        >
-          <option value="">Select building</option>
-          {buildings.map((data) => (
-            <option key={data.buildingId} value={data.buildingId}>
-              {data.building}
-            </option>
-          ))}
-        </select>
-        <br />
-        <br />
-        {selectedBuildingId && (
-          <select
-            className="form-select form-select-lg custom-select"
-            onChange={(e) => {
-              const venueId = e.target.value;
-              seteventData((prev) => {
-                const updatedVenues = [...prev.BuildingVenues];
-                updatedVenues[index] = { ...updatedVenues[index], venueId };
-                return { ...prev, BuildingVenues: updatedVenues };
-              });
+
+        {/* Delete Button */}
+        <div className="col-md-1 d-flex justify-content-center align-items-center mt-3 mt-md-0">
+          <button
+            type="button"
+            className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
+            style={{ width: "42px", height: "42px" }}
+            onClick={() => {
+              seteventData((prev) => ({
+                ...prev,
+                BuildingVenues: prev.BuildingVenues.filter(
+                  (_, i) => i !== index
+                ),
+              }));
             }}
-            name="venues"
-            required
           >
-            <option value="">Select venue</option>
-            {venues.map((venue) => (
-              <option key={venue.id} value={venue.id}>
-                {venue.venueName}
-              </option>
-            ))}
-          </select>
-        // )} */}
+            <i className="bi bi-trash"></i>
+          </button>
+        </div>
       </div>
-      <br />
-      {/* Delete Button */}
-      <button
-        type="button"
-        className="btn btn-lg"
-        style={{
-          color: "darkred",
-          borderRadius: "50%",
-          padding: "10px",
-          width: "48px",
-          height: "48px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onClick={() => {
-          seteventData((prev) => ({
-            ...prev,
-            BuildingVenues: prev.BuildingVenues.filter((_, i) => i !== index),
-          }));
-        }}
-      >
-        <i className="bi bi-trash"></i>
-      </button>
     </div>
   );
 };
