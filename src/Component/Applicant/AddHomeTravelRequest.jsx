@@ -187,7 +187,8 @@ const AddHomeTravelRequest = () => {
                   eventData={eventData}
                   setEventData={seteventData}
                 />
-
+                <br />
+                <br />
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
@@ -222,7 +223,7 @@ const AddHomeTravelRequest = () => {
                     seteventData={seteventData}
                   />
                 ))}
-
+                <br />
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
