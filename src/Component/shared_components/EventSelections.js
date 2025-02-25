@@ -179,9 +179,9 @@ const EventSelections = ({ eventData, setEventData }) => {
         ) {
           updatedTransportations.push({
             TransportationTypeId: transportationTypeId,
-            StartDate: "",
-            EndDate: "",
-            Quantity: "",
+            startDate: "",
+            endDate: "",
+            number: "",
           });
         }
       } else {
@@ -474,11 +474,11 @@ const EventSelections = ({ eventData, setEventData }) => {
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
-                      value={transport.StartDate || ""}
+                      value={transport.startDate || ""}
                       onChange={(e) =>
                         handleTransportationChange(
                           index,
-                          "StartDate",
+                          "startDate",
                           e.target.value
                         )
                       }
@@ -488,11 +488,11 @@ const EventSelections = ({ eventData, setEventData }) => {
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
-                      value={transport.EndDate || ""}
+                      value={transport.endDate || ""}
                       onChange={(e) =>
                         handleTransportationChange(
                           index,
-                          "EndDate",
+                          "endDate",
                           e.target.value
                         )
                       }
@@ -507,7 +507,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       onChange={(e) =>
                         handleTransportationChange(
                           index,
-                          "Quantity",
+                          "number",
                           e.target.value
                         )
                       }
