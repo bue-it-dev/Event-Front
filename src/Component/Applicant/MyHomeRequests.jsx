@@ -41,10 +41,10 @@ const MyEvents = () => {
 
   const handleDelete = (eventId) => {
     const toastId = "delete-confirmation"; // Unique ID to control this toast
-  
+
     // Check if the confirmation toast is already active
     if (toast.isActive(toastId)) return;
-  
+
     toast(
       <div>
         Are you sure you want to delete this event?
@@ -110,8 +110,8 @@ const MyEvents = () => {
       }
     );
   };
-  
-  
+
+
 
   const handleUpdate = (eventId) => {
     window.location.href = `/update-event/${eventId}`;
@@ -124,11 +124,18 @@ const MyEvents = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Created At", field: "createdAt", sort: "asc" },
-      { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "Title", field: "eventTitle", sort: "asc" },
+      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
+      //{ label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
+      //{ label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
+      { label: "Approving Deptartment", field: "approvingDeptName", sort: "asc" },
       { label: "Start Date", field: "eventStartDate", sort: "asc" },
       { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Created At", field: "createdAt", sort: "asc" },
+      { label: "Updated At", field: "updateAt", sort: "asc" },
+      { label: "confirmed At", field: "confirmedAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Actions", field: "actions", sort: "disabled" },
     ],
@@ -138,18 +145,32 @@ const MyEvents = () => {
       updateAt: event.updateAt
         ? new Date(event.updateAt).toLocaleDateString()
         : "N/A",
+      confirmedAt: event.confirmedAt
+        ? new Date(event.confirmedAt).toLocaleDateString()
+        : "N/A",
       eventTitle: event.eventTitle,
       eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
       eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+      OrganizerName: event.organizerName || "N/A",
+      approvingDeptName: event.approvingDeptName || "N/A",
+      //OrganizerMobile: event.organizerMobile || "N/A",
+      //OrganizerExtension: event.organizerExtension || "N/A",
+      //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
         <>
           <button
-            className="btn btn-warning btn-sm mx-1"
+            className="btn btn-sm mx-1 mb-1"
+            style={{
+              color: "white",
+              backgroundColor: "#343a40",
+              borderColor: "#343a40"
+            }}
             onClick={() => handleUpdate(event.eventId)}
           >
             Update
           </button>
+
           <button
             className="btn btn-danger btn-sm"
             onClick={() => handleDelete(event.eventId)}
@@ -159,6 +180,7 @@ const MyEvents = () => {
         </>
       ),
     })),
+
   };
 
   return (
@@ -173,8 +195,8 @@ const MyEvents = () => {
           </Spinner>
         </div>
       ) : (
-        <div className="row">
-          <Table responsive>
+        <div className="table-responsive-wrapper">
+          <div className="table-responsive">
             <MDBDataTable
               className="custom-table"
               striped
@@ -184,8 +206,10 @@ const MyEvents = () => {
               order={["Number", "asc"]}
               entries={10}
             />
-          </Table>
+          </div>
         </div>
+
+
       )}
       <ToastContainer position="top-center" autoClose={3000} />
     </div>
