@@ -1,7 +1,27 @@
 import React, { useState } from "react";
-
+import { getToken } from "../Util/Authenticate";
+import axios from "axios";
+import URL from "../Util/config";
 const EventInfo = ({ eventData, seteventData }) => {
   const [errors, setErrors] = useState({});
+  const [natureofevents, setnatureofEvents] = useState([]);
+  // Get List of Approval Department Schema
+  const GetNatureofEvents = () => {
+    var config = {
+      method: "get",
+      url: `${URL.BASE_URL}/api/EventEntity/get-naturesOfEvent`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setnatureofEvents(response.data.data);
+      })
+      .catch(function (error) {
+        console.error("Error fetching departments:", error);
+      });
+  };
 
   // Validate input and update state
   const handleChange = (e) => {
@@ -62,6 +82,14 @@ const EventInfo = ({ eventData, seteventData }) => {
         }
         break;
 
+      case "organizerPosition":
+        if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+          newErrors[name] = "Organizer Position must contain only letters.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
       default:
         break;
     }
@@ -69,7 +97,11 @@ const EventInfo = ({ eventData, seteventData }) => {
     seteventData({ ...eventData, [name]: value });
     setErrors(newErrors);
   };
-
+  React.useEffect(() => {
+    // setisLoading(false);
+    GetNatureofEvents();
+    // Getbuildings();
+  }, []);
   return (
     <div className="container-fluid">
       <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
@@ -246,6 +278,54 @@ const EventInfo = ({ eventData, seteventData }) => {
                 className="form-control form-control-lg"
               />
             </div>
+          </div>
+          {/* Organizer Extension */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="organizerPosition"
+              className="form-label font-weight-bold"
+            >
+              Organizer Position
+            </label>
+            <input
+              type="text"
+              id="organizerPosition"
+              name="organizerPosition"
+              value={eventData.organizerPosition || ""}
+              onChange={handleChange}
+              className="form-control form-control-lg w-100"
+            />
+            {errors.organizerPosition && (
+              <small className="text-danger">{errors.organizerPosition}</small>
+            )}
+          </div>
+
+          {/* Organizer Email */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="natureOfEventId"
+              className="form-label font-weight-bold"
+            >
+              Nature of Event
+            </label>
+            <select
+              className="form-select form-select-lg"
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  natureOfEventId: Number(e.target.value),
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option value="">Select nature of event</option>
+              {natureofevents.map((data) => (
+                <option key={data.natureOfEventId} value={data.natureOfEventId}>
+                  {data.natureOfEvent}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

@@ -29,6 +29,8 @@ const AddHomeTravelRequest = () => {
     EventEndDate: null,
     HasIt: 0,
     HasAccomodation: 0,
+    natureOfEventId: 0,
+    organizerPosition: "",
     HasTransportation: 0,
     OrganizerName: "",
     OrganizerMobile: "",
