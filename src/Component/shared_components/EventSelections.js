@@ -126,6 +126,43 @@ const EventSelections = ({ eventData, setEventData }) => {
   };
 
   // Transportation: when a checkbox is toggled, add/remove a transportation object
+  const handleAccommodatitonTypeCheckbox = (e) => {
+    const { value, checked } = e.target;
+    const roomTypeId = Number(value); // Ensure ID is a number
+
+    setEventData((prevData) => {
+      let updatedAccommodations = [...prevData.Accommodations];
+
+      if (checked) {
+        // Add only if it doesn't already exist
+        if (!updatedAccommodations.some((t) => t.roomTypeId === roomTypeId)) {
+          updatedAccommodations.push({
+            roomTypeId: roomTypeId,
+            startDate: "",
+            endDate: "",
+            numOfRooms: "",
+          });
+        }
+      } else {
+        // Remove the item if unchecked
+        updatedAccommodations = updatedAccommodations.filter(
+          (t) => t.roomTypeId !== roomTypeId
+        );
+      }
+
+      return { ...prevData, Accommodations: updatedAccommodations };
+    });
+  };
+
+  // Update fields (StartDate, EndDate, Quantity) for a transportation object
+  const handleAcommodationChange = (index, field, value) => {
+    const updatedAccommodations = eventData.Accommodations.map((accomm, i) =>
+      i === index ? { ...accomm, [field]: value } : accomm
+    );
+    setEventData({ ...eventData, Accommodations: updatedAccommodations });
+  };
+
+  // Transportation: when a checkbox is toggled, add/remove a transportation object
   const handleTransportationTypeCheckbox = (e) => {
     const { value, checked } = e.target;
     const transportationTypeId = Number(value); // Ensure ID is a number
@@ -237,7 +274,87 @@ const EventSelections = ({ eventData, setEventData }) => {
           {eventData.HasAccomdation === 1 && (
             <div className="mt-3">
               <div className="row g-3">
-                {roomTypes.map((room) => (
+                <div className="row g-3">
+                  {roomTypes.map((type) => (
+                    <div key={type.roomTypeId} className="col-md-3">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={`Rooms-${type.roomTypeId}`}
+                          value={type.roomTypeId}
+                          checked={eventData.Accommodations.some(
+                            (t) => t.roomTypeId === type.roomTypeId
+                          )}
+                          onChange={handleAccommodatitonTypeCheckbox}
+                        />
+                        <label
+                          className="form-check-label text-dark"
+                          htmlFor={`transportation-${type.roomTypeId}`}
+                          style={{ fontSize: "14px" }}
+                        >
+                          {type.roomTypeName}
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {eventData.Accommodations.map((accom, index) => (
+                  <div key={index} className="row g-3 mt-3">
+                    <div className="col-md-3">
+                      <label
+                        className="form-label font-weight-bold text-dark"
+                        style={{ fontSize: "14px" }}
+                      >
+                        Type: {accom.roomTypeId}
+                      </label>
+                    </div>
+                    <div className="col-md-3">
+                      <input
+                        type="date"
+                        className="form-control form-control-sm rounded shadow-sm"
+                        value={accom.startDate || ""}
+                        onChange={(e) =>
+                          handleAcommodationChange(
+                            index,
+                            "startDate",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <input
+                        type="date"
+                        className="form-control form-control-sm rounded shadow-sm"
+                        value={accom.endDate || ""}
+                        onChange={(e) =>
+                          handleAcommodationChange(
+                            index,
+                            "endDate",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <input
+                        type="number"
+                        className="form-control form-control-sm rounded shadow-sm"
+                        placeholder="Quantity"
+                        value={accom.numOfRooms || ""}
+                        onChange={(e) =>
+                          handleAcommodationChange(
+                            index,
+                            "numOfRooms",
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+                {/* {roomTypes.map((room) => (
                   <div key={room.roomTypeId} className="col-md-3">
                     <div className="form-check">
                       <input
@@ -281,7 +398,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       />
                     )}
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           )}
