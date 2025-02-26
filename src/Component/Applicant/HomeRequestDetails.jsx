@@ -135,7 +135,7 @@ const HomeRequestDetails = () => {
     confirmedAt: null,
     isVip: 0,
     passports: [],
-    ItcomponentEvents: [
+    itcomponentEvents: [
       {
         id: 0,
         eventId: 0,
@@ -143,7 +143,7 @@ const HomeRequestDetails = () => {
         quantity: 0,
       },
     ],
-    Transportations: [
+    transportations: [
       {
         transportationTypeId: 0,
         eventId: 0,
@@ -152,7 +152,7 @@ const HomeRequestDetails = () => {
         quantity: 0,
       },
     ],
-    Accommodations: [
+    accommodations: [
       {
         roomTypeId: 0,
         eventId: 0,
@@ -185,10 +185,10 @@ const HomeRequestDetails = () => {
       seteventData((prev) => ({
         ...prev,
         BuildingVenues: prev.BuildingVenues ?? [],
-        Transportations: prev?.Transportations ? [...prev.Transportations] : [],
-        Accommodations: prev?.Accommodations ? [...prev.Accommodations] : [],
-        ItcomponentEvents: prev?.ItcomponentEvents
-          ? [...prev.ItcomponentEvents]
+        transportations: prev?.transportations ? [...prev.transportations] : [],
+        accommodations: prev?.accommodations ? [...prev.accommodations] : [],
+        itcomponentEvents: prev?.itcomponentEvents
+          ? [...prev.itcomponentEvents]
           : [],
       }));
       console.log("Event Data", eventData);
@@ -349,7 +349,7 @@ const HomeRequestDetails = () => {
     seteventData((prevData) => ({
       ...prevData,
       HasAccomdation: isChecked ? 1 : 0,
-      Accommodations: isChecked ? [] : [],
+      accommodations: isChecked ? [] : [],
     }));
   };
 
@@ -370,12 +370,12 @@ const HomeRequestDetails = () => {
     const roomTypeId = Number(value); // Ensure ID is a number
 
     seteventData((prevData) => {
-      let updatedAccommodations = [...prevData.Accommodations];
+      let updatedaccommodations = [...prevData.accommodations];
 
       if (checked) {
         // Add only if it doesn't already exist
-        if (!updatedAccommodations.some((t) => t.roomTypeId === roomTypeId)) {
-          updatedAccommodations.push({
+        if (!updatedaccommodations.some((t) => t.roomTypeId === roomTypeId)) {
+          updatedaccommodations.push({
             roomTypeId: roomTypeId,
             startDate: "",
             endDate: "",
@@ -384,21 +384,21 @@ const HomeRequestDetails = () => {
         }
       } else {
         // Remove the item if unchecked
-        updatedAccommodations = updatedAccommodations.filter(
+        updatedaccommodations = updatedaccommodations.filter(
           (t) => t.roomTypeId !== roomTypeId
         );
       }
 
-      return { ...prevData, Accommodations: updatedAccommodations };
+      return { ...prevData, accommodations: updatedaccommodations };
     });
   };
 
   // Update fields (StartDate, EndDate, Quantity) for a transportation object
   const handleAcommodationChange = (index, field, value) => {
-    const updatedAccommodations = eventData.Accommodations.map((accomm, i) =>
+    const updatedaccommodations = eventData.accommodations.map((accomm, i) =>
       i === index ? { ...accomm, [field]: value } : accomm
     );
-    seteventData({ ...eventData, Accommodations: updatedAccommodations });
+    seteventData({ ...eventData, accommodations: updatedaccommodations });
   };
 
   // Transportation: when a checkbox is toggled, add/remove a transportation object
@@ -407,16 +407,16 @@ const HomeRequestDetails = () => {
     const transportationTypeId = Number(value); // Ensure ID is a number
 
     seteventData((prevData) => {
-      let updatedTransportations = [...prevData.Transportations];
+      let updatedtransportations = [...prevData.transportations];
 
       if (checked) {
         // Add only if it doesn't already exist
         if (
-          !updatedTransportations.some(
+          !updatedtransportations.some(
             (t) => t.TransportationTypeId === transportationTypeId
           )
         ) {
-          updatedTransportations.push({
+          updatedtransportations.push({
             TransportationTypeId: transportationTypeId,
             startDate: "",
             endDate: "",
@@ -425,22 +425,22 @@ const HomeRequestDetails = () => {
         }
       } else {
         // Remove the item if unchecked
-        updatedTransportations = updatedTransportations.filter(
+        updatedtransportations = updatedtransportations.filter(
           (t) => t.TransportationTypeId !== transportationTypeId
         );
       }
 
-      return { ...prevData, Transportations: updatedTransportations };
+      return { ...prevData, transportations: updatedtransportations };
     });
   };
 
   // Update fields (StartDate, EndDate, Quantity) for a transportation object
   const handleTransportationChange = (index, field, value) => {
-    const updatedTransportations = eventData.Transportations.map(
+    const updatedtransportations = eventData.transportations.map(
       (transport, i) =>
         i === index ? { ...transport, [field]: value } : transport
     );
-    seteventData({ ...eventData, Transportations: updatedTransportations });
+    seteventData({ ...eventData, transportations: updatedtransportations });
   };
 
   const handleItComponentCheckbox = (e) => {
@@ -448,7 +448,7 @@ const HomeRequestDetails = () => {
     const itcomponentId = Number(value); // Ensure ID is a number
 
     seteventData((prevData) => {
-      let updatedItComponents = [...prevData.ItcomponentEvents];
+      let updatedItComponents = [...prevData.itcomponentEvents];
 
       if (checked) {
         // Add only if it doesn't already exist
@@ -466,19 +466,19 @@ const HomeRequestDetails = () => {
         );
       }
 
-      return { ...prevData, ItcomponentEvents: updatedItComponents };
+      return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
 
   const handleItComponentQuantityChange = (itcomponentId, value) => {
     seteventData((prevData) => {
-      const updatedItComponents = prevData.ItcomponentEvents.map((item) =>
+      const updatedItComponents = prevData.itcomponentEvents.map((item) =>
         item.itcomponentId === itcomponentId
           ? { ...item, Quantity: value }
           : item
       );
 
-      return { ...prevData, ItcomponentEvents: updatedItComponents };
+      return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
   useEffect(() => {
@@ -835,7 +835,7 @@ const HomeRequestDetails = () => {
                                       className="form-check-input"
                                       id={`Rooms-${type.roomTypeId}`}
                                       value={type.roomTypeId}
-                                      checked={eventData?.Accommodations?.some(
+                                      checked={eventData?.accommodations?.some(
                                         (t) => t.roomTypeId === type.roomTypeId
                                       )}
                                       onChange={
@@ -853,7 +853,7 @@ const HomeRequestDetails = () => {
                                 </div>
                               ))}
                             </div>
-                            {eventData.Accommodations.map((accom, index) => (
+                            {eventData.accommodations.map((accom, index) => (
                               <div key={index} className="row g-3 mt-3">
                                 <div className="col-md-3">
                                   <label
@@ -955,7 +955,7 @@ const HomeRequestDetails = () => {
                                     className="form-check-input"
                                     id={`transportation-${type.transportationTypeId}`}
                                     value={type.transportationTypeId}
-                                    checked={eventData?.Transportations?.some(
+                                    checked={eventData?.transportations?.some(
                                       (t) =>
                                         t.TransportationTypeId ===
                                         type.transportationTypeId
@@ -974,7 +974,7 @@ const HomeRequestDetails = () => {
                             ))}
                           </div>
 
-                          {eventData?.Transportations?.map(
+                          {eventData?.transportations?.map(
                             (transport, index) => (
                               <div key={index} className="row g-3 mt-3">
                                 <div className="col-md-3">
@@ -1071,7 +1071,7 @@ const HomeRequestDetails = () => {
                                     className="form-check-input"
                                     id={`itcomponent-${component.itcomponentId}`}
                                     value={component.itcomponentId}
-                                    checked={eventData?.ItcomponentEvents?.some(
+                                    checked={eventData?.itcomponentEvents?.some(
                                       (item) =>
                                         item.itcomponentId ===
                                         component.itcomponentId
@@ -1086,7 +1086,7 @@ const HomeRequestDetails = () => {
                                     {component.component}
                                   </label>
                                 </div>
-                                {eventData?.ItcomponentEvents?.some(
+                                {eventData?.itcomponentEvents?.some(
                                   (item) =>
                                     item.itcomponentId ===
                                     component.itcomponentId
@@ -1096,7 +1096,7 @@ const HomeRequestDetails = () => {
                                     className="form-control form-control-sm rounded shadow-sm mt-2"
                                     placeholder="Quantity"
                                     value={
-                                      eventData.ItcomponentEvents.find(
+                                      eventData.itcomponentEvents.find(
                                         (item) =>
                                           item.itcomponentId ===
                                           component.itcomponentId
