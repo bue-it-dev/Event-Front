@@ -29,6 +29,7 @@ import { useUser } from "./Component/Entities";
 import ProtectedRoute from "./Component/Common/ProtectedRoute";
 import Header from "./Component/Header/Header";
 import Footer from "./Component/NewFooter/Footer";
+import HomeRequestDetails from "./Component/Applicant/HomeRequestDetails";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -552,6 +553,11 @@ function App() {
                       path="/my-event-requests"
                       exact
                       component={MyHomeRequests}
+                    />
+                    <ProtectedRoute
+                      path="/event-request-details"
+                      exact
+                      component={HomeRequestDetails}
                     />
                     <Route path="*" exact component={Page404} />
                     {/* <ProtectedRoute

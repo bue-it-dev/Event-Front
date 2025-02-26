@@ -17,9 +17,6 @@ const AddHomeTravelRequest = () => {
   const history = useHistory();
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [buildings, setbuildings] = React.useState([]);
-  const [selectedBuildingId, setSelectedBuildingId] = useState(null);
-  const [venuse, setvenuse] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
   const [eventData, seteventData] = React.useState({
     eventId: 0,

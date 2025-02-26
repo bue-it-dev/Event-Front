@@ -11,7 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import ApplicantTabs from "./ApplicantTabs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Link } from "react-router-dom";
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +55,7 @@ const MyEvents = () => {
               color: "white",
               border: "none",
               padding: "5px 10px",
-              borderRadius: "3px"
+              borderRadius: "3px",
             }}
             onClick={async () => {
               toast.dismiss(toastId); // Dismiss the confirmation toast
@@ -94,7 +94,7 @@ const MyEvents = () => {
               border: "none",
               padding: "5px 10px",
               borderRadius: "3px",
-              marginLeft: "10px"
+              marginLeft: "10px",
             }}
             onClick={() => toast.dismiss(toastId)}
           >
@@ -106,12 +106,10 @@ const MyEvents = () => {
         toastId: toastId, // Ensure it's unique
         autoClose: false,
         closeButton: false,
-        position: "top-center"
+        position: "top-center",
       }
     );
   };
-
-
 
   const handleUpdate = (eventId) => {
     window.location.href = `/update-event/${eventId}`;
@@ -130,7 +128,11 @@ const MyEvents = () => {
       //{ label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
-      { label: "Approving Deptartment", field: "approvingDeptName", sort: "asc" },
+      {
+        label: "Approving Deptartment",
+        field: "approvingDeptName",
+        sort: "asc",
+      },
       { label: "Start Date", field: "eventStartDate", sort: "asc" },
       { label: "End Date", field: "eventEndDate", sort: "asc" },
       { label: "Created At", field: "createdAt", sort: "asc" },
@@ -141,6 +143,7 @@ const MyEvents = () => {
     ],
     rows: events.map((event, i) => ({
       Number: i + 1,
+      eventId: event.eventId,
       createdAt: new Date(event.createdAt).toLocaleDateString(),
       updateAt: event.updateAt
         ? new Date(event.updateAt).toLocaleDateString()
@@ -159,17 +162,19 @@ const MyEvents = () => {
       statusName: event.statusName,
       actions: (
         <>
-          <button
-            className="btn btn-sm mx-1 mb-1"
-            style={{
-              color: "white",
-              backgroundColor: "#343a40",
-              borderColor: "#343a40"
+          <Link
+            to={{
+              pathname: "/event-request-details",
+              state: {
+                requestId: event.eventId,
+                statusName: event.statusName,
+              },
             }}
-            onClick={() => handleUpdate(event.eventId)}
           >
-            Update
-          </button>
+            <button type="button" className="btn btn-success btn-sm">
+              View
+            </button>
+          </Link>
 
           <button
             className="btn btn-danger btn-sm"
@@ -180,7 +185,6 @@ const MyEvents = () => {
         </>
       ),
     })),
-
   };
 
   return (
@@ -208,8 +212,6 @@ const MyEvents = () => {
             />
           </div>
         </div>
-
-
       )}
       <ToastContainer position="top-center" autoClose={3000} />
     </div>
