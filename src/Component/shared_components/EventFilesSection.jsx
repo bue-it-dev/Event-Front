@@ -184,22 +184,22 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <div className="form-check form-check-lg">
                   <input
                     type="checkbox"
-                    id="IsOthersNOTVIP"
-                    name="IsOthersNOTVIP"
+                    id="isVIP"
+                    name="isVIP"
                     className="form-check-input"
-                    checked={eventData.IsOthersNOTVIP === 1}
+                    checked={eventData.isVIP === 1}
                     onChange={handleCheckboxChange}
                   />
                   <label
                     className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
-                    htmlFor="IsOthers"
+                    htmlFor="isVIP"
                   >
                     Will the event be attended by international guests
                     (excluding VIPs)
                   </label>
                 </div>
               </div>
-              {eventData.IsOthersNOTVIP === 1 && (
+              {eventData.isVIP === 1 && (
                 <>
                   {/* Passport Files Section */}
                   <div className="mt-3">

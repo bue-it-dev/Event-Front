@@ -39,7 +39,7 @@ const AddHomeTravelRequest = () => {
     approvingDepTypeId: 0,
     DeptId: null,
     IsOthers: null,
-    IsOthersNOTVIP: null,
+    isVIP: null,
     IsStaffStudents: null,
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
