@@ -17,10 +17,90 @@ import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueL
 
 const HomeRequestDetails = () => {
   const history = useHistory();
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [transportationTypes, setTransportationTypes] = useState([]);
+  const [itComponentsList, setItComponentsList] = useState([]);
   const [isLoading, setisLoading] = React.useState(true);
+  const [errors, setErrors] = useState({});
+  const [natureofevents, setnatureofEvents] = useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
+  const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
+  // Validate input and update state
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let newErrors = { ...errors };
+
+    switch (name) {
+      case "eventTitle":
+        if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+          newErrors[name] = "Event title must contain only letters.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "nomParticipants":
+        if (!/^\d+$/.test(value) || parseInt(value, 10) < 1) {
+          newErrors[name] = "Participants must be a positive number.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "eventStartDate":
+        if (!value) {
+          newErrors[name] = "Start date is required.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "EventEndDate":
+        if (!value) {
+          newErrors[name] = "End date is required.";
+        } else if (
+          eventData.EventStartDate &&
+          value < eventData.EventStartDate
+        ) {
+          newErrors[name] = "End date cannot be before start date.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "OrganizerMobile":
+        if (!/^01(0|1|2|5)\d{8}$/.test(value) && value !== "") {
+          newErrors[name] = "Enter a valid Egyptian phone number (11 digits).";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "OrganizerExtention":
+        if (!/^\d{4}$/.test(value) && value !== "") {
+          newErrors[name] = "Extension must be exactly 4 digits.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      case "organizerPosition":
+        if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+          newErrors[name] = "Organizer Position must contain only letters.";
+        } else {
+          delete newErrors[name];
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    seteventData({ ...eventData, [name]: value });
+    setErrors(newErrors);
+  };
   if (location.state) {
     let saverequestId = JSON.stringify(location.state.requestId);
     // let saverequeststatus = JSON.stringify(location.state.statusname);
@@ -31,50 +111,42 @@ const HomeRequestDetails = () => {
   // let status = JSON.parse(localStorage.getItem("status"));
   const [eventData, seteventData] = React.useState({
     eventId: 0,
-    EventTitle: "",
-    NomParticipants: null,
-    EventStartDate: null,
-    EventEndDate: null,
-    HasIt: 0,
-    HasAccomodation: 0,
-    natureOfEventId: 0,
-    organizerPosition: "",
-    HasTransportation: 0,
-    OrganizerName: "",
-    OrganizerMobile: "",
-    organizerEmail: "",
-    OrganizerExtention: "",
     approvingDepTypeId: 0,
-    DeptId: null,
-    IsOthers: null,
-    isVIP: null,
-    IsStaffStudents: null,
-    IsChairBoardPrisidentVcb: null,
-    LedOfTheUniversityOrganizerFile: null,
-    OfficeOfPresedentFile: null,
-    passportFiles: [],
-    VisitAgendaFile: null,
-    ItcomponentEvents: [],
+    eventTitle: "",
+    nomParticipants: 0,
+    eventStartDate: null,
+    eventEndDate: null,
+    hasIt: 0,
+    hasAccomdation: 0,
+    hasTransportation: 0,
+    endDateTime: null,
+    startDateTime: null,
+    organizerName: "",
+    organizerMobile: "",
+    organizerExtention: "",
+    approvingDeptName: null,
+    deptId: null,
+    isOthers: 0,
+    isStaffStudents: 0,
+    isChairBoardPrisidentVcb: 0,
+    ledOfTheUniversityOrganizerFilePath: null,
+    officeOfPresedentFilePath: null,
+    visitAgendaFilePath: null,
+    confirmedAt: null,
+    isVip: 0,
+    passports: [],
     Transportations: [],
     Accommodations: [],
-    BuildingVenues: [],
+    BuildingVenues: [
+      {
+        eventId: 0, // Initialize empty
+        venueId: 1, // Initialize empty
+      },
+    ],
     Venues: null,
     travellerList: 0,
   });
-  const addBuildingVenue = () => {
-    seteventData((prevData) => ({
-      ...prevData,
-      travellerList: prevData.travellerList + 1,
-      BuildingVenues: [
-        ...prevData.BuildingVenues,
-        {
-          eventId: prevData.eventId, // Initialize empty
-          venueId: prevData.venueId, // Initialize empty
-        },
-      ],
-    }));
-  };
-  const [approvalTracker, setApprovalTracker] = useState([]);
+
   const GetEventDetails = async (eventId) => {
     try {
       const response = await axios.get(
@@ -85,10 +157,32 @@ const HomeRequestDetails = () => {
           },
         }
       );
-      seteventData(response.data);
+      seteventData(response.data.data);
+      seteventData((prev) => ({
+        ...prev,
+        BuildingVenues: prev.BuildingVenues ?? [],
+      }));
+      console.log("Event Data", eventData);
     } catch (error) {
       console.error("Error fetching event Details:", error);
     }
+  };
+  // Get List of GetNatureofEvents
+  const GetNatureofEvents = () => {
+    var config = {
+      method: "get",
+      url: `${URL.BASE_URL}/api/EventEntity/get-naturesOfEvent`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setnatureofEvents(response.data.data);
+      })
+      .catch(function (error) {
+        console.error("Error fetching departments:", error);
+      });
   };
   // Get List of Approval Department Schema
   const GetApprovalDepartmentSchema = () => {
@@ -106,6 +200,63 @@ const HomeRequestDetails = () => {
       .catch(function (error) {
         console.error("Error fetching departments:", error);
       });
+  };
+  // Fetch room types
+  const getRoomTypes = async () => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-rooms`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      );
+      setRoomTypes(response.data.data);
+    } catch (error) {
+      console.error("Error fetching room types:", error);
+    }
+  };
+
+  // Fetch transportation types
+  const getTransportationTypes = async () => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-transportationType`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      );
+      setTransportationTypes(response.data.data);
+    } catch (error) {
+      console.error("Error fetching transportation types:", error);
+    }
+  };
+
+  // Fetch IT components
+  const getItComponents = async () => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-itComponents`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      );
+      setItComponentsList(response.data.data);
+    } catch (error) {
+      console.error("Error fetching IT components:", error);
+    }
+  };
+  const addBuildingVenue = () => {
+    seteventData((prevData) => ({
+      ...prevData,
+      travellerList: prevData.travellerList + 1,
+      BuildingVenues: [
+        ...prevData.BuildingVenues,
+        {
+          eventId: prevData.eventId, // Initialize empty
+          venueId: prevData.venueId, // Initialize empty
+        },
+      ],
+    }));
   };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
@@ -161,10 +312,155 @@ const HomeRequestDetails = () => {
       createdAt: data.createdAt,
     })),
   };
+  // --- Toggle Handlers ---
+
+  // Accommodation toggle
+  const handleAccommodationCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    seteventData((prevData) => ({
+      ...prevData,
+      HasAccomdation: isChecked ? 1 : 0,
+      Accommodations: isChecked ? [] : [],
+    }));
+  };
+
+  // IT Components toggle
+  const handleItComponentsCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    seteventData((prevData) => ({
+      ...prevData,
+      HasIt: isChecked ? 1 : 0,
+      ItComponents: isChecked ? [] : [],
+    }));
+  };
+
+  // --- Change Handlers ---
+  // Transportation: when a checkbox is toggled, add/remove a transportation object
+  const handleAccommodatitonTypeCheckbox = (e) => {
+    const { value, checked } = e.target;
+    const roomTypeId = Number(value); // Ensure ID is a number
+
+    seteventData((prevData) => {
+      let updatedAccommodations = [...prevData.Accommodations];
+
+      if (checked) {
+        // Add only if it doesn't already exist
+        if (!updatedAccommodations.some((t) => t.roomTypeId === roomTypeId)) {
+          updatedAccommodations.push({
+            roomTypeId: roomTypeId,
+            startDate: "",
+            endDate: "",
+            numOfRooms: "",
+          });
+        }
+      } else {
+        // Remove the item if unchecked
+        updatedAccommodations = updatedAccommodations.filter(
+          (t) => t.roomTypeId !== roomTypeId
+        );
+      }
+
+      return { ...prevData, Accommodations: updatedAccommodations };
+    });
+  };
+
+  // Update fields (StartDate, EndDate, Quantity) for a transportation object
+  const handleAcommodationChange = (index, field, value) => {
+    const updatedAccommodations = eventData.Accommodations.map((accomm, i) =>
+      i === index ? { ...accomm, [field]: value } : accomm
+    );
+    seteventData({ ...eventData, Accommodations: updatedAccommodations });
+  };
+
+  // Transportation: when a checkbox is toggled, add/remove a transportation object
+  const handleTransportationTypeCheckbox = (e) => {
+    const { value, checked } = e.target;
+    const transportationTypeId = Number(value); // Ensure ID is a number
+
+    seteventData((prevData) => {
+      let updatedTransportations = [...prevData.Transportations];
+
+      if (checked) {
+        // Add only if it doesn't already exist
+        if (
+          !updatedTransportations.some(
+            (t) => t.TransportationTypeId === transportationTypeId
+          )
+        ) {
+          updatedTransportations.push({
+            TransportationTypeId: transportationTypeId,
+            startDate: "",
+            endDate: "",
+            number: "",
+          });
+        }
+      } else {
+        // Remove the item if unchecked
+        updatedTransportations = updatedTransportations.filter(
+          (t) => t.TransportationTypeId !== transportationTypeId
+        );
+      }
+
+      return { ...prevData, Transportations: updatedTransportations };
+    });
+  };
+
+  // Update fields (StartDate, EndDate, Quantity) for a transportation object
+  const handleTransportationChange = (index, field, value) => {
+    const updatedTransportations = eventData.Transportations.map(
+      (transport, i) =>
+        i === index ? { ...transport, [field]: value } : transport
+    );
+    seteventData({ ...eventData, Transportations: updatedTransportations });
+  };
+
+  const handleItComponentCheckbox = (e) => {
+    const { value, checked } = e.target;
+    const itcomponentId = Number(value); // Ensure ID is a number
+
+    seteventData((prevData) => {
+      let updatedItComponents = [...prevData.ItcomponentEvents];
+
+      if (checked) {
+        // Add only if it doesn't already exist
+        if (
+          !updatedItComponents.some(
+            (item) => item.itcomponentId === itcomponentId
+          )
+        ) {
+          updatedItComponents.push({ itcomponentId, Quantity: "" });
+        }
+      } else {
+        // Remove the item if unchecked
+        updatedItComponents = updatedItComponents.filter(
+          (item) => item.itcomponentId !== itcomponentId
+        );
+      }
+
+      return { ...prevData, ItcomponentEvents: updatedItComponents };
+    });
+  };
+
+  const handleItComponentQuantityChange = (itcomponentId, value) => {
+    seteventData((prevData) => {
+      const updatedItComponents = prevData.ItcomponentEvents.map((item) =>
+        item.itcomponentId === itcomponentId
+          ? { ...item, Quantity: value }
+          : item
+      );
+
+      return { ...prevData, ItcomponentEvents: updatedItComponents };
+    });
+  };
   useEffect(() => {
     setisLoading(false);
     GetEventDetails(requestId);
     GetApprovalDepartmentSchema();
+    GetNatureofEvents();
+    getRoomTypes();
+    getTransportationTypes();
+    getItComponents();
+    console.log("Event Data", eventData);
   }, [requestId]);
 
   return (
@@ -214,8 +510,254 @@ const HomeRequestDetails = () => {
                   Event Info
                 </h5>
               </div>
+              <div className="container-fluid">
+                <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
+                  <div className="row g-4">
+                    {/* Event Title */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="EventTitle"
+                        className="form-label font-weight-bold"
+                      >
+                        Event Title <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="eventTitle"
+                        name="eventTitle"
+                        value={eventData.eventTitle}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        required
+                      />
+                      {errors.eventTitle && (
+                        <small className="text-danger">
+                          {errors.eventTitle}
+                        </small>
+                      )}
+                    </div>
 
-              <EventInfo eventData={eventData} seteventData={seteventData} />
+                    {/* Number of Participants */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="NomParticipants"
+                        className="form-label font-weight-bold"
+                      >
+                        Number of Participants
+                      </label>
+                      <input
+                        type="number"
+                        id="nomParticipants"
+                        name="nomParticipants"
+                        value={eventData.nomParticipants || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        min="1"
+                      />
+                      {errors.nomParticipants && (
+                        <small className="text-danger">
+                          {errors.nomParticipants}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Event Start Date */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="EventStartDate"
+                        className="form-label font-weight-bold"
+                      >
+                        Event Start Date <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        id="eventStartDate"
+                        name="eventStartDate"
+                        value={eventData.eventStartDate?.split("T")[0] || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        required
+                      />
+                      {errors.eventStartDate && (
+                        <small className="text-danger">
+                          {errors.eventStartDate}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Event End Date */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="EventEndDate"
+                        className="form-label font-weight-bold"
+                      >
+                        Event End Date
+                      </label>
+                      <input
+                        type="date"
+                        id="eventEndDate"
+                        name="eventEndDate"
+                        value={eventData.eventEndDate?.split("T")[0] || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                      />
+                      {errors.eventEndDate && (
+                        <small className="text-danger">
+                          {errors.eventEndDate}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Organizer Name */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="OrganizerName"
+                        className="form-label font-weight-bold"
+                      >
+                        Organizer Name
+                      </label>
+                      <input
+                        type="text"
+                        id="organizerName"
+                        name="organizerName"
+                        value={eventData.organizerName || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                      />
+                    </div>
+
+                    {/* Organizer Mobile */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="OrganizerMobile"
+                        className="form-label font-weight-bold"
+                      >
+                        Organizer Mobile
+                      </label>
+                      <div className="input-group w-100">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">📞</span>
+                        </div>
+                        <input
+                          type="tel"
+                          id="organizerMobile"
+                          name="organizerMobile"
+                          value={eventData.organizerMobile || ""}
+                          onChange={handleChange}
+                          maxLength={11}
+                          className="form-control form-control-lg"
+                          placeholder="Enter valid Egyptian phone number"
+                        />
+                      </div>
+                      {errors.organizerMobile && (
+                        <small className="text-danger">
+                          {errors.organizerMobile}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Organizer Extension */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="OrganizerExtention"
+                        className="form-label font-weight-bold"
+                      >
+                        Organizer Extension
+                      </label>
+                      <input
+                        type="text"
+                        id="organizerExtention"
+                        name="organizerExtention"
+                        value={eventData.organizerExtention || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                      />
+                      {errors.organizerExtention && (
+                        <small className="text-danger">
+                          {errors.organizerExtention}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Organizer Email */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="OrganizerEmail"
+                        className="form-label font-weight-bold"
+                      >
+                        Organizer Email
+                      </label>
+                      <div className="input-group w-100">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">@</span>
+                        </div>
+                        <input
+                          type="email"
+                          id="OrganizerEmail"
+                          name="organizerEmail"
+                          value={eventData.organizerEmail || ""}
+                          onChange={handleChange}
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+                    </div>
+                    {/* Organizer Extension */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="organizerPosition"
+                        className="form-label font-weight-bold"
+                      >
+                        Organizer Position
+                      </label>
+                      <input
+                        type="text"
+                        id="organizerPosition"
+                        name="organizerPosition"
+                        value={eventData.organizerPosition || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                      />
+                      {errors.organizerPosition && (
+                        <small className="text-danger">
+                          {errors.organizerPosition}
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Organizer Email */}
+                    <div className="col-lg-6">
+                      <label
+                        htmlFor="natureOfEventId"
+                        className="form-label font-weight-bold"
+                      >
+                        Nature of Event
+                      </label>
+                      <select
+                        className="form-select form-select-lg"
+                        onChange={(e) => {
+                          seteventData({
+                            ...eventData,
+                            natureOfEventId: Number(e.target.value),
+                          });
+                        }}
+                        name="natureOfEventId"
+                        required
+                      >
+                        <option value="">Select nature of event</option>
+                        {natureofevents.map((data) => (
+                          <option
+                            key={data.natureOfEventId}
+                            value={data.natureOfEventId}
+                          >
+                            {data.natureOfEvent}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <EventInfo eventData={eventData} seteventData={seteventData} /> */}
 
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
@@ -225,10 +767,326 @@ const HomeRequestDetails = () => {
               </div>
 
               <ValidatorForm onSubmit={onSubmit} className="px-md-2">
-                <EventSelections
-                  eventData={eventData}
-                  setEventData={seteventData}
-                />
+                <div className="container-fluid">
+                  <div
+                    className="card shadow-lg px-5 py-4 w-100 mx-auto"
+                    style={{ backgroundColor: "#f8f9fa" }}
+                  >
+                    {/* Accommodation Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="HasAccomdation"
+                          className="form-check-input me-2"
+                          checked={eventData.HasAccomdation === 1}
+                          onChange={handleAccommodationCheckbox}
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="HasAccomdation"
+                          style={{ fontSize: "14px" }}
+                        >
+                          Requires Accommodation
+                        </label>
+                      </div>
+
+                      {eventData.HasAccomdation === 1 && (
+                        <div className="mt-3">
+                          <div className="row g-3">
+                            <div className="row g-3">
+                              {roomTypes.map((type) => (
+                                <div key={type.roomTypeId} className="col-md-3">
+                                  <div className="form-check">
+                                    <input
+                                      type="checkbox"
+                                      className="form-check-input"
+                                      id={`Rooms-${type.roomTypeId}`}
+                                      value={type.roomTypeId}
+                                      checked={eventData.Accommodations.some(
+                                        (t) => t.roomTypeId === type.roomTypeId
+                                      )}
+                                      onChange={
+                                        handleAccommodatitonTypeCheckbox
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label text-dark"
+                                      htmlFor={`transportation-${type.roomTypeId}`}
+                                      style={{ fontSize: "14px" }}
+                                    >
+                                      {type.roomTypeName}
+                                    </label>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            {eventData.Accommodations.map((accom, index) => (
+                              <div key={index} className="row g-3 mt-3">
+                                <div className="col-md-3">
+                                  <label
+                                    className="form-label font-weight-bold text-dark"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    Type: {accom.roomTypeId}
+                                  </label>
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={accom.startDate || ""}
+                                    onChange={(e) =>
+                                      handleAcommodationChange(
+                                        index,
+                                        "startDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={accom.endDate || ""}
+                                    onChange={(e) =>
+                                      handleAcommodationChange(
+                                        index,
+                                        "endDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="number"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    placeholder="Quantity"
+                                    value={accom.numOfRooms || ""}
+                                    onChange={(e) =>
+                                      handleAcommodationChange(
+                                        index,
+                                        "numOfRooms",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Transportation Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="HasTransportation"
+                          className="form-check-input me-2"
+                          checked={eventData.HasTransportation === 1}
+                          onChange={() =>
+                            seteventData((prev) => ({
+                              ...prev,
+                              HasTransportation:
+                                prev.HasTransportation === 1 ? 0 : 1, // Toggle state
+                            }))
+                          }
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="HasTransportation"
+                          style={{ fontSize: "14px" }}
+                        >
+                          Requires Transportation
+                        </label>
+                      </div>
+
+                      {eventData.HasTransportation === 1 && (
+                        <div className="mt-3">
+                          <div className="row g-3">
+                            {transportationTypes.map((type) => (
+                              <div
+                                key={type.transportationTypeId}
+                                className="col-md-3"
+                              >
+                                <div className="form-check">
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={`transportation-${type.transportationTypeId}`}
+                                    value={type.transportationTypeId}
+                                    checked={eventData.Transportations.some(
+                                      (t) =>
+                                        t.TransportationTypeId ===
+                                        type.transportationTypeId
+                                    )}
+                                    onChange={handleTransportationTypeCheckbox}
+                                  />
+                                  <label
+                                    className="form-check-label text-dark"
+                                    htmlFor={`transportation-${type.transportationTypeId}`}
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {type.transportationType1}
+                                  </label>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {eventData.Transportations.map((transport, index) => (
+                            <div key={index} className="row g-3 mt-3">
+                              <div className="col-md-3">
+                                <label
+                                  className="form-label font-weight-bold text-dark"
+                                  style={{ fontSize: "14px" }}
+                                >
+                                  Type: {transport.transportationType1}
+                                </label>
+                              </div>
+                              <div className="col-md-3">
+                                <input
+                                  type="date"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  value={transport.startDate || ""}
+                                  onChange={(e) =>
+                                    handleTransportationChange(
+                                      index,
+                                      "startDate",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="col-md-3">
+                                <input
+                                  type="date"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  value={transport.endDate || ""}
+                                  onChange={(e) =>
+                                    handleTransportationChange(
+                                      index,
+                                      "endDate",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="col-md-3">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  placeholder="Quantity"
+                                  value={transport.number || ""}
+                                  onChange={(e) =>
+                                    handleTransportationChange(
+                                      index,
+                                      "number",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* IT Components Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="HasIt"
+                          className="form-check-input me-2"
+                          checked={eventData.HasIt === 1}
+                          onChange={handleItComponentsCheckbox}
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="HasIt"
+                          style={{ fontSize: "14px" }}
+                        >
+                          Requires IT Components
+                        </label>
+                      </div>
+
+                      {eventData.HasIt === 1 && (
+                        <div className="mt-3">
+                          <div className="row g-3">
+                            {itComponentsList.map((component) => (
+                              <div
+                                key={component.itcomponentId}
+                                className="col-md-3"
+                              >
+                                <div className="form-check">
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={`itcomponent-${component.itcomponentId}`}
+                                    value={component.itcomponentId}
+                                    checked={eventData.ItcomponentEvents.some(
+                                      (item) =>
+                                        item.itcomponentId ===
+                                        component.itcomponentId
+                                    )}
+                                    onChange={handleItComponentCheckbox}
+                                  />
+                                  <label
+                                    className="form-check-label text-dark"
+                                    htmlFor={`itcomponent-${component.itcomponentId}`}
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {component.component}
+                                  </label>
+                                </div>
+                                {eventData.ItcomponentEvents.some(
+                                  (item) =>
+                                    item.itcomponentId ===
+                                    component.itcomponentId
+                                ) && (
+                                  <input
+                                    type="number"
+                                    className="form-control form-control-sm rounded shadow-sm mt-2"
+                                    placeholder="Quantity"
+                                    value={
+                                      eventData.ItcomponentEvents.find(
+                                        (item) =>
+                                          item.itcomponentId ===
+                                          component.itcomponentId
+                                      )?.Quantity || ""
+                                    }
+                                    onChange={(e) =>
+                                      handleItComponentQuantityChange(
+                                        component.itcomponentId,
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 <br />
                 <br />
                 <div className="horizontal-rule mb-4">
@@ -257,14 +1115,14 @@ const HomeRequestDetails = () => {
                   <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
                 </div>
 
-                {/* {eventData.BuildingVenues.map((_, index) => (
+                {eventData?.BuildingVenues?.map((_, index) => (
                   <EventBuildingVenueListInfo
                     key={index}
                     index={index}
                     eventData={eventData}
                     seteventData={seteventData}
                   />
-                ))} */}
+                ))}
                 <br />
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
