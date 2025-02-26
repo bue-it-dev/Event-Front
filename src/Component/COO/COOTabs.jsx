@@ -71,7 +71,7 @@ const COOTabs = () => {
   // Map URL paths to tab index
   const getTabIndexFromPath = (path) => {
     switch (path) {
-      case "/home-request-list-coo":
+      case "/event-list-coo":
         return 0;
       case "/business-request-list-coo":
         return 1;
@@ -94,7 +94,7 @@ const COOTabs = () => {
     // Navigate to the corresponding route
     switch (newValue) {
       case 0:
-        history.push("/home-request-list-coo");
+        history.push("/event-list-coo");
         break;
       case 1:
         history.push("/business-request-list-coo");
@@ -114,8 +114,8 @@ const COOTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="COO Home Requests Approvals" {...a11yProps(0)} />
-          <Tab label="COO Business Requests Approvals" {...a11yProps(1)} />
+        
+          <Tab label="COO Event Approvals" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
 

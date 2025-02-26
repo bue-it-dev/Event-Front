@@ -11,6 +11,8 @@ import VCB from "./Component/VCB/VCB";
 import HR from "./Component/HR/HR";
 import BOM from "./Component/BOM/BOM";
 import COO from "./Component/COO/COO";
+import BusinessRequestListCOO from "./Component/COO/BusinessRequestListCOO"
+import BusinessRequestListVCB from "./Component/VCB/BusinessRequestListVCB"
 import President from "./Component/President/President";
 import TravelOffice from "./Component/TravelOffice/TravelOffice";
 import BudgetOffice from "./Component/BudgetOffice/BudgetOffice";
@@ -183,6 +185,14 @@ function App() {
                   {currentUser.isAcademic === "0" ? (
                     <>
                       <Switch>
+                      <ProtectedRoute
+                          path="/event-list-coo"
+                          component={BusinessRequestListCOO}
+                        />
+                         <ProtectedRoute
+                          path="/business-request-list-vcb"
+                          component={BusinessRequestListVCB}
+                        />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
                         {/* <ProtectedRoute
@@ -255,6 +265,7 @@ function App() {
                           path="/dashboard-menu/home"
                           component={Home}
                         /> */}
+                     
                       </Switch>
                     </>
                   ) : (
@@ -497,6 +508,10 @@ function App() {
                       path="/dashboard-menu/home"
                       component={Home}
                     /> */}
+                     <ProtectedRoute
+                      path="/business-request-list-coo"
+                      component={BusinessRequestListCOO}
+                    />
                   </Switch>
                 </>
               ) : user.type === "Budget_Office" ? (

@@ -22,7 +22,7 @@ const BusinessRequestListCOO = () => {
   const GetBusinessRequest = async () => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/BusinessRequest/GetTravelBusinessRequestCOO`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestCOO`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -30,7 +30,10 @@ const BusinessRequestListCOO = () => {
           },
         }
       );
-      setbusinessRequest(response.data);
+      console.log("API Response:", response.data);
+      const data = Array.isArray(response.data.data) ? response.data.data : [];
+      setbusinessRequest(data);
+  
     } catch (error) {
       console.error("Error fetching home request details:", error);
       setError("Failed to fetch home requests. Please try again later.");
@@ -38,6 +41,7 @@ const BusinessRequestListCOO = () => {
       setisLoading(false);
     }
   };
+  
 
   useEffect(() => {
     GetBusinessRequest();
@@ -46,64 +50,66 @@ const BusinessRequestListCOO = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Name", field: "requestName", sort: "asc" },
-      { label: "Email", field: "email", sort: "asc" },
-      // { label: "Head Department", field: "parentDep", sort: "asc" },
-      { label: "Department", field: "dep", sort: "asc" },
-      { label: "Travellers", field: "travellersList", sort: "asc" },
-      { label: "Creation Date", field: "createdAt", sort: "asc" },
-      { label: "Modification Date", field: "updatedAt", sort: "asc" },
+      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Organizer Name", field: "organizerName", sort: "asc" },
+      // { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
+      // { label: "Organizer Extention", field: "OrganizerExtension", sort: "asc" },
+      // { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+      { label: "Approving Department", field: "approvingDeptName", sort: "asc" },
+      { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Created At", field: "createdAt", sort: "asc" },
+      { label: "Updated At", field: "updateAt", sort: "asc" },
+      { label: "Confirmed At", field: "confirmedAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Action", field: "action", sort: "asc" },
+      { label: "Actions", field: "actions", sort: "disabled" },
     ],
     rows: businessRequest.map((data, i) => ({
       Number: i + 1,
-      requestId: data.requestId,
-      requestName: data.requestName,
-      email: data.email,
-      parentDep: data.parentDep ?? data.dep,
-      dep: data.dep,
-      planeClass: data.planeClass,
-      travellersList:
-        data.travellersList === 0
-          ? "No Traveler"
-          : `${data.travellersList} Traveler(s)`,
+      eventTitle: data.eventTitle,
+      organizerName: data.organizerName,
+      // OrganizerMobile: data.OrganizerMobile,
+      // OrganizerExtension: data.OrganizerExtension,
+      // OrganizerEmail: data.OrganizerEmail,
+      approvingDeptName: data.approvingDeptName,
+      eventStartDate: new Date(data.eventStartDate).toLocaleDateString(),
+      eventEndDate: new Date(data.eventEndDate).toLocaleDateString(),
       createdAt: new Date(data.createdAt).toLocaleDateString(),
-      updatedAt:
-        data.updatedAt == "Date Modification Doesn't Exist"
-          ? "No Modification"
-          : new Date(data.updatedAt).toLocaleDateString(),
+      updateAt: new Date(data.updateAt).toLocaleDateString(),
+      confirmedAt: new Date(data.confirmedAt).toLocaleDateString(),
       statusName: data.statusName,
-      action: (
+      actions: (
         <div className="d-flex justify-content-around">
           <Link
             to={{
-              pathname: "/business-request-details-coo",
+              pathname: "/business-request-details-vcb",
               state: { requestId: data.requestId, statusName: data.statusName },
             }}
           >
-            {data.statusName == "Pending" ? (
-              <button type="button" className="btn btn-success btn-sm">
-                Decide
-              </button>
-            ) : data.statusName == "Approved" ? (
+            {data.statusName === "Pending" ? (
               <button
                 type="button"
-                // style={{ backgroundColor: "green" }}
-                className="btn btn-success btn-sm"
+                className="btn btn-sm"
+                style={{
+                  color: "white",
+                  backgroundColor: "#343a40",
+                  borderColor: "#343a40"
+                }}
               >
+                Decide
+              </button>
+            ) : (
+              <button type="button" className="btn btn-info btn-sm">
                 View
               </button>
-            ) : data.statusName == "Rejected" ? (
-              <button type="button" className="btn btn-success btn-sm">
-                View
-              </button>
-            ) : null}
+            )}
           </Link>
         </div>
       ),
+      
     })),
   };
+  
 
   return (
     <div className="my-home-requests">
@@ -118,19 +124,18 @@ const BusinessRequestListCOO = () => {
           </Spinner>
         </div>
       ) : (
-        <div className="row">
-          <div className="col-lg">
-            <Table responsive>
-              <MDBDataTable
-                className="custom-table"
-                striped
-                bordered
-                hover
-                data={data}
-                order={["Number", "asc"]}
-                entries={10}
-              />
-            </Table>
+        <div className="table-responsive-wrapper">
+          <div className="table-responsive">
+            <MDBDataTable
+              className="custom-table"
+              striped
+              bordered
+              hover
+              data={data}
+              order={["Number", "asc"]}
+              entries={10}
+             
+            />
           </div>
         </div>
       )}

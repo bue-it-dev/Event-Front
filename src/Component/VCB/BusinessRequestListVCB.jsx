@@ -15,6 +15,7 @@ const BusinessRequestListVCB = () => {
   const [businessRequest, setbusinessRequest] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const userToken = localStorage.getItem("accessToken");
   const decodedToken = jwt(userToken);
   const userID = parseInt(decodedToken.UserID, 10);
@@ -22,7 +23,7 @@ const BusinessRequestListVCB = () => {
   const GetBusinessRequest = async () => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/BusinessRequest/GetTravelBusinessRequestVcb`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestVCB`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -30,7 +31,11 @@ const BusinessRequestListVCB = () => {
           },
         }
       );
-      setbusinessRequest(response.data);
+      const requestData = Array.isArray(response.data.data)
+        ? response.data.data
+        : [];
+  
+      setbusinessRequest(requestData);
     } catch (error) {
       console.error("Error fetching home request details:", error);
       setError("Failed to fetch home requests. Please try again later.");
@@ -38,6 +43,7 @@ const BusinessRequestListVCB = () => {
       setisLoading(false);
     }
   };
+  
 
   useEffect(() => {
     GetBusinessRequest();
@@ -46,35 +52,29 @@ const BusinessRequestListVCB = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Name", field: "requestName", sort: "asc" },
-      { label: "Email", field: "email", sort: "asc" },
-      // { label: "Head Department", field: "parentDep", sort: "asc" },
-      { label: "Department", field: "dep", sort: "asc" },
-      { label: "Travellers", field: "travellersList", sort: "asc" },
-      { label: "Creation Date", field: "createdAt", sort: "asc" },
-      { label: "Modification Date", field: "updatedAt", sort: "asc" },
+      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Organizer Name", field: "organizerName", sort: "asc" },
+      { label: "Approving Department", field: "approvingDeptName", sort: "asc" },
+      { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Created At", field: "createdAt", sort: "asc" },
+      { label: "Updated At", field: "updateAt", sort: "asc" },
+      { label: "Confirmed At", field: "confirmedAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Action", field: "action", sort: "asc" },
+      { label: "Actions", field: "actions", sort: "disabled" },
     ],
     rows: businessRequest.map((data, i) => ({
       Number: i + 1,
-      requestId: data.requestId,
-      requestName: data.requestName,
-      email: data.email,
-      parentDep: data.parentDep ?? data.dep,
-      dep: data.dep,
-      planeClass: data.planeClass,
-      travellersList:
-        data.travellersList === 0
-          ? "No Traveler"
-          : `${data.travellersList} Traveler(s)`,
+      eventTitle: data.eventTitle,
+      organizerName: data.organizerName,
+      approvingDeptName: data.approvingDeptName,
+      eventStartDate: new Date(data.eventStartDate).toLocaleDateString(),
+      eventEndDate: new Date(data.eventEndDate).toLocaleDateString(),
       createdAt: new Date(data.createdAt).toLocaleDateString(),
-      updatedAt:
-        data.updatedAt == "Date Modification Doesn't Exist"
-          ? "No Modification"
-          : new Date(data.updatedAt).toLocaleDateString(),
+      updateAt: new Date(data.updateAt).toLocaleDateString(),
+      confirmedAt: new Date(data.confirmedAt).toLocaleDateString(),
       statusName: data.statusName,
-      action: (
+      actions: (
         <div className="d-flex justify-content-around">
           <Link
             to={{
@@ -82,26 +82,28 @@ const BusinessRequestListVCB = () => {
               state: { requestId: data.requestId, statusName: data.statusName },
             }}
           >
-            {data.statusName == "Pending" ? (
-              <button type="button" className="btn btn-success btn-sm">
-                Decide
-              </button>
-            ) : data.statusName == "Approved" ? (
+            {data.statusName === "Pending" ? (
               <button
                 type="button"
-                // style={{ backgroundColor: "green" }}
-                className="btn btn-success btn-sm"
-              >
+                className="btn btn-sm"
+                style={{
+                  color: "white !important",
+                  backgroundColor: "#343a40 !important",
+                  borderColor: "#343a40 !important"
+                }}
+                
+              > 
+                Decide
+              </button>
+            ) : (
+              <button type="button" className="btn btn-info btn-sm">
                 View
               </button>
-            ) : data.statusName == "Rejected" ? (
-              <button type="button" className="btn btn-success btn-sm">
-                View
-              </button>
-            ) : null}
+            )}
           </Link>
         </div>
       ),
+      
     })),
   };
 
@@ -124,7 +126,6 @@ const BusinessRequestListVCB = () => {
               bordered
               hover
               data={data}
-              theadColor="black"
               order={["Number", "asc"]}
               entries={10}
             />
