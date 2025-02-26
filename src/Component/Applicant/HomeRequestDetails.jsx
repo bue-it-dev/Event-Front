@@ -165,7 +165,7 @@ const HomeRequestDetails = () => {
     BuildingVenues: [
       {
         eventId: 0, // Initialize empty
-        venueId: 1, // Initialize empty
+        venueId: 0, // Initialize empty
       },
     ],
     Venues: null,
@@ -346,7 +346,7 @@ const HomeRequestDetails = () => {
     const isChecked = e.target.checked;
     seteventData((prevData) => ({
       ...prevData,
-      HasAccomdation: isChecked ? 1 : 0,
+      hasAccomdation: isChecked ? 1 : 0,
       accommodations: isChecked ? [] : [],
     }));
   };
@@ -356,7 +356,7 @@ const HomeRequestDetails = () => {
     const isChecked = e.target.checked;
     seteventData((prevData) => ({
       ...prevData,
-      HasIt: isChecked ? 1 : 0,
+      hasIt: isChecked ? 1 : 0,
       ItComponents: isChecked ? [] : [],
     }));
   };
@@ -411,20 +411,20 @@ const HomeRequestDetails = () => {
         // Add only if it doesn't already exist
         if (
           !updatedtransportations.some(
-            (t) => t.TransportationTypeId === transportationTypeId
+            (t) => t.transportationTypeId === transportationTypeId
           )
         ) {
           updatedtransportations.push({
-            TransportationTypeId: transportationTypeId,
+            transportationTypeId: transportationTypeId,
             startDate: "",
             endDate: "",
-            number: "",
+            quantity: "",
           });
         }
       } else {
         // Remove the item if unchecked
         updatedtransportations = updatedtransportations.filter(
-          (t) => t.TransportationTypeId !== transportationTypeId
+          (t) => t.transportationTypeId !== transportationTypeId
         );
       }
 
@@ -472,7 +472,7 @@ const HomeRequestDetails = () => {
     seteventData((prevData) => {
       const updatedItComponents = prevData.itcomponentEvents.map((item) =>
         item.itcomponentId === itcomponentId
-          ? { ...item, Quantity: value }
+          ? { ...item, quantity: value }
           : item
       );
 
@@ -808,21 +808,21 @@ const HomeRequestDetails = () => {
                       <div className="d-flex align-items-center">
                         <input
                           type="checkbox"
-                          id="HasAccomdation"
+                          id="hasAccomdation"
                           className="form-check-input me-2"
-                          checked={eventData.HasAccomdation === 1}
+                          checked={eventData.hasAccomdation === 1}
                           onChange={handleAccommodationCheckbox}
                         />
                         <label
                           className="form-check-label font-weight-bold text-dark"
-                          htmlFor="HasAccomdation"
+                          htmlFor="hasAccomdation"
                           style={{ fontSize: "14px" }}
                         >
                           Requires Accommodation
                         </label>
                       </div>
 
-                      {eventData.HasAccomdation === 1 && (
+                      {eventData.hasAccomdation === 1 && (
                         <div className="mt-3">
                           <div className="row g-3">
                             <div className="row g-3">
@@ -920,27 +920,27 @@ const HomeRequestDetails = () => {
                       <div className="d-flex align-items-center">
                         <input
                           type="checkbox"
-                          id="HasTransportation"
+                          id="hasTransportation"
                           className="form-check-input me-2"
-                          checked={eventData.HasTransportation === 1}
+                          checked={eventData.hasTransportation === 1}
                           onChange={() =>
                             seteventData((prev) => ({
                               ...prev,
-                              HasTransportation:
-                                prev.HasTransportation === 1 ? 0 : 1, // Toggle state
+                              hasTransportation:
+                                prev.hasTransportation === 1 ? 0 : 1, // Toggle state
                             }))
                           }
                         />
                         <label
                           className="form-check-label font-weight-bold text-dark"
-                          htmlFor="HasTransportation"
+                          htmlFor="hasTransportation"
                           style={{ fontSize: "14px" }}
                         >
                           Requires Transportation
                         </label>
                       </div>
 
-                      {eventData.HasTransportation === 1 && (
+                      {eventData.hasTransportation === 1 && (
                         <div className="mt-3">
                           <div className="row g-3">
                             {transportationTypes.map((type) => (
@@ -956,7 +956,7 @@ const HomeRequestDetails = () => {
                                     value={type.transportationTypeId}
                                     checked={eventData?.transportations?.some(
                                       (t) =>
-                                        t.TransportationTypeId ===
+                                        t.transportationTypeId ===
                                         type.transportationTypeId
                                     )}
                                     onChange={handleTransportationTypeCheckbox}
@@ -981,14 +981,16 @@ const HomeRequestDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {transport.transportationType1}
+                                    Type: {transport.transportationTypeId}
                                   </label>
                                 </div>
                                 <div className="col-md-3">
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    value={transport.startDate || ""}
+                                    value={
+                                      transport.startDate?.split("T")[0] || ""
+                                    }
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
@@ -1002,7 +1004,9 @@ const HomeRequestDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    value={transport.endDate || ""}
+                                    value={
+                                      transport.endDate?.split("T")[0] || ""
+                                    }
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
@@ -1017,11 +1021,11 @@ const HomeRequestDetails = () => {
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Quantity"
-                                    value={transport.number || ""}
+                                    value={transport.quantity || ""}
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
-                                        "number",
+                                        "quantity",
                                         e.target.value
                                       )
                                     }
@@ -1042,21 +1046,21 @@ const HomeRequestDetails = () => {
                       <div className="d-flex align-items-center">
                         <input
                           type="checkbox"
-                          id="HasIt"
+                          id="hasIt"
                           className="form-check-input me-2"
-                          checked={eventData.HasIt === 1}
+                          checked={eventData.hasIt === 1}
                           onChange={handleItComponentsCheckbox}
                         />
                         <label
                           className="form-check-label font-weight-bold text-dark"
-                          htmlFor="HasIt"
+                          htmlFor="hasIt"
                           style={{ fontSize: "14px" }}
                         >
                           Requires IT Components
                         </label>
                       </div>
 
-                      {eventData.HasIt === 1 && (
+                      {eventData.hasIt === 1 && (
                         <div className="mt-3">
                           <div className="row g-3">
                             {itComponentsList?.map((component) => (
@@ -1099,7 +1103,7 @@ const HomeRequestDetails = () => {
                                         (item) =>
                                           item.itcomponentId ===
                                           component.itcomponentId
-                                      )?.Quantity || ""
+                                      )?.quantity || ""
                                     }
                                     onChange={(e) =>
                                       handleItComponentQuantityChange(
