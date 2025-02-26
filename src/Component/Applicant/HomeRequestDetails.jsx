@@ -15,6 +15,7 @@ import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
 import { UpdateEventRequest, UpdateFiles } from "../Requests/mutators";
+import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
 const HomeRequestDetails = () => {
   const history = useHistory();
   const [roomTypes, setRoomTypes] = useState([]);
@@ -182,21 +183,41 @@ const HomeRequestDetails = () => {
           },
         }
       );
-      seteventData(response.data.data);
-      seteventData((prev) => ({
-        ...prev,
-        BuildingVenues: prev.BuildingVenues ?? [],
-        transportations: prev?.transportations ? [...prev.transportations] : [],
-        accommodations: prev?.accommodations ? [...prev.accommodations] : [],
-        itcomponentEvents: prev?.itcomponentEvents
-          ? [...prev.itcomponentEvents]
+
+      const eventDetails = response.data.data;
+
+      // Ensure file-related fields are not directly assigned
+      const {
+        ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath,
+        visitAgendaFilePath,
+        ...filteredEventDetails
+      } = eventDetails;
+
+      seteventData({
+        ...filteredEventDetails,
+        BuildingVenues: eventDetails.BuildingVenues ?? [],
+        transportations: eventDetails.transportations
+          ? [...eventDetails.transportations]
           : [],
-      }));
+        accommodations: eventDetails.accommodations
+          ? [...eventDetails.accommodations]
+          : [],
+        itcomponentEvents: eventDetails.itcomponentEvents
+          ? [...eventDetails.itcomponentEvents]
+          : [],
+        // Set file-related fields to null or handle them appropriately
+        ledOfTheUniversityOrganizerFilePath: null,
+        officeOfPresedentFilePath: null,
+        visitAgendaFilePath: null,
+      });
+
       console.log("Event Data", eventData);
     } catch (error) {
       console.error("Error fetching event Details:", error);
     }
   };
+
   // Get List of GetNatureofEvents
   const GetNatureofEvents = () => {
     var config = {
@@ -866,7 +887,7 @@ const HomeRequestDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    value={accom.startDate || ""}
+                                    value={accom.startDate?.split("T")[0] || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -880,7 +901,7 @@ const HomeRequestDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    value={accom.endDate || ""}
+                                    value={accom.endDate?.split("T")[0] || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -1165,7 +1186,7 @@ const HomeRequestDetails = () => {
                   </h5>
                 </div>
 
-                <EventFilesSection
+                <UpdateEventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
