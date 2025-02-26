@@ -282,17 +282,20 @@ const SaveEvent = async (application) => {
         },
       }
     );
-    console.log(response)
-    return response.data; 
+    console.log(response);
+    return response.data;
   } catch (err) {
     console.error("Error in SaveEvent:", err);
     throw err;
   }
 };
-
-
-
- const AddFiles = async (EventId, passportData = [], OfficeOfPresedentFile, LedOfTheUniversityOrganizerFile, VisitAgendaFile) => {
+const UpdateFiles = async (
+  EventId,
+  passportData = [],
+  OfficeOfPresedentFile,
+  LedOfTheUniversityOrganizerFile,
+  VisitAgendaFile
+) => {
   try {
     const formData = new FormData();
     formData.append("EventId", EventId);
@@ -302,19 +305,73 @@ const SaveEvent = async (application) => {
       });
     }
 
-    if (OfficeOfPresedentFile) formData.append("OfficeOfPresedentFile", OfficeOfPresedentFile);
-    if (LedOfTheUniversityOrganizerFile) formData.append("LedOfTheUniversityOrganizerFile", LedOfTheUniversityOrganizerFile);
+    if (OfficeOfPresedentFile)
+      formData.append("OfficeOfPresedentFile", OfficeOfPresedentFile);
+    if (LedOfTheUniversityOrganizerFile)
+      formData.append(
+        "LedOfTheUniversityOrganizerFile",
+        LedOfTheUniversityOrganizerFile
+      );
     if (VisitAgendaFile) formData.append("VisitAgendaFile", VisitAgendaFile);
     for (let pair of formData.entries()) {
       console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
     }
-    
-    const response = await axios.post(`${URL.BASE_URL}/api/EventEntity/add-files`, formData, {
-      headers: { 
-        Authorization: `Bearer ${getToken()}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+
+    const response = await axios.post(
+      `${URL.BASE_URL}/api/EventEntity/add-files`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    console.log("Files uploaded successfully:", response.data); // Debugging
+  } catch (error) {
+    console.error("Error uploading files:", error);
+    throw error;
+  }
+};
+const AddFiles = async (
+  EventId,
+  passportData = [],
+  OfficeOfPresedentFile,
+  LedOfTheUniversityOrganizerFile,
+  VisitAgendaFile
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("EventId", EventId);
+    if (Array.isArray(passportData) && passportData.length > 0) {
+      passportData.forEach((file) => {
+        formData.append("passportData", file);
+      });
+    }
+
+    if (OfficeOfPresedentFile)
+      formData.append("OfficeOfPresedentFile", OfficeOfPresedentFile);
+    if (LedOfTheUniversityOrganizerFile)
+      formData.append(
+        "LedOfTheUniversityOrganizerFile",
+        LedOfTheUniversityOrganizerFile
+      );
+    if (VisitAgendaFile) formData.append("VisitAgendaFile", VisitAgendaFile);
+    for (let pair of formData.entries()) {
+      console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
+    }
+
+    const response = await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/update-files`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log("Files uploaded successfully:", response.data); // Debugging
   } catch (error) {
@@ -323,12 +380,11 @@ const SaveEvent = async (application) => {
   }
 };
 
-
 const ConfrimEventRequest = async (eventId) => {
   try {
     await axios.put(
       `${URL.BASE_URL}/api/EventEntity/submit/${eventId}`,
-      {}, 
+      {},
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -344,7 +400,7 @@ const ConfrimEventRequest = async (eventId) => {
 const UpdateEventRequest = async (application) => {
   try {
     await axios.put(
-      `${URL.BASE_URL}/api/EventEntity/Update?eventId=${application.eventId}`,
+      `${URL.BASE_URL}/api/EventEntity/update?eventId=${application.eventId}`,
       { ...application },
       {
         headers: {
@@ -378,5 +434,6 @@ export {
   SaveEvent,
   ConfrimEventRequest,
   UpdateEventRequest,
-  AddFiles
+  AddFiles,
+  UpdateFiles,
 };

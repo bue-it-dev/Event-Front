@@ -14,7 +14,7 @@ import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
-
+import { UpdateEventRequest, UpdateFiles } from "../Requests/mutators";
 const HomeRequestDetails = () => {
   const history = useHistory();
   const [roomTypes, setRoomTypes] = useState([]);
@@ -296,20 +296,17 @@ const HomeRequestDetails = () => {
   const onSubmit = async () => {
     try {
       setisLoading(true);
-      // const data = await SaveEvent(eventData);
-      const eventId = data.data;
-      localStorage.setItem("eventId", eventId);
-      const EventId = localStorage.getItem("eventId");
+      const data = await UpdateEventRequest(eventData);
 
-      // if (EventId) {
-      //   await AddFiles(
-      //     EventId,
-      //     passportFiles || [],
-      //     eventData.OfficeOfPresedentFile,
-      //     eventData.LedOfTheUniversityOrganizerFile,
-      //     eventData.VisitAgendaFile
-      //   );
-      // }
+      if (requestId) {
+        await UpdateFiles(
+          requestId,
+          passportFiles || [],
+          eventData.OfficeOfPresedentFile,
+          eventData.LedOfTheUniversityOrganizerFile,
+          eventData.VisitAgendaFile
+        );
+      }
       setisLoading(false);
       toast.success("Event added successfully", { position: "top-center" });
       history.push("/my-event-requests");
@@ -1172,6 +1169,7 @@ const HomeRequestDetails = () => {
                   type="submit"
                   className="btn btn-dark btn-lg col-12 mt-3"
                   disabled={isLoading}
+                  onClick={onSubmit}
                   style={{ transition: "0.3s ease" }}
                 >
                   {isLoading ? "Updating Request..." : "Update Request"}
