@@ -135,8 +135,32 @@ const HomeRequestDetails = () => {
     confirmedAt: null,
     isVip: 0,
     passports: [],
-    Transportations: [],
-    Accommodations: [],
+    ItcomponentEvents: [
+      {
+        id: 0,
+        eventId: 0,
+        itcomponentId: 0,
+        quantity: 0,
+      },
+    ],
+    Transportations: [
+      {
+        transportationTypeId: 0,
+        eventId: 0,
+        startDate: null,
+        endDate: null,
+        quantity: 0,
+      },
+    ],
+    Accommodations: [
+      {
+        roomTypeId: 0,
+        eventId: 0,
+        startDate: null,
+        endDate: null,
+        numOfRooms: 0,
+      },
+    ],
     BuildingVenues: [
       {
         eventId: 0, // Initialize empty
@@ -161,6 +185,11 @@ const HomeRequestDetails = () => {
       seteventData((prev) => ({
         ...prev,
         BuildingVenues: prev.BuildingVenues ?? [],
+        Transportations: prev?.Transportations ? [...prev.Transportations] : [],
+        Accommodations: prev?.Accommodations ? [...prev.Accommodations] : [],
+        ItcomponentEvents: prev?.ItcomponentEvents
+          ? [...prev.ItcomponentEvents]
+          : [],
       }));
       console.log("Event Data", eventData);
     } catch (error) {
@@ -806,7 +835,7 @@ const HomeRequestDetails = () => {
                                       className="form-check-input"
                                       id={`Rooms-${type.roomTypeId}`}
                                       value={type.roomTypeId}
-                                      checked={eventData.Accommodations.some(
+                                      checked={eventData?.Accommodations?.some(
                                         (t) => t.roomTypeId === type.roomTypeId
                                       )}
                                       onChange={
@@ -926,7 +955,7 @@ const HomeRequestDetails = () => {
                                     className="form-check-input"
                                     id={`transportation-${type.transportationTypeId}`}
                                     value={type.transportationTypeId}
-                                    checked={eventData.Transportations.some(
+                                    checked={eventData?.Transportations?.some(
                                       (t) =>
                                         t.TransportationTypeId ===
                                         type.transportationTypeId
@@ -945,61 +974,63 @@ const HomeRequestDetails = () => {
                             ))}
                           </div>
 
-                          {eventData.Transportations.map((transport, index) => (
-                            <div key={index} className="row g-3 mt-3">
-                              <div className="col-md-3">
-                                <label
-                                  className="form-label font-weight-bold text-dark"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  Type: {transport.transportationType1}
-                                </label>
+                          {eventData?.Transportations?.map(
+                            (transport, index) => (
+                              <div key={index} className="row g-3 mt-3">
+                                <div className="col-md-3">
+                                  <label
+                                    className="form-label font-weight-bold text-dark"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    Type: {transport.transportationType1}
+                                  </label>
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={transport.startDate || ""}
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "startDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={transport.endDate || ""}
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "endDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-md-3">
+                                  <input
+                                    type="number"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    placeholder="Quantity"
+                                    value={transport.number || ""}
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "number",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
                               </div>
-                              <div className="col-md-3">
-                                <input
-                                  type="date"
-                                  className="form-control form-control-sm rounded shadow-sm"
-                                  value={transport.startDate || ""}
-                                  onChange={(e) =>
-                                    handleTransportationChange(
-                                      index,
-                                      "startDate",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </div>
-                              <div className="col-md-3">
-                                <input
-                                  type="date"
-                                  className="form-control form-control-sm rounded shadow-sm"
-                                  value={transport.endDate || ""}
-                                  onChange={(e) =>
-                                    handleTransportationChange(
-                                      index,
-                                      "endDate",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </div>
-                              <div className="col-md-3">
-                                <input
-                                  type="number"
-                                  className="form-control form-control-sm rounded shadow-sm"
-                                  placeholder="Quantity"
-                                  value={transport.number || ""}
-                                  onChange={(e) =>
-                                    handleTransportationChange(
-                                      index,
-                                      "number",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </div>
-                            </div>
-                          ))}
+                            )
+                          )}
                         </div>
                       )}
                     </div>
@@ -1029,7 +1060,7 @@ const HomeRequestDetails = () => {
                       {eventData.HasIt === 1 && (
                         <div className="mt-3">
                           <div className="row g-3">
-                            {itComponentsList.map((component) => (
+                            {itComponentsList?.map((component) => (
                               <div
                                 key={component.itcomponentId}
                                 className="col-md-3"
@@ -1040,7 +1071,7 @@ const HomeRequestDetails = () => {
                                     className="form-check-input"
                                     id={`itcomponent-${component.itcomponentId}`}
                                     value={component.itcomponentId}
-                                    checked={eventData.ItcomponentEvents.some(
+                                    checked={eventData?.ItcomponentEvents?.some(
                                       (item) =>
                                         item.itcomponentId ===
                                         component.itcomponentId
@@ -1055,7 +1086,7 @@ const HomeRequestDetails = () => {
                                     {component.component}
                                   </label>
                                 </div>
-                                {eventData.ItcomponentEvents.some(
+                                {eventData?.ItcomponentEvents?.some(
                                   (item) =>
                                     item.itcomponentId ===
                                     component.itcomponentId
