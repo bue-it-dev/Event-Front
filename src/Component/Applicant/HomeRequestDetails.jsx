@@ -115,6 +115,7 @@ const HomeRequestDetails = () => {
     eventTitle: "",
     nomParticipants: 0,
     eventStartDate: null,
+    natureOfEventId: 0,
     eventEndDate: null,
     hasIt: 0,
     hasAccomdation: 0,
@@ -296,7 +297,7 @@ const HomeRequestDetails = () => {
   const onSubmit = async () => {
     try {
       setisLoading(true);
-      const data = await UpdateEventRequest(eventData);
+      await UpdateEventRequest(eventData);
 
       if (requestId) {
         await UpdateFiles(
@@ -760,6 +761,7 @@ const HomeRequestDetails = () => {
                       </label>
                       <select
                         className="form-select form-select-lg"
+                        value={eventData.natureOfEventId}
                         onChange={(e) => {
                           seteventData({
                             ...eventData,
@@ -1169,7 +1171,6 @@ const HomeRequestDetails = () => {
                   type="submit"
                   className="btn btn-dark btn-lg col-12 mt-3"
                   disabled={isLoading}
-                  onClick={onSubmit}
                   style={{ transition: "0.3s ease" }}
                 >
                   {isLoading ? "Updating Request..." : "Update Request"}

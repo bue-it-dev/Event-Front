@@ -317,8 +317,8 @@ const UpdateFiles = async (
       console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
     }
 
-    const response = await axios.post(
-      `${URL.BASE_URL}/api/EventEntity/add-files`,
+    const response = await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/update-files/${EventId}`,
       formData,
       {
         headers: {
@@ -362,8 +362,8 @@ const AddFiles = async (
       console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
     }
 
-    const response = await axios.put(
-      `${URL.BASE_URL}/api/EventEntity/update-files`,
+    const response = await axios.post(
+      `${URL.BASE_URL}/api/EventEntity/add-files`,
       formData,
       {
         headers: {
@@ -400,7 +400,7 @@ const ConfrimEventRequest = async (eventId) => {
 const UpdateEventRequest = async (application) => {
   try {
     await axios.put(
-      `${URL.BASE_URL}/api/EventEntity/update?eventId=${application.eventId}`,
+      `${URL.BASE_URL}/api/EventEntity/update/${application.eventId}`,
       { ...application },
       {
         headers: {
