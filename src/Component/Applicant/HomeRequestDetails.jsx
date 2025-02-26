@@ -14,6 +14,7 @@ import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
+import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
 import { UpdateEventRequest, UpdateFiles } from "../Requests/mutators";
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
 const HomeRequestDetails = () => {
@@ -163,10 +164,11 @@ const HomeRequestDetails = () => {
         numOfRooms: 0,
       },
     ],
-    BuildingVenues: [
+    buildingVenues: [
       {
-        eventId: 0, // Initialize empty
-        venueId: 0, // Initialize empty
+        eventId: 0,
+        venueId: 0,
+        buildingId: 0,
       },
     ],
     Venues: null,
@@ -196,7 +198,7 @@ const HomeRequestDetails = () => {
 
       seteventData({
         ...filteredEventDetails,
-        BuildingVenues: eventDetails.BuildingVenues ?? [],
+        buildingVenues: eventDetails.buildingVenues ?? [],
         transportations: eventDetails.transportations
           ? [...eventDetails.transportations]
           : [],
@@ -300,11 +302,12 @@ const HomeRequestDetails = () => {
     seteventData((prevData) => ({
       ...prevData,
       travellerList: prevData.travellerList + 1,
-      BuildingVenues: [
-        ...prevData.BuildingVenues,
+      buildingVenues: [
+        ...prevData.buildingVenues,
         {
           eventId: prevData.eventId, // Initialize empty
           venueId: prevData.venueId, // Initialize empty
+          buildingId: prevData.buildingId, // Initialize empty
         },
       ],
     }));
@@ -1170,8 +1173,8 @@ const HomeRequestDetails = () => {
                   <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
                 </div>
 
-                {eventData?.BuildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListInfo
+                {eventData?.buildingVenues?.map((_, index) => (
+                  <EventBuildingVenueListUpdate
                     key={index}
                     index={index}
                     eventData={eventData}
