@@ -11,8 +11,8 @@ import VCB from "./Component/VCB/VCB";
 import HR from "./Component/HR/HR";
 import BOM from "./Component/BOM/BOM";
 import COO from "./Component/COO/COO";
-import BusinessRequestListCOO from "./Component/COO/BusinessRequestListCOO"
-import BusinessRequestListVCB from "./Component/VCB/BusinessRequestListVCB"
+import BusinessRequestListCOO from "./Component/COO/BusinessRequestListCOO";
+import BusinessRequestListVCB from "./Component/VCB/BusinessRequestListVCB";
 import President from "./Component/President/President";
 import TravelOffice from "./Component/TravelOffice/TravelOffice";
 import BudgetOffice from "./Component/BudgetOffice/BudgetOffice";
@@ -32,6 +32,12 @@ import ProtectedRoute from "./Component/Common/ProtectedRoute";
 import Header from "./Component/Header/Header";
 import Footer from "./Component/NewFooter/Footer";
 import HomeRequestDetails from "./Component/Applicant/HomeRequestDetails";
+import AdminAddHomeRequest from "./Component/Admin/AdminAddHomeRequest";
+import EventRequestDetailsVCB from "./Component/VCB/EventRequestDetailsVCB";
+import AdminEventAdd from "./Component/Admin/AdminEventAdd";
+import AdminEventList from "./Component/Admin/AdminEventList";
+import AdminEventApprovalsList from "./Component/Admin/AdminEventApprovalsList";
+import AdminEventDetails from "./Component/Admin/AdminEventDetails";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -90,6 +96,22 @@ function App() {
               {user.type === "HOD" ? (
                 <>
                   <Switch>
+                    <ProtectedRoute
+                      path="/hod-add-event-request"
+                      component={AdminEventAdd}
+                    />
+                    <ProtectedRoute
+                      path="/hod-my-events-request"
+                      component={AdminEventList}
+                    />
+                    <ProtectedRoute
+                      path="/hod-event-approvals"
+                      component={AdminEventApprovalsList}
+                    />
+                    <ProtectedRoute
+                      path="/hod-event-request-details"
+                      component={AdminEventDetails}
+                    />
                     <Route path="/" exact component={Admin} />
                     <Route path="*" exact component={Page404} />
                     {/* <ProtectedRoute
@@ -185,13 +207,17 @@ function App() {
                   {currentUser.isAcademic === "0" ? (
                     <>
                       <Switch>
-                      <ProtectedRoute
+                        <ProtectedRoute
                           path="/event-list-coo"
                           component={BusinessRequestListCOO}
                         />
-                         <ProtectedRoute
+                        <ProtectedRoute
                           path="/business-request-list-vcb"
                           component={BusinessRequestListVCB}
+                        />
+                        <ProtectedRoute
+                          path="/event-request-details-vcb"
+                          component={EventRequestDetailsVCB}
                         />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
@@ -265,12 +291,15 @@ function App() {
                           path="/dashboard-menu/home"
                           component={Home}
                         /> */}
-                     
                       </Switch>
                     </>
                   ) : (
                     <>
                       <Switch>
+                        <ProtectedRoute
+                          path="/business-request-list-vcb"
+                          component={BusinessRequestListVCB}
+                        />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
                         {/* <ProtectedRoute
@@ -508,7 +537,7 @@ function App() {
                       path="/dashboard-menu/home"
                       component={Home}
                     /> */}
-                     <ProtectedRoute
+                    <ProtectedRoute
                       path="/business-request-list-coo"
                       component={BusinessRequestListCOO}
                     />

@@ -60,7 +60,7 @@ const AdminTabs = () => {
         return 0;
       case "/hod-my-events-request":
         return 1;
-      case "/hod-add-business-travel-request":
+      case "/hod-event-approvals":
         return 2;
       default:
         return 0; // Default tab if no matching route
@@ -82,13 +82,13 @@ const AdminTabs = () => {
     // Navigate to the corresponding route
     switch (newValue) {
       case 0:
-        history.push("/hod-add-home-travel-request");
+        history.push("/hod-add-event-request");
         break;
       case 1:
-        history.push("/hod-my-home-travel-request");
+        history.push("/hod-my-events-request");
         break;
       case 2:
-        history.push("/hod-add-business-travel-request");
+        history.push("/hod-event-approvals");
         break;
       default:
         break;

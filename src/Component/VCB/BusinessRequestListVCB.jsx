@@ -34,7 +34,7 @@ const BusinessRequestListVCB = () => {
       const requestData = Array.isArray(response.data.data)
         ? response.data.data
         : [];
-  
+
       setbusinessRequest(requestData);
     } catch (error) {
       console.error("Error fetching home request details:", error);
@@ -43,7 +43,6 @@ const BusinessRequestListVCB = () => {
       setisLoading(false);
     }
   };
-  
 
   useEffect(() => {
     GetBusinessRequest();
@@ -54,7 +53,11 @@ const BusinessRequestListVCB = () => {
       { label: "#", field: "Number", sort: "asc" },
       { label: "Event Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "organizerName", sort: "asc" },
-      { label: "Approving Department", field: "approvingDeptName", sort: "asc" },
+      {
+        label: "Approving Department",
+        field: "approvingDeptName",
+        sort: "asc",
+      },
       { label: "Start Date", field: "eventStartDate", sort: "asc" },
       { label: "End Date", field: "eventEndDate", sort: "asc" },
       { label: "Created At", field: "createdAt", sort: "asc" },
@@ -78,7 +81,7 @@ const BusinessRequestListVCB = () => {
         <div className="d-flex justify-content-around">
           <Link
             to={{
-              pathname: "/business-request-details-vcb",
+              pathname: "/event-request-details-vcb",
               state: { requestId: data.requestId, statusName: data.statusName },
             }}
           >
@@ -89,10 +92,9 @@ const BusinessRequestListVCB = () => {
                 style={{
                   color: "white !important",
                   backgroundColor: "#343a40 !important",
-                  borderColor: "#343a40 !important"
+                  borderColor: "#343a40 !important",
                 }}
-                
-              > 
+              >
                 Decide
               </button>
             ) : (
@@ -103,7 +105,6 @@ const BusinessRequestListVCB = () => {
           </Link>
         </div>
       ),
-      
     })),
   };
 
