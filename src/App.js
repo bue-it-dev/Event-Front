@@ -39,10 +39,14 @@ import AdminEventList from "./Component/Admin/AdminEventList";
 import AdminEventApprovalsList from "./Component/Admin/AdminEventApprovalsList";
 import AdminEventDetails from "./Component/Admin/AdminEventDetails";
 import AddEventVCB from "./Component/VCB/AddEventVCB";
-import VCBEventList from "./Component/VCB/VCBEventList";
-import VCBApprovalDetails from "./Component/VCB/VCBApprovalDetails";
 import BOEventList from "./Component/BudgetOffice/BOEventList";
 import BOEventDetails from "./Component/BudgetOffice/BOEventDetails";
+import VCBEventList from "./Component/VCB/VCBEventList"
+import VCBApprovalDetails from "./Component/VCB/VCBApprovalDetails"
+import AddNewEvent from "./Component/President/AddNewEvent"
+import GetEventListForApprovals from "./Component/President/GetEventListForApprovals"
+import GetEventList from "./Component/President/GetEventList"
+import GetApprovalDetails from "./Component/President/GetApprovalDetails"
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -381,9 +385,29 @@ function App() {
                     </>
                   )}
                 </>
-              ) : user.type === "President" ? (
+              ) : user.type === "OfficeOfThePresident" ? (
                 <>
                   <Switch>
+                  <ProtectedRoute
+                      path="/add-event"
+                      exact
+                      component={AddNewEvent}
+                    />
+                    <ProtectedRoute
+                      path="/event-approval-list"
+                      exact
+                      component={GetEventListForApprovals}
+                    />
+                    <ProtectedRoute
+                      path="/event-list"
+                      exact
+                      component={GetEventList}
+                    />
+                    <ProtectedRoute
+                      path="/event-approval"
+                      exact
+                      component={GetApprovalDetails}
+                    />
                     <Route path="/" exact component={President} />
                     <Route path="*" exact component={Page404} />
                     {/* <ProtectedRoute

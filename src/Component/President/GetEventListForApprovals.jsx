@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { MDBDataTable } from "mdbreact";
+import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
@@ -7,6 +8,7 @@ import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import { ToastContainer, toast } from "react-toastify";
+import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import PresidentTabs from "./PresidentTabs";
@@ -21,7 +23,7 @@ const GetEventListForApprovals = () => {
   const GetEvents = async (empID) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-eventRequestHOD/`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestOfficeOfThePresident/`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -162,7 +164,7 @@ const GetEventListForApprovals = () => {
         <>
           <Link
             to={{
-              pathname: "/hod-event-request-details",
+              pathname: "/event-approval",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
