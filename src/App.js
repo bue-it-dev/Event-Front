@@ -38,6 +38,9 @@ import AdminEventAdd from "./Component/Admin/AdminEventAdd";
 import AdminEventList from "./Component/Admin/AdminEventList";
 import AdminEventApprovalsList from "./Component/Admin/AdminEventApprovalsList";
 import AdminEventDetails from "./Component/Admin/AdminEventDetails";
+import AddEventVCB from "./Component/VCB/AddEventVCB";
+import VCBEventList from "./Component/VCB/VCBEventList"
+import VCBApprovalDetails from "./Component/VCB/VCBApprovalDetails"
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -212,12 +215,20 @@ function App() {
                           component={BusinessRequestListCOO}
                         />
                         <ProtectedRoute
-                          path="/business-request-list-vcb"
+                          path="/event-request-list-vcb"
                           component={BusinessRequestListVCB}
                         />
                         <ProtectedRoute
-                          path="/event-request-details-vcb"
-                          component={EventRequestDetailsVCB}
+                          path="/add-event-VCB"
+                          component={AddEventVCB}
+                        />
+                         <ProtectedRoute
+                          path="/vcb-event-list"
+                          component={VCBEventList}
+                        />
+                         <ProtectedRoute
+                          path="/vcb-approval-details"
+                          component={VCBApprovalDetails}
                         />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />

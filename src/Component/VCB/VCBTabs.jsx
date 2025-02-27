@@ -102,23 +102,15 @@ const VCBTabs = () => {
     // Navigate to the corresponding route
     switch (newValue) {
       case 0:
-        history.push("/home-request-create-vcb");
+        history.push("/add-event-VCB");
         break;
       case 1:
-        history.push("/my-home-request-list-vcb");
+        history.push("/vcb-event-list");
         break;
       case 2:
-        history.push("/vcb-add-business-travel-request");
+        history.push("event-request-list-vcb");
         break;
-      case 3:
-        history.push("/vcb-my-business-travel-request");
-        break;
-      case 4:
-        history.push("/home-request-list-vcb");
-        break;
-      case 5:
-        history.push("/business-request-list-vcb");
-        break;
+   
       default:
         break;
     }
@@ -134,21 +126,21 @@ const VCBTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Home Leave Request" {...a11yProps(0)} />
-          <Tab label="My Home Requests" {...a11yProps(1)} />
-          <Tab label="New Business Leave Request" {...a11yProps(2)} />
-          <Tab label="My Business Requests" {...a11yProps(3)} />
-          <Tab label="VCB Home Requests Approvals" {...a11yProps(4)} />
-          <Tab label="VCB Business Requests Approvals" {...a11yProps(5)} />
+          
+          <Tab label="New Event Request" {...a11yProps(0)} />
+          {/*<Tab label="New Home Leave Request" {...a11yProps(0)} />*/}
+          {/*<Tab label="My Home Requests" {...a11yProps(1)} /> */}
+
+          <Tab label="My Event Requests" {...a11yProps(1)} /> 
+          {/* <Tab label="VCB Home Requests Approvals" {...a11yProps(4)} />*/}
+          <Tab label="VCB Events Requests Approvals" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
       <TabPanel value={value} index={0}></TabPanel>
       <TabPanel value={value} index={1}></TabPanel>
       <TabPanel value={value} index={2}></TabPanel>
-      <TabPanel value={value} index={3}></TabPanel>
-      <TabPanel value={value} index={4}></TabPanel>
-      <TabPanel value={value} index={5}></TabPanel>
+     
     </div>
   );
 };

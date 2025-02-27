@@ -5,16 +5,16 @@ import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
 import "../Applicant/Applicant.css";
-import AdminTabs from "./AdminTabs";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
-import Admin from "./Admin";
+import VCBTabs from "./VCBTabs";
+import VCB from "./VCB";
 
-const AdminEventAdd = () => {
+const AddEventVCB = () => {
   const history = useHistory();
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
@@ -126,7 +126,7 @@ const AdminEventAdd = () => {
 
   return (
     <div>
-      <Admin />
+      <VCB />
       <br />
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-lg-6 col-xl-6">
@@ -254,4 +254,4 @@ const AdminEventAdd = () => {
   );
 };
 
-export default AdminEventAdd;
+export default AddEventVCB;

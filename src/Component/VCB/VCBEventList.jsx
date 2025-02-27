@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
@@ -8,11 +8,11 @@ import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import { ToastContainer, toast } from "react-toastify";
-import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import VCBTabs from "./VCBTabs";
-const BusinessRequestListVCB = () => {
+import VCB from "./VCB";
+const VCBEventList = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,14 +23,14 @@ const BusinessRequestListVCB = () => {
   const GetEvents = async (empID) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-eventRequestVCB/`,
+        `${URL.BASE_URL}/api/EventEntity/get-events-by-empId/${empID}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
           },
         }
       );
-      setEvents(response.data.data);
+      setEvents(response.data);
     } catch (error) {
       console.error("Error fetching event details:", error);
       setError("Failed to fetch events. Please try again later.");
@@ -124,9 +124,9 @@ const BusinessRequestListVCB = () => {
       { label: "#", field: "Number", sort: "asc" },
       { label: "Event Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
-      { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      { label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
-      { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+      //{ label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
+      //{ label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
       {
         label: "Approving Deptartment",
@@ -156,15 +156,15 @@ const BusinessRequestListVCB = () => {
       eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
       OrganizerName: event.organizerName || "N/A",
       approvingDeptName: event.approvingDeptName || "N/A",
-      OrganizerMobile: event.organizerMobile || "N/A",
-      OrganizerExtension: event.organizerExtension || "N/A",
-      OrganizerEmail: event.OrganizerEmail || "N/A",
+      //OrganizerMobile: event.organizerMobile || "N/A",
+      //OrganizerExtension: event.organizerExtension || "N/A",
+      //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
         <>
           <Link
             to={{
-              pathname: "vcb-approval-details",
+              pathname: "/vcb-approval-details",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
@@ -172,9 +172,16 @@ const BusinessRequestListVCB = () => {
             }}
           >
             <button type="button" className="btn btn-success btn-sm">
-              Decide
+              View
             </button>
           </Link>
+
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => handleDelete(event.eventId)}
+          >
+            Delete
+          </button>
         </>
       ),
     })),
@@ -182,7 +189,7 @@ const BusinessRequestListVCB = () => {
 
   return (
     <div className="my-events">
-      <VCBTabs />
+      <VCB />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (
@@ -211,4 +218,4 @@ const BusinessRequestListVCB = () => {
   );
 };
 
-export default BusinessRequestListVCB;
+export default VCBEventList;
