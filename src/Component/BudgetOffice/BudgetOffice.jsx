@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom"; // useHistory instead of useNavig
 const BudgetOffice = () => {
   const history = useHistory(); // useHistory hook
   React.useEffect(() => {
-    history.push("/business-request-list-budget-office");
+    history.push("/event-request-list-budget-office");
   }, [history]);
   return (
     <div>

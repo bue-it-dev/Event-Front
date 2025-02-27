@@ -39,8 +39,10 @@ import AdminEventList from "./Component/Admin/AdminEventList";
 import AdminEventApprovalsList from "./Component/Admin/AdminEventApprovalsList";
 import AdminEventDetails from "./Component/Admin/AdminEventDetails";
 import AddEventVCB from "./Component/VCB/AddEventVCB";
-import VCBEventList from "./Component/VCB/VCBEventList"
-import VCBApprovalDetails from "./Component/VCB/VCBApprovalDetails"
+import VCBEventList from "./Component/VCB/VCBEventList";
+import VCBApprovalDetails from "./Component/VCB/VCBApprovalDetails";
+import BOEventList from "./Component/BudgetOffice/BOEventList";
+import BOEventDetails from "./Component/BudgetOffice/BOEventDetails";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -222,11 +224,11 @@ function App() {
                           path="/add-event-VCB"
                           component={AddEventVCB}
                         />
-                         <ProtectedRoute
+                        <ProtectedRoute
                           path="/vcb-event-list"
                           component={VCBEventList}
                         />
-                         <ProtectedRoute
+                        <ProtectedRoute
                           path="/vcb-approval-details"
                           component={VCBApprovalDetails}
                         />
@@ -554,7 +556,7 @@ function App() {
                     />
                   </Switch>
                 </>
-              ) : user.type === "Budget_Office" ? (
+              ) : user.type === "BudgetOffice" ? (
                 <>
                   <Switch>
                     {/* <ProtectedRoute
@@ -565,6 +567,14 @@ function App() {
                       path="/business-request-details-budget-office"
                       component={BusinessRequestDetailsBO}
                     /> */}
+                    <ProtectedRoute
+                      path="/event-request-list-budget-office"
+                      component={BOEventList}
+                    />
+                    <ProtectedRoute
+                      path="/bo-event-request-details"
+                      component={BOEventDetails}
+                    />
                     <Route path="/" exact component={BudgetOffice} />
                     <Route path="*" exact component={Page404} />
                   </Switch>

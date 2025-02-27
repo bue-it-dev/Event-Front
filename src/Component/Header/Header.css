@@ -6,8 +6,8 @@
   font-size: 15px !important;
   font-weight: bold !important;
     /* Background image only on the right */
-    background: linear-gradient(to left, transparent 50%, #e9e8e8 70%),
-    url('../Assets/airplane-interior-view-stockcake1.jpg');
+    background: linear-gradient(to left, transparent 40%, #e9e8e8 80%),
+    url('../Assets/2023-05-02 15-20-54.654-home-slide-d-_1920x800.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
