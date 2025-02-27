@@ -24,6 +24,7 @@ const GetEventListForApprovals = () => {
     try {
       const response = await axios.get(
         `${URL.BASE_URL}/api/EventEntity/get-eventRequestOfficeOfThePresident/`,
+
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,

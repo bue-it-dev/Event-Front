@@ -47,6 +47,7 @@ import AddNewEvent from "./Component/President/AddNewEvent"
 import GetEventListForApprovals from "./Component/President/GetEventListForApprovals"
 import GetEventList from "./Component/President/GetEventList"
 import GetApprovalDetails from "./Component/President/GetApprovalDetails"
+
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -408,6 +409,7 @@ function App() {
                       exact
                       component={GetApprovalDetails}
                     />
+
                     <Route path="/" exact component={President} />
                     <Route path="*" exact component={Page404} />
                     {/* <ProtectedRoute
