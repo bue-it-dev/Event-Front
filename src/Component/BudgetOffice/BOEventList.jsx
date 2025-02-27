@@ -24,7 +24,7 @@ const BOEventList = () => {
   const GetEvents = async (empID) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-eventRequestBOM/`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestbudget/`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,

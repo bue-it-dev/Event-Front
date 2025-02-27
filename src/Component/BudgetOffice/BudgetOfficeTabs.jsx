@@ -82,7 +82,7 @@ const BudgetOfficeTabs = () => {
         >
           <LinkTab
             label="Business Requests Approvals"
-            href="//event-request-list-budget-office"
+            href="/event-request-list-budget-office"
             {...a11yProps(0)}
           />
         </Tabs>
