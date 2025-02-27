@@ -310,8 +310,24 @@ function App() {
                     <>
                       <Switch>
                         <ProtectedRoute
-                          path="/business-request-list-vcb"
+                          path="/event-list-coo"
+                          component={BusinessRequestListCOO}
+                        />
+                        <ProtectedRoute
+                          path="/event-request-list-vcb"
                           component={BusinessRequestListVCB}
+                        />
+                        <ProtectedRoute
+                          path="/add-event-VCB"
+                          component={AddEventVCB}
+                        />
+                        <ProtectedRoute
+                          path="/vcb-event-list"
+                          component={VCBEventList}
+                        />
+                        <ProtectedRoute
+                          path="/vcb-approval-details"
+                          component={VCBApprovalDetails}
                         />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />

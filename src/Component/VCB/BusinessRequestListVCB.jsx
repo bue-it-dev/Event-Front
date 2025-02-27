@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import VCBTabs from "./VCBTabs";
+import VCB from "./VCB";
 const BusinessRequestListVCB = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -182,7 +182,7 @@ const BusinessRequestListVCB = () => {
 
   return (
     <div className="my-events">
-      <VCBTabs />
+      <VCB />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (
