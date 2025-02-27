@@ -82,35 +82,21 @@ const PresidentTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="New Home Leave Request"
-            href="/president-add-home-travel-request"
+            label="New Event Request"
+            href="/add-event"
             {...a11yProps(0)}
           />
           <LinkTab
-            label="My Home Requests"
-            href="/president-my-home-travel-request"
+            label="My Event Requests"
+            href="/event-list"
             {...a11yProps(0)}
           />
           <LinkTab
-            label="New Business Leave Request"
-            href="/president-add-business-travel-request"
+            label="My Event Approvals"
+            href="/event-approval-list"
             {...a11yProps(0)}
           />
-          <LinkTab
-            label="My Business Requests"
-            href="/president-my-business-travel-request"
-            {...a11yProps(0)}
-          />
-          <LinkTab
-            label="Home Requests Approvals"
-            href="/home-request-list-president"
-            {...a11yProps(0)}
-          />
-          <LinkTab
-            label="Business Requests Approvals"
-            href="/business-request-list-president"
-            {...a11yProps(0)}
-          />
+         
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}></TabPanel>
