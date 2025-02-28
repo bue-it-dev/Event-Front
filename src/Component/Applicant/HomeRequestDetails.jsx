@@ -883,7 +883,12 @@ const HomeRequestDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {accom.roomTypeId}
+                                    {
+                                      roomTypes.find(
+                                        (room) =>
+                                          room.roomTypeId === accom.roomTypeId
+                                      )?.roomTypeName
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
@@ -1005,7 +1010,13 @@ const HomeRequestDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {transport.transportationTypeId}
+                                    {
+                                      transportationTypes.find(
+                                        (item) =>
+                                          item.transportationTypeId ===
+                                          transport.transportationTypeId
+                                      )?.transportationType1
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
