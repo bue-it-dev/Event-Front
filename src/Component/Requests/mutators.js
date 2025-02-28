@@ -399,7 +399,7 @@ const AddFiles = async (
 
 const ConfrimEventRequest = async (eventId) => {
   try {
-    await axios.put(
+    await axios.post(
       `${URL.BASE_URL}/api/EventEntity/submit/${eventId}`,
       {},
       {

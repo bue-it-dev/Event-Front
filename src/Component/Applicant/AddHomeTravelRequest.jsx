@@ -1,4 +1,4 @@
-import { AddFiles, SaveEvent } from "../Requests/mutators";
+import { AddFiles, SaveEvent, ConfrimEventRequest } from "../Requests/mutators";
 import React, { useState, useEffect } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
@@ -89,7 +89,6 @@ const AddHomeTravelRequest = () => {
       const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
-
       if (EventId) {
         await AddFiles(
           EventId,
@@ -101,7 +100,6 @@ const AddHomeTravelRequest = () => {
       }
       setisLoading(false);
       toast.success("Event added successfully", { position: "top-center" });
-      history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -109,7 +107,75 @@ const AddHomeTravelRequest = () => {
       });
     }
   };
+  const ConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        const toastId = toast.info(
+          <>
+            <div style={{ textAlign: "center" }}>
+              <p>Are you sure you want to confirm this request?</p>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(true); // Proceed with confirmation
+                  }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "green",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(false); // Cancel the operation
+                  }}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>,
+          {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            position: "top-center", // Center the toast
+          }
+        );
+      });
 
+    const userConfirmed = await confirmAction();
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+        // Check for null, undefined, or zero values in the list
+        const EventId = localStorage.getItem("eventId");
+        await ConfrimEventRequest(EventId);
+        setisLoading(false);
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("An error occurred. Please try again later.", {
+          position: "top-center",
+        });
+      }
+    }
+  };
+  const responseRequestIDExtracted = localStorage.getItem("responseRequestID");
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -181,7 +247,7 @@ const AddHomeTravelRequest = () => {
                 </h5>
               </div>
 
-              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
+              <ValidatorForm className="px-md-2">
                 <EventSelections
                   eventData={eventData}
                   setEventData={seteventData}
@@ -236,14 +302,40 @@ const AddHomeTravelRequest = () => {
                   handleFileChange={handleFileChange}
                 />
 
-                <button
+                {/* <button
                   type="submit"
                   className="btn btn-dark btn-lg col-12 mt-3"
                   disabled={isLoading}
                   style={{ transition: "0.3s ease" }}
                 >
                   {isLoading ? "Submitting Request..." : "Submit"}
-                </button>
+                </button> */}
+                <div className="row">
+                  <div className="col-md-6">
+                    <button
+                      type="submit"
+                      className="btn btn-dark btn-lg col-12 mt-3"
+                      disabled={isLoading}
+                      style={{ transition: "0.3s ease" }}
+                      onClick={() =>
+                        ConfrimBusinessRequestAsync(responseRequestIDExtracted)
+                      }
+                    >
+                      {isLoading ? "Confirming Request..." : "Confirm Request"}
+                    </button>
+                  </div>
+                  <div className="col-md-6">
+                    <button
+                      type="submit"
+                      className="btn btn-dark btn-lg col-12 mt-3"
+                      disabled={isLoading}
+                      style={{ transition: "0.3s ease" }}
+                      onClick={() => onSubmit()}
+                    >
+                      {isLoading ? "Submitting Request..." : "Submit Request"}
+                    </button>
+                  </div>
+                </div>
               </ValidatorForm>
             </div>
           </div>

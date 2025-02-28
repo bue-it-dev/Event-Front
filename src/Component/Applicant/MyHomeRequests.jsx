@@ -175,13 +175,16 @@ const MyEvents = () => {
               View
             </button>
           </Link>
-
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => handleDelete(event.eventId)}
-          >
-            Delete
-          </button>
+          {event.confirmedAt == null ? (
+            <>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => handleDelete(event.eventId)}
+              >
+                Delete
+              </button>
+            </>
+          ) : null}
         </>
       ),
     })),
