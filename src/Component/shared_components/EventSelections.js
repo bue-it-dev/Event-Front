@@ -18,6 +18,7 @@ const EventSelections = ({ eventData, setEventData }) => {
         }
       );
       setRoomTypes(response.data.data);
+      // console.log("Rooms", roomTypes[0].roomTypeName);
     } catch (error) {
       console.error("Error fetching room types:", error);
     }
@@ -290,7 +291,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                         />
                         <label
                           className="form-check-label text-dark"
-                          htmlFor={`transportation-${type.roomTypeId}`}
+                          htmlFor={`roomType-${type.roomTypeId}`}
                           style={{ fontSize: "14px" }}
                         >
                           {type.roomTypeName}
@@ -306,7 +307,11 @@ const EventSelections = ({ eventData, setEventData }) => {
                         className="form-label font-weight-bold text-dark"
                         style={{ fontSize: "14px" }}
                       >
-                        Type: {accom.roomTypeId}
+                        {
+                          roomTypes.find(
+                            (room) => room.roomTypeId === accom.roomTypeId
+                          )?.roomTypeName
+                        }
                       </label>
                     </div>
                     <div className="col-md-3">
@@ -467,7 +472,13 @@ const EventSelections = ({ eventData, setEventData }) => {
                       className="form-label font-weight-bold text-dark"
                       style={{ fontSize: "14px" }}
                     >
-                      Type: {transport.transportationType1}
+                      {
+                        transportationTypes.find(
+                          (item) =>
+                            item.transportationTypeId ===
+                            transport.TransportationTypeId
+                        )?.transportationType1
+                      }
                     </label>
                   </div>
                   <div className="col-md-3">
