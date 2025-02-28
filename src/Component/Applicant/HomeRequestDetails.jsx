@@ -333,7 +333,7 @@ const HomeRequestDetails = () => {
         );
       }
       setisLoading(false);
-      toast.success("Event added successfully", { position: "top-center" });
+      toast.success("Event Updated successfully", { position: "top-center" });
       history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);

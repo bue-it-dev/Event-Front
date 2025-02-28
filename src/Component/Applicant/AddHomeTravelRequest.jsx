@@ -1,4 +1,10 @@
-import { AddFiles, SaveEvent, ConfrimEventRequest } from "../Requests/mutators";
+import {
+  AddFiles,
+  SaveEvent,
+  ConfrimEventRequest,
+  UpdateEventRequest,
+  UpdateFiles,
+} from "../Requests/mutators";
 import React, { useState, useEffect } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
@@ -102,6 +108,88 @@ const AddHomeTravelRequest = () => {
       setisLoading(false);
       setisDraft(true);
       toast.success("Event added successfully", { position: "top-center" });
+    } catch (err) {
+      setisLoading(false);
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+      });
+    }
+  };
+  const responseRequestIDExtracted = localStorage.getItem("eventId");
+  const UpdateDraftEventRequest = async () => {
+    try {
+      setisLoading(true);
+      const payload = {
+        eventId: responseRequestIDExtracted,
+        approvingDepTypeId: eventData.approvingDepTypeId,
+        eventTitle: eventData.EventTitle, // Different case
+        nomParticipants: eventData.NomParticipants ?? 0, // Default to 0
+        eventStartDate: eventData.EventStartDate,
+        natureOfEventId: eventData.natureOfEventId,
+        eventEndDate: eventData.EventEndDate,
+        hasIt: eventData.HasIt,
+        hasAccomdation: eventData.HasAccomodation, // Different property name
+        hasTransportation: eventData.HasTransportation,
+        endDateTime: null, // Not present in State 1, set to null
+        startDateTime: null, // Not present in State 1, set to null
+        organizerName: eventData.OrganizerName,
+        organizerMobile: eventData.OrganizerMobile,
+        organizerExtention: eventData.OrganizerExtention,
+        approvingDeptName: null, // Not present in State 1, set to null
+        deptId: eventData.DeptId,
+        isOthers: eventData.IsOthers ?? 0,
+        isStaffStudents: eventData.IsStaffStudents ?? 0,
+        isChairBoardPrisidentVcb: eventData.IsChairBoardPrisidentVcb ?? 0,
+        ledOfTheUniversityOrganizerFilePath:
+          eventData.LedOfTheUniversityOrganizerFile,
+        officeOfPresedentFilePath: eventData.OfficeOfPresedentFile,
+        visitAgendaFilePath: eventData.VisitAgendaFile,
+        confirmedAt: null, // Not present in State 1, set to null
+        isVip: eventData.isVIP ?? 0,
+        passports: eventData.passportFiles || [], // Ensure it's an array
+        itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
+          id: it.id ?? 0,
+          eventId: it.eventId ?? responseRequestIDExtracted,
+          itcomponentId: it.itcomponentId ?? 0,
+          quantity: it.quantity ?? 0,
+        })),
+        transportations: eventData.Transportations.map((t) => ({
+          transportationTypeId: t.transportationTypeId ?? 0,
+          eventId: t.eventId ?? responseRequestIDExtracted,
+          startDate: t.startDate ?? null,
+          endDate: t.endDate ?? null,
+          quantity: t.quantity ?? 0,
+        })),
+        accommodations: eventData.Accommodations.map((a) => ({
+          roomTypeId: a.roomTypeId ?? 0,
+          eventId: a.eventId ?? responseRequestIDExtracted,
+          startDate: a.startDate ?? null,
+          endDate: a.endDate ?? null,
+          numOfRooms: a.numOfRooms ?? 0,
+        })),
+        buildingVenues: eventData.BuildingVenues.map((b) => ({
+          eventId: b.eventId ?? responseRequestIDExtracted,
+          venueId: b.venueId ?? 0,
+          buildingId: b.buildingId ?? 0,
+        })),
+        Venues: eventData.Venues,
+        travellerList: eventData.travellerList ?? 0,
+      };
+
+      await UpdateEventRequest(payload);
+
+      if (responseRequestIDExtracted) {
+        await UpdateFiles(
+          responseRequestIDExtracted,
+          passportFiles || [],
+          eventData.OfficeOfPresedentFile,
+          eventData.LedOfTheUniversityOrganizerFile,
+          eventData.VisitAgendaFile
+        );
+      }
+      setisLoading(false);
+      toast.success("Event Updated successfully", { position: "top-center" });
+      // history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -236,8 +324,8 @@ const AddHomeTravelRequest = () => {
 
         var savedeventData = await SaveEvent(eventData);
         var requestId = savedeventData.data;
-        localStorage.setItem("responseRequestID", requestId);
-        const EventId = localStorage.getItem("responseRequestID");
+        localStorage.setItem("eventId", requestId);
+        const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(EventId);
         setisLoading(false);
         toast.success("Request confirmed successfully!", {
@@ -252,7 +340,6 @@ const AddHomeTravelRequest = () => {
       }
     }
   };
-  const responseRequestIDExtracted = localStorage.getItem("responseRequestID");
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -404,7 +491,7 @@ const AddHomeTravelRequest = () => {
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
                           style={{ transition: "0.3s ease" }}
-                          onClick={() => onSubmit()}
+                          onClick={() => UpdateDraftEventRequest()}
                         >
                           {isLoading ? "Updating Request..." : "Update Request"}
                         </button>
