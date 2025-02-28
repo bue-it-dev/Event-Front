@@ -511,33 +511,39 @@ const AdminEventDetails = () => {
     async (statusId) => {
       try {
         setisLoading(true);
-        // Create a new object with the updated status
-        var payload = {
+
+        const payload = {
           status: statusId,
           userTypeId: 1,
           eventId: requestId,
         };
-        await UpdateEventApproval(payload);
-        setisLoading(false);
-        if (statusId == 1) {
-          toast.success("Request Approved successfully", {
-            position: "top-center",
-          });
+
+        // Wait for the backend response
+        const response = await UpdateEventApproval(payload);
+
+        // Ensure response is valid before proceeding
+        if (response && response.success) {
+          toast.success(
+            statusId === 1
+              ? "Request Approved successfully"
+              : "Request Rejected!",
+            { position: "top-center" }
+          );
+
+          history.push("/hod-event-approvals");
         } else {
-          toast.error("Request Rejected!", {
-            position: "top-center",
-          });
+          throw new Error(response?.message || "Approval update failed");
         }
-        history.push("/hod-event-approvals");
       } catch (error) {
-        setisLoading(false);
         console.error("Error while updating user details:", error);
         toast.error("Error while updating user details, please try again", {
           position: "top-center",
         });
+      } finally {
+        setisLoading(false);
       }
     },
-    [setisLoading]
+    [setisLoading, requestId, history]
   );
   useEffect(() => {
     setisLoading(false);
