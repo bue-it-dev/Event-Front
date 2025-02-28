@@ -15,6 +15,7 @@ import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueL
 
 const AddHomeTravelRequest = () => {
   const history = useHistory();
+  const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
@@ -99,6 +100,7 @@ const AddHomeTravelRequest = () => {
         );
       }
       setisLoading(false);
+      setisDraft(true);
       toast.success("Event added successfully", { position: "top-center" });
     } catch (err) {
       setisLoading(false);
@@ -170,6 +172,81 @@ const AddHomeTravelRequest = () => {
       } catch (err) {
         setisLoading(false);
         toast.error("An error occurred. Please try again later.", {
+          position: "top-center",
+        });
+      }
+    }
+  };
+  const SaveandConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        const toastId = toast.info(
+          <>
+            <div style={{ textAlign: "center" }}>
+              <p>Are you sure you want to confirm this request?</p>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(true); // Proceed with confirmation
+                  }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "green",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(false); // Cancel the operation
+                  }}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>,
+          {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            position: "top-center", // Center the toast
+          }
+        );
+      });
+
+    const userConfirmed = await confirmAction();
+
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+
+        var savedeventData = await SaveEvent(eventData);
+        var requestId = savedeventData.data;
+        localStorage.setItem("responseRequestID", requestId);
+        const EventId = localStorage.getItem("responseRequestID");
+        await ConfrimEventRequest(EventId);
+        setisLoading(false);
+        toast.success("Request confirmed successfully!", {
+          position: "top-center",
+        });
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("Error while updating user details, please try again", {
           position: "top-center",
         });
       }
@@ -301,41 +378,75 @@ const AddHomeTravelRequest = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-
-                {/* <button
-                  type="submit"
-                  className="btn btn-dark btn-lg col-12 mt-3"
-                  disabled={isLoading}
-                  style={{ transition: "0.3s ease" }}
-                >
-                  {isLoading ? "Submitting Request..." : "Submit"}
-                </button> */}
-                <div className="row">
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-lg col-12 mt-3"
-                      disabled={isLoading}
-                      style={{ transition: "0.3s ease" }}
-                      onClick={() =>
-                        ConfrimBusinessRequestAsync(responseRequestIDExtracted)
-                      }
-                    >
-                      {isLoading ? "Confirming Request..." : "Confirm Request"}
-                    </button>
-                  </div>
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-lg col-12 mt-3"
-                      disabled={isLoading}
-                      style={{ transition: "0.3s ease" }}
-                      onClick={() => onSubmit()}
-                    >
-                      {isLoading ? "Submitting Request..." : "Submit Request"}
-                    </button>
-                  </div>
-                </div>
+                {isDraft == true ? (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() =>
+                            ConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
+                        >
+                          {isLoading
+                            ? "Confirming Request..."
+                            : "Confirm Request"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => onSubmit()}
+                        >
+                          {isLoading ? "Updating Request..." : "Update Request"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() =>
+                            SaveandConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
+                        >
+                          {isLoading
+                            ? "Confirming Request..."
+                            : "Confirm Request"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => onSubmit()}
+                        >
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>
