@@ -8,7 +8,7 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-import AdminTabs from "./AdminTabs";
+import Admin from "../Admin/Admin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
@@ -171,17 +171,20 @@ const AdminEventList = () => {
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm">
+            <button type="button" className="btn btn-success btn-sm mb-1">
               View
             </button>
           </Link>
-
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => handleDelete(event.eventId)}
-          >
-            Delete
-          </button>
+          {event.confirmedAt == null ? (
+            <>
+              <button
+                className="btn btn-danger btn-sm mb-1 ml-2"
+                onClick={() => handleDelete(event.eventId)}
+              >
+                Delete
+              </button>
+            </>
+          ) : null}
         </>
       ),
     })),
@@ -189,7 +192,7 @@ const AdminEventList = () => {
 
   return (
     <div className="my-events">
-      <AdminTabs />
+      <Admin />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (

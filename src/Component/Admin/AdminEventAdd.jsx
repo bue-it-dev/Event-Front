@@ -1,21 +1,27 @@
-import { AddFiles, SaveEvent } from "../Requests/mutators";
+import {
+  AddFiles,
+  SaveEvent,
+  ConfrimEventRequest,
+  UpdateEventRequest,
+  UpdateFiles,
+} from "../Requests/mutators";
 import React, { useState, useEffect } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
-import "../Applicant/Applicant.css";
-import AdminTabs from "./AdminTabs";
+import "./Applicant.css";
+import Admin from "../Admin/Admin";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
-import Admin from "./Admin";
 
 const AdminEventAdd = () => {
   const history = useHistory();
+  const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
@@ -90,7 +96,6 @@ const AdminEventAdd = () => {
       const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
-
       if (EventId) {
         await AddFiles(
           EventId,
@@ -101,8 +106,8 @@ const AdminEventAdd = () => {
         );
       }
       setisLoading(false);
+      setisDraft(true);
       toast.success("Event added successfully", { position: "top-center" });
-      history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -110,7 +115,231 @@ const AdminEventAdd = () => {
       });
     }
   };
+  const responseRequestIDExtracted = localStorage.getItem("eventId");
+  const UpdateDraftEventRequest = async () => {
+    try {
+      setisLoading(true);
+      const payload = {
+        eventId: responseRequestIDExtracted,
+        approvingDepTypeId: eventData.approvingDepTypeId,
+        eventTitle: eventData.EventTitle, // Different case
+        nomParticipants: eventData.NomParticipants ?? 0, // Default to 0
+        eventStartDate: eventData.EventStartDate,
+        natureOfEventId: eventData.natureOfEventId,
+        eventEndDate: eventData.EventEndDate,
+        hasIt: eventData.HasIt,
+        hasAccomdation: eventData.HasAccomodation, // Different property name
+        hasTransportation: eventData.HasTransportation,
+        endDateTime: null, // Not present in State 1, set to null
+        startDateTime: null, // Not present in State 1, set to null
+        organizerName: eventData.OrganizerName,
+        organizerMobile: eventData.OrganizerMobile,
+        organizerExtention: eventData.OrganizerExtention,
+        approvingDeptName: null, // Not present in State 1, set to null
+        deptId: eventData.DeptId,
+        isOthers: eventData.IsOthers ?? 0,
+        isStaffStudents: eventData.IsStaffStudents ?? 0,
+        isChairBoardPrisidentVcb: eventData.IsChairBoardPrisidentVcb ?? 0,
+        ledOfTheUniversityOrganizerFilePath:
+          eventData.LedOfTheUniversityOrganizerFile,
+        officeOfPresedentFilePath: eventData.OfficeOfPresedentFile,
+        visitAgendaFilePath: eventData.VisitAgendaFile,
+        confirmedAt: null, // Not present in State 1, set to null
+        isVip: eventData.isVIP ?? 0,
+        passports: eventData.passportFiles || [], // Ensure it's an array
+        itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
+          id: it.id ?? 0,
+          eventId: it.eventId ?? responseRequestIDExtracted,
+          itcomponentId: it.itcomponentId ?? 0,
+          quantity: it.quantity ?? 0,
+        })),
+        transportations: eventData.Transportations.map((t) => ({
+          transportationTypeId: t.transportationTypeId ?? 0,
+          eventId: t.eventId ?? responseRequestIDExtracted,
+          startDate: t.startDate ?? null,
+          endDate: t.endDate ?? null,
+          quantity: t.quantity ?? 0,
+        })),
+        accommodations: eventData.Accommodations.map((a) => ({
+          roomTypeId: a.roomTypeId ?? 0,
+          eventId: a.eventId ?? responseRequestIDExtracted,
+          startDate: a.startDate ?? null,
+          endDate: a.endDate ?? null,
+          numOfRooms: a.numOfRooms ?? 0,
+        })),
+        buildingVenues: eventData.BuildingVenues.map((b) => ({
+          eventId: b.eventId ?? responseRequestIDExtracted,
+          venueId: b.venueId ?? 0,
+          buildingId: b.buildingId ?? 0,
+        })),
+        Venues: eventData.Venues,
+        travellerList: eventData.travellerList ?? 0,
+      };
 
+      await UpdateEventRequest(payload);
+
+      if (responseRequestIDExtracted) {
+        await UpdateFiles(
+          responseRequestIDExtracted,
+          passportFiles || [],
+          eventData.OfficeOfPresedentFile,
+          eventData.LedOfTheUniversityOrganizerFile,
+          eventData.VisitAgendaFile
+        );
+      }
+      setisLoading(false);
+      toast.success("Event Updated successfully", { position: "top-center" });
+      // history.push("/my-event-requests");
+    } catch (err) {
+      setisLoading(false);
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+      });
+    }
+  };
+  const ConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        const toastId = toast.info(
+          <>
+            <div style={{ textAlign: "center" }}>
+              <p>Are you sure you want to confirm this request?</p>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(true); // Proceed with confirmation
+                  }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "green",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(false); // Cancel the operation
+                  }}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>,
+          {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            position: "top-center", // Center the toast
+          }
+        );
+      });
+
+    const userConfirmed = await confirmAction();
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+        // Check for null, undefined, or zero values in the list
+        const EventId = localStorage.getItem("eventId");
+        await ConfrimEventRequest(EventId);
+        setisLoading(false);
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("An error occurred. Please try again later.", {
+          position: "top-center",
+        });
+      }
+    }
+  };
+  const SaveandConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        const toastId = toast.info(
+          <>
+            <div style={{ textAlign: "center" }}>
+              <p>Are you sure you want to confirm this request?</p>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(true); // Proceed with confirmation
+                  }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "green",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(false); // Cancel the operation
+                  }}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>,
+          {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            position: "top-center", // Center the toast
+          }
+        );
+      });
+
+    const userConfirmed = await confirmAction();
+
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+
+        var savedeventData = await SaveEvent(eventData);
+        var requestId = savedeventData.data;
+        localStorage.setItem("eventId", requestId);
+        const EventId = localStorage.getItem("eventId");
+        await ConfrimEventRequest(EventId);
+        setisLoading(false);
+        toast.success("Request confirmed successfully!", {
+          position: "top-center",
+        });
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("Error while updating user details, please try again", {
+          position: "top-center",
+        });
+      }
+    }
+  };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -182,7 +411,7 @@ const AdminEventAdd = () => {
                 </h5>
               </div>
 
-              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
+              <ValidatorForm className="px-md-2">
                 <EventSelections
                   eventData={eventData}
                   setEventData={seteventData}
@@ -236,15 +465,75 @@ const AdminEventAdd = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-
-                <button
-                  type="submit"
-                  className="btn btn-dark btn-lg col-12 mt-3"
-                  disabled={isLoading}
-                  style={{ transition: "0.3s ease" }}
-                >
-                  {isLoading ? "Submitting Request..." : "Submit"}
-                </button>
+                {isDraft == true ? (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() =>
+                            ConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
+                        >
+                          {isLoading
+                            ? "Confirming Request..."
+                            : "Confirm Request"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => UpdateDraftEventRequest()}
+                        >
+                          {isLoading ? "Updating Request..." : "Update Request"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() =>
+                            SaveandConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
+                        >
+                          {isLoading
+                            ? "Confirming Request..."
+                            : "Confirm Request"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => onSubmit()}
+                        >
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>
