@@ -49,7 +49,7 @@ import GetEventList from "./Component/President/GetEventList";
 import GetApprovalDetails from "./Component/President/GetApprovalDetails";
 import IT from "./Component/IT/IT";
 import ITEventList from "./Component/IT/ITEventList";
-
+import Details from "./Component/IT/Details"
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -263,6 +263,10 @@ function App() {
                     <ProtectedRoute
                       path="/event-request-list-IT"
                       component={ITEventList}
+                    />
+                       <ProtectedRoute
+                      path="/event-details"
+                      component={Details}
                     />
                   
                     <Route path="/" exact component={IT} />
