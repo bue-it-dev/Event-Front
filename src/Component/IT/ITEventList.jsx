@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import ITTabs from "./ITTabs"
+import ITTabs from "./ITTabs";
 const ITEventList = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +24,7 @@ const ITEventList = () => {
     try {
       const response = await axios.get(
         `${URL.BASE_URL}/api/EventEntity/get-eventRequestIT/`,
+
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -141,44 +142,74 @@ const ITEventList = () => {
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Actions", field: "actions", sort: "disabled" },
     ],
-    rows: events.map((event, i) => {
-      const buttonText = event.statusName === "Pending" ? "Decide" : "View";
-  
-      return {
-        Number: i + 1,
-        eventId: event.eventId,
-        createdAt: new Date(event.createdAt).toLocaleDateString(),
-        updateAt: event.updateAt ? new Date(event.updateAt).toLocaleDateString() : "N/A",
-        confirmedAt: event.confirmedAt ? new Date(event.confirmedAt).toLocaleDateString() : "N/A",
-        eventTitle: event.eventTitle,
-        eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
-        eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
-        OrganizerName: event.organizerName || "N/A",
-        approvingDeptName: event.approvingDeptName || "N/A",
-        OrganizerMobile: event.organizerMobile || "N/A",
-        OrganizerExtension: event.organizerExtension || "N/A",
-        OrganizerEmail: event.OrganizerEmail || "N/A",
-        statusName: event.statusName,
-        actions: (
-          <Link
-            to={{
-              pathname: "/event-details",
-              state: {
-                requestId: event.eventId,
-                statusName: event.statusName,
-              },
-            }}
-          >
-            <button type="button" className="btn btn-sm" style={{backgroundColor: "#212529", color : "white"}}>
-            
-              {buttonText}
-            </button>
-          </Link>
-        ),
-      };
-    }),
+    rows: events.map((event, i) => ({
+      Number: i + 1,
+      eventId: event.eventId,
+      createdAt: new Date(event.createdAt).toLocaleDateString(),
+      updateAt: event.updateAt
+        ? new Date(event.updateAt).toLocaleDateString()
+        : "N/A",
+      confirmedAt: event.confirmedAt
+        ? new Date(event.confirmedAt).toLocaleDateString()
+        : "N/A",
+      eventTitle: event.eventTitle,
+      eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
+      eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+      OrganizerName: event.organizerName || "N/A",
+      approvingDeptName: event.approvingDeptName || "N/A",
+      OrganizerMobile: event.organizerMobile || "N/A",
+      OrganizerExtension: event.organizerExtension || "N/A",
+      OrganizerEmail: event.OrganizerEmail || "N/A",
+      statusName:
+        event.approvalName == "Acknowledgement"
+          ? "Acknowledge"
+          : event.statusName,
+      approvalName: event.approvalName,
+      actions: (
+        <>
+          {event.approvalName == "Acknowledgement" ||
+          event.statusName != "Pending" ? (
+            <>
+              <Link
+                to={{
+                  pathname: "/event-details",
+                  state: {
+                    requestId: event.eventId,
+                    statusName:
+                      event.approvalName == "Acknowledgement"
+                        ? "Acknowledgement"
+                        : event.statusName != "Pending"
+                        ? event.statusName
+                        : "N/A",
+                  },
+                }}
+              >
+                <button type="button" className="btn btn-success btn-sm">
+                  View
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to={{
+                  pathname: "/event-details",
+                  state: {
+                    requestId: event.eventId,
+                    statusName: event.statusName,
+                  },
+                }}
+              >
+                <button type="button" className="btn btn-success btn-sm">
+                  Decide
+                </button>
+              </Link>
+            </>
+          )}
+        </>
+      ),
+    })),
   };
-  
 
   return (
     <div className="my-events">
