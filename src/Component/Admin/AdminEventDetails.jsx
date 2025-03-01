@@ -499,40 +499,39 @@ const AdminEventDetails = () => {
     async (statusId) => {
       try {
         setisLoading(true);
-
+        // Create a new object with the updated status
         const payload = {
           status: statusId,
           userTypeId: 1,
           eventId: requestId,
         };
-
         // Wait for the backend response
         const response = await UpdateEventApproval(payload);
-
-        // Ensure response is valid before proceeding
-        if (response && response.success) {
-          toast.success(
-            statusId === 1
-              ? "Request Approved successfully"
-              : "Request Rejected!",
-            { position: "top-center" }
-          );
-
-          history.push("/hod-event-approvals");
+        setisLoading(false);
+        if (statusId == 1) {
+          toast.success("Request Approved successfully", {
+            position: "top-center",
+          });
         } else {
-          throw new Error(response?.message || "Approval update failed");
+          toast.error("Request Rejected!", {
+            position: "top-center",
+          });
         }
+        // Ensure UI navigation only happens after the toast is shown
+        setTimeout(() => {
+          history.push("/hod-event-approvals");
+        }, 1000); // Give users time to see the message
       } catch (error) {
+        setisLoading(false);
         console.error("Error while updating user details:", error);
         toast.error("Error while updating user details, please try again", {
           position: "top-center",
         });
-      } finally {
-        setisLoading(false);
       }
     },
-    [setisLoading, requestId, history]
+    [setisLoading]
   );
+
   // Get List of Buildings
   const Getbuildings = async () => {
     try {
