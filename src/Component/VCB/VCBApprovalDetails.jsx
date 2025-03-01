@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import URL from "../Util/config";
+import "../Applicant/Applicant.css";
 import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
@@ -19,9 +20,12 @@ import {
   UpdateFiles,
   UpdateEventApproval,
 } from "../Requests/mutators";
-import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
+import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 const VCBApprovalDetails = () => {
   const history = useHistory();
+  const [passportFiles, setPassportFiles] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [venues, setVenues] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -29,7 +33,6 @@ const VCBApprovalDetails = () => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -108,12 +111,12 @@ const VCBApprovalDetails = () => {
   };
   if (location.state) {
     let saverequestId = JSON.stringify(location.state.requestId);
-    // let saverequeststatus = JSON.stringify(location.state.statusname);
+    let saverequeststatus = JSON.stringify(location.state.statusName);
     localStorage.setItem("requestId", saverequestId);
-    // localStorage.setItem("status", saverequeststatus);
+    localStorage.setItem("status", saverequeststatus);
   }
   let requestId = JSON.parse(localStorage.getItem("requestId"));
-  // let status = JSON.parse(localStorage.getItem("status"));
+  let status = JSON.parse(localStorage.getItem("status"));
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     approvingDepTypeId: 0,
@@ -212,12 +215,11 @@ const VCBApprovalDetails = () => {
           ? [...eventDetails.itcomponentEvents]
           : [],
         // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath: null,
-        officeOfPresedentFilePath: null,
-        visitAgendaFilePath: null,
+        ledOfTheUniversityOrganizerFilePath:
+          eventDetails.ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
+        visitAgendaFilePath: visitAgendaFilePath,
       });
-
-      console.log("Event Data", eventData);
     } catch (error) {
       console.error("Error fetching event Details:", error);
     }
@@ -301,20 +303,7 @@ const VCBApprovalDetails = () => {
       console.error("Error fetching IT components:", error);
     }
   };
-  const addBuildingVenue = () => {
-    seteventData((prevData) => ({
-      ...prevData,
-      travellerList: prevData.travellerList + 1,
-      buildingVenues: [
-        ...prevData.buildingVenues,
-        {
-          eventId: prevData.eventId, // Initialize empty
-          venueId: prevData.venueId, // Initialize empty
-          buildingId: prevData.buildingId, // Initialize empty
-        },
-      ],
-    }));
-  };
+
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -511,12 +500,13 @@ const VCBApprovalDetails = () => {
       try {
         setisLoading(true);
         // Create a new object with the updated status
-        var payload = {
+        const payload = {
           status: statusId,
-          userTypeId: 1,
+          userTypeId: 2,
           eventId: requestId,
         };
-        await UpdateEventApproval(payload);
+        // Wait for the backend response
+        const response = await UpdateEventApproval(payload);
         setisLoading(false);
         if (statusId == 1) {
           toast.success("Request Approved successfully", {
@@ -527,7 +517,10 @@ const VCBApprovalDetails = () => {
             position: "top-center",
           });
         }
-        history.push("/hod-event-approvals");
+        // Ensure UI navigation only happens after the toast is shown
+        setTimeout(() => {
+          history.push("/event-request-list-vcb");
+        }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
         console.error("Error while updating user details:", error);
@@ -538,6 +531,58 @@ const VCBApprovalDetails = () => {
     },
     [setisLoading]
   );
+
+  // Get List of Buildings
+  const Getbuildings = async () => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-buildings`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setBuildings(response.data.data);
+    } catch (error) {
+      console.error("Error fetching buildings:", error);
+    }
+  };
+
+  // Get List of Venues for Selected Building
+  const getVenues = async (buildingId) => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setVenues(response.data.data);
+      console.log("venues", venues);
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+
+  const getBuildingVenues = async () => {
+    try {
+      console.log("buildings", buildings);
+      // Assuming `buildings` is an array
+      for (const b of buildings) {
+        await getVenues(b.buildingId); // Await the async function
+      }
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+  useEffect(() => {
+    if (buildings.length > 0) {
+      getBuildingVenues();
+    }
+  }, [buildings]);
   useEffect(() => {
     setisLoading(false);
     GetEventDetails(requestId);
@@ -546,7 +591,8 @@ const VCBApprovalDetails = () => {
     getRoomTypes();
     getTransportationTypes();
     getItComponents();
-    console.log("Event Data", eventData);
+    Getbuildings();
+    getBuildingVenues();
   }, [requestId]);
 
   return (
@@ -918,7 +964,12 @@ const VCBApprovalDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {accom.roomTypeId}
+                                    {
+                                      roomTypes.find(
+                                        (room) =>
+                                          room.roomTypeId === accom.roomTypeId
+                                      )?.roomTypeName
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
@@ -1040,7 +1091,13 @@ const VCBApprovalDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {transport.transportationTypeId}
+                                    {
+                                      transportationTypes.find(
+                                        (item) =>
+                                          item.transportationTypeId ===
+                                          transport.transportationTypeId
+                                      )?.transportationType1
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
@@ -1189,7 +1246,7 @@ const VCBApprovalDetails = () => {
                   </h5>
                 </div>
 
-                <div className="d-flex align-items-center mb-3">
+                {/* <div className="d-flex align-items-center mb-3">
                   <button
                     type="button"
                     className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
@@ -1206,15 +1263,51 @@ const VCBApprovalDetails = () => {
                     +
                   </button>
                   <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
+                </div> */}
 
                 {eventData?.buildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListUpdate
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
+                  <div className="row align-items-center">
+                    {/* Building Select */}
+                    <div className="col-md-6">
+                      <label className="form-label font-weight-bold">
+                        Building
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={
+                          eventData.buildingVenues[index]?.buildingId || ""
+                        }
+                        name="buildings"
+                        disabled
+                      >
+                        <option value="">Select building</option>
+                        {buildings.map((data) => (
+                          <option key={data.buildingId} value={data.buildingId}>
+                            {data.building}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Venue Select (Shown Only When Building is Selected) */}
+                    <div className="col-md-5 mt-3 mt-md-0">
+                      <label className="form-label font-weight-bold">
+                        Venue
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={eventData.buildingVenues[index]?.venueId || ""}
+                        name="venues"
+                        disabled
+                      >
+                        <option value="">Select venue</option>
+                        {venues.map((venue) => (
+                          <option key={venue.venueId} value={venue.venueId}>
+                            {venue.venueName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 ))}
                 <br />
                 <div className="horizontal-rule mb-4">
@@ -1224,35 +1317,53 @@ const VCBApprovalDetails = () => {
                   </h5>
                 </div>
 
-                <UpdateEventFilesSection
+                <GetEventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-
-                <div className="row">
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-success-approve btn-lg col-12 mt-4"
-                      style={{ backgroundColor: "green", color: "white" }}
-                      onClick={() => handleApproval(1)}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Approving Request..." : "Approve"}
-                    </button>
-                  </div>
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-danger btn-lg col-12 mt-4"
-                      disabled={isLoading}
-                      onClick={() => handleApproval(0)}
-                    >
-                      {isLoading ? "Rejecting Request..." : "Reject"}
-                    </button>
-                  </div>
-                </div>
+                {status == "Pending" ? (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-success-approve btn-lg col-12 mt-4"
+                          style={{ backgroundColor: "green", color: "white" }}
+                          onClick={() => handleApproval(1)}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? "Approving Request..." : "Approve"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-danger btn-lg col-12 mt-4"
+                          disabled={isLoading}
+                          onClick={() => handleApproval(0)}
+                        >
+                          {isLoading ? "Rejecting Request..." : "Reject"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label
+                        // type="submit"
+                        // disabled
+                        className="btn btn-danger btn-lg col-12 mt-4"
+                        style={{ backgroundColor: "#57636f" }}
+                        disabled={isLoading}
+                        // onClick={() => handleApproval(0)}
+                      >
+                        Already {status}
+                      </label>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>

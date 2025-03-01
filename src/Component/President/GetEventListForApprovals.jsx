@@ -160,22 +160,52 @@ const GetEventListForApprovals = () => {
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
       OrganizerEmail: event.OrganizerEmail || "N/A",
-      statusName: event.statusName,
+      statusName:
+        event.approvalName == "Acknowledgement"
+          ? "Acknowledge"
+          : event.statusName,
+      approvalName: event.approvalName,
       actions: (
         <>
-          <Link
-            to={{
-              pathname: "/event-approval",
-              state: {
-                requestId: event.eventId,
-                statusName: event.statusName,
-              },
-            }}
-          >
-            <button type="button" className="btn btn-success btn-sm">
-              Decide
-            </button>
-          </Link>
+          {event.approvalName == "Acknowledgement" ||
+          event.statusName != "Pending" ? (
+            <>
+              <Link
+                to={{
+                  pathname: "/event-approval",
+                  state: {
+                    requestId: event.eventId,
+                    statusName:
+                      event.approvalName == "Acknowledgement"
+                        ? "Acknowledgement"
+                        : event.statusName != "Pending"
+                        ? event.statusName
+                        : "N/A",
+                  },
+                }}
+              >
+                <button type="button" className="btn btn-success btn-sm">
+                  View
+                </button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to={{
+                  pathname: "/event-approval",
+                  state: {
+                    requestId: event.eventId,
+                    statusName: event.statusName,
+                  },
+                }}
+              >
+                <button type="button" className="btn btn-success btn-sm">
+                  Decide
+                </button>
+              </Link>
+            </>
+          )}
         </>
       ),
     })),
