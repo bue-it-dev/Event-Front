@@ -20,9 +20,10 @@ import {
   UpdateFiles,
   UpdateEventApproval,
 } from "../Requests/mutators";
-import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
+import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 const AdminEventDetails = () => {
   const history = useHistory();
+  const [passportFiles, setPassportFiles] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [venues, setVenues] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
@@ -32,7 +33,6 @@ const AdminEventDetails = () => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -215,12 +215,11 @@ const AdminEventDetails = () => {
           ? [...eventDetails.itcomponentEvents]
           : [],
         // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath: null,
-        officeOfPresedentFilePath: null,
-        visitAgendaFilePath: null,
+        ledOfTheUniversityOrganizerFilePath:
+          eventDetails.ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
+        visitAgendaFilePath: visitAgendaFilePath,
       });
-
-      console.log("Event Data", eventData);
     } catch (error) {
       console.error("Error fetching event Details:", error);
     }
@@ -304,20 +303,7 @@ const AdminEventDetails = () => {
       console.error("Error fetching IT components:", error);
     }
   };
-  const addBuildingVenue = () => {
-    seteventData((prevData) => ({
-      ...prevData,
-      travellerList: prevData.travellerList + 1,
-      buildingVenues: [
-        ...prevData.buildingVenues,
-        {
-          eventId: prevData.eventId, // Initialize empty
-          venueId: prevData.venueId, // Initialize empty
-          buildingId: prevData.buildingId, // Initialize empty
-        },
-      ],
-    }));
-  };
+
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -1332,7 +1318,7 @@ const AdminEventDetails = () => {
                   </h5>
                 </div>
 
-                <UpdateEventFilesSection
+                <GetEventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
