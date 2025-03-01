@@ -7,8 +7,8 @@ import Select from "react-select";
 
 const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   const [buildings, setBuildings] = useState([]);
-  const [selectedBuildingId, setSelectedBuildingId] = useState(null);
   const [venues, setVenues] = useState([]);
+  const [selectedBuildingId, setSelectedBuildingId] = useState(null);
 
   // Get List of Buildings
   const Getbuildings = async () => {

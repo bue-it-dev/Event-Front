@@ -23,6 +23,10 @@ import {
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
 const AdminEventDetails = () => {
   const history = useHistory();
+  // const [buildings, setBuildings] = useState([]);
+  const [venues, setVenues] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [buildingVenues, setBuildingVenues] = useState({});
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -545,7 +549,67 @@ const AdminEventDetails = () => {
     },
     [setisLoading, requestId, history]
   );
+  // Get List of Buildings
+  const Getbuildings = async () => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-buildings`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setBuildings(response.data.data);
+    } catch (error) {
+      console.error("Error fetching buildings:", error);
+    }
+  };
+
+  // Get List of Venues for Selected Building
+  const getVenues = async (buildingId) => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      return response.data.data; // Return the venues data
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      return []; // Return an empty array in case of error
+    }
+  };
+
+  const getBuildingVenues = async () => {
+    try {
+      const updatedBuildingVenues = {};
+
+      for (const b of buildings) {
+        const venues = await getVenues(b.buildingId); // Await the async function
+        updatedBuildingVenues[b.buildingId] = venues; // Store venues with building ID as key
+      }
+
+      setBuildingVenues(updatedBuildingVenues); // Update the state with the new mapping
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+
   useEffect(() => {
+    Getbuildings();
+  }, []);
+
+  useEffect(() => {
+    if (buildings.length > 0) {
+      getBuildingVenues();
+    }
+  }, [buildings]);
+  useEffect(() => {
+    var buildingID = eventData.buildingVenues?.buildingId;
     setisLoading(false);
     GetEventDetails(requestId);
     GetApprovalDepartmentSchema();
@@ -554,6 +618,8 @@ const AdminEventDetails = () => {
     getTransportationTypes();
     getItComponents();
     console.log("Event Data", eventData);
+    // Getbuildings();
+    // getBuildingVenues();
   }, [requestId]);
 
   return (
@@ -1207,7 +1273,7 @@ const AdminEventDetails = () => {
                   </h5>
                 </div>
 
-                <div className="d-flex align-items-center mb-3">
+                {/* <div className="d-flex align-items-center mb-3">
                   <button
                     type="button"
                     className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
@@ -1224,15 +1290,45 @@ const AdminEventDetails = () => {
                     +
                   </button>
                   <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
+                </div> */}
 
                 {eventData?.buildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListUpdate
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
+                  <div className="row align-items-center">
+                    {/* Building Select */}
+                    <div className="col-md-6">
+                      <label className="form-label font-weight-bold">
+                        Building
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={eventData.buildingVenues?.[0]?.buildingId || ""}
+                        name="buildings"
+                        disabled
+                      >
+                        <option value="">Select building</option>
+                        {buildings.map((data) => (
+                          <option key={data.buildingId} value={data.buildingId}>
+                            {data.building}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {Object.entries(buildingVenues).map(
+                      ([buildingId, venues]) => (
+                        <div key={buildingId}>
+                          <h3>Building ID: {buildingId}</h3>
+                          <ul>
+                            {venues.map((venue) => (
+                              <li key={venue.venueId}>
+                                Venue ID: {venue.venueId}, Venue Name:{" "}
+                                {venue.venueName}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
+                    )}
+                  </div>
                 ))}
                 <br />
                 <div className="horizontal-rule mb-4">

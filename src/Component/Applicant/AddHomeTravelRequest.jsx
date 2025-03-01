@@ -255,6 +255,15 @@ const AddHomeTravelRequest = () => {
         // Check for null, undefined, or zero values in the list
         const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(EventId);
+        if (EventId) {
+          await AddFiles(
+            EventId,
+            passportFiles || [],
+            eventData.OfficeOfPresedentFile,
+            eventData.LedOfTheUniversityOrganizerFile,
+            eventData.VisitAgendaFile
+          );
+        }
         setisLoading(false);
         history.push("/my-event-requests");
       } catch (err) {
@@ -327,6 +336,15 @@ const AddHomeTravelRequest = () => {
         localStorage.setItem("eventId", requestId);
         const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(EventId);
+        if (EventId) {
+          await AddFiles(
+            EventId,
+            passportFiles || [],
+            eventData.OfficeOfPresedentFile,
+            eventData.LedOfTheUniversityOrganizerFile,
+            eventData.VisitAgendaFile
+          );
+        }
         setisLoading(false);
         toast.success("Request confirmed successfully!", {
           position: "top-center",
