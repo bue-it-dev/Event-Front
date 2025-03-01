@@ -111,12 +111,12 @@ const AdminEventDetails = () => {
   };
   if (location.state) {
     let saverequestId = JSON.stringify(location.state.requestId);
-    // let saverequeststatus = JSON.stringify(location.state.statusname);
+    let saverequeststatus = JSON.stringify(location.state.statusName);
     localStorage.setItem("requestId", saverequestId);
-    // localStorage.setItem("status", saverequeststatus);
+    localStorage.setItem("status", saverequeststatus);
   }
   let requestId = JSON.parse(localStorage.getItem("requestId"));
-  // let status = JSON.parse(localStorage.getItem("status"));
+  let status = JSON.parse(localStorage.getItem("status"));
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     approvingDepTypeId: 0,
@@ -1323,30 +1323,48 @@ const AdminEventDetails = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-
-                <div className="row">
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-success-approve btn-lg col-12 mt-4"
-                      style={{ backgroundColor: "green", color: "white" }}
-                      onClick={() => handleApproval(1)}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Approving Request..." : "Approve"}
-                    </button>
-                  </div>
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-danger btn-lg col-12 mt-4"
-                      disabled={isLoading}
-                      onClick={() => handleApproval(0)}
-                    >
-                      {isLoading ? "Rejecting Request..." : "Reject"}
-                    </button>
-                  </div>
-                </div>
+                {status == "Pending" ? (
+                  <>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-success-approve btn-lg col-12 mt-4"
+                          style={{ backgroundColor: "green", color: "white" }}
+                          onClick={() => handleApproval(1)}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? "Approving Request..." : "Approve"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-danger btn-lg col-12 mt-4"
+                          disabled={isLoading}
+                          onClick={() => handleApproval(0)}
+                        >
+                          {isLoading ? "Rejecting Request..." : "Reject"}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label
+                        // type="submit"
+                        // disabled
+                        className="btn btn-danger btn-lg col-12 mt-4"
+                        style={{ backgroundColor: "#57636f" }}
+                        disabled={isLoading}
+                        // onClick={() => handleApproval(0)}
+                      >
+                        Already {status}
+                      </label>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>
