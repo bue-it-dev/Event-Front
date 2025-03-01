@@ -85,11 +85,7 @@ const ITTabs = () => {
             href="/event-request-list-IT"
             {...a11yProps(0)}
           />
-          <LinkTab
-            label="Event Approvals Test"
-            href="/event-request-list-IT-test"
-            {...a11yProps(0)}
-          />
+          
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

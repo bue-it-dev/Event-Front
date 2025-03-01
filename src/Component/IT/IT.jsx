@@ -8,7 +8,6 @@ const IT = () => {
   }, [history]);
   return (
     <div>
-      {/* <h4>Budget Office Portal</h4> */}
       <ITTabs />
     </div>
   );

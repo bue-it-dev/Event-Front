@@ -264,10 +264,7 @@ function App() {
                       path="/event-request-list-IT"
                       component={ITEventList}
                     />
-                    <ProtectedRoute
-                      path="/event-request-list-IT-test"
-                      component={ITEventList}
-                    />
+                  
                     <Route path="/" exact component={IT} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
