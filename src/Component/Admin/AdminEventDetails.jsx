@@ -23,10 +23,8 @@ import {
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
 const AdminEventDetails = () => {
   const history = useHistory();
-  // const [buildings, setBuildings] = useState([]);
-  const [venues, setVenues] = useState([]);
   const [buildings, setBuildings] = useState([]);
-  const [buildingVenues, setBuildingVenues] = useState({});
+  const [venues, setVenues] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -577,39 +575,30 @@ const AdminEventDetails = () => {
           },
         }
       );
-      return response.data.data; // Return the venues data
+      setVenues(response.data.data);
+      console.log("venues", venues);
     } catch (error) {
       console.error("Error fetching venues:", error);
-      return []; // Return an empty array in case of error
     }
   };
 
   const getBuildingVenues = async () => {
     try {
-      const updatedBuildingVenues = {};
-
+      console.log("buildings", buildings);
+      // Assuming `buildings` is an array
       for (const b of buildings) {
-        const venues = await getVenues(b.buildingId); // Await the async function
-        updatedBuildingVenues[b.buildingId] = venues; // Store venues with building ID as key
+        await getVenues(b.buildingId); // Await the async function
       }
-
-      setBuildingVenues(updatedBuildingVenues); // Update the state with the new mapping
     } catch (error) {
       console.error("Error fetching venues:", error);
     }
   };
-
-  useEffect(() => {
-    Getbuildings();
-  }, []);
-
   useEffect(() => {
     if (buildings.length > 0) {
       getBuildingVenues();
     }
   }, [buildings]);
   useEffect(() => {
-    var buildingID = eventData.buildingVenues?.buildingId;
     setisLoading(false);
     GetEventDetails(requestId);
     GetApprovalDepartmentSchema();
@@ -617,9 +606,8 @@ const AdminEventDetails = () => {
     getRoomTypes();
     getTransportationTypes();
     getItComponents();
-    console.log("Event Data", eventData);
-    // Getbuildings();
-    // getBuildingVenues();
+    Getbuildings();
+    getBuildingVenues();
   }, [requestId]);
 
   return (
@@ -1301,7 +1289,9 @@ const AdminEventDetails = () => {
                       </label>
                       <select
                         className="form-control custom-select custom-select-lg"
-                        value={eventData.buildingVenues?.[0]?.buildingId || ""}
+                        value={
+                          eventData.buildingVenues[index]?.buildingId || ""
+                        }
                         name="buildings"
                         disabled
                       >
@@ -1313,21 +1303,25 @@ const AdminEventDetails = () => {
                         ))}
                       </select>
                     </div>
-                    {Object.entries(buildingVenues).map(
-                      ([buildingId, venues]) => (
-                        <div key={buildingId}>
-                          <h3>Building ID: {buildingId}</h3>
-                          <ul>
-                            {venues.map((venue) => (
-                              <li key={venue.venueId}>
-                                Venue ID: {venue.venueId}, Venue Name:{" "}
-                                {venue.venueName}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                    )}
+                    {/* Venue Select (Shown Only When Building is Selected) */}
+                    <div className="col-md-5 mt-3 mt-md-0">
+                      <label className="form-label font-weight-bold">
+                        Venue
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={eventData.buildingVenues[index]?.venueId || ""}
+                        name="venues"
+                        disabled
+                      >
+                        <option value="">Select venue</option>
+                        {venues.map((venue) => (
+                          <option key={venue.venueId} value={venue.venueId}>
+                            {venue.venueName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 ))}
                 <br />
