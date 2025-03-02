@@ -519,7 +519,7 @@ const EventDetailsBOM = () => {
         }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list");
+          history.push("/event-approval-list-bom");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1322,6 +1322,94 @@ const EventDetailsBOM = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
+                <div className="horizontal-rule mb-4">
+                  <hr />
+                  <h5 className="horizontal-rule-text fs-5">
+                    Budget Office Section Entry
+                  </h5>
+                </div>
+                <div className="mb-4">
+                  <div className="mb-4">
+                    <div className="row">
+                      <div className="col-md-6 mb-4">
+                        {/* Add margin bottom for spacing */}
+                        <label htmlFor="budgetCode" className="form-label fs-6">
+                          Budget Code
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetCode"
+                          name="budgetCode"
+                          value={eventData.budgetCode || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetCode: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          required
+                          // pattern="[a-zA-Z ]*"
+                          // title="Only letters and spaces are allowed"
+                        />
+                      </div>
+
+                      <div className="col-md-6 mb-4">
+                        {" "}
+                        {/* Add margin bottom for spacing */}
+                        <label
+                          htmlFor="budgetCostCenter"
+                          className="form-label fs-6"
+                        >
+                          Budget Cost Center
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetCostCenter"
+                          name="budgetCostCenter"
+                          value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetCostCenter: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          required
+                        />
+                      </div>
+                      <div>
+                        {" "}
+                        {/* Add margin bottom for spacing */}
+                        <label
+                          htmlFor="budgetlineName"
+                          className="form-label fs-6"
+                        >
+                          Budget Line name
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetlineName"
+                          name="budgetlineName"
+                          value={eventData.budgetlineName || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetlineName: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          // pattern="[a-zA-Z ]*"
+                          required
+                          title="Only letters and spaces are allowed"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {status == "Pending" ? (
                   <>
                     <div className="row">

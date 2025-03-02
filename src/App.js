@@ -71,6 +71,9 @@ import EventDetailsCOO from "./Component/COO/EventDetailsCOO";
 import EAF from "./Component/EAF/EAF";
 import EventListEAF from "./Component/EAF/EventListEAF";
 import EventDetailsEAF from "./Component/EAF/EventDetailsEAF";
+import MyEventListEAF from "./Component/EAF/MyEventListEAF";
+import EventAddEAF from "./Component/EAF/EventAddEAF";
+import MyEventDetailsEAF from "./Component/EAF/MyEventDetailsEAF";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -408,6 +411,21 @@ function App() {
                     <ProtectedRoute
                       path="/event-request-details-eaf"
                       component={EventDetailsEAF}
+                    />
+                    <ProtectedRoute
+                      path="/add-event-request-eaf"
+                      exact
+                      component={EventAddEAF}
+                    />
+                    <ProtectedRoute
+                      path="/my-event-request-eaf"
+                      exact
+                      component={MyEventListEAF}
+                    />
+                    <ProtectedRoute
+                      path="/my-event-request-details-eaf"
+                      exact
+                      component={MyEventDetailsEAF}
                     />
                     <Route path="/" exact component={EAF} />
                     <Route path="*" exact component={Page404} />

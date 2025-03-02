@@ -5,7 +5,7 @@ import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { UpdateHomeRequest } from "../Requests/mutators";
+import { AddBudgetOfficeEventRequest } from "../Requests/mutators";
 import { getToken } from "../Util/Authenticate";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { toast } from "react-toastify";
@@ -135,6 +135,9 @@ const EventDetailsAckAfterBudget = () => {
     organizerExtention: "",
     approvingDeptName: null,
     deptId: null,
+    budgetCode: null,
+    budgetCostCenter: null,
+    budgetlineName: null,
     isOthers: 0,
     isStaffStudents: 0,
     isChairBoardPrisidentVcb: 0,
@@ -495,6 +498,33 @@ const EventDetailsAckAfterBudget = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
+  const UpdateEventRequestBudgetOfficeAsync = async () => {
+    try {
+      setisLoading(true);
+      const payload = {
+        eventId: requestId,
+        budgetCode: eventData.budgetCode,
+        budgetCostCenter: eventData.budgetCostCenter,
+        budgetlineName: eventData.budgetlineName,
+      };
+      // Wait for the backend response
+      console.log("Payload", payload);
+      await AddBudgetOfficeEventRequest(payload);
+      setisLoading(false);
+      toast.success("Budget Office data added successfully", {
+        position: "top-center",
+      });
+      // Ensure UI navigation only happens after the toast is shown
+      setTimeout(() => {
+        history.push("/event-request-list-budget-office");
+      }, 1000); // Give users time to see the message
+    } catch (err) {
+      setisLoading(false);
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+      });
+    }
+  };
   const handleApproval = useCallback(
     async (statusId) => {
       try {
@@ -502,7 +532,7 @@ const EventDetailsAckAfterBudget = () => {
         // Create a new object with the updated status
         const payload = {
           status: statusId,
-          userTypeId: 10,
+          userTypeId: 9,
           eventId: requestId,
         };
         // Wait for the backend response
@@ -519,7 +549,7 @@ const EventDetailsAckAfterBudget = () => {
         }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list");
+          history.push("/event-approval-list-transportation");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1322,33 +1352,109 @@ const EventDetailsAckAfterBudget = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-                {status == "Pending" ? (
-                  <>
+                <div className="horizontal-rule mb-4">
+                  <hr />
+                  <h5 className="horizontal-rule-text fs-5">
+                    Budget Office Section Entry
+                  </h5>
+                </div>
+                <div className="mb-4">
+                  <div className="mb-4">
                     <div className="row">
-                      <div className="col-md-6">
-                        <button
-                          type="submit"
-                          className="btn btn-success-approve btn-lg col-12 mt-4"
-                          style={{ backgroundColor: "green", color: "white" }}
-                          onClick={() => handleApproval(1)}
-                          disabled={isLoading}
-                        >
-                          {isLoading ? "Approving Request..." : "Approve"}
-                        </button>
+                      <div className="col-md-6 mb-4">
+                        {/* Add margin bottom for spacing */}
+                        <label htmlFor="budgetCode" className="form-label fs-6">
+                          Budget Code
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetCode"
+                          name="budgetCode"
+                          value={eventData.budgetCode || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetCode: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          required
+                          // pattern="[a-zA-Z ]*"
+                          // title="Only letters and spaces are allowed"
+                        />
                       </div>
-                      <div className="col-md-6">
-                        <button
-                          type="submit"
-                          className="btn btn-danger btn-lg col-12 mt-4"
-                          disabled={isLoading}
-                          onClick={() => handleApproval(0)}
+
+                      <div className="col-md-6 mb-4">
+                        {" "}
+                        {/* Add margin bottom for spacing */}
+                        <label
+                          htmlFor="budgetCostCenter"
+                          className="form-label fs-6"
                         >
-                          {isLoading ? "Rejecting Request..." : "Reject"}
-                        </button>
+                          Budget Cost Center
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetCostCenter"
+                          name="budgetCostCenter"
+                          value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetCostCenter: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          required
+                        />
+                      </div>
+                      <div>
+                        {" "}
+                        {/* Add margin bottom for spacing */}
+                        <label
+                          htmlFor="budgetlineName"
+                          className="form-label fs-6"
+                        >
+                          Budget Line name
+                        </label>
+                        <input
+                          type="text"
+                          id="budgetlineName"
+                          name="budgetlineName"
+                          value={eventData.budgetlineName || ""} // Adjusted to match state structure
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              budgetlineName: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          // pattern="[a-zA-Z ]*"
+                          required
+                          title="Only letters and spaces are allowed"
+                        />
                       </div>
                     </div>
+                  </div>
+                </div>
+                {/* {status == "Pending" ? (
+                  <>
+                    <div className="row">
+                      <button
+                        type="submit"
+                        className="btn btn-success-approve btn-lg col-12 mt-4"
+                        style={{ backgroundColor: "green", color: "white" }}
+                        onClick={() => UpdateEventRequestBudgetOfficeAsync()}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Submitting Request..." : "Submit"}
+                      </button>
+                    </div>
                   </>
-                ) : status == "Acknowledgement" ? null : (
+                ) : (
                   <>
                     <div>
                       <label
@@ -1363,7 +1469,7 @@ const EventDetailsAckAfterBudget = () => {
                       </label>
                     </div>
                   </>
-                )}
+                )} */}
               </ValidatorForm>
             </div>
           </div>

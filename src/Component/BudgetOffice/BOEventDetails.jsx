@@ -498,27 +498,58 @@ const BOEventDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
+  const UpdateEventRequestBudgetOfficeAsync = async () => {
+    try {
+      setisLoading(true);
+      const payload = {
+        eventId: requestId,
+        budgetCode: eventData.budgetCode,
+        budgetCostCenter: eventData.budgetCostCenter,
+        budgetlineName: eventData.budgetlineName,
+      };
+      // Wait for the backend response
+      console.log("Payload", payload);
+      await AddBudgetOfficeEventRequest(payload);
+      setisLoading(false);
+      toast.success("Budget Office data added successfully", {
+        position: "top-center",
+      });
+      // Ensure UI navigation only happens after the toast is shown
+      setTimeout(() => {
+        history.push("/event-request-list-budget-office");
+      }, 1000); // Give users time to see the message
+    } catch (err) {
+      setisLoading(false);
+      toast.error("An error occurred. Please try again later.", {
+        position: "top-center",
+      });
+    }
+  };
   const handleApproval = useCallback(
     async (statusId) => {
       try {
         setisLoading(true);
         // Create a new object with the updated status
         const payload = {
+          status: statusId,
+          userTypeId: 9,
           eventId: requestId,
-          budgetCode: eventData.budgetCode,
-          budgetCostCenter: eventData.budgetCostCenter,
-          budgetlineName: eventData.budgetlineName,
         };
         // Wait for the backend response
-        console.log("Payload", payload);
-        await AddBudgetOfficeEventRequest(payload);
+        const response = await UpdateEventApproval(payload);
         setisLoading(false);
-        toast.success("Budget Office data added successfully", {
-          position: "top-center",
-        });
+        if (statusId == 1) {
+          toast.success("Request Approved successfully", {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Request Rejected!", {
+            position: "top-center",
+          });
+        }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-request-list-budget-office");
+          history.push("/event-approval-list-transportation");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1416,7 +1447,7 @@ const BOEventDetails = () => {
                         type="submit"
                         className="btn btn-success-approve btn-lg col-12 mt-4"
                         style={{ backgroundColor: "green", color: "white" }}
-                        onClick={() => handleApproval(1)}
+                        onClick={() => UpdateEventRequestBudgetOfficeAsync()}
                         disabled={isLoading}
                       >
                         {isLoading ? "Submitting Request..." : "Submit"}
