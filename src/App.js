@@ -48,8 +48,17 @@ import GetEventListForApprovals from "./Component/President/GetEventListForAppro
 import GetEventList from "./Component/President/GetEventList";
 import GetApprovalDetails from "./Component/President/GetApprovalDetails";
 import IT from "./Component/IT/IT";
+import Accommodation from "./Component/Accommodation/Accommodation";
+import PublicAffairs from "./Component/PublicAffairs/PublicAffairs";
 import ITEventList from "./Component/IT/ITEventList";
-import Details from "./Component/IT/Details"
+import Details from "./Component/IT/Details";
+import SecurityCheck from "./Component/SecurityCheck/SecurityCheck";
+import SecurityCheckEventList from "./Component/SecurityCheck/SecurityCheckEventList";
+import SecurityCheckEventDetails from "./Component/SecurityCheck/SecurityCheckEventDetails";
+import EventDetailsPublicAffairs from "./Component/PublicAffairs/EventDetailsPublicAffairs";
+import EventListPublicAffairs from "./Component/PublicAffairs/EventListPublicAffairs";
+import EventListAccommodation from "./Component/Accommodation/EventListAccommodation";
+import EventDetailsAccommodation from "./Component/Accommodation/EventDetailsAccommodation";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -104,6 +113,12 @@ function App() {
                     ? BudgetOffice
                     : user.type === "IT"
                     ? IT
+                    : user.type === "SecurityCheck"
+                    ? SecurityCheck
+                    : user.type === "public Affairs"
+                    ? PublicAffairs
+                    : user.type === "Accommodation"
+                    ? Accommodation
                     : Applicant
                 }
               />
@@ -264,11 +279,8 @@ function App() {
                       path="/event-request-list-IT"
                       component={ITEventList}
                     />
-                       <ProtectedRoute
-                      path="/event-details"
-                      component={Details}
-                    />
-                  
+                    <ProtectedRoute path="/event-details" component={Details} />
+
                     <Route path="/" exact component={IT} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -277,6 +289,51 @@ function App() {
                 <>
                   <Switch>
                     <Route path="/" exact component={TravelOffice} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "SecurityCheck" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-security-check"
+                      component={SecurityCheckEventList}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-security-check"
+                      component={SecurityCheckEventDetails}
+                    />
+                    <Route path="/" exact component={SecurityCheck} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "public Affairs" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-public-affairs"
+                      component={EventListPublicAffairs}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-public-affairs"
+                      component={EventDetailsPublicAffairs}
+                    />
+                    <Route path="/" exact component={PublicAffairs} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "Accommodation" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-accommodation"
+                      component={EventListAccommodation}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-accommodation"
+                      component={EventDetailsAccommodation}
+                    />
+                    <Route path="/" exact component={Accommodation} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
