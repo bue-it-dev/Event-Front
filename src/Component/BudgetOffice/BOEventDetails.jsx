@@ -1442,15 +1442,27 @@ const BOEventDetails = () => {
                 {status == "Pending" ? (
                   <>
                     <div className="row">
-                      <button
-                        type="submit"
-                        className="btn btn-success-approve btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "black", color: "white" }}
-                        onClick={() => UpdateEventRequestBudgetOfficeAsync()}
-                        disabled={isLoading}
-                      >
-                        {isLoading ? "Submitting Request..." : "Submit"}
-                      </button>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-success-approve btn-lg col-12 mt-4"
+                          style={{ backgroundColor: "black", color: "white" }}
+                          onClick={() => UpdateEventRequestBudgetOfficeAsync()}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? "Submitting Request..." : "Submit"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-danger btn-lg col-12 mt-4"
+                          disabled={isLoading}
+                          onClick={() => handleApproval(0)}
+                        >
+                          {isLoading ? "Rejecting Request..." : "Reject"}
+                        </button>
+                      </div>
                     </div>
                     {isBOSubmitted == true ? (
                       <>
