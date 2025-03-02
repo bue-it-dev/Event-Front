@@ -9,6 +9,7 @@ import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import AdminTabs from "./AdminTabs";
+import Admin from "./Admin";
 import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
@@ -183,7 +184,7 @@ const AdminEventApprovalsList = () => {
 
   return (
     <div className="my-events">
-      <AdminTabs />
+      <Admin />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (

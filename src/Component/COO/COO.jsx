@@ -78,7 +78,7 @@ const COO = () => {
           Chief Operating Officer
         </button>
 
-        <button
+        {/* <button
           className="btn me-2"
           style={{
             backgroundColor:
@@ -90,7 +90,7 @@ const COO = () => {
           onClick={handledashboardClick}
         >
           Dashboard
-        </button>
+        </button> */}
       </div>
 
       {/* Conditionally render content based on active tab */}

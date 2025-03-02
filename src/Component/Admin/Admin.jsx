@@ -79,7 +79,7 @@ const Admin = () => {
             Business Operation Manager
           </button>
 
-          <button
+          {/* <button
             className="btn me-2"
             style={{
               backgroundColor:
@@ -91,7 +91,7 @@ const Admin = () => {
             onClick={handledashboardClick}
           >
             Dashboard
-          </button>
+          </button> */}
         </div>
       ) : (
         <>

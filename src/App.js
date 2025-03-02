@@ -48,6 +48,7 @@ import GetEventListForApprovals from "./Component/President/GetEventListForAppro
 import GetEventList from "./Component/President/GetEventList";
 import GetApprovalDetails from "./Component/President/GetApprovalDetails";
 import IT from "./Component/IT/IT";
+import AckAfterBudget from "./Component/AckAfterBudget/AckAfterBudget";
 import Accommodation from "./Component/Accommodation/Accommodation";
 import PublicAffairs from "./Component/PublicAffairs/PublicAffairs";
 import ITEventList from "./Component/IT/ITEventList";
@@ -59,6 +60,17 @@ import EventDetailsPublicAffairs from "./Component/PublicAffairs/EventDetailsPub
 import EventListPublicAffairs from "./Component/PublicAffairs/EventListPublicAffairs";
 import EventListAccommodation from "./Component/Accommodation/EventListAccommodation";
 import EventDetailsAccommodation from "./Component/Accommodation/EventDetailsAccommodation";
+import EventListTransportation from "./Component/Transportation/EventListTransportation";
+import EventDetailsTransportation from "./Component/Transportation/EventDetailsTransportation";
+import Transportation from "./Component/Transportation/Transportation";
+import EventListAckAfterBudget from "./Component/AckAfterBudget/EventListAckAfterBudget";
+import EventDetailsAckAfterBudget from "./Component/AckAfterBudget/EventDetailsAckAfterBudget";
+import EventListBOM from "./Component/BOM/EventListBOM";
+import EventDetailsBOM from "./Component/BOM/EventDetailsBOM";
+import EventDetailsCOO from "./Component/COO/EventDetailsCOO";
+import EAF from "./Component/EAF/EAF";
+import EventListEAF from "./Component/EAF/EventListEAF";
+import EventDetailsEAF from "./Component/EAF/EventDetailsEAF";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -119,6 +131,15 @@ function App() {
                     ? PublicAffairs
                     : user.type === "Accommodation"
                     ? Accommodation
+                    : user.type === "Transportation"
+                    ? Transportation
+                    : user.type === "EAF"
+                    ? EAF
+                    : user.type === "Marcom" ||
+                      user.type === "Campus" ||
+                      user.type === "Security" ||
+                      user.type === "HSE"
+                    ? AckAfterBudget
                     : Applicant
                 }
               />
@@ -141,6 +162,14 @@ function App() {
                       path="/hod-event-request-details"
                       component={AdminEventDetails}
                     />
+                    <ProtectedRoute
+                      path="/event-approval-list-bom"
+                      component={EventListBOM}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-bom"
+                      component={EventDetailsBOM}
+                    />
                     <Route path="/" exact component={Admin} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -151,8 +180,12 @@ function App() {
                     <>
                       <Switch>
                         <ProtectedRoute
-                          path="/event-list-coo"
+                          path="/event-request-list-coo"
                           component={BusinessRequestListCOO}
+                        />
+                        <ProtectedRoute
+                          path="/event-request-details-coo"
+                          component={EventDetailsCOO}
                         />
                         <ProtectedRoute
                           path="/event-request-list-vcb"
@@ -178,8 +211,12 @@ function App() {
                     <>
                       <Switch>
                         <ProtectedRoute
-                          path="/event-list-coo"
+                          path="/event-request-list-coo"
                           component={BusinessRequestListCOO}
+                        />
+                        <ProtectedRoute
+                          path="/event-request-details-coo"
+                          component={EventDetailsCOO}
                         />
                         <ProtectedRoute
                           path="/event-request-list-vcb"
@@ -238,9 +275,17 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "Business_operation_manager" ? (
+              ) : user.type === "BOM" ? (
                 <>
                   <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-bom"
+                      component={EventListBOM}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-bom"
+                      component={EventDetailsBOM}
+                    />
                     <Route path="/" exact component={BOM} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -248,13 +293,16 @@ function App() {
               ) : user.type === "COO" ? (
                 <>
                   <Switch>
-                    <Route path="/" exact component={COO} />
-                    <Route path="*" exact component={Page404} />
-
                     <ProtectedRoute
-                      path="/business-request-list-coo"
+                      path="/event-request-list-coo"
                       component={BusinessRequestListCOO}
                     />
+                    <ProtectedRoute
+                      path="/event-request-details-coo"
+                      component={EventDetailsCOO}
+                    />
+                    <Route path="/" exact component={COO} />
+                    <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
               ) : user.type === "BudgetOffice" ? (
@@ -334,6 +382,54 @@ function App() {
                       component={EventDetailsAccommodation}
                     />
                     <Route path="/" exact component={Accommodation} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "Transportation" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-transportation"
+                      component={EventListTransportation}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-transportation"
+                      component={EventDetailsTransportation}
+                    />
+                    <Route path="/" exact component={Transportation} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "EAF" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-eaf"
+                      component={EventListEAF}
+                    />
+                    <ProtectedRoute
+                      path="/event-request-details-eaf"
+                      component={EventDetailsEAF}
+                    />
+                    <Route path="/" exact component={EAF} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "Marcom" ||
+                user.type === "Campus" ||
+                user.type === "Security" ||
+                user.type === "HSE" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-ack"
+                      component={EventListAckAfterBudget}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-ack"
+                      component={EventDetailsAckAfterBudget}
+                    />
+                    <Route path="/" exact component={AckAfterBudget} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>

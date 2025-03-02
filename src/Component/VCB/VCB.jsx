@@ -79,7 +79,7 @@ const VCB = () => {
             Chief Operating Officer
           </button>
 
-          <button
+          {/* <button
             className="btn me-2"
             style={{
               backgroundColor:
@@ -91,7 +91,7 @@ const VCB = () => {
             onClick={handledashboardClick}
           >
             Dashboard
-          </button>
+          </button> */}
         </div>
       ) : (
         <>

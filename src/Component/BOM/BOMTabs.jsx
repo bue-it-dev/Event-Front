@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import "../President/PresidentTabs.css";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { useHistory, useLocation } from "react-router-dom";
-import "./BOMTab.css";
+import { useHistory } from "react-router-dom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,6 +41,21 @@ function a11yProps(index) {
   };
 }
 
+function LinkTab(props) {
+  const history = useHistory();
+
+  return (
+    <Tab
+      component="a"
+      onClick={(event) => {
+        event.preventDefault();
+        history.push(props.href);
+      }}
+      {...props}
+    />
+  );
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -50,49 +65,15 @@ const useStyles = makeStyles((theme) => ({
 
 const BOMTabs = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const location = useLocation();
-
-  // Map URL paths to tab index
-  const getTabIndexFromPath = (path) => {
-    switch (path) {
-      case "/home-request-list-bom":
-        return 0;
-      case "/business-request-list-bom":
-        return 1;
-      default:
-        return 0; // Default tab if no matching route
-    }
-  };
-
-  // Initialize tab index based on the current URL
-  const [value, setValue] = React.useState(
-    getTabIndexFromPath(location.pathname)
-  );
-
-  useEffect(() => {
-    // Update tab index when the URL changes
-    setValue(getTabIndexFromPath(location.pathname));
-  }, [location.pathname]);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // Navigate to the corresponding route
-    switch (newValue) {
-      case 0:
-        history.push("/home-request-list-bom");
-        break;
-      case 1:
-        history.push("/business-request-list-bom");
-        break;
-      default:
-        break;
-    }
   };
 
   return (
     <div className={classes.root}>
-      <hr className="solid" />
+      <hr class="solid"></hr>
       <AppBar position="static">
         <Tabs
           variant="fullWidth"
@@ -100,10 +81,14 @@ const BOMTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="BOM Home Request Approvals" {...a11yProps(0)} />
-          <Tab label="BOM Business Request Approvals" {...a11yProps(1)} />
+          <LinkTab
+            label="BO Event Approvals"
+            href="/event-approval-list-bom"
+            {...a11yProps(0)}
+          />
         </Tabs>
       </AppBar>
+      <TabPanel value={value} index={0}></TabPanel>
     </div>
   );
 };

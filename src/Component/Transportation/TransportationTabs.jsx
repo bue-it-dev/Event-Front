@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BOMTabs = () => {
+const TransportationTabs = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -82,8 +82,8 @@ const BOMTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="COO Event Approvals"
-            href="/event-request-list-coo"
+            label="My Event Approvals"
+            href="/event-approval-list-transportation"
             {...a11yProps(0)}
           />
         </Tabs>
@@ -93,4 +93,4 @@ const BOMTabs = () => {
   );
 };
 
-export default BOMTabs;
+export default TransportationTabs;

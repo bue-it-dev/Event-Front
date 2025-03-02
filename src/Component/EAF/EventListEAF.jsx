@@ -9,12 +9,13 @@ import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 // import AdminTabs from "./AdminTabs";
-import COO from "./COO";
+// import Admin from "./Admin";
 import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-const AdminEventApprovalsList = () => {
+import EAFTabs from "./EAFTabs";
+const EventListEAF = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +26,7 @@ const AdminEventApprovalsList = () => {
   const GetEvents = async (empID) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-eventRequestCOO/`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestEAF/`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -166,7 +167,7 @@ const AdminEventApprovalsList = () => {
         <>
           <Link
             to={{
-              pathname: "/event-request-details-coo",
+              pathname: "/event-request-details-eaf",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
@@ -184,7 +185,7 @@ const AdminEventApprovalsList = () => {
 
   return (
     <div className="my-events">
-      <COO />
+      <EAFTabs />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (
@@ -213,4 +214,4 @@ const AdminEventApprovalsList = () => {
   );
 };
 
-export default AdminEventApprovalsList;
+export default EventListEAF;
