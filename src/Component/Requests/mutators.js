@@ -432,6 +432,24 @@ const UpdateEventRequest = async (application) => {
   }
 };
 
+const AddBudgetOfficeEventRequest = async (application) => {
+  try {
+    await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/update-budget-office-data/${application.eventId}`,
+      { ...application },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export {
   DeleteHomeRequest,
   SaveHomeTravel,
@@ -454,4 +472,5 @@ export {
   AddFiles,
   UpdateFiles,
   UpdateEventApproval,
+  AddBudgetOfficeEventRequest,
 };

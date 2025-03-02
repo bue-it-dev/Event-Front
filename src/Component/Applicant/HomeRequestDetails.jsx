@@ -1205,15 +1205,18 @@ const HomeRequestDetails = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
-
-                <button
-                  type="submit"
-                  className="btn btn-dark btn-lg col-12 mt-3"
-                  disabled={isLoading}
-                  style={{ transition: "0.3s ease" }}
-                >
-                  {isLoading ? "Updating Request..." : "Update Request"}
-                </button>
+                {eventData.confirmedAt == null ? (
+                  <>
+                    <button
+                      type="submit"
+                      className="btn btn-dark btn-lg col-12 mt-3"
+                      disabled={isLoading}
+                      style={{ transition: "0.3s ease" }}
+                    >
+                      {isLoading ? "Updating Request..." : "Update Request"}
+                    </button>
+                  </>
+                ) : null}
               </ValidatorForm>
             </div>
           </div>

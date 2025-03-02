@@ -5,7 +5,7 @@ import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import { UpdateHomeRequest } from "../Requests/mutators";
+import { AddBudgetOfficeEventRequest } from "../Requests/mutators";
 import { getToken } from "../Util/Authenticate";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { toast } from "react-toastify";
@@ -20,9 +20,12 @@ import {
   UpdateFiles,
   UpdateEventApproval,
 } from "../Requests/mutators";
-import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
+import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 const BOEventDetails = () => {
   const history = useHistory();
+  const [passportFiles, setPassportFiles] = useState([]);
+  const [buildings, setBuildings] = useState([]);
+  const [venues, setVenues] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -30,7 +33,6 @@ const BOEventDetails = () => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -109,12 +111,12 @@ const BOEventDetails = () => {
   };
   if (location.state) {
     let saverequestId = JSON.stringify(location.state.requestId);
-    // let saverequeststatus = JSON.stringify(location.state.statusname);
+    let saverequeststatus = JSON.stringify(location.state.statusName);
     localStorage.setItem("requestId", saverequestId);
-    // localStorage.setItem("status", saverequeststatus);
+    localStorage.setItem("status", saverequeststatus);
   }
   let requestId = JSON.parse(localStorage.getItem("requestId"));
-  // let status = JSON.parse(localStorage.getItem("status"));
+  let status = JSON.parse(localStorage.getItem("status"));
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     approvingDepTypeId: 0,
@@ -129,13 +131,13 @@ const BOEventDetails = () => {
     endDateTime: null,
     startDateTime: null,
     organizerName: "",
-    budgetCode: "",
-    budgetCostCenter: "",
-    budgetNotes: "",
     organizerMobile: "",
     organizerExtention: "",
     approvingDeptName: null,
     deptId: null,
+    budgetCode: null,
+    budgetCostCenter: null,
+    budgetlineName: null,
     isOthers: 0,
     isStaffStudents: 0,
     isChairBoardPrisidentVcb: 0,
@@ -216,12 +218,11 @@ const BOEventDetails = () => {
           ? [...eventDetails.itcomponentEvents]
           : [],
         // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath: null,
-        officeOfPresedentFilePath: null,
-        visitAgendaFilePath: null,
+        ledOfTheUniversityOrganizerFilePath:
+          eventDetails.ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
+        visitAgendaFilePath: visitAgendaFilePath,
       });
-
-      console.log("Event Data", eventData);
     } catch (error) {
       console.error("Error fetching event Details:", error);
     }
@@ -305,20 +306,7 @@ const BOEventDetails = () => {
       console.error("Error fetching IT components:", error);
     }
   };
-  const addBuildingVenue = () => {
-    seteventData((prevData) => ({
-      ...prevData,
-      travellerList: prevData.travellerList + 1,
-      buildingVenues: [
-        ...prevData.buildingVenues,
-        {
-          eventId: prevData.eventId, // Initialize empty
-          venueId: prevData.venueId, // Initialize empty
-          buildingId: prevData.buildingId, // Initialize empty
-        },
-      ],
-    }));
-  };
+
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
@@ -510,29 +498,28 @@ const BOEventDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
-
   const handleApproval = useCallback(
     async (statusId) => {
       try {
         setisLoading(true);
         // Create a new object with the updated status
-        var payload = {
-          status: statusId,
-          userTypeId: 1,
+        const payload = {
           eventId: requestId,
+          budgetCode: eventData.budgetCode,
+          budgetCostCenter: eventData.budgetCostCenter,
+          budgetlineName: eventData.budgetlineName,
         };
-        await UpdateEventApproval(payload);
+        // Wait for the backend response
+        console.log("Payload", payload);
+        await AddBudgetOfficeEventRequest(payload);
         setisLoading(false);
-        if (statusId == 1) {
-          toast.success("Request Approved successfully", {
-            position: "top-center",
-          });
-        } else {
-          toast.error("Request Rejected!", {
-            position: "top-center",
-          });
-        }
-        history.push("/hod-event-approvals");
+        toast.success("Budget Office data added successfully", {
+          position: "top-center",
+        });
+        // Ensure UI navigation only happens after the toast is shown
+        setTimeout(() => {
+          history.push("/event-request-list-budget-office");
+        }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
         console.error("Error while updating user details:", error);
@@ -543,29 +530,58 @@ const BOEventDetails = () => {
     },
     [setisLoading]
   );
-  const UpdateBOData = async () => {
+
+  // Get List of Buildings
+  const Getbuildings = async () => {
     try {
-      setisLoading(true);
-      const payload = {
-        budgetCode: eventData.budgetCode,
-        budgetCostCenter: eventData.budgetCostCenter,
-        budgetNotes: eventData.budgetNotes,
-      };
-      // Pass the requestId and payload (application data) to the function
-      // console.log("Payload", payload);
-      // await UpdateBOData(requestId, payload);
-      setisLoading(false);
-      toast.success("Operation completed successfully", {
-        position: "top-center",
-      });
-      history.push("/dashboard");
-    } catch (err) {
-      setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-buildings`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setBuildings(response.data.data);
+    } catch (error) {
+      console.error("Error fetching buildings:", error);
     }
   };
+
+  // Get List of Venues for Selected Building
+  const getVenues = async (buildingId) => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setVenues(response.data.data);
+      console.log("venues", venues);
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+
+  const getBuildingVenues = async () => {
+    try {
+      console.log("buildings", buildings);
+      // Assuming `buildings` is an array
+      for (const b of buildings) {
+        await getVenues(b.buildingId); // Await the async function
+      }
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+  useEffect(() => {
+    if (buildings.length > 0) {
+      getBuildingVenues();
+    }
+  }, [buildings]);
   useEffect(() => {
     setisLoading(false);
     GetEventDetails(requestId);
@@ -574,7 +590,8 @@ const BOEventDetails = () => {
     getRoomTypes();
     getTransportationTypes();
     getItComponents();
-    console.log("Event Data", eventData);
+    Getbuildings();
+    getBuildingVenues();
   }, [requestId]);
 
   return (
@@ -946,7 +963,12 @@ const BOEventDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {accom.roomTypeId}
+                                    {
+                                      roomTypes.find(
+                                        (room) =>
+                                          room.roomTypeId === accom.roomTypeId
+                                      )?.roomTypeName
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
@@ -1068,7 +1090,13 @@ const BOEventDetails = () => {
                                     className="form-label font-weight-bold text-dark"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    Type: {transport.transportationTypeId}
+                                    {
+                                      transportationTypes.find(
+                                        (item) =>
+                                          item.transportationTypeId ===
+                                          transport.transportationTypeId
+                                      )?.transportationType1
+                                    }
                                   </label>
                                 </div>
                                 <div className="col-md-3">
@@ -1217,7 +1245,7 @@ const BOEventDetails = () => {
                   </h5>
                 </div>
 
-                <div className="d-flex align-items-center mb-3">
+                {/* <div className="d-flex align-items-center mb-3">
                   <button
                     type="button"
                     className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
@@ -1234,15 +1262,51 @@ const BOEventDetails = () => {
                     +
                   </button>
                   <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
+                </div> */}
 
                 {eventData?.buildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListUpdate
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
+                  <div className="row align-items-center">
+                    {/* Building Select */}
+                    <div className="col-md-6">
+                      <label className="form-label font-weight-bold">
+                        Building
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={
+                          eventData.buildingVenues[index]?.buildingId || ""
+                        }
+                        name="buildings"
+                        disabled
+                      >
+                        <option value="">Select building</option>
+                        {buildings.map((data) => (
+                          <option key={data.buildingId} value={data.buildingId}>
+                            {data.building}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Venue Select (Shown Only When Building is Selected) */}
+                    <div className="col-md-5 mt-3 mt-md-0">
+                      <label className="form-label font-weight-bold">
+                        Venue
+                      </label>
+                      <select
+                        className="form-control custom-select custom-select-lg"
+                        value={eventData.buildingVenues[index]?.venueId || ""}
+                        name="venues"
+                        disabled
+                      >
+                        <option value="">Select venue</option>
+                        {venues.map((venue) => (
+                          <option key={venue.venueId} value={venue.venueId}>
+                            {venue.venueName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 ))}
                 <br />
                 <div className="horizontal-rule mb-4">
@@ -1252,7 +1316,7 @@ const BOEventDetails = () => {
                   </h5>
                 </div>
 
-                <UpdateEventFilesSection
+                <GetEventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
@@ -1294,15 +1358,15 @@ const BOEventDetails = () => {
                         {" "}
                         {/* Add margin bottom for spacing */}
                         <label
-                          htmlFor="preferredHotel"
+                          htmlFor="budgetCostCenter"
                           className="form-label fs-6"
                         >
                           Budget Cost Center
                         </label>
                         <input
                           type="text"
-                          id="preferredHotel"
-                          name="preferredHotel"
+                          id="budgetCostCenter"
+                          name="budgetCostCenter"
                           value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
                           onChange={(e) => {
                             const value = e.target.value;
@@ -1319,54 +1383,62 @@ const BOEventDetails = () => {
                         {" "}
                         {/* Add margin bottom for spacing */}
                         <label
-                          htmlFor="preferredHotel"
+                          htmlFor="budgetlineName"
                           className="form-label fs-6"
                         >
-                          Notes (Optional)
+                          Budget Line name
                         </label>
                         <input
                           type="text"
-                          id="preferredHotel"
-                          name="preferredHotel"
-                          value={eventData.budgetNotes || ""} // Adjusted to match state structure
+                          id="budgetlineName"
+                          name="budgetlineName"
+                          value={eventData.budgetlineName || ""} // Adjusted to match state structure
                           onChange={(e) => {
                             const value = e.target.value;
                             seteventData({
                               ...eventData,
-                              budgetNotes: value,
+                              budgetlineName: value,
                             });
                           }}
                           className="form-control form-control-lg"
                           // pattern="[a-zA-Z ]*"
+                          required
                           title="Only letters and spaces are allowed"
                         />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-success-approve btn-lg col-12 mt-4"
-                      style={{ backgroundColor: "green", color: "white" }}
-                      onClick={() => handleApproval(1)}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? "Approving Request..." : "Approve"}
-                    </button>
-                  </div>
-                  <div className="col-md-6">
-                    <button
-                      type="submit"
-                      className="btn btn-danger btn-lg col-12 mt-4"
-                      disabled={isLoading}
-                      onClick={() => handleApproval(0)}
-                    >
-                      {isLoading ? "Rejecting Request..." : "Reject"}
-                    </button>
-                  </div>
-                </div>
+                {status == "Pending" ? (
+                  <>
+                    <div className="row">
+                      <button
+                        type="submit"
+                        className="btn btn-success-approve btn-lg col-12 mt-4"
+                        style={{ backgroundColor: "green", color: "white" }}
+                        onClick={() => handleApproval(1)}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Submitting Request..." : "Submit"}
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label
+                        // type="submit"
+                        // disabled
+                        className="btn btn-danger btn-lg col-12 mt-4"
+                        style={{ backgroundColor: "#57636f" }}
+                        disabled={isLoading}
+                        // onClick={() => handleApproval(0)}
+                      >
+                        Already {status}
+                      </label>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>

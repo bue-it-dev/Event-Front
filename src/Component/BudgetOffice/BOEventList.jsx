@@ -165,7 +165,7 @@ const BOEventList = () => {
         <>
           <Link
             to={{
-              pathname: "/bo-event-request-details",
+              pathname: "/event-request-details-budget-office",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,

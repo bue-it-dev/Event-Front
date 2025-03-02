@@ -182,7 +182,7 @@ const EventSelections = ({ eventData, setEventData }) => {
             TransportationTypeId: transportationTypeId,
             startDate: "",
             endDate: "",
-            number: "",
+            quantity: "",
           });
         }
       } else {
@@ -514,11 +514,11 @@ const EventSelections = ({ eventData, setEventData }) => {
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
                       placeholder="Quantity"
-                      value={transport.number || ""}
+                      value={transport.quantity || ""}
                       onChange={(e) =>
                         handleTransportationChange(
                           index,
-                          "number",
+                          "quantity",
                           e.target.value
                         )
                       }

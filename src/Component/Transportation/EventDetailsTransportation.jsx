@@ -519,7 +519,7 @@ const EventDetailsTransportation = () => {
         }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list");
+          history.push("/event-approval-list-transportation");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);

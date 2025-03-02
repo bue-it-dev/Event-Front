@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import "../Applicant/Applicant.css";
 import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
@@ -7,11 +8,11 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import SecurityCheck from "./SecurityCheck";
 import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import SecurityCheckTabs from "./SecuirtyCheckTabs";
 const SecurityCheckEventList = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +25,6 @@ const SecurityCheckEventList = () => {
     try {
       const response = await axios.get(
         `${URL.BASE_URL}/api/EventEntity/get-EventRequestSecurityCheck/`,
-
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -160,52 +160,22 @@ const SecurityCheckEventList = () => {
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
       OrganizerEmail: event.OrganizerEmail || "N/A",
-      statusName:
-        event.approvalName == "Acknowledgement"
-          ? "Acknowledge"
-          : event.statusName,
-      approvalName: event.approvalName,
+      statusName: event.statusName,
       actions: (
         <>
-          {event.approvalName == "Acknowledgement" ||
-          event.statusName != "Pending" ? (
-            <>
-              <Link
-                to={{
-                  pathname: "/event-details-security-check",
-                  state: {
-                    requestId: event.eventId,
-                    statusName:
-                      event.approvalName == "Acknowledgement"
-                        ? "Acknowledgement"
-                        : event.statusName != "Pending"
-                        ? event.statusName
-                        : "N/A",
-                  },
-                }}
-              >
-                <button type="button" className="btn btn-success btn-sm">
-                  View
-                </button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to={{
-                  pathname: "/event-details-security-check",
-                  state: {
-                    requestId: event.eventId,
-                    statusName: event.statusName,
-                  },
-                }}
-              >
-                <button type="button" className="btn btn-success btn-sm">
-                  Decide
-                </button>
-              </Link>
-            </>
-          )}
+          <Link
+            to={{
+              pathname: "/event-details-security-check",
+              state: {
+                requestId: event.eventId,
+                statusName: event.statusName,
+              },
+            }}
+          >
+            <button type="button" className="btn btn-success btn-sm">
+              Decide
+            </button>
+          </Link>
         </>
       ),
     })),
@@ -213,7 +183,7 @@ const SecurityCheckEventList = () => {
 
   return (
     <div className="my-events">
-      <SecurityCheckTabs />
+      <SecurityCheck />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (

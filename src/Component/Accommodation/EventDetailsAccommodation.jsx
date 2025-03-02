@@ -326,7 +326,7 @@ const EventDetailsAccommodation = () => {
       }
       setisLoading(false);
       toast.success("Event added successfully", { position: "top-center" });
-      history.push("/my-event-requests");
+      history.push("/event-approval-list-accommodation");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -519,7 +519,7 @@ const EventDetailsAccommodation = () => {
         }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list");
+          history.push("/event-approval-list-accommodation");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);

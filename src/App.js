@@ -113,8 +113,6 @@ function App() {
                     ? VCB
                     : user.type === "OfficeOfThePresident"
                     ? President
-                    : user.type === "SecurityCheck"
-                    ? HR
                     : user.type === "BOM"
                     ? BOM
                     : user.type === "COO"
@@ -313,7 +311,7 @@ function App() {
                       component={BOEventList}
                     />
                     <ProtectedRoute
-                      path="/bo-event-request-details"
+                      path="/event-request-details-budget-office"
                       component={BOEventDetails}
                     />
                     <Route path="/" exact component={BudgetOffice} />
