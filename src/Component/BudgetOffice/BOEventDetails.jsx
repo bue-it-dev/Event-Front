@@ -23,6 +23,7 @@ import {
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 const BOEventDetails = () => {
   const history = useHistory();
+  const [isBOSubmitted, setisBOSubmitted] = useState(false);
   const [passportFiles, setPassportFiles] = useState([]);
   const [buildings, setBuildings] = useState([]);
   const [venues, setVenues] = useState([]);
@@ -514,10 +515,8 @@ const BOEventDetails = () => {
       toast.success("Budget Office data added successfully", {
         position: "top-center",
       });
+      setisBOSubmitted(true);
       // Ensure UI navigation only happens after the toast is shown
-      setTimeout(() => {
-        history.push("/event-request-list-budget-office");
-      }, 1000); // Give users time to see the message
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -549,7 +548,7 @@ const BOEventDetails = () => {
         }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list-transportation");
+          history.push("/event-request-list-budget-office");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1446,13 +1445,43 @@ const BOEventDetails = () => {
                       <button
                         type="submit"
                         className="btn btn-success-approve btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "green", color: "white" }}
+                        style={{ backgroundColor: "black", color: "white" }}
                         onClick={() => UpdateEventRequestBudgetOfficeAsync()}
                         disabled={isLoading}
                       >
                         {isLoading ? "Submitting Request..." : "Submit"}
                       </button>
                     </div>
+                    {isBOSubmitted == true ? (
+                      <>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <button
+                              type="submit"
+                              className="btn btn-success-approve btn-lg col-12 mt-4"
+                              style={{
+                                backgroundColor: "green",
+                                color: "white",
+                              }}
+                              onClick={() => handleApproval(1)}
+                              disabled={isLoading}
+                            >
+                              {isLoading ? "Approving Request..." : "Approve"}
+                            </button>
+                          </div>
+                          <div className="col-md-6">
+                            <button
+                              type="submit"
+                              className="btn btn-danger btn-lg col-12 mt-4"
+                              disabled={isLoading}
+                              onClick={() => handleApproval(0)}
+                            >
+                              {isLoading ? "Rejecting Request..." : "Reject"}
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    ) : null}
                   </>
                 ) : (
                   <>
