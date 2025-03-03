@@ -1,54 +1,103 @@
 import React, { useState, useEffect } from "react";
-import { TextValidator } from "react-material-ui-form-validator";
-import URL from "../Util/config";
-import { getToken } from "../Util/Authenticate";
 import axios from "axios";
-import Select from "react-select";
+import { getToken } from "../Util/Authenticate";
+import URL from "../Util/config";
 
 const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   const [buildings, setBuildings] = useState([]);
   const [venues, setVenues] = useState([]);
-  const [selectedBuildingId, setSelectedBuildingId] = useState(null);
 
-  // Get List of Buildings
-  const Getbuildings = async () => {
+  // ✅ Ensure buildingVenues exists in eventData
+  useEffect(() => {
+    if (!eventData.buildingVenues) {
+      seteventData((prevState) => ({
+        ...prevState,
+        buildingVenues: [],
+      }));
+    }
+  }, []);
+
+  // ✅ Extract stored Building & Venue IDs
+  const selectedBuildingId =
+    eventData.buildingVenues?.[index]?.buildingId || "";
+  const selectedVenueId = eventData.buildingVenues?.[index]?.venueId || "";
+
+  // ✅ Fetch Buildings
+  const fetchBuildings = async () => {
     try {
       const response = await axios.get(
         `${URL.BASE_URL}/api/EventEntity/get-buildings`,
         {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
+          headers: { Authorization: `Bearer ${getToken()}` },
         }
       );
       setBuildings(response.data.data);
     } catch (error) {
-      console.error("Error fetching buildings:", error);
+      console.error("❌ Error fetching buildings:", error);
     }
   };
 
-  // Get List of Venues for Selected Building
-  const getVenues = async (buildingId) => {
+  // ✅ Fetch Venues for Selected Building
+  const fetchVenues = async (buildingId) => {
+    if (!buildingId) return;
     try {
       const response = await axios.get(
         `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
         {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
+          headers: { Authorization: `Bearer ${getToken()}` },
         }
       );
       setVenues(response.data.data);
-      console.log("buildingID", venues);
     } catch (error) {
-      console.error("Error fetching venues:", error);
+      console.error("❌ Error fetching venues:", error);
     }
   };
 
+  // ✅ Load Buildings & Venues on Page Load
   useEffect(() => {
-    Getbuildings();
-    getVenues(eventData.buildingVenues?.[0]?.buildingId);
+    fetchBuildings();
   }, []);
+
+  // ✅ Fetch venues when the selected building changes
+  useEffect(() => {
+    if (selectedBuildingId) {
+      fetchVenues(selectedBuildingId);
+    }
+  }, [selectedBuildingId]);
+
+  // ✅ Handle Building Change
+  const handleBuildingChange = (e) => {
+    const buildingId = Number(e.target.value);
+
+    seteventData((prevState) => {
+      const updatedBuildingVenues = [...(prevState.buildingVenues || [])];
+
+      updatedBuildingVenues[index] = {
+        buildingId,
+        venueId: "", // Reset venue when building changes
+      };
+
+      return { ...prevState, buildingVenues: updatedBuildingVenues };
+    });
+
+    fetchVenues(buildingId);
+  };
+
+  // ✅ Handle Venue Change
+  const handleVenueChange = (e) => {
+    const venueId = e.target.value;
+
+    seteventData((prevState) => {
+      const updatedBuildingVenues = [...(prevState.buildingVenues || [])];
+
+      updatedBuildingVenues[index] = {
+        ...updatedBuildingVenues[index],
+        venueId,
+      };
+
+      return { ...prevState, buildingVenues: updatedBuildingVenues };
+    });
+  };
 
   return (
     <div className="card shadow-sm p-3 mb-3">
@@ -58,24 +107,8 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
           <label className="form-label font-weight-bold">Select Building</label>
           <select
             className="form-control custom-select custom-select-lg"
-            value={eventData.buildingVenues?.[0]?.buildingId || ""}
-            onChange={(e) => {
-              const buildingId = Number(e.target.value); // Convert to number if needed
-              setSelectedBuildingId(buildingId);
-              console.log(
-                "from the building tag this is the building ID",
-                buildingId
-              );
-              // Update eventData with the selected buildingId inside buildingVenues
-              seteventData((prevState) => ({
-                ...prevState,
-                buildingVenues: prevState.buildingVenues.map((venue, index) =>
-                  index === 0 ? { ...venue, buildingId } : venue
-                ),
-              }));
-
-              getVenues(buildingId);
-            }}
+            value={selectedBuildingId}
+            onChange={handleBuildingChange}
             name="buildings"
             required
           >
@@ -94,21 +127,8 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
             <label className="form-label font-weight-bold">Select Venue</label>
             <select
               className="form-control custom-select custom-select-lg"
-              value={eventData.buildingVenues?.[0]?.venueId || ""}
-              onChange={(e) => {
-                const venueId = e.target.value;
-                const buildingId = eventData.buildingVenues?.[0]?.buildingId;
-                seteventData((prev) => {
-                  const updatedVenues = [...prev.buildingVenues];
-                  updatedVenues[index] = {
-                    ...updatedVenues[index],
-                    venueId,
-                    eventId: prev.eventId,
-                  };
-                  return { ...prev, buildingVenues: updatedVenues };
-                });
-                // getVenues(buildingId);
-              }}
+              value={selectedVenueId}
+              onChange={handleVenueChange}
               name="venues"
               required
             >
