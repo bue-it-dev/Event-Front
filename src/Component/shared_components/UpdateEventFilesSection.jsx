@@ -343,7 +343,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                             htmlFor={`passports${index}`}
                             className="form-label text-dark font-weight-bold"
                           >
-                            Upload Passport Files (Traveler {index + 1}):
+                            Upload Passport Files (file {index + 1}):
                           </label>
                           <button
                             type="button"
@@ -362,7 +362,30 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                           className="form-control-file"
                           onChange={(e) => handleFileChange(e, index)}
                         />
-
+                        <Grid item xs={12} md={6}>
+                          <a
+                            href={`${
+                              URL.BASE_URL
+                            }/api/EventEntity/get-file?filePath=${
+                              eventData.passports[index].split("/uploads/")[1]
+                            }`}
+                            target="_blank"
+                          >
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-outline-primary"
+                              onClick={() =>
+                                GetFiles(
+                                  eventData.passports[index].split(
+                                    "/uploads/"
+                                  )[1]
+                                )
+                              }
+                            >
+                              <i className="bi bi-eye"></i> View
+                            </button>
+                          </a>
+                        </Grid>
                         {/* Add Array.isArray check before mapping */}
                         {Array.isArray(fileArray) && fileArray.length > 0 && (
                           <ul className="mt-2">
@@ -373,7 +396,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                                 style={{ fontSize: "12px", color: "black" }}
                               >
                                 <span>{file.name}</span>
-                                <button
+                                {/* <button
                                   type="button"
                                   className="btn btn-sm btn-outline-primary ms-2"
                                   onClick={() =>
@@ -381,7 +404,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                                   }
                                 >
                                   <i className="bi bi-eye"></i> View
-                                </button>
+                                </button> */}
                               </li>
                             ))}
                           </ul>

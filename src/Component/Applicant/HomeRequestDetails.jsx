@@ -188,17 +188,35 @@ const HomeRequestDetails = () => {
 
       const eventDetails = response.data.data;
 
-      // Ensure file-related fields are not directly assigned
+      // Extract file-related fields separately
       const {
         ledOfTheUniversityOrganizerFilePath,
         officeOfPresedentFilePath,
         visitAgendaFilePath,
+        passports,
         ...filteredEventDetails
       } = eventDetails;
 
-      seteventData({
+      // ✅ Ensure `passports` contains valid file data
+      const processedPassports =
+        passports?.map((passport, index) => {
+          if (passport.fileUrl) {
+            return new File(
+              [passport.fileData],
+              passport.fileName || `passport_${index}.pdf`,
+              {
+                type: passport.fileType || "application/pdf",
+              }
+            );
+          }
+          return passport; // Keep the existing structure if no file conversion needed
+        }) ?? [];
+
+      // ✅ Update eventData state
+      seteventData((prevState) => ({
+        ...prevState,
         ...filteredEventDetails,
-        passports: eventDetails.passports ?? [],
+        passports: processedPassports,
         buildingVenues: eventDetails.buildingVenues ?? [],
         transportations: eventDetails.transportations
           ? [...eventDetails.transportations]
@@ -209,16 +227,15 @@ const HomeRequestDetails = () => {
         itcomponentEvents: eventDetails.itcomponentEvents
           ? [...eventDetails.itcomponentEvents]
           : [],
-        // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath:
-          eventDetails.ledOfTheUniversityOrganizerFilePath,
-        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
-        visitAgendaFilePath: visitAgendaFilePath,
-      });
+        // Handle file paths properly
+        ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath,
+        visitAgendaFilePath,
+      }));
 
-      console.log("Event Data", eventData);
+      console.log("✅ Updated Event Data:", eventData);
     } catch (error) {
-      console.error("Error fetching event Details:", error);
+      console.error("❌ Error fetching event Details:", error);
     }
   };
 
