@@ -120,7 +120,6 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   id="isChairBoardPrisidentVcb"
                   name="isChairBoardPrisidentVcb"
                   className="form-check-input"
-                  value={eventData?.isChairBoardPrisidentVcb}
                   checked={eventData.isChairBoardPrisidentVcb === 1}
                   onChange={handleCheckboxChange}
                 />
@@ -171,7 +170,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                             )
                           }
                         >
-                          <i className="bi bi-eye"></i> View
+                          <i className="bi bi-eye"></i>
                         </button>
                       </a>
                     </Grid>
@@ -214,7 +213,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                               GetFiles(eventData.officeOfPresedentFilePath)
                             }
                           >
-                            <i className="bi bi-eye"></i> View
+                            <i className="bi bi-eye"></i>
                           </button>
                         </a>
                       </Grid>
@@ -283,7 +282,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                             GetFiles(eventData.visitAgendaFilePath)
                           }
                         >
-                          <i className="bi bi-eye"></i> View
+                          <i className="bi bi-eye"></i>
                         </button>
                       </a>
                     </Grid>
@@ -362,7 +361,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                           className="form-control-file"
                           onChange={(e) => handleFileChange(e, index)}
                         />
-                        <Grid item xs={12} md={6}>
+                        <div className="card shadow-sm p-3 mt-3">
                           {eventData?.passports?.[index] &&
                             typeof eventData.passports[index] === "string" && (
                               <a
@@ -386,11 +385,11 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                                     )
                                   }
                                 >
-                                  <i className="bi bi-eye"></i> View
+                                  <i className="bi bi-eye"></i>View
                                 </button>
                               </a>
                             )}
-                        </Grid>
+                        </div>
                         {/* Add Array.isArray check before mapping */}
                         {Array.isArray(fileArray) && fileArray.length > 0 && (
                           <ul className="mt-2">
