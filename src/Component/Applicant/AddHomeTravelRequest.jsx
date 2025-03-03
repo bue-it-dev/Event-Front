@@ -24,7 +24,7 @@ const AddHomeTravelRequest = () => {
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
+  const [passportData, setpassportData] = useState([[]]);
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     EventTitle: "",
@@ -48,7 +48,7 @@ const AddHomeTravelRequest = () => {
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
     OfficeOfPresedentFile: null,
-    passportFiles: [],
+    passportData: [],
     VisitAgendaFile: null,
     ItcomponentEvents: [],
     Transportations: [],
@@ -96,10 +96,11 @@ const AddHomeTravelRequest = () => {
       const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
+      console.log("PASSPORTDATA", eventData.passportData);
       if (EventId) {
         await AddFiles(
           EventId,
-          passportFiles || [],
+          eventData.passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -146,7 +147,7 @@ const AddHomeTravelRequest = () => {
         visitAgendaFilePath: eventData.VisitAgendaFile,
         confirmedAt: null, // Not present in State 1, set to null
         isVip: eventData.isVIP ?? 0,
-        passports: eventData.passportFiles || [], // Ensure it's an array
+        passports: eventData.passportData || [], // Ensure it's an array
         itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
           id: it.id ?? 0,
           eventId: it.eventId ?? responseRequestIDExtracted,
@@ -181,7 +182,7 @@ const AddHomeTravelRequest = () => {
       if (responseRequestIDExtracted) {
         await UpdateFiles(
           responseRequestIDExtracted,
-          passportFiles || [],
+          passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -258,7 +259,7 @@ const AddHomeTravelRequest = () => {
         // if (EventId) {
         //   await AddFiles(
         //     EventId,
-        //     passportFiles || [],
+        //     passportData || [],
         //     eventData.OfficeOfPresedentFile,
         //     eventData.LedOfTheUniversityOrganizerFile,
         //     eventData.VisitAgendaFile
@@ -339,7 +340,7 @@ const AddHomeTravelRequest = () => {
         if (EventId) {
           await AddFiles(
             EventId,
-            passportFiles || [],
+            eventData.passportData || [],
             eventData.OfficeOfPresedentFile,
             eventData.LedOfTheUniversityOrganizerFile,
             eventData.VisitAgendaFile
@@ -360,9 +361,9 @@ const AddHomeTravelRequest = () => {
   };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
-    const newPassportFiles = [...passportFiles];
-    newPassportFiles[index] = files;
-    setPassportFiles(newPassportFiles);
+    const newpassportData = [...passportData];
+    newpassportData[index] = files;
+    setpassportData(newpassportData);
   };
 
   useEffect(() => {

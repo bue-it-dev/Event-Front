@@ -359,26 +359,49 @@ const AddFiles = async (
   VisitAgendaFile
 ) => {
   try {
+    console.log("✅ PassportDATA (before processing):", passportData);
+
     const formData = new FormData();
     formData.append("EventId", EventId);
+
+    // ✅ Check if passportData contains files
     if (Array.isArray(passportData) && passportData.length > 0) {
-      passportData.forEach((file) => {
-        formData.append("passportData", file);
+      passportData.flat().forEach((file, index) => {
+        if (file instanceof File) {
+          formData.append(`passportData`, file);
+        } else {
+          console.error(
+            `❌ passportData[${index}] is not a File object:`,
+            file
+          );
+        }
       });
+    } else {
+      console.warn("⚠️ passportData is empty or not an array.");
     }
 
-    if (OfficeOfPresedentFile)
+    if (OfficeOfPresedentFile) {
       formData.append("OfficeOfPresedentFile", OfficeOfPresedentFile);
-    if (LedOfTheUniversityOrganizerFile)
+    }
+
+    if (LedOfTheUniversityOrganizerFile) {
       formData.append(
         "LedOfTheUniversityOrganizerFile",
         LedOfTheUniversityOrganizerFile
       );
-    if (VisitAgendaFile) formData.append("VisitAgendaFile", VisitAgendaFile);
-    for (let pair of formData.entries()) {
-      console.log(`FormData Key: ${pair[0]}, Value:`, pair[1]);
     }
 
+    if (VisitAgendaFile) {
+      formData.append("VisitAgendaFile", VisitAgendaFile);
+    }
+
+    // ✅ Debugging FormData before sending
+    console.log("🚀 FormData before sending:");
+    for (let pair of formData.entries()) {
+      console.log(`📂 Key: ${pair[0]}, Value:`, pair[1]);
+    }
+
+    // ✅ Send request to backend
     const response = await axios.post(
       `${URL.BASE_URL}/api/EventEntity/add-files`,
       formData,
@@ -390,9 +413,10 @@ const AddFiles = async (
       }
     );
 
-    console.log("Files uploaded successfully:", response.data); // Debugging
+    console.log("✅ Files uploaded successfully:", response.data);
+    return response.data;
   } catch (error) {
-    console.error("Error uploading files:", error);
+    console.error("❌ Error uploading files:", error);
     throw error;
   }
 };

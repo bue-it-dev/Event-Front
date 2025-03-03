@@ -1,9 +1,35 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import PassportFilesSection from "../shared_components/PassportFilesSection "; // Import PassportFilesSection
+import React from "react";
 
 const EventFilesSection = ({ eventData, setEventData }) => {
-  const [passportFiles, setPassportFiles] = useState([]);
+  // Handle file input changes
+  const handleFileChange = (e, index) => {
+    const selectedFiles = Array.from(e.target.files); // Convert FileList to an array
+
+    setEventData((prevData) => {
+      const updatedpassportData = [...(prevData.passportData || [])];
+      updatedpassportData[index] = selectedFiles; // Store files in the array
+
+      return { ...prevData, passportData: updatedpassportData };
+    });
+  };
+
+  // Add a new passport file input
+  const addPassportInput = () => {
+    setEventData((prevData) => {
+      const updatedpassportData = [...(prevData.passportData || []), []];
+      return { ...prevData, passportData: updatedpassportData };
+    });
+  };
+
+  // Remove a passport file input
+  const removePassportInput = (index) => {
+    setEventData((prevData) => {
+      const updatedpassportData = prevData.passportData.filter(
+        (_, i) => i !== index
+      );
+      return { ...prevData, passportData: updatedpassportData };
+    });
+  };
 
   // Handle checkbox changes
   const handleCheckboxChange = (e) => {
@@ -11,33 +37,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     setEventData({
       ...eventData,
       [name]: checked ? 1 : 0,
-    });
-  };
-
-  const handleSubmit = () => {
-    const formData = new FormData();
-
-    // Handle event data
-    Object.keys(eventData).forEach((key) => {
-      if (key !== "passportData") {
-        // Don't append passport data here
-        formData.append(key, eventData[key]);
-      }
-    });
-
-    // Append passport files (multiple) if passportData has files
-    passportFiles.forEach((fileArray, index) => {
-      fileArray.forEach((file) => {
-        formData.append(`passportData[${index}]`, file);
-      });
-    });
-
-    // Now you can send formData to your API
-    console.log(formData); // For debugging purposes
-
-    // Optionally show a success message
-    toast.success("Event Submitted Successfully", {
-      position: "top-center",
     });
   };
 
@@ -89,7 +88,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   htmlFor="LedOfTheUniversityOrganizerFile"
                   className="form-label text-dark font-weight-bold"
-                  style={{ fontSize: "14px" }}
                 >
                   Upload the signed approval form from the lead university
                   organizer:
@@ -113,7 +111,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   <label
                     htmlFor="OfficeOfPresedentFile"
                     className="form-label text-dark font-weight-bold"
-                    style={{ fontSize: "14px" }}
                   >
                     Upload the relevant form from the Office of the President:
                   </label>
@@ -162,7 +159,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   htmlFor="VisitAgendaFile"
                   className="form-label text-dark font-weight-bold"
-                  style={{ fontSize: "14px" }}
                 >
                   Upload the visit agenda file:
                 </label>
@@ -179,6 +175,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   }
                 />
               </div>
+
               {/* Is Others NOT VIP */}
               <div className="card shadow-sm p-4 mt-4">
                 <div className="form-check form-check-lg">
@@ -195,20 +192,66 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     htmlFor="isVIP"
                   >
                     Will the event be attended by international guests
-                    (excluding VIPs)
+                    (excluding VIPs)?
                   </label>
                 </div>
               </div>
+
               {eventData.isVIP === 1 && (
-                <>
-                  {/* Passport Files Section */}
-                  <div className="mt-3">
-                    <PassportFilesSection
-                      passportFiles={passportFiles}
-                      setPassportFiles={setPassportFiles}
-                    />
+                <div className="card shadow-sm px-5 py-4 w-100 mx-auto">
+                  {/* Passport file inputs (dynamically added) */}
+                  {(eventData.passportData || []).map((fileArray, index) => (
+                    <div key={index} className="card shadow-sm p-3 mt-3">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <label
+                          htmlFor={`passportData${index}`}
+                          className="form-label text-dark font-weight-bold"
+                        >
+                          Upload Passport Files (Traveler {index + 1}):
+                        </label>
+                        <button
+                          type="button"
+                          className="btn btn-outline-danger btn-sm"
+                          onClick={() => removePassportInput(index)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+
+                      <input
+                        type="file"
+                        id={`passportData${index}`}
+                        name={`passportData[${index}]`}
+                        multiple
+                        className="form-control-file"
+                        onChange={(e) => handleFileChange(e, index)}
+                      />
+
+                      {fileArray.length > 0 && (
+                        <ul className="mt-2">
+                          {fileArray.map((file, fileIndex) => (
+                            <li
+                              key={fileIndex}
+                              style={{ fontSize: "12px", color: "black" }}
+                            >
+                              {file.name}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+
+                  <div className="text-center mt-4">
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary btn-lg"
+                      onClick={addPassportInput}
+                    >
+                      + Add Passport
+                    </button>
                   </div>
-                </>
+                </div>
               )}
             </div>
           )}
