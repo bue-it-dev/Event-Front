@@ -1260,6 +1260,7 @@ const HomeRequestDetails = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
+                <br />
                 {eventData.confirmedAt == null ? (
                   <>
                     <button
