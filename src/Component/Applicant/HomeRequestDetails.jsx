@@ -283,6 +283,36 @@ const HomeRequestDetails = () => {
       console.error("Error fetching transportation types:", error);
     }
   };
+  // const [approvalTracker, setApprovalTracker] = useState([]);
+  const GetEventApprovalsTracker = async (requestId) => {
+    try {
+      const response = await axios.post(
+        `${URL.BASE_URL}/api/EventEntity/GetEventApprovalsbyRequestID`,
+        requestId,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Ensure the response data is an array or wrap it in one if it's an object
+      const responseData = Array.isArray(response.data)
+        ? response.data
+        : [response.data];
+
+      // Format the createdAt date for each item
+      const formattedData = responseData.map((item) => ({
+        ...item,
+        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
+      }));
+
+      setApprovalTracker(formattedData);
+    } catch (error) {
+      console.error("Error fetching home request details:", error);
+    }
+  };
 
   // Fetch IT components
   const getItComponents = async () => {
@@ -353,11 +383,8 @@ const HomeRequestDetails = () => {
     ],
     rows: approvalTracker.map((data, i) => ({
       Number: i + 1,
-      // requesterName: data.requesterName,
       approvalLevelName:
-        data.approvalLevelName == "Business_operation_manager"
-          ? "Business Operation Manager"
-          : data.approvalLevelName,
+        data.approvalLevelName == "BOM" ? "BO Manager" : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
       createdAt: data.createdAt,
@@ -503,16 +530,44 @@ const HomeRequestDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
+  // useEffect(() => {
+  //   if (updatehometravelData.confrimedat != null) {
+  //     await GetEventApprovalsTracker(requestId);
+  //   }
+  //   setisLoading(false);
+  //   GetEventDetails(requestId);
+  //   GetApprovalDepartmentSchema();
+  //   GetNatureofEvents();
+  //   getRoomTypes();
+  //   getTransportationTypes();
+  //   getItComponents();
+  //   console.log("Event Data", eventData);
+  // }, [requestId]);
   useEffect(() => {
-    setisLoading(false);
-    GetEventDetails(requestId);
-    GetApprovalDepartmentSchema();
-    GetNatureofEvents();
-    getRoomTypes();
-    getTransportationTypes();
-    getItComponents();
-    console.log("Event Data", eventData);
-  }, [requestId]);
+    const fetchData = async () => {
+      setisLoading(true); // Start loading at the beginning
+
+      try {
+        if (eventData.confirmedAt != null) {
+          await GetEventApprovalsTracker(requestId);
+        }
+        await Promise.all([
+          GetEventDetails(requestId),
+          GetApprovalDepartmentSchema(),
+          GetNatureofEvents(),
+          getRoomTypes(),
+          getTransportationTypes(),
+          getItComponents(),
+        ]);
+      } catch (error) {
+        console.error("Error in fetchData:", error);
+      } finally {
+        setisLoading(false); // Stop loading after all calls complete
+      }
+    };
+
+    fetchData();
+  }, [requestId, eventData.confirmedAt]);
 
   return (
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -1216,7 +1271,33 @@ const HomeRequestDetails = () => {
                       {isLoading ? "Updating Request..." : "Update Request"}
                     </button>
                   </>
-                ) : null}
+                ) : (
+                  <>
+                    <div className="horizontal-rule mb-4">
+                      <h5 className="horizontal-rule-text">
+                        Approvals Breakdown
+                      </h5>
+                    </div>
+                    <div className="row">
+                      <Table responsive>
+                        <MDBDataTable
+                          // className="text-left"
+                          className="custom-table"
+                          striped
+                          bordered
+                          hover
+                          data={data}
+                          paging={false} // Disables pagination
+                          scrollX={false} // Disables horizontal scrolling
+                          scrollY={false} // Disables vertical scrolling
+                          order={["Number", "asc"]}
+                          entries={10}
+                          searching={false} // Disables the search bar
+                        />
+                      </Table>
+                    </div>
+                  </>
+                )}
               </ValidatorForm>
             </div>
           </div>
