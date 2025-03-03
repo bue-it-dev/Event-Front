@@ -363,28 +363,33 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                           onChange={(e) => handleFileChange(e, index)}
                         />
                         <Grid item xs={12} md={6}>
-                          <a
-                            href={`${
-                              URL.BASE_URL
-                            }/api/EventEntity/get-file?filePath=${
-                              eventData.passports[index].split("/uploads/")[1]
-                            }`}
-                            target="_blank"
-                          >
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-outline-primary"
-                              onClick={() =>
-                                GetFiles(
+                          {eventData?.passports?.[index] &&
+                            typeof eventData.passports[index] === "string" && (
+                              <a
+                                href={`${
+                                  URL.BASE_URL
+                                }/api/EventEntity/get-file?filePath=${
                                   eventData.passports[index].split(
                                     "/uploads/"
                                   )[1]
-                                )
-                              }
-                            >
-                              <i className="bi bi-eye"></i> View
-                            </button>
-                          </a>
+                                }`}
+                                target="_blank"
+                              >
+                                <button
+                                  type="button"
+                                  className="btn btn-sm btn-outline-primary"
+                                  onClick={() =>
+                                    GetFiles(
+                                      eventData.passports[index].split(
+                                        "/uploads/"
+                                      )[1]
+                                    )
+                                  }
+                                >
+                                  <i className="bi bi-eye"></i> View
+                                </button>
+                              </a>
+                            )}
                         </Grid>
                         {/* Add Array.isArray check before mapping */}
                         {Array.isArray(fileArray) && fileArray.length > 0 && (
