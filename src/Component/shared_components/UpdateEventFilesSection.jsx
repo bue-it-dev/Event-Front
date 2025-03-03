@@ -4,14 +4,24 @@ import PassportFilesSection from "../shared_components/PassportFilesSection "; /
 import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
+import {
+  Grid,
+  Fade,
+  Container,
+  makeStyles,
+  Typography,
+  createMuiTheme,
+  responsiveFontSizes,
+  Checkbox,
+  FormControlLabel,
+} from "@material-ui/core";
 // import axios from "axios";
 const UpdateEventFilesSection = ({ eventData, setEventData }) => {
   const [passportFiles, setPassportFiles] = useState([]);
   const [files, setFiles] = useState(null); // Add this state for storing file data
 
   // Add console log to see the eventData
-  console.log("eventData:", eventData);
-  console.log("passportData:", eventData.passports);
+  console.log("eventData visitAgendaFilePath:", eventData.visitAgendaFilePath);
 
   // Add the GetFiles function
   const GetFiles = (path) => {
@@ -147,15 +157,24 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     }
                   />
                   {eventData?.ledOfTheUniversityOrganizerFilePath && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-primary"
-                      onClick={() =>
-                        GetFiles(eventData.ledOfTheUniversityOrganizerFilePath)
-                      }
-                    >
-                      <i className="bi bi-eye"></i> View
-                    </button>
+                    <Grid item xs={12} md={6}>
+                      <a
+                        href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.ledOfTheUniversityOrganizerFilePath}`}
+                        target="_blank"
+                      >
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() =>
+                            GetFiles(
+                              eventData.ledOfTheUniversityOrganizerFilePath
+                            )
+                          }
+                        >
+                          <i className="bi bi-eye"></i> View
+                        </button>
+                      </a>
+                    </Grid>
                   )}
                 </div>
               </div>
@@ -183,15 +202,22 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       }
                     />
                     {eventData?.officeOfPresedentFilePath && (
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() =>
-                          GetFiles(eventData.officeOfPresedentFilePath)
-                        }
-                      >
-                        <i className="bi bi-eye"></i> View
-                      </button>
+                      <Grid item xs={12} md={6}>
+                        <a
+                          href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`}
+                          target="_blank"
+                        >
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={() =>
+                              GetFiles(eventData.officeOfPresedentFilePath)
+                            }
+                          >
+                            <i className="bi bi-eye"></i> View
+                          </button>
+                        </a>
+                      </Grid>
                     )}
                   </div>
                 </div>
@@ -245,14 +271,30 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     }
                   />
                   {eventData?.visitAgendaFilePath && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-primary"
-                      onClick={() => GetFiles(eventData.visitAgendaFilePath)}
-                    >
-                      <i className="bi bi-eye"></i> View
-                    </button>
+                    <Grid item xs={12} md={6}>
+                      <a
+                        href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`}
+                        target="_blank"
+                      >
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() =>
+                            GetFiles(eventData.visitAgendaFilePath)
+                          }
+                        >
+                          <i className="bi bi-eye"></i> View
+                        </button>
+                      </a>
+                    </Grid>
                   )}
+                  {/* <button
+                    type="button"
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={() => GetFiles(eventData.visitAgendaFilePath)}
+                  >
+                    <i className="bi bi-eye"></i> View
+                  </button> */}
                 </div>
               </div>
               {/* Is Others NOT VIP */}

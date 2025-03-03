@@ -198,6 +198,7 @@ const HomeRequestDetails = () => {
 
       seteventData({
         ...filteredEventDetails,
+        passports: eventDetails.passports ?? [],
         buildingVenues: eventDetails.buildingVenues ?? [],
         transportations: eventDetails.transportations
           ? [...eventDetails.transportations]
@@ -209,9 +210,10 @@ const HomeRequestDetails = () => {
           ? [...eventDetails.itcomponentEvents]
           : [],
         // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath: null,
-        officeOfPresedentFilePath: null,
-        visitAgendaFilePath: null,
+        ledOfTheUniversityOrganizerFilePath:
+          eventDetails.ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
+        visitAgendaFilePath: visitAgendaFilePath,
       });
 
       console.log("Event Data", eventData);
