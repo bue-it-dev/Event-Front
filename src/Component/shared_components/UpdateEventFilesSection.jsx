@@ -1,36 +1,72 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import PassportFilesSection from "../shared_components/PassportFilesSection "; // Import PassportFilesSection
-
+import axios from "axios";
+import URL from "../Util/config";
+import { getToken } from "../Util/Authenticate";
+// import axios from "axios";
 const UpdateEventFilesSection = ({ eventData, setEventData }) => {
   const [passportFiles, setPassportFiles] = useState([]);
+  const [files, setFiles] = useState(null); // Add this state for storing file data
+
+  // Add console log to see the eventData
+  console.log("eventData:", eventData);
+  console.log("passportData:", eventData.passports);
+
+  // Add the GetFiles function
+  const GetFiles = (path) => {
+    var config = {
+      method: "get",
+      url: `${URL.BASE_URL}/api/EventEntity/get-file?filePath=${path}`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setFiles(response.data.data);
+        console.log("Files", files);
+        // Open file in new window/tab
+        if (response.data.data) {
+          window.open(response.data.data, "_blank");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error fetching file:", error);
+        toast.error("Error viewing file");
+      });
+  };
+
   // Handle file input changes
   const handleFileChange = (e, index) => {
     const selectedFiles = Array.from(e.target.files); // Convert FileList to an array
+    console.log("Selected files:", selectedFiles); // Debug log
 
     setEventData((prevData) => {
-      const updatedpassportData = [...(prevData.passportData || [])];
-      updatedpassportData[index] = selectedFiles; // Store files in the array
-
-      return { ...prevData, passportData: updatedpassportData };
+      const updatedPassports = [...(prevData.passports || [])];
+      // Ensure the item at this index is an array
+      updatedPassports[index] = Array.isArray(selectedFiles)
+        ? selectedFiles
+        : [selectedFiles];
+      console.log("Updated passports:", updatedPassports); // Debug log
+      return { ...prevData, passports: updatedPassports };
     });
   };
 
   // Add a new passport file input
   const addPassportInput = () => {
     setEventData((prevData) => {
-      const updatedpassportData = [...(prevData.passportData || []), []];
-      return { ...prevData, passportData: updatedpassportData };
+      const updatedPassports = [...(prevData.passports || []), []];
+      console.log("Adding new passport input:", updatedPassports); // Debug log
+      return { ...prevData, passports: updatedPassports };
     });
   };
 
   // Remove a passport file input
   const removePassportInput = (index) => {
     setEventData((prevData) => {
-      const updatedpassportData = prevData.passportData.filter(
-        (_, i) => i !== index
-      );
-      return { ...prevData, passportData: updatedpassportData };
+      const updatedPassports = prevData.passports.filter((_, i) => i !== index);
+      return { ...prevData, passports: updatedPassports };
     });
   };
 
@@ -97,19 +133,31 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   Upload the signed approval form from the lead university
                   organizer:
                 </label>
-                <input
-                  type="file"
-                  id="LedOfTheUniversityOrganizerFile"
-                  name="LedOfTheUniversityOrganizerFile"
-                  value={eventData?.ledOfTheUniversityOrganizerFilePath}
-                  className="form-control-file"
-                  onChange={(e) =>
-                    setEventData({
-                      ...eventData,
-                      LedOfTheUniversityOrganizerFile: e.target.files[0],
-                    })
-                  }
-                />
+                <div className="d-flex align-items-center gap-2">
+                  <input
+                    type="file"
+                    id="LedOfTheUniversityOrganizerFile"
+                    name="LedOfTheUniversityOrganizerFile"
+                    className="form-control-file"
+                    onChange={(e) =>
+                      setEventData({
+                        ...eventData,
+                        LedOfTheUniversityOrganizerFile: e.target.files[0],
+                      })
+                    }
+                  />
+                  {eventData?.ledOfTheUniversityOrganizerFilePath && (
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() =>
+                        GetFiles(eventData.ledOfTheUniversityOrganizerFilePath)
+                      }
+                    >
+                      <i className="bi bi-eye"></i> View
+                    </button>
+                  )}
+                </div>
               </div>
 
               {eventData.isChairBoardPrisidentVcb === 1 && (
@@ -121,19 +169,31 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   >
                     Upload the relevant form from the Office of the President:
                   </label>
-                  <input
-                    type="file"
-                    id="OfficeOfPresedentFile"
-                    name="OfficeOfPresedentFile"
-                    className="form-control-file"
-                    value={eventData?.officeOfPresedentFilePath}
-                    onChange={(e) =>
-                      setEventData({
-                        ...eventData,
-                        OfficeOfPresedentFile: e.target.files[0],
-                      })
-                    }
-                  />
+                  <div className="d-flex align-items-center gap-2">
+                    <input
+                      type="file"
+                      id="OfficeOfPresedentFile"
+                      name="OfficeOfPresedentFile"
+                      className="form-control-file"
+                      onChange={(e) =>
+                        setEventData({
+                          ...eventData,
+                          OfficeOfPresedentFile: e.target.files[0],
+                        })
+                      }
+                    />
+                    {eventData?.officeOfPresedentFilePath && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() =>
+                          GetFiles(eventData.officeOfPresedentFilePath)
+                        }
+                      >
+                        <i className="bi bi-eye"></i> View
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -171,19 +231,29 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                 >
                   Upload the visit agenda file:
                 </label>
-                <input
-                  type="file"
-                  id="VisitAgendaFile"
-                  name="VisitAgendaFile"
-                  className="form-control-file"
-                  value={eventData?.visitAgendaFilePath}
-                  onChange={(e) =>
-                    setEventData({
-                      ...eventData,
-                      VisitAgendaFile: e.target.files[0],
-                    })
-                  }
-                />
+                <div className="d-flex align-items-center gap-2">
+                  <input
+                    type="file"
+                    id="VisitAgendaFile"
+                    name="VisitAgendaFile"
+                    className="form-control-file"
+                    onChange={(e) =>
+                      setEventData({
+                        ...eventData,
+                        VisitAgendaFile: e.target.files[0],
+                      })
+                    }
+                  />
+                  {eventData?.visitAgendaFilePath && (
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => GetFiles(eventData.visitAgendaFilePath)}
+                    >
+                      <i className="bi bi-eye"></i> View
+                    </button>
+                  )}
+                </div>
               </div>
               {/* Is Others NOT VIP */}
               <div className="card shadow-sm p-4 mt-4">
@@ -205,60 +275,91 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   </label>
                 </div>
               </div>
-              {eventData.isVIP === 1 && (
+              {eventData.isVip === 1 && (
                 <div className="card shadow-sm px-5 py-4 w-100 mx-auto">
-                  {/* Passport file inputs (dynamically added) */}
-                  {(eventData.passports || []).map((fileArray, index) => (
-                    <div key={index} className="card shadow-sm p-3 mt-3">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <label
-                          htmlFor={`passportData${index}`}
-                          className="form-label text-dark font-weight-bold"
-                        >
-                          Upload Passport Files (Traveler {index + 1}):
-                        </label>
-                        <button
-                          type="button"
-                          className="btn btn-outline-danger btn-sm"
-                          onClick={() => removePassportInput(index)}
-                        >
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </div>
-
-                      <input
-                        type="file"
-                        id={`passportData${index}`}
-                        name={`passportData[${index}]`}
-                        multiple
-                        className="form-control-file"
-                        value={eventData.passportData[index]?.name}
-                        onChange={(e) => handleFileChange(e, index)}
-                      />
-
-                      {fileArray.length > 0 && (
-                        <ul className="mt-2">
-                          {fileArray.map((file, fileIndex) => (
-                            <li
-                              key={fileIndex}
-                              style={{ fontSize: "12px", color: "black" }}
-                            >
-                              {file.name}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                      <div className="text-center mt-4">
-                        <button
-                          type="button"
-                          className="btn btn-outline-primary btn-lg"
-                          onClick={addPassportInput}
-                        >
-                          + Add Passport
-                        </button>
-                      </div>
+                  {/* Check for passports instead of passportData */}
+                  {!eventData.passports?.length && (
+                    <div className="text-center">
+                      <p>No passport data available</p>
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-lg"
+                        onClick={addPassportInput}
+                      >
+                        + Add Passport
+                      </button>
                     </div>
-                  ))}
+                  )}
+
+                  {/* Map through passports instead of passportData */}
+                  {eventData.passports?.map((fileArray, index) => {
+                    console.log("fileArray:", fileArray); // Debug log
+                    return (
+                      <div key={index} className="card shadow-sm p-3 mt-3">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <label
+                            htmlFor={`passports${index}`}
+                            className="form-label text-dark font-weight-bold"
+                          >
+                            Upload Passport Files (Traveler {index + 1}):
+                          </label>
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={() => removePassportInput(index)}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        </div>
+
+                        <input
+                          type="file"
+                          id={`passports${index}`}
+                          name={`passports[${index}]`}
+                          multiple
+                          className="form-control-file"
+                          onChange={(e) => handleFileChange(e, index)}
+                        />
+
+                        {/* Add Array.isArray check before mapping */}
+                        {Array.isArray(fileArray) && fileArray.length > 0 && (
+                          <ul className="mt-2">
+                            {fileArray.map((file, fileIndex) => (
+                              <li
+                                key={fileIndex}
+                                className="d-flex justify-content-between align-items-center mb-2"
+                                style={{ fontSize: "12px", color: "black" }}
+                              >
+                                <span>{file.name}</span>
+                                <button
+                                  type="button"
+                                  className="btn btn-sm btn-outline-primary ms-2"
+                                  onClick={() =>
+                                    GetFiles(file.filePath || file.path)
+                                  }
+                                >
+                                  <i className="bi bi-eye"></i> View
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  })}
+
+                  {/* Show add button if passports exists */}
+                  {eventData.passports?.length > 0 && (
+                    <div className="text-center mt-4">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary btn-lg"
+                        onClick={addPassportInput}
+                      >
+                        + Add Passport
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

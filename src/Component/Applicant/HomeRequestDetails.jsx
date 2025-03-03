@@ -356,7 +356,7 @@ const HomeRequestDetails = () => {
       if (requestId) {
         await UpdateFiles(
           requestId,
-          passportFiles || [],
+          eventData.passports || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
