@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import URL from "../Util/config";
-import "../Applicant/Applicant.css";
+import "./Applicant.css";
 import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
@@ -17,7 +17,7 @@ import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueL
 import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
 import { UpdateEventRequest, UpdateFiles } from "../Requests/mutators";
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
-const MyEventDetailsEAF = () => {
+const AdminMyEventRequetDetails = () => {
   const history = useHistory();
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
@@ -1327,4 +1327,4 @@ const MyEventDetailsEAF = () => {
   );
 };
 
-export default MyEventDetailsEAF;
+export default AdminMyEventRequetDetails;

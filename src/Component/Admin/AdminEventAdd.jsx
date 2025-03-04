@@ -10,8 +10,8 @@ import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
-import "./Applicant.css";
-import Admin from "../Admin/Admin";
+import "../Applicant/Applicant.css";
+import Admin from "./Admin";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import EventInfo from "../shared_components/EventPassportInfo";
@@ -24,7 +24,7 @@ const AdminEventAdd = () => {
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
+  const [passportData, setpassportData] = useState([[]]);
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     EventTitle: "",
@@ -48,7 +48,7 @@ const AdminEventAdd = () => {
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
     OfficeOfPresedentFile: null,
-    passportFiles: [],
+    passportData: [],
     VisitAgendaFile: null,
     ItcomponentEvents: [],
     Transportations: [],
@@ -96,10 +96,11 @@ const AdminEventAdd = () => {
       const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
+      console.log("PASSPORTDATA", eventData.passportData);
       if (EventId) {
         await AddFiles(
           EventId,
-          passportFiles || [],
+          eventData.passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -146,7 +147,7 @@ const AdminEventAdd = () => {
         visitAgendaFilePath: eventData.VisitAgendaFile,
         confirmedAt: null, // Not present in State 1, set to null
         isVip: eventData.isVIP ?? 0,
-        passports: eventData.passportFiles || [], // Ensure it's an array
+        passports: eventData.passportData || [], // Ensure it's an array
         itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
           id: it.id ?? 0,
           eventId: it.eventId ?? responseRequestIDExtracted,
@@ -181,7 +182,7 @@ const AdminEventAdd = () => {
       if (responseRequestIDExtracted) {
         await UpdateFiles(
           responseRequestIDExtracted,
-          passportFiles || [],
+          passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -255,8 +256,17 @@ const AdminEventAdd = () => {
         // Check for null, undefined, or zero values in the list
         const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(EventId);
+        // if (EventId) {
+        //   await AddFiles(
+        //     EventId,
+        //     passportData || [],
+        //     eventData.OfficeOfPresedentFile,
+        //     eventData.LedOfTheUniversityOrganizerFile,
+        //     eventData.VisitAgendaFile
+        //   );
+        // }
         setisLoading(false);
-        history.push("/my-event-requests");
+        history.push("/hod-my-events-request");
       } catch (err) {
         setisLoading(false);
         toast.error("An error occurred. Please try again later.", {
@@ -327,11 +337,20 @@ const AdminEventAdd = () => {
         localStorage.setItem("eventId", requestId);
         const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(EventId);
+        if (EventId) {
+          await AddFiles(
+            EventId,
+            eventData.passportData || [],
+            eventData.OfficeOfPresedentFile,
+            eventData.LedOfTheUniversityOrganizerFile,
+            eventData.VisitAgendaFile
+          );
+        }
         setisLoading(false);
         toast.success("Request confirmed successfully!", {
           position: "top-center",
         });
-        history.push("/my-event-requests");
+        history.push("/hod-my-events-request");
       } catch (err) {
         setisLoading(false);
         toast.error("Error while updating user details, please try again", {
@@ -342,9 +361,9 @@ const AdminEventAdd = () => {
   };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
-    const newPassportFiles = [...passportFiles];
-    newPassportFiles[index] = files;
-    setPassportFiles(newPassportFiles);
+    const newpassportData = [...passportData];
+    newpassportData[index] = files;
+    setpassportData(newpassportData);
   };
 
   useEffect(() => {

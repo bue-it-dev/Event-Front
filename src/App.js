@@ -74,6 +74,9 @@ import EventDetailsEAF from "./Component/EAF/EventDetailsEAF";
 import MyEventListEAF from "./Component/EAF/MyEventListEAF";
 import EventAddEAF from "./Component/EAF/EventAddEAF";
 import MyEventDetailsEAF from "./Component/EAF/MyEventDetailsEAF";
+import AdminMyEventRequetDetails from "./Component/Admin/AdminMyEventRequetDetails";
+import MyEventDetailsVCB from "./Component/VCB/MyEventDetailsVCB";
+import MyEventDetailsPRE from "./Component/President/MyEventDetailsPRE";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -164,6 +167,10 @@ function App() {
                       component={AdminEventDetails}
                     />
                     <ProtectedRoute
+                      path="/hod-my-event-request-details"
+                      component={AdminMyEventRequetDetails}
+                    />
+                    <ProtectedRoute
                       path="/event-approval-list-bom"
                       component={EventListBOM}
                     />
@@ -204,6 +211,10 @@ function App() {
                           path="/vcb-approval-details"
                           component={VCBApprovalDetails}
                         />
+                        <ProtectedRoute
+                          path="/event-my-request-details-vcb"
+                          component={MyEventDetailsVCB}
+                        />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
                       </Switch>
@@ -235,6 +246,10 @@ function App() {
                           path="/vcb-approval-details"
                           component={VCBApprovalDetails}
                         />
+                        <ProtectedRoute
+                          path="/event-my-request-details-vcb"
+                          component={MyEventDetailsVCB}
+                        />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
                       </Switch>
@@ -264,7 +279,10 @@ function App() {
                       exact
                       component={GetApprovalDetails}
                     />
-
+                    <ProtectedRoute
+                      path="/event-my-request-details-president"
+                      component={MyEventDetailsPRE}
+                    />
                     <Route path="/" exact component={President} />
                     <Route path="*" exact component={Page404} />
                   </Switch>

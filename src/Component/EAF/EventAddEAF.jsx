@@ -24,7 +24,7 @@ const EventAddEAF = () => {
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
-  const [passportFiles, setPassportFiles] = useState([[]]);
+  const [passportData, setpassportData] = useState([[]]);
   const [eventData, seteventData] = React.useState({
     eventId: 0,
     EventTitle: "",
@@ -48,7 +48,7 @@ const EventAddEAF = () => {
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
     OfficeOfPresedentFile: null,
-    passportFiles: [],
+    passportData: [],
     VisitAgendaFile: null,
     ItcomponentEvents: [],
     Transportations: [],
@@ -96,10 +96,11 @@ const EventAddEAF = () => {
       const eventId = data.data;
       localStorage.setItem("eventId", eventId);
       const EventId = localStorage.getItem("eventId");
+      console.log("PASSPORTDATA", eventData.passportData);
       if (EventId) {
         await AddFiles(
           EventId,
-          passportFiles || [],
+          eventData.passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -146,7 +147,7 @@ const EventAddEAF = () => {
         visitAgendaFilePath: eventData.VisitAgendaFile,
         confirmedAt: null, // Not present in State 1, set to null
         isVip: eventData.isVIP ?? 0,
-        passports: eventData.passportFiles || [], // Ensure it's an array
+        passports: eventData.passportData || [], // Ensure it's an array
         itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
           id: it.id ?? 0,
           eventId: it.eventId ?? responseRequestIDExtracted,
@@ -181,7 +182,7 @@ const EventAddEAF = () => {
       if (responseRequestIDExtracted) {
         await UpdateFiles(
           responseRequestIDExtracted,
-          passportFiles || [],
+          passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -258,14 +259,14 @@ const EventAddEAF = () => {
         // if (EventId) {
         //   await AddFiles(
         //     EventId,
-        //     passportFiles || [],
+        //     passportData || [],
         //     eventData.OfficeOfPresedentFile,
         //     eventData.LedOfTheUniversityOrganizerFile,
         //     eventData.VisitAgendaFile
         //   );
         // }
         setisLoading(false);
-        history.push("/my-event-requests");
+        history.push("/my-event-request-eaf");
       } catch (err) {
         setisLoading(false);
         toast.error("An error occurred. Please try again later.", {
@@ -339,7 +340,7 @@ const EventAddEAF = () => {
         if (EventId) {
           await AddFiles(
             EventId,
-            passportFiles || [],
+            eventData.passportData || [],
             eventData.OfficeOfPresedentFile,
             eventData.LedOfTheUniversityOrganizerFile,
             eventData.VisitAgendaFile
@@ -349,7 +350,7 @@ const EventAddEAF = () => {
         toast.success("Request confirmed successfully!", {
           position: "top-center",
         });
-        history.push("/my-event-requests");
+        history.push("/my-event-request-eaf");
       } catch (err) {
         setisLoading(false);
         toast.error("Error while updating user details, please try again", {
@@ -360,9 +361,9 @@ const EventAddEAF = () => {
   };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
-    const newPassportFiles = [...passportFiles];
-    newPassportFiles[index] = files;
-    setPassportFiles(newPassportFiles);
+    const newpassportData = [...passportData];
+    newpassportData[index] = files;
+    setpassportData(newpassportData);
   };
 
   useEffect(() => {

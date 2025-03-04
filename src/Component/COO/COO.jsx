@@ -62,7 +62,7 @@ const COO = () => {
           }}
           onClick={handleVCBClick}
         >
-          Vice-Chancellor of the Board
+          Vice-Chancellor Board
         </button>
 
         <button

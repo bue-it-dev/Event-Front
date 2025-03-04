@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../Applicant/Applicant.css";
 import { MDBDataTable } from "mdbreact";
 import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
@@ -7,11 +8,10 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import VCB from "./VCB";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import VCBTabs from "./VCBTabs";
-import VCB from "./VCB";
 const VCBEventList = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -164,24 +164,31 @@ const VCBEventList = () => {
         <>
           <Link
             to={{
-              pathname: "/vcb-approval-details",
+              pathname: "/event-my-request-details-vcb",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm">
+            <button
+              type="button"
+              className="btn btn-success btn-sm mb-1"
+              style={{ backgroundColor: "#343a40" }}
+            >
               View
             </button>
           </Link>
-
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => handleDelete(event.eventId)}
-          >
-            Delete
-          </button>
+          {event.confirmedAt == null ? (
+            <>
+              <button
+                className="btn btn-danger btn-sm mb-1 ml-2"
+                onClick={() => handleDelete(event.eventId)}
+              >
+                Delete
+              </button>
+            </>
+          ) : null}
         </>
       ),
     })),

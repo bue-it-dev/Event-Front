@@ -171,7 +171,11 @@ const MyEvents = () => {
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm mb-1">
+            <button
+              type="button"
+              className="btn btn-success btn-sm mb-1"
+              style={{ backgroundColor: "#343a40" }}
+            >
               View
             </button>
           </Link>

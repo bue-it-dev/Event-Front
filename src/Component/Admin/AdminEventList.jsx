@@ -8,7 +8,7 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-import Admin from "../Admin/Admin";
+import AdminTabs from "./AdminTabs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
@@ -164,14 +164,18 @@ const AdminEventList = () => {
         <>
           <Link
             to={{
-              pathname: "/event-request-details",
+              pathname: "/hod-my-event-request-details",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm mb-1">
+            <button
+              type="button"
+              className="btn btn-success btn-sm mb-1"
+              style={{ backgroundColor: "#343a40" }}
+            >
               View
             </button>
           </Link>
@@ -192,7 +196,7 @@ const AdminEventList = () => {
 
   return (
     <div className="my-events">
-      <Admin />
+      <AdminTabs />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (

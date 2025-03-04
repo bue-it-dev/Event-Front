@@ -8,11 +8,10 @@ import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-// import ApplicantTabs from "./ApplicantTabs";
+import EAFTabs from "./EAFTabs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import EAFTabs from "./EAFTabs";
 const MyEventListEAF = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -165,14 +164,18 @@ const MyEventListEAF = () => {
         <>
           <Link
             to={{
-              pathname: "/my-event-request-details-eaf",
+              pathname: "/my-event-request-eaf",
               state: {
                 requestId: event.eventId,
                 statusName: event.statusName,
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm mb-1">
+            <button
+              type="button"
+              className="btn btn-success btn-sm mb-1"
+              style={{ backgroundColor: "#343a40" }}
+            >
               View
             </button>
           </Link>
