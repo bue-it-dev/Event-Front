@@ -200,9 +200,9 @@ const EventListPublicAffairs = () => {
                   },
                 }}
               >
-                <button type="button" className="btn btn-success btn-sm">
-                  Decide
-                </button>
+            <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
+                  View
+            </button>
               </Link>
             </>
           )}

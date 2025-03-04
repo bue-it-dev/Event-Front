@@ -126,7 +126,7 @@ const BusinessRequestListVCB = () => {
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
       { label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
-      { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+      { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
       {
         label: "Approving Deptartment",
@@ -158,7 +158,7 @@ const BusinessRequestListVCB = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
-      OrganizerEmail: event.OrganizerEmail || "N/A",
+      organizerEmail: event.organizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
         <>
@@ -171,8 +171,9 @@ const BusinessRequestListVCB = () => {
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm">
-              Decide
+            <button type="button" className="btn btn-success btn-sm"
+              style={{ backgroundColor: "#343a40" }}>
+            {event.statusName != "Pending" ? <>View</> : <>Decide</>}
             </button>
           </Link>
         </>

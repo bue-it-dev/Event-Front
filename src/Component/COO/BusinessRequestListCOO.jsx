@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { white } from "material-ui/styles/colors";
 const AdminEventApprovalsList = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -128,8 +129,7 @@ const AdminEventApprovalsList = () => {
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
       { label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
-      { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
-      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
+      { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
       {
         label: "Approving Deptartment",
         field: "approvingDeptName",
@@ -160,7 +160,7 @@ const AdminEventApprovalsList = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
-      OrganizerEmail: event.OrganizerEmail || "N/A",
+      organizerEmail: event.organizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
         <>
@@ -173,8 +173,8 @@ const AdminEventApprovalsList = () => {
               },
             }}
           >
-            <button type="button" className="btn btn-success btn-sm">
-              Decide
+            <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : white}}            >
+            {event.statusName != "Pending" ? <>View</> : <>Decide</>}
             </button>
           </Link>
         </>
