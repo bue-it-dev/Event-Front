@@ -127,8 +127,7 @@ const EventListPublicAffairs = () => {
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
       { label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
-      { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
-      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
+      { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
       {
         label: "Approving Deptartment",
         field: "approvingDeptName",
@@ -138,7 +137,7 @@ const EventListPublicAffairs = () => {
       { label: "End Date", field: "eventEndDate", sort: "asc" },
       { label: "Created At", field: "createdAt", sort: "asc" },
       { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "confirmed At", field: "confirmedAt", sort: "asc" },
+      { label: "confirmed At", field: "ConfirmedAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Actions", field: "actions", sort: "disabled" },
     ],
@@ -149,8 +148,8 @@ const EventListPublicAffairs = () => {
       updateAt: event.updateAt
         ? new Date(event.updateAt).toLocaleDateString()
         : "N/A",
-      confirmedAt: event.confirmedAt
-        ? new Date(event.confirmedAt).toLocaleDateString()
+        ConfirmedAt: event.ConfirmedAt
+        ? new Date(event.ConfirmedAt).toLocaleDateString()
         : "N/A",
       eventTitle: event.eventTitle,
       eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
@@ -159,56 +158,24 @@ const EventListPublicAffairs = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
-      OrganizerEmail: event.OrganizerEmail || "N/A",
+      organizerEmail: event.organizerEmail || "N/A",
       statusName:
         event.approvalName == "Acknowledgement"
           ? "Acknowledge"
           : event.statusName,
       approvalName: event.approvalName,
       actions: (
-        <>
-          {event.approvalName == "Acknowledgement" ||
-          event.statusName != "Pending" ? (
             <>
-              <Link
-                to={{
-                  pathname: "/event-details-public-affairs",
-                  state: {
-                    requestId: event.eventId,
-                    statusName:
-                      event.approvalName == "Acknowledgement"
-                        ? "Acknowledgement"
-                        : event.statusName != "Pending"
-                        ? event.statusName
-                        : "N/A",
-                  },
-                }}
-              >
-                <button type="button" className="btn btn-success btn-sm">
-                  View
+              <Link>
+            
+              <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
+              View
                 </button>
               </Link>
             </>
-          ) : (
-            <>
-              <Link
-                to={{
-                  pathname: "/event-details-public-affairs",
-                  state: {
-                    requestId: event.eventId,
-                    statusName: event.statusName,
-                  },
-                }}
-              >
-            <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
-                  View
-            </button>
-              </Link>
-            </>
           )}
-        </>
-      ),
-    })),
+      )),
+ 
   };
 
   return (
