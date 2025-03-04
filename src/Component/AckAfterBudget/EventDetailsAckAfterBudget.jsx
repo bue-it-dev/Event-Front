@@ -654,6 +654,7 @@ const EventDetailsAckAfterBudget = () => {
                   }}
                   name="approvingDepTypeId"
                   required
+                  disabled
                 >
                   <option value="">
                     Select your First Level Up Department
@@ -688,6 +689,7 @@ const EventDetailsAckAfterBudget = () => {
                         id="eventTitle"
                         name="eventTitle"
                         value={eventData.eventTitle}
+                        disabled
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
                         required
@@ -711,6 +713,7 @@ const EventDetailsAckAfterBudget = () => {
                         type="number"
                         id="nomParticipants"
                         name="nomParticipants"
+                        disabled
                         value={eventData.nomParticipants || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -735,6 +738,7 @@ const EventDetailsAckAfterBudget = () => {
                         type="date"
                         id="eventStartDate"
                         name="eventStartDate"
+                        disabled
                         value={eventData.eventStartDate?.split("T")[0] || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -759,6 +763,7 @@ const EventDetailsAckAfterBudget = () => {
                         type="date"
                         id="eventEndDate"
                         name="eventEndDate"
+                        disabled
                         value={eventData.eventEndDate?.split("T")[0] || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -782,6 +787,7 @@ const EventDetailsAckAfterBudget = () => {
                         type="text"
                         id="organizerName"
                         name="organizerName"
+                        disabled
                         value={eventData.organizerName || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -804,6 +810,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="tel"
                           id="organizerMobile"
                           name="organizerMobile"
+                          disabled
                           value={eventData.organizerMobile || ""}
                           onChange={handleChange}
                           maxLength={11}
@@ -829,6 +836,7 @@ const EventDetailsAckAfterBudget = () => {
                       <input
                         type="text"
                         id="organizerExtention"
+                        disabled
                         name="organizerExtention"
                         value={eventData.organizerExtention || ""}
                         onChange={handleChange}
@@ -857,6 +865,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="email"
                           id="OrganizerEmail"
                           name="organizerEmail"
+                          disabled
                           value={eventData.organizerEmail || ""}
                           onChange={handleChange}
                           className="form-control form-control-lg"
@@ -875,6 +884,7 @@ const EventDetailsAckAfterBudget = () => {
                         type="text"
                         id="organizerPosition"
                         name="organizerPosition"
+                        disabled
                         value={eventData.organizerPosition || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -897,6 +907,7 @@ const EventDetailsAckAfterBudget = () => {
                       <select
                         className="form-select form-select-lg"
                         value={eventData.natureOfEventId}
+                        disabled
                         onChange={(e) => {
                           seteventData({
                             ...eventData,
@@ -945,6 +956,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="checkbox"
                           id="hasAccomdation"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasAccomdation === 1}
                           onChange={handleAccommodationCheckbox}
                         />
@@ -967,6 +979,7 @@ const EventDetailsAckAfterBudget = () => {
                                     <input
                                       type="checkbox"
                                       className="form-check-input"
+                                      disabled
                                       id={`Rooms-${type.roomTypeId}`}
                                       value={type.roomTypeId}
                                       checked={eventData?.accommodations?.some(
@@ -992,6 +1005,7 @@ const EventDetailsAckAfterBudget = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
+                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -1006,6 +1020,7 @@ const EventDetailsAckAfterBudget = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={accom.startDate?.split("T")[0] || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
@@ -1021,6 +1036,7 @@ const EventDetailsAckAfterBudget = () => {
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     value={accom.endDate?.split("T")[0] || ""}
+                                    disabled
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -1035,6 +1051,7 @@ const EventDetailsAckAfterBudget = () => {
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Quantity"
+                                    disabled
                                     value={accom.numOfRooms || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
@@ -1062,6 +1079,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="checkbox"
                           id="hasTransportation"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasTransportation === 1}
                           onChange={() =>
                             seteventData((prev) => ({
@@ -1093,6 +1111,7 @@ const EventDetailsAckAfterBudget = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`transportation-${type.transportationTypeId}`}
+                                    disabled
                                     value={type.transportationTypeId}
                                     checked={eventData?.transportations?.some(
                                       (t) =>
@@ -1119,6 +1138,7 @@ const EventDetailsAckAfterBudget = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
+                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -1134,6 +1154,7 @@ const EventDetailsAckAfterBudget = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={
                                       transport.startDate?.split("T")[0] || ""
                                     }
@@ -1150,6 +1171,7 @@ const EventDetailsAckAfterBudget = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={
                                       transport.endDate?.split("T")[0] || ""
                                     }
@@ -1167,6 +1189,7 @@ const EventDetailsAckAfterBudget = () => {
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Quantity"
+                                    disabled
                                     value={transport.quantity || ""}
                                     onChange={(e) =>
                                       handleTransportationChange(
@@ -1194,6 +1217,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="checkbox"
                           id="hasIt"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasIt === 1}
                           onChange={handleItComponentsCheckbox}
                         />
@@ -1219,6 +1243,7 @@ const EventDetailsAckAfterBudget = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`itcomponent-${component.itcomponentId}`}
+                                    disabled
                                     value={component.itcomponentId}
                                     checked={eventData?.itcomponentEvents?.some(
                                       (item) =>
@@ -1370,6 +1395,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="text"
                           id="budgetCode"
                           name="budgetCode"
+                          disabled
                           value={eventData.budgetCode || ""} // Adjusted to match state structure
                           onChange={(e) => {
                             const value = e.target.value;
@@ -1398,6 +1424,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="text"
                           id="budgetCostCenter"
                           name="budgetCostCenter"
+                          disabled
                           value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
                           onChange={(e) => {
                             const value = e.target.value;
@@ -1423,6 +1450,7 @@ const EventDetailsAckAfterBudget = () => {
                           type="text"
                           id="budgetlineName"
                           name="budgetlineName"
+                          disabled
                           value={eventData.budgetlineName || ""} // Adjusted to match state structure
                           onChange={(e) => {
                             const value = e.target.value;

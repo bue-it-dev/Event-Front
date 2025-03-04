@@ -327,13 +327,13 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   {!eventData.passports?.length && (
                     <div className="text-center">
                       <p>No passport data available</p>
-                      <button
+                      {/* <button
                         type="button"
                         className="btn btn-outline-primary btn-lg"
                         onClick={addPassportInput}
                       >
                         + Add Passport
-                      </button>
+                      </button> */}
                     </div>
                   )}
                   {/* Map through passports instead of passportData */}

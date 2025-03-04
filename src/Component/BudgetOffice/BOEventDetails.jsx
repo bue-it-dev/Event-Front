@@ -653,6 +653,7 @@ const BOEventDetails = () => {
                   }}
                   name="approvingDepTypeId"
                   required
+                  disabled
                 >
                   <option value="">
                     Select your First Level Up Department
@@ -687,6 +688,7 @@ const BOEventDetails = () => {
                         id="eventTitle"
                         name="eventTitle"
                         value={eventData.eventTitle}
+                        disabled
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
                         required
@@ -710,6 +712,7 @@ const BOEventDetails = () => {
                         type="number"
                         id="nomParticipants"
                         name="nomParticipants"
+                        disabled
                         value={eventData.nomParticipants || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -734,6 +737,7 @@ const BOEventDetails = () => {
                         type="date"
                         id="eventStartDate"
                         name="eventStartDate"
+                        disabled
                         value={eventData.eventStartDate?.split("T")[0] || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -758,6 +762,7 @@ const BOEventDetails = () => {
                         type="date"
                         id="eventEndDate"
                         name="eventEndDate"
+                        disabled
                         value={eventData.eventEndDate?.split("T")[0] || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -781,6 +786,7 @@ const BOEventDetails = () => {
                         type="text"
                         id="organizerName"
                         name="organizerName"
+                        disabled
                         value={eventData.organizerName || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -803,6 +809,7 @@ const BOEventDetails = () => {
                           type="tel"
                           id="organizerMobile"
                           name="organizerMobile"
+                          disabled
                           value={eventData.organizerMobile || ""}
                           onChange={handleChange}
                           maxLength={11}
@@ -828,6 +835,7 @@ const BOEventDetails = () => {
                       <input
                         type="text"
                         id="organizerExtention"
+                        disabled
                         name="organizerExtention"
                         value={eventData.organizerExtention || ""}
                         onChange={handleChange}
@@ -856,6 +864,7 @@ const BOEventDetails = () => {
                           type="email"
                           id="OrganizerEmail"
                           name="organizerEmail"
+                          disabled
                           value={eventData.organizerEmail || ""}
                           onChange={handleChange}
                           className="form-control form-control-lg"
@@ -874,6 +883,7 @@ const BOEventDetails = () => {
                         type="text"
                         id="organizerPosition"
                         name="organizerPosition"
+                        disabled
                         value={eventData.organizerPosition || ""}
                         onChange={handleChange}
                         className="form-control form-control-lg w-100"
@@ -896,6 +906,7 @@ const BOEventDetails = () => {
                       <select
                         className="form-select form-select-lg"
                         value={eventData.natureOfEventId}
+                        disabled
                         onChange={(e) => {
                           seteventData({
                             ...eventData,
@@ -944,6 +955,7 @@ const BOEventDetails = () => {
                           type="checkbox"
                           id="hasAccomdation"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasAccomdation === 1}
                           onChange={handleAccommodationCheckbox}
                         />
@@ -966,6 +978,7 @@ const BOEventDetails = () => {
                                     <input
                                       type="checkbox"
                                       className="form-check-input"
+                                      disabled
                                       id={`Rooms-${type.roomTypeId}`}
                                       value={type.roomTypeId}
                                       checked={eventData?.accommodations?.some(
@@ -991,6 +1004,7 @@ const BOEventDetails = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
+                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -1005,6 +1019,7 @@ const BOEventDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={accom.startDate?.split("T")[0] || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
@@ -1020,6 +1035,7 @@ const BOEventDetails = () => {
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     value={accom.endDate?.split("T")[0] || ""}
+                                    disabled
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -1034,6 +1050,7 @@ const BOEventDetails = () => {
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Quantity"
+                                    disabled
                                     value={accom.numOfRooms || ""}
                                     onChange={(e) =>
                                       handleAcommodationChange(
@@ -1061,6 +1078,7 @@ const BOEventDetails = () => {
                           type="checkbox"
                           id="hasTransportation"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasTransportation === 1}
                           onChange={() =>
                             seteventData((prev) => ({
@@ -1092,6 +1110,7 @@ const BOEventDetails = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`transportation-${type.transportationTypeId}`}
+                                    disabled
                                     value={type.transportationTypeId}
                                     checked={eventData?.transportations?.some(
                                       (t) =>
@@ -1118,6 +1137,7 @@ const BOEventDetails = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
+                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -1133,6 +1153,7 @@ const BOEventDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={
                                       transport.startDate?.split("T")[0] || ""
                                     }
@@ -1149,6 +1170,7 @@ const BOEventDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
+                                    disabled
                                     value={
                                       transport.endDate?.split("T")[0] || ""
                                     }
@@ -1166,6 +1188,7 @@ const BOEventDetails = () => {
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Quantity"
+                                    disabled
                                     value={transport.quantity || ""}
                                     onChange={(e) =>
                                       handleTransportationChange(
@@ -1193,6 +1216,7 @@ const BOEventDetails = () => {
                           type="checkbox"
                           id="hasIt"
                           className="form-check-input me-2"
+                          disabled
                           checked={eventData.hasIt === 1}
                           onChange={handleItComponentsCheckbox}
                         />
@@ -1218,6 +1242,7 @@ const BOEventDetails = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`itcomponent-${component.itcomponentId}`}
+                                    disabled
                                     value={component.itcomponentId}
                                     checked={eventData?.itcomponentEvents?.some(
                                       (item) =>
@@ -1439,7 +1464,7 @@ const BOEventDetails = () => {
                     </div>
                   </div>
                 </div>
-                {status == "Pending" ? (
+                {status == "Pending" && isBOSubmitted == false ? (
                   <>
                     <div className="row">
                       <div className="col-md-6">
@@ -1464,8 +1489,24 @@ const BOEventDetails = () => {
                         </button>
                       </div>
                     </div>
+                  </>
+                ) : (
+                  <>
                     {isBOSubmitted == true ? (
                       <>
+                        <div>
+                          <button
+                            type="submit"
+                            className="btn btn-success-approve btn-lg col-12 mt-4"
+                            style={{ backgroundColor: "black", color: "white" }}
+                            onClick={() =>
+                              UpdateEventRequestBudgetOfficeAsync()
+                            }
+                            disabled={isLoading}
+                          >
+                            {isLoading ? "Submitting Request..." : "Submit"}
+                          </button>
+                        </div>
                         <div className="row">
                           <div className="col-md-6">
                             <button
@@ -1494,21 +1535,6 @@ const BOEventDetails = () => {
                         </div>
                       </>
                     ) : null}
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <label
-                        // type="submit"
-                        // disabled
-                        className="btn btn-danger btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "#57636f" }}
-                        disabled={isLoading}
-                        // onClick={() => handleApproval(0)}
-                      >
-                        Already {status}
-                      </label>
-                    </div>
                   </>
                 )}
               </ValidatorForm>
