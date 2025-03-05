@@ -143,18 +143,23 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   organizer:
                 </label>
                 <div className="d-flex align-items-center gap-2">
-                  <input
-                    type="file"
-                    id="LedOfTheUniversityOrganizerFile"
-                    name="LedOfTheUniversityOrganizerFile"
-                    className="form-control-file"
-                    onChange={(e) =>
-                      setEventData({
-                        ...eventData,
-                        LedOfTheUniversityOrganizerFile: e.target.files[0],
-                      })
-                    }
-                  />
+                  {eventData.confirmedAt == null ? (
+                    <>
+                      <input
+                        type="file"
+                        id="LedOfTheUniversityOrganizerFile"
+                        name="LedOfTheUniversityOrganizerFile"
+                        className="form-control-file"
+                        onChange={(e) =>
+                          setEventData({
+                            ...eventData,
+                            LedOfTheUniversityOrganizerFile: e.target.files[0],
+                          })
+                        }
+                      />
+                    </>
+                  ) : null}
+
                   {eventData?.ledOfTheUniversityOrganizerFilePath && (
                     <Grid item xs={12} md={6}>
                       <a
@@ -188,18 +193,23 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     Upload the relevant form from the Office of the President:
                   </label>
                   <div className="d-flex align-items-center gap-2">
-                    <input
-                      type="file"
-                      id="OfficeOfPresedentFile"
-                      name="OfficeOfPresedentFile"
-                      className="form-control-file"
-                      onChange={(e) =>
-                        setEventData({
-                          ...eventData,
-                          OfficeOfPresedentFile: e.target.files[0],
-                        })
-                      }
-                    />
+                    {eventData.confirmedAt == null ? (
+                      <>
+                        <input
+                          type="file"
+                          id="OfficeOfPresedentFile"
+                          name="OfficeOfPresedentFile"
+                          className="form-control-file"
+                          onChange={(e) =>
+                            setEventData({
+                              ...eventData,
+                              OfficeOfPresedentFile: e.target.files[0],
+                            })
+                          }
+                        />
+                      </>
+                    ) : null}
+
                     {eventData?.officeOfPresedentFilePath && (
                       <Grid item xs={12} md={6}>
                         <a
@@ -257,18 +267,20 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   Upload the visit agenda file:
                 </label>
                 <div className="d-flex align-items-center gap-2">
-                  <input
-                    type="file"
-                    id="VisitAgendaFile"
-                    name="VisitAgendaFile"
-                    className="form-control-file"
-                    onChange={(e) =>
-                      setEventData({
-                        ...eventData,
-                        VisitAgendaFile: e.target.files[0],
-                      })
-                    }
-                  />
+                  {eventData.confirmedAt == null ? (
+                    <input
+                      type="file"
+                      id="VisitAgendaFile"
+                      name="VisitAgendaFile"
+                      className="form-control-file"
+                      onChange={(e) =>
+                        setEventData({
+                          ...eventData,
+                          VisitAgendaFile: e.target.files[0],
+                        })
+                      }
+                    />
+                  ) : null}
                   {eventData?.visitAgendaFilePath && (
                     <Grid item xs={12} md={6}>
                       <a
@@ -322,13 +334,15 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   {!eventData.passports?.length && (
                     <div className="text-center">
                       <p>No passport data available</p>
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary btn-lg"
-                        onClick={addPassportInput}
-                      >
-                        + Add Passport
-                      </button>
+                      {eventData.confirmedAt == null ? (
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary btn-lg"
+                          onClick={addPassportInput}
+                        >
+                          + Add Passport
+                        </button>
+                      ) : null}
                     </div>
                   )}
 
@@ -344,23 +358,27 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                           >
                             Upload Passport Files (file {index + 1}):
                           </label>
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger btn-sm"
-                            onClick={() => removePassportInput(index)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
+                          {eventData.confirmedAt == null ? (
+                            <button
+                              type="button"
+                              className="btn btn-outline-danger btn-sm"
+                              onClick={() => removePassportInput(index)}
+                            >
+                              <i className="bi bi-trash"></i>
+                            </button>
+                          ) : null}
                         </div>
+                        {eventData.confirmedAt == null ? (
+                          <input
+                            type="file"
+                            id={`passports${index}`}
+                            name={`passports[${index}]`}
+                            multiple
+                            className="form-control-file"
+                            onChange={(e) => handleFileChange(e, index)}
+                          />
+                        ) : null}
 
-                        <input
-                          type="file"
-                          id={`passports${index}`}
-                          name={`passports[${index}]`}
-                          multiple
-                          className="form-control-file"
-                          onChange={(e) => handleFileChange(e, index)}
-                        />
                         <div className="card shadow-sm p-3 mt-3">
                           {eventData?.passports?.[index] &&
                             typeof eventData.passports[index] === "string" && (
@@ -420,13 +438,15 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   {/* Show add button if passports exists */}
                   {eventData.passports?.length > 0 && (
                     <div className="text-center mt-4">
-                      <button
-                        type="button"
-                        className="btn btn-outline-primary btn-lg"
-                        onClick={addPassportInput}
-                      >
-                        + Add Passport
-                      </button>
+                      {eventData.confirmedAt == null ? (
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary btn-lg"
+                          onClick={addPassportInput}
+                        >
+                          + Add Passport
+                        </button>
+                      ) : null}
                     </div>
                   )}
                 </div>

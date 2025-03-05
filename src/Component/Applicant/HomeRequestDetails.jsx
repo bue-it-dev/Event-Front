@@ -1318,25 +1318,26 @@ const HomeRequestDetails = () => {
                     Requested Venues
                   </h5>
                 </div>
-
-                <div className="d-flex align-items-center mb-3">
-                  <button
-                    type="button"
-                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      fontSize: "18px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                      transition: "0.3s ease",
-                    }}
-                    onClick={addBuildingVenue}
-                  >
-                    +
-                  </button>
-                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
+                {eventData.confirmedAt == null ? (
+                  <div className="d-flex align-items-center mb-3">
+                    <button
+                      type="button"
+                      className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        fontSize: "18px",
+                        borderRadius: "50%",
+                        marginRight: "10px",
+                        transition: "0.3s ease",
+                      }}
+                      onClick={addBuildingVenue}
+                    >
+                      +
+                    </button>
+                    <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                  </div>
+                ) : null}
 
                 {eventData?.buildingVenues?.map((_, index) => (
                   <EventBuildingVenueListUpdate

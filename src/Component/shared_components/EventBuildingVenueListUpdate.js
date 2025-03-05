@@ -141,25 +141,28 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
             </select>
           </div>
         )}
-
-        {/* Delete Button */}
-        <div className="col-md-1 d-flex justify-content-center align-items-center mt-3 mt-md-0">
-          <button
-            type="button"
-            className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
-            style={{ width: "42px", height: "42px" }}
-            onClick={() => {
-              seteventData((prev) => ({
-                ...prev,
-                buildingVenues: prev.buildingVenues.filter(
-                  (_, i) => i !== index
-                ),
-              }));
-            }}
-          >
-            <i className="bi bi-trash"></i>
-          </button>
-        </div>
+        {eventData.confirmedAt == null ? (
+          <>
+            {/* Delete Button */}
+            <div className="col-md-1 d-flex justify-content-center align-items-center mt-3 mt-md-0">
+              <button
+                type="button"
+                className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
+                style={{ width: "42px", height: "42px" }}
+                onClick={() => {
+                  seteventData((prev) => ({
+                    ...prev,
+                    buildingVenues: prev.buildingVenues.filter(
+                      (_, i) => i !== index
+                    ),
+                  }));
+                }}
+              >
+                <i className="bi bi-trash"></i>
+              </button>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
