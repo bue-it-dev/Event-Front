@@ -15,7 +15,11 @@ import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
 import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
-import { UpdateEventRequest, UpdateFiles } from "../Requests/mutators";
+import {
+  UpdateEventRequest,
+  UpdateFiles,
+  ConfrimEventRequest,
+} from "../Requests/mutators";
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
 const HomeRequestDetails = () => {
   const history = useHistory();
@@ -391,7 +395,83 @@ const HomeRequestDetails = () => {
       });
     }
   };
+  const ConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        const toastId = toast.info(
+          <>
+            <div style={{ textAlign: "center" }}>
+              <p>Are you sure you want to confirm this request?</p>
+              <div style={{ marginTop: "10px" }}>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(true); // Proceed with confirmation
+                  }}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "green",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(toastId); // Dismiss the toast
+                    resolve(false); // Cancel the operation
+                  }}
+                  style={{
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>,
+          {
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+            position: "top-center", // Center the toast
+          }
+        );
+      });
 
+    const userConfirmed = await confirmAction();
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+        // Check for null, undefined, or zero values in the list
+        // const EventId = localStorage.getItem("eventId");
+        await ConfrimEventRequest(requestId);
+        // if (EventId) {
+        //   await AddFiles(
+        //     EventId,
+        //     passportData || [],
+        //     eventData.OfficeOfPresedentFile,
+        //     eventData.LedOfTheUniversityOrganizerFile,
+        //     eventData.VisitAgendaFile
+        //   );
+        // }
+        setisLoading(false);
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("An error occurred. Please try again later.", {
+          position: "top-center",
+        });
+      }
+    }
+  };
   const data = {
     columns: [
       // { label: "#", field: "Number", sort: "asc" },
@@ -892,7 +972,7 @@ const HomeRequestDetails = () => {
                 </h5>
               </div>
 
-              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
+              <ValidatorForm className="px-md-2">
                 <div className="container-fluid">
                   <div
                     className="card shadow-lg px-5 py-4 w-100 mx-auto"
@@ -1282,14 +1362,32 @@ const HomeRequestDetails = () => {
                 <br />
                 {eventData.confirmedAt == null ? (
                   <>
-                    <button
-                      type="submit"
-                      className="btn btn-dark btn-lg col-12 mt-3"
-                      disabled={isLoading}
-                      style={{ transition: "0.3s ease" }}
-                    >
-                      {isLoading ? "Updating Request..." : "Update Request"}
-                    </button>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => ConfrimBusinessRequestAsync(requestId)}
+                        >
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="submit"
+                          className="btn btn-dark btn-lg col-12 mt-3"
+                          disabled={isLoading}
+                          style={{ transition: "0.3s ease" }}
+                          onClick={() => onSubmit()}
+                        >
+                          {isLoading ? "Updating Request..." : "Update Request"}
+                        </button>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <>
