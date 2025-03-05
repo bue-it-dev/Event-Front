@@ -81,7 +81,7 @@ const BudgetOfficeTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="Business Requests Approvals"
+            label="Event Approvals"
             href="/event-request-list-budget-office"
             {...a11yProps(0)}
           />

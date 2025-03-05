@@ -120,69 +120,69 @@ const AddHomeTravelRequest = () => {
   const UpdateDraftEventRequest = async () => {
     try {
       setisLoading(true);
-      const payload = {
-        eventId: responseRequestIDExtracted,
-        approvingDepTypeId: eventData.approvingDepTypeId,
-        eventTitle: eventData.EventTitle, // Different case
-        nomParticipants: eventData.NomParticipants ?? 0, // Default to 0
-        eventStartDate: eventData.EventStartDate,
-        natureOfEventId: eventData.natureOfEventId,
-        eventEndDate: eventData.EventEndDate,
-        hasIt: eventData.HasIt,
-        hasAccomdation: eventData.HasAccomodation, // Different property name
-        hasTransportation: eventData.HasTransportation,
-        endDateTime: null, // Not present in State 1, set to null
-        startDateTime: null, // Not present in State 1, set to null
-        organizerName: eventData.OrganizerName,
-        organizerMobile: eventData.OrganizerMobile,
-        organizerExtention: eventData.OrganizerExtention,
-        approvingDeptName: null, // Not present in State 1, set to null
-        deptId: eventData.DeptId,
-        isOthers: eventData.IsOthers ?? 0,
-        isStaffStudents: eventData.IsStaffStudents ?? 0,
-        isChairBoardPrisidentVcb: eventData.IsChairBoardPrisidentVcb ?? 0,
-        ledOfTheUniversityOrganizerFilePath:
-          eventData.LedOfTheUniversityOrganizerFile,
-        officeOfPresedentFilePath: eventData.OfficeOfPresedentFile,
-        visitAgendaFilePath: eventData.VisitAgendaFile,
-        confirmedAt: null, // Not present in State 1, set to null
-        isVip: eventData.isVIP ?? 0,
-        passports: eventData.passportData || [], // Ensure it's an array
-        itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
-          id: it.id ?? 0,
-          eventId: it.eventId ?? responseRequestIDExtracted,
-          itcomponentId: it.itcomponentId ?? 0,
-          quantity: it.quantity ?? 0,
-        })),
-        transportations: eventData.Transportations.map((t) => ({
-          transportationTypeId: t.transportationTypeId ?? 0,
-          eventId: t.eventId ?? responseRequestIDExtracted,
-          startDate: t.startDate ?? null,
-          endDate: t.endDate ?? null,
-          quantity: t.quantity ?? 0,
-        })),
-        accommodations: eventData.Accommodations.map((a) => ({
-          roomTypeId: a.roomTypeId ?? 0,
-          eventId: a.eventId ?? responseRequestIDExtracted,
-          startDate: a.startDate ?? null,
-          endDate: a.endDate ?? null,
-          numOfRooms: a.numOfRooms ?? 0,
-        })),
-        buildingVenues: eventData.BuildingVenues.map((b) => ({
-          eventId: b.eventId ?? responseRequestIDExtracted,
-          venueId: b.venueId ?? 0,
-          buildingId: b.buildingId ?? 0,
-        })),
-        Venues: eventData.Venues,
-        travellerList: eventData.travellerList ?? 0,
-      };
+      // const payload = {
+      //   eventId: responseRequestIDExtracted,
+      //   approvingDepTypeId: eventData.approvingDepTypeId,
+      //   eventTitle: eventData.EventTitle, // Different case
+      //   nomParticipants: eventData.NomParticipants ?? 0, // Default to 0
+      //   eventStartDate: eventData.EventStartDate,
+      //   natureOfEventId: eventData.natureOfEventId,
+      //   eventEndDate: eventData.EventEndDate,
+      //   hasIt: eventData.HasIt,
+      //   hasAccomdation: eventData.HasAccomodation, // Different property name
+      //   hasTransportation: eventData.HasTransportation,
+      //   endDateTime: null, // Not present in State 1, set to null
+      //   startDateTime: null, // Not present in State 1, set to null
+      //   organizerName: eventData.OrganizerName,
+      //   organizerMobile: eventData.OrganizerMobile,
+      //   organizerExtention: eventData.OrganizerExtention,
+      //   approvingDeptName: null, // Not present in State 1, set to null
+      //   deptId: eventData.DeptId,
+      //   isOthers: eventData.IsOthers ?? 0,
+      //   isStaffStudents: eventData.IsStaffStudents ?? 0,
+      //   isChairBoardPrisidentVcb: eventData.IsChairBoardPrisidentVcb ?? 0,
+      //   ledOfTheUniversityOrganizerFilePath:
+      //     eventData.LedOfTheUniversityOrganizerFile,
+      //   officeOfPresedentFilePath: eventData.OfficeOfPresedentFile,
+      //   visitAgendaFilePath: eventData.VisitAgendaFile,
+      //   confirmedAt: null, // Not present in State 1, set to null
+      //   isVip: eventData.isVIP ?? 0,
+      //   passports: eventData.passportData || [], // Ensure it's an array
+      //   itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
+      //     id: it.id ?? 0,
+      //     eventId: it.eventId ?? responseRequestIDExtracted,
+      //     itcomponentId: it.itcomponentId ?? 0,
+      //     quantity: it.quantity ?? 0,
+      //   })),
+      //   transportations: eventData.Transportations.map((t) => ({
+      //     transportationTypeId: t.transportationTypeId ?? 0,
+      //     eventId: t.eventId ?? responseRequestIDExtracted,
+      //     startDate: t.startDate ?? null,
+      //     endDate: t.endDate ?? null,
+      //     quantity: t.quantity ?? 0,
+      //   })),
+      //   accommodations: eventData.Accommodations.map((a) => ({
+      //     roomTypeId: a.roomTypeId ?? 0,
+      //     eventId: a.eventId ?? responseRequestIDExtracted,
+      //     startDate: a.startDate ?? null,
+      //     endDate: a.endDate ?? null,
+      //     numOfRooms: a.numOfRooms ?? 0,
+      //   })),
+      //   buildingVenues: eventData.BuildingVenues.map((b) => ({
+      //     eventId: b.eventId ?? responseRequestIDExtracted,
+      //     venueId: b.venueId ?? 0,
+      //     buildingId: b.buildingId ?? 0,
+      //   })),
+      //   Venues: eventData.Venues,
+      //   travellerList: eventData.travellerList ?? 0,
+      // };
 
-      await UpdateEventRequest(payload);
+      await UpdateEventRequest(responseRequestIDExtracted, eventData);
 
       if (responseRequestIDExtracted) {
         await UpdateFiles(
           responseRequestIDExtracted,
-          passportData || [],
+          eventData.passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
@@ -500,8 +500,8 @@ const AddHomeTravelRequest = () => {
                           }
                         >
                           {isLoading
-                            ? "Confirming Request..."
-                            : "Confirm Request"}
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -533,8 +533,8 @@ const AddHomeTravelRequest = () => {
                           }
                         >
                           {isLoading
-                            ? "Confirming Request..."
-                            : "Confirm Request"}
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -545,9 +545,7 @@ const AddHomeTravelRequest = () => {
                           style={{ transition: "0.3s ease" }}
                           onClick={() => onSubmit()}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
                     </div>

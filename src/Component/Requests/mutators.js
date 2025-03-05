@@ -507,10 +507,10 @@ const ConfrimEventRequest = async (eventId) => {
   }
 };
 
-const UpdateEventRequest = async (application) => {
+const UpdateEventRequest = async (eventid, application) => {
   try {
     await axios.put(
-      `${URL.BASE_URL}/api/EventEntity/update/${application.eventId}`,
+      `${URL.BASE_URL}/api/EventEntity/update/${eventid}`,
       { ...application },
       {
         headers: {
