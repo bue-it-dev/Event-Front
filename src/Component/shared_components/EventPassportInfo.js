@@ -2,9 +2,38 @@ import React, { useState } from "react";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
 import URL from "../Util/config";
+import Select from "react-select";
+
 const EventInfo = ({ eventData, seteventData }) => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
+  const [employeelist, setEmployeeList] = React.useState([]);
+  // Get List of Approval Department Schema
+  const GetEmployeeList = () => {
+    var config = {
+      method: "get",
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-all-employees-names`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setEmployeeList(
+          response.data.map((employee) => ({
+            value: employee.empId,
+            label: employee.fullname,
+          }))
+        );
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+  React.useEffect(() => {
+    GetEmployeeList();
+  }, []);
   // Get List of Approval Department Schema
   const GetNatureofEvents = () => {
     var config = {
@@ -21,6 +50,15 @@ const EventInfo = ({ eventData, seteventData }) => {
       .catch(function (error) {
         console.error("Error fetching departments:", error);
       });
+  };
+  const handleOrgChange = (selectedOption) => {
+    const fullLabel = selectedOption ? selectedOption.label : "";
+    const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+
+    seteventData((prevState) => ({
+      ...prevState,
+      OrganizerName: String(firstPart), // Ensure it's a string
+    }));
   };
 
   // Validate input and update state
@@ -109,7 +147,7 @@ const EventInfo = ({ eventData, seteventData }) => {
           {/* Event Title */}
           <div className="col-lg-6">
             <label htmlFor="EventTitle" className="form-label font-weight-bold">
-              Event Title <span className="text-danger">*</span>
+              Title
             </label>
             <input
               type="text"
@@ -124,7 +162,6 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.EventTitle}</small>
             )}
           </div>
-
           {/* Number of Participants */}
           <div className="col-lg-6">
             <label
@@ -146,14 +183,13 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.NomParticipants}</small>
             )}
           </div>
-
           {/* Event Start Date */}
           <div className="col-lg-6">
             <label
               htmlFor="EventStartDate"
               className="form-label font-weight-bold"
             >
-              Event Start Date <span className="text-danger">*</span>
+              Start Date
             </label>
             <input
               type="date"
@@ -168,14 +204,13 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.EventStartDate}</small>
             )}
           </div>
-
           {/* Event End Date */}
           <div className="col-lg-6">
             <label
               htmlFor="EventEndDate"
               className="form-label font-weight-bold"
             >
-              Event End Date
+              End Date
             </label>
             <input
               type="date"
@@ -189,24 +224,120 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.EventEndDate}</small>
             )}
           </div>
-
-          {/* Organizer Name */}
+          {/* Organizer Email */}
           <div className="col-lg-6">
             <label
-              htmlFor="OrganizerName"
+              htmlFor="natureOfEventId"
               className="form-label font-weight-bold"
             >
-              Organizer Name
+              Event Nature
             </label>
-            <input
-              type="text"
-              id="OrganizerName"
-              name="OrganizerName"
-              value={eventData.OrganizerName || ""}
-              onChange={handleChange}
-              className="form-control form-control-lg w-100"
-            />
+            <select
+              className="form-select form-select-lg"
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  natureOfEventId: Number(e.target.value),
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option value="">Select event nature</option>
+              {natureofevents.map((data) => (
+                <option key={data.natureOfEventId} value={data.natureOfEventId}>
+                  {data.natureOfEvent}
+                </option>
+              ))}
+            </select>
           </div>
+          {/* Organizer Email */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="natureOfEventId"
+              className="form-label font-weight-bold"
+            >
+              Event Type
+            </label>
+            <select
+              className="form-select form-select-lg"
+              value={eventData.eventTypeId}
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  eventTypeId: Number(e.target.value),
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option value="0">Select event type</option>
+              <option value="1">Internal</option>
+              <option value="2">External</option>
+            </select>
+          </div>
+          <br />
+
+          <div className="horizontal-rule mb-4">
+            <hr className="border-secondary" />
+            <h5 className="horizontal-rule-text fs-5 text-dark">
+              Organizer Info
+            </h5>
+          </div>
+          {eventData.eventTypeId == 1 ? (
+            <>
+              {/* Organizer Name */}
+              <div className="col-lg-6">
+                <label
+                  htmlFor="OrganizerName"
+                  className="form-label font-weight-bold"
+                >
+                  Organizer Name
+                </label>
+                <Select
+                  className="basic-single"
+                  classNamePrefix="select"
+                  isClearable
+                  isSearchable
+                  options={[...employeelist, { value: -1, label: "Others" }]}
+                  onChange={handleOrgChange}
+                  required
+                  placeholder="Choose organizer name"
+                  styles={{
+                    option: (provided) => ({
+                      ...provided,
+                      textAlign: "left",
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      textAlign: "left",
+                    }),
+                  }}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Organizer Name */}
+              <div className="col-lg-6">
+                <label
+                  htmlFor="OrganizerName"
+                  className="form-label font-weight-bold"
+                >
+                  Organizer Name
+                </label>
+                {}
+                <input
+                  type="text"
+                  id="OrganizerName"
+                  name="OrganizerName"
+                  value={eventData.OrganizerName || ""}
+                  onChange={handleChange}
+                  className="form-control form-control-lg w-100"
+                />
+              </div>
+            </>
+          )}
 
           {/* Organizer Mobile */}
           <div className="col-lg-6">
@@ -235,8 +366,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.OrganizerMobile}</small>
             )}
           </div>
-
-          {/* Organizer Extension */}
+          {/* Organizer Extension
           <div className="col-lg-6">
             <label
               htmlFor="OrganizerExtention"
@@ -255,7 +385,7 @@ const EventInfo = ({ eventData, seteventData }) => {
             {errors.OrganizerExtention && (
               <small className="text-danger">{errors.OrganizerExtention}</small>
             )}
-          </div>
+          </div> */}
 
           {/* Organizer Email */}
           <div className="col-lg-6">
@@ -298,34 +428,6 @@ const EventInfo = ({ eventData, seteventData }) => {
             {errors.organizerPosition && (
               <small className="text-danger">{errors.organizerPosition}</small>
             )}
-          </div>
-
-          {/* Organizer Email */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="natureOfEventId"
-              className="form-label font-weight-bold"
-            >
-              Nature of Event
-            </label>
-            <select
-              className="form-select form-select-lg"
-              onChange={(e) => {
-                seteventData({
-                  ...eventData,
-                  natureOfEventId: Number(e.target.value),
-                });
-              }}
-              name="natureOfEventId"
-              required
-            >
-              <option value="">Select nature of event</option>
-              {natureofevents.map((data) => (
-                <option key={data.natureOfEventId} value={data.natureOfEventId}>
-                  {data.natureOfEvent}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
       </div>

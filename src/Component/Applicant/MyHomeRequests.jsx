@@ -69,7 +69,7 @@ const MyEvents = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event deleted successfully!", {
+                toast.success("Event Deleted!", {
                   position: "top-center",
                   autoClose: 3000,
                 });
@@ -176,7 +176,7 @@ const MyEvents = () => {
               className="btn btn-success btn-sm mb-1"
               style={{ backgroundColor: "#343a40" }}
             >
-              View
+              {event.confirmedAt == null ? <>Modify</> : <>View</>}
             </button>
           </Link>
           {event.confirmedAt == null ? (

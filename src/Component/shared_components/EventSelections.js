@@ -268,7 +268,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               htmlFor="HasAccomdation"
               style={{ fontSize: "14px" }}
             >
-              Requires Accommodation
+              Accommodation (Optional)
             </label>
           </div>
 
@@ -346,7 +346,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       <input
                         type="number"
                         className="form-control form-control-sm rounded shadow-sm"
-                        placeholder="Quantity"
+                        placeholder="No. of rooms"
                         value={accom.numOfRooms || ""}
                         onChange={(e) =>
                           handleAcommodationChange(
@@ -432,7 +432,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               htmlFor="HasTransportation"
               style={{ fontSize: "14px" }}
             >
-              Requires Transportation
+              Transportation (Optional)
             </label>
           </div>
 
@@ -513,7 +513,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                     <input
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
-                      placeholder="Quantity"
+                      placeholder="Number"
                       value={transport.quantity || ""}
                       onChange={(e) =>
                         handleTransportationChange(
@@ -548,7 +548,7 @@ const EventSelections = ({ eventData, setEventData }) => {
               htmlFor="HasIt"
               style={{ fontSize: "14px" }}
             >
-              Requires IT Components
+              IT Servcies (Optional)
             </label>
           </div>
 
@@ -583,7 +583,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       <input
                         type="number"
                         className="form-control form-control-sm rounded shadow-sm mt-2"
-                        placeholder="Quantity"
+                        placeholder="Number"
                         value={
                           eventData.ItcomponentEvents.find(
                             (item) =>

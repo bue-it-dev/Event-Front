@@ -207,7 +207,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                           htmlFor={`passportData${index}`}
                           className="form-label text-dark font-weight-bold"
                         >
-                          Upload Passport Files (files {index + 1}):
+                          Passport {index + 1}:
                         </label>
                         <button
                           type="button"
@@ -245,7 +245,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   <div className="text-center mt-4">
                     <button
                       type="button"
-                      className="btn btn-outline-primary btn-lg"
+                      className="btn btn-outline-primary btn-sm"
                       onClick={addPassportInput}
                     >
                       + Add Passport

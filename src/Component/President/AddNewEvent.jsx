@@ -403,9 +403,7 @@ const AddNewEvent = () => {
                   name="approvingDepTypeId"
                   required
                 >
-                  <option value="">
-                    Select your First Level Up Department
-                  </option>
+                  <option value="">Choose your department</option>
                   {approvalDepartments.map((data) => (
                     <option key={data.rowId} value={data.rowId}>
                       {data.depName}

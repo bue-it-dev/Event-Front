@@ -604,9 +604,7 @@ const VCBAddBusinessRequest = () => {
                       name="approvingDepartment"
                       required
                     >
-                      <option value="">
-                        Select your First Level Up Department
-                      </option>
+                      <option value="">Choose your department</option>
                       {approvalDepartments.map((data) => (
                         <option key={data.depName} value={data.depName}>
                           {data.depName}

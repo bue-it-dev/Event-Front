@@ -374,8 +374,7 @@ const HomeRequestDetails = () => {
   const onSubmit = async () => {
     try {
       setisLoading(true);
-      await UpdateEventRequest(eventData);
-
+      await UpdateEventRequest(requestId, eventData);
       if (requestId) {
         await UpdateFiles(
           requestId,
@@ -386,8 +385,8 @@ const HomeRequestDetails = () => {
         );
       }
       setisLoading(false);
-      toast.success("Event Updated successfully", { position: "top-center" });
-      history.push("/my-event-requests");
+      toast.success("Form Updated!", { position: "top-center" });
+      window.location.reload();
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -398,70 +397,60 @@ const HomeRequestDetails = () => {
   const ConfrimBusinessRequestAsync = async (requestId) => {
     const confirmAction = () =>
       new Promise((resolve) => {
-        const toastId = toast.info(
-          <>
-            <div style={{ textAlign: "center" }}>
-              <p>Are you sure you want to confirm this request?</p>
-              <div style={{ marginTop: "10px" }}>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(true); // Proceed with confirmation
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "green",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(false); // Cancel the operation
-                  }}
-                  style={{
-                    backgroundColor: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </>,
-          {
-            autoClose: false,
-            closeOnClick: false,
-            draggable: false,
-            position: "top-center", // Center the toast
-          }
-        );
+        // const toastId = toast.info(
+        //   <>
+        //     <div style={{ textAlign: "center" }}>
+        //       <p>Are you sure you want to confirm this request?</p>
+        //       <div style={{ marginTop: "10px" }}>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(true); // Proceed with confirmation
+        //           }}
+        //           style={{
+        //             marginRight: "10px",
+        //             backgroundColor: "green",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Confirm
+        //         </button>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(false); // Cancel the operation
+        //           }}
+        //           style={{
+        //             backgroundColor: "#dc3545",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Cancel
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </>,
+        //   {
+        //     autoClose: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     position: "top-center", // Center the toast
+        //   }
+        // );
       });
 
-    const userConfirmed = await confirmAction();
+    // const userConfirmed = await confirmAction();
+    const userConfirmed = true;
     if (userConfirmed) {
       try {
         setisLoading(true);
-        // Check for null, undefined, or zero values in the list
-        // const EventId = localStorage.getItem("eventId");
         await ConfrimEventRequest(requestId);
-        // if (EventId) {
-        //   await AddFiles(
-        //     EventId,
-        //     passportData || [],
-        //     eventData.OfficeOfPresedentFile,
-        //     eventData.LedOfTheUniversityOrganizerFile,
-        //     eventData.VisitAgendaFile
-        //   );
-        // }
         setisLoading(false);
         history.push("/my-event-requests");
       } catch (err) {
@@ -475,10 +464,10 @@ const HomeRequestDetails = () => {
   const data = {
     columns: [
       // { label: "#", field: "Number", sort: "asc" },
-      { label: "Approved By", field: "userName", sort: "asc" },
-      { label: "Approval Level", field: "approvalLevelName", sort: "asc" },
+      { label: "Name", field: "userName", sort: "asc" },
+      { label: "Role", field: "approvalLevelName", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Approved At", field: "createdAt", sort: "asc" },
+      { label: "Date", field: "createdAt", sort: "asc" },
     ],
     rows: approvalTracker.map((data, i) => ({
       Number: i + 1,
@@ -698,9 +687,7 @@ const HomeRequestDetails = () => {
                   name="approvingDepTypeId"
                   required
                 >
-                  <option value="">
-                    Select your First Level Up Department
-                  </option>
+                  <option value="">Choose your department</option>
                   {approvalDepartments.map((data) => (
                     <option key={data.rowId} value={data.rowId}>
                       {data.depName}

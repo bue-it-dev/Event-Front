@@ -626,9 +626,7 @@ const AdminEventDetails = () => {
                   required
                   disabled
                 >
-                  <option value="">
-                    Select your First Level Up Department
-                  </option>
+                  <option value="">Choose your department</option>
                   {approvalDepartments.map((data) => (
                     <option key={data.rowId} value={data.rowId}>
                       {data.depName}
@@ -1305,7 +1303,6 @@ const AdminEventDetails = () => {
                         name="buildings"
                         disabled
                       >
-                        <option value="">Select building</option>
                         {buildings.map((data) => (
                           <option key={data.buildingId} value={data.buildingId}>
                             {data.building}
