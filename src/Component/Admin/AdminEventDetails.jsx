@@ -14,7 +14,7 @@ import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
-import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
+import EventBuildingVenueListGetinfo from "../shared_components/EventBuildingVenueListGetinfo";
 import {
   UpdateEventRequest,
   UpdateFiles,
@@ -1289,47 +1289,12 @@ const AdminEventDetails = () => {
                 </div> */}
 
                 {eventData?.buildingVenues?.map((_, index) => (
-                  <div className="row align-items-center">
-                    {/* Building Select */}
-                    <div className="col-md-6">
-                      <label className="form-label font-weight-bold">
-                        Building
-                      </label>
-                      <select
-                        className="form-control custom-select custom-select-lg"
-                        value={
-                          eventData.buildingVenues[index]?.buildingId || ""
-                        }
-                        name="buildings"
-                        disabled
-                      >
-                        {buildings.map((data) => (
-                          <option key={data.buildingId} value={data.buildingId}>
-                            {data.building}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* Venue Select (Shown Only When Building is Selected) */}
-                    <div className="col-md-5 mt-3 mt-md-0">
-                      <label className="form-label font-weight-bold">
-                        Venue
-                      </label>
-                      <select
-                        className="form-control custom-select custom-select-lg"
-                        value={eventData.buildingVenues[index]?.venueId || ""}
-                        name="venues"
-                        disabled
-                      >
-                        <option value="">Select venue</option>
-                        {venues.map((venue) => (
-                          <option key={venue.venueId} value={venue.venueId}>
-                            {venue.venueName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  <EventBuildingVenueListGetinfo
+                    key={index}
+                    index={index}
+                    eventData={eventData}
+                    seteventData={seteventData}
+                  />
                 ))}
                 <br />
                 <div className="horizontal-rule mb-4">
