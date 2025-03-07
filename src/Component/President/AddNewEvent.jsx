@@ -18,8 +18,9 @@ import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
+import { ActionTurnedInNot } from "material-ui/svg-icons";
 
-const AddNewEvent = () => {
+const AddEventVCB = () => {
   const history = useHistory();
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
@@ -39,8 +40,10 @@ const AddNewEvent = () => {
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
-    OrganizerExtention: "",
     approvingDepTypeId: 0,
+    budgetEstimatedCost: 0,
+    budgetCostCurrency: "",
+    eventType: "Internal",
     DeptId: null,
     IsOthers: null,
     isVIP: null,
@@ -108,7 +111,7 @@ const AddNewEvent = () => {
       }
       setisLoading(false);
       setisDraft(true);
-      toast.success("Event added successfully", { position: "top-center" });
+      toast.success("Form Saved!", { position: "top-center" });
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -120,77 +123,19 @@ const AddNewEvent = () => {
   const UpdateDraftEventRequest = async () => {
     try {
       setisLoading(true);
-      const payload = {
-        eventId: responseRequestIDExtracted,
-        approvingDepTypeId: eventData.approvingDepTypeId,
-        eventTitle: eventData.EventTitle, // Different case
-        nomParticipants: eventData.NomParticipants ?? 0, // Default to 0
-        eventStartDate: eventData.EventStartDate,
-        natureOfEventId: eventData.natureOfEventId,
-        eventEndDate: eventData.EventEndDate,
-        hasIt: eventData.HasIt,
-        hasAccomdation: eventData.HasAccomodation, // Different property name
-        hasTransportation: eventData.HasTransportation,
-        endDateTime: null, // Not present in State 1, set to null
-        startDateTime: null, // Not present in State 1, set to null
-        organizerName: eventData.OrganizerName,
-        organizerMobile: eventData.OrganizerMobile,
-        organizerExtention: eventData.OrganizerExtention,
-        approvingDeptName: null, // Not present in State 1, set to null
-        deptId: eventData.DeptId,
-        isOthers: eventData.IsOthers ?? 0,
-        isStaffStudents: eventData.IsStaffStudents ?? 0,
-        isChairBoardPrisidentVcb: eventData.IsChairBoardPrisidentVcb ?? 0,
-        ledOfTheUniversityOrganizerFilePath:
-          eventData.LedOfTheUniversityOrganizerFile,
-        officeOfPresedentFilePath: eventData.OfficeOfPresedentFile,
-        visitAgendaFilePath: eventData.VisitAgendaFile,
-        confirmedAt: null, // Not present in State 1, set to null
-        isVip: eventData.isVIP ?? 0,
-        passports: eventData.passportData || [], // Ensure it's an array
-        itcomponentEvents: eventData.ItcomponentEvents.map((it) => ({
-          id: it.id ?? 0,
-          eventId: it.eventId ?? responseRequestIDExtracted,
-          itcomponentId: it.itcomponentId ?? 0,
-          quantity: it.quantity ?? 0,
-        })),
-        transportations: eventData.Transportations.map((t) => ({
-          transportationTypeId: t.transportationTypeId ?? 0,
-          eventId: t.eventId ?? responseRequestIDExtracted,
-          startDate: t.startDate ?? null,
-          endDate: t.endDate ?? null,
-          quantity: t.quantity ?? 0,
-        })),
-        accommodations: eventData.Accommodations.map((a) => ({
-          roomTypeId: a.roomTypeId ?? 0,
-          eventId: a.eventId ?? responseRequestIDExtracted,
-          startDate: a.startDate ?? null,
-          endDate: a.endDate ?? null,
-          numOfRooms: a.numOfRooms ?? 0,
-        })),
-        buildingVenues: eventData.BuildingVenues.map((b) => ({
-          eventId: b.eventId ?? responseRequestIDExtracted,
-          venueId: b.venueId ?? 0,
-          buildingId: b.buildingId ?? 0,
-        })),
-        Venues: eventData.Venues,
-        travellerList: eventData.travellerList ?? 0,
-      };
-
-      await UpdateEventRequest(payload);
-
+      await UpdateEventRequest(responseRequestIDExtracted, eventData);
       if (responseRequestIDExtracted) {
         await UpdateFiles(
           responseRequestIDExtracted,
-          passportData || [],
+          eventData.passportData || [],
           eventData.OfficeOfPresedentFile,
           eventData.LedOfTheUniversityOrganizerFile,
           eventData.VisitAgendaFile
         );
       }
       setisLoading(false);
-      toast.success("Event Updated successfully", { position: "top-center" });
-      // history.push("/my-event-requests");
+      toast.success("Form Updated!", { position: "top-center" });
+      // history.push("/vcb-event-list");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -201,55 +146,56 @@ const AddNewEvent = () => {
   const ConfrimBusinessRequestAsync = async (requestId) => {
     const confirmAction = () =>
       new Promise((resolve) => {
-        const toastId = toast.info(
-          <>
-            <div style={{ textAlign: "center" }}>
-              <p>Are you sure you want to confirm this request?</p>
-              <div style={{ marginTop: "10px" }}>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(true); // Proceed with confirmation
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "green",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(false); // Cancel the operation
-                  }}
-                  style={{
-                    backgroundColor: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </>,
-          {
-            autoClose: false,
-            closeOnClick: false,
-            draggable: false,
-            position: "top-center", // Center the toast
-          }
-        );
+        // const toastId = toast.info(
+        //   <>
+        //     <div style={{ textAlign: "center" }}>
+        //       <p>Are you sure you want to confirm this request?</p>
+        //       <div style={{ marginTop: "10px" }}>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(true); // Proceed with confirmation
+        //           }}
+        //           style={{
+        //             marginRight: "10px",
+        //             backgroundColor: "green",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Confirm
+        //         </button>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(false); // Cancel the operation
+        //           }}
+        //           style={{
+        //             backgroundColor: "#dc3545",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Cancel
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </>,
+        //   {
+        //     autoClose: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     position: "top-center", // Center the toast
+        //   }
+        // );
       });
 
-    const userConfirmed = await confirmAction();
+    // const userConfirmed = await confirmAction();
+    const userConfirmed = true;
     if (userConfirmed) {
       try {
         setisLoading(true);
@@ -266,6 +212,9 @@ const AddNewEvent = () => {
         //   );
         // }
         setisLoading(false);
+        toast.success("Form Submitted!", {
+          position: "top-center",
+        });
         history.push("/event-list");
       } catch (err) {
         setisLoading(false);
@@ -278,55 +227,56 @@ const AddNewEvent = () => {
   const SaveandConfrimBusinessRequestAsync = async (requestId) => {
     const confirmAction = () =>
       new Promise((resolve) => {
-        const toastId = toast.info(
-          <>
-            <div style={{ textAlign: "center" }}>
-              <p>Are you sure you want to confirm this request?</p>
-              <div style={{ marginTop: "10px" }}>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(true); // Proceed with confirmation
-                  }}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "green",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => {
-                    toast.dismiss(toastId); // Dismiss the toast
-                    resolve(false); // Cancel the operation
-                  }}
-                  style={{
-                    backgroundColor: "#dc3545",
-                    color: "white",
-                    border: "none",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </>,
-          {
-            autoClose: false,
-            closeOnClick: false,
-            draggable: false,
-            position: "top-center", // Center the toast
-          }
-        );
+        // const toastId = toast.info(
+        //   <>
+        //     <div style={{ textAlign: "center" }}>
+        //       <p>Are you sure you want to confirm this request?</p>
+        //       <div style={{ marginTop: "10px" }}>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(true); // Proceed with confirmation
+        //           }}
+        //           style={{
+        //             marginRight: "10px",
+        //             backgroundColor: "green",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Confirm
+        //         </button>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(false); // Cancel the operation
+        //           }}
+        //           style={{
+        //             backgroundColor: "#dc3545",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Cancel
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </>,
+        //   {
+        //     autoClose: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     position: "top-center", // Center the toast
+        //   }
+        // );
       });
 
-    const userConfirmed = await confirmAction();
+    // const userConfirmed = await confirmAction();
+    const userConfirmed = ActionTurnedInNot;
 
     if (userConfirmed) {
       try {
@@ -347,7 +297,7 @@ const AddNewEvent = () => {
           );
         }
         setisLoading(false);
-        toast.success("Request confirmed successfully!", {
+        toast.success("Form Submitted!", {
           position: "top-center",
         });
         history.push("/event-list");
@@ -420,11 +370,44 @@ const AddNewEvent = () => {
               </div>
 
               <EventInfo eventData={eventData} seteventData={seteventData} />
+              <div className="horizontal-rule mb-4">
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
+              </div>
 
+              <div className="d-flex align-items-center mb-3">
+                <button
+                  type="button"
+                  className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    fontSize: "18px",
+                    borderRadius: "50%",
+                    marginRight: "10px",
+                    transition: "0.3s ease",
+                    backgroundColor: "#57636f",
+                  }}
+                  onClick={addBuildingVenue}
+                >
+                  +
+                </button>
+                <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+              </div>
+
+              {eventData.BuildingVenues.map((_, index) => (
+                <EventBuildingVenueListInfo
+                  key={index}
+                  index={index}
+                  eventData={eventData}
+                  seteventData={seteventData}
+                />
+              ))}
+              <br />
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Requested Services
+                  Services
                 </h5>
               </div>
 
@@ -435,48 +418,13 @@ const AddNewEvent = () => {
                 />
                 <br />
                 <br />
-                <div className="horizontal-rule mb-4">
+
+                <div className="horizontal-rule mb-1">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Requested Venues
+                    Attendance
                   </h5>
                 </div>
-
-                <div className="d-flex align-items-center mb-3">
-                  <button
-                    type="button"
-                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      fontSize: "18px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                      transition: "0.3s ease",
-                    }}
-                    onClick={addBuildingVenue}
-                  >
-                    +
-                  </button>
-                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
-
-                {eventData.BuildingVenues.map((_, index) => (
-                  <EventBuildingVenueListInfo
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
-                ))}
-                <br />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Event Attendance Section
-                  </h5>
-                </div>
-
                 <EventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
@@ -490,7 +438,10 @@ const AddNewEvent = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() =>
                             ConfrimBusinessRequestAsync(
                               responseRequestIDExtracted
@@ -498,8 +449,8 @@ const AddNewEvent = () => {
                           }
                         >
                           {isLoading
-                            ? "Confirming Request..."
-                            : "Confirm Request"}
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -507,7 +458,10 @@ const AddNewEvent = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => UpdateDraftEventRequest()}
                         >
                           {isLoading ? "Updating Request..." : "Update Request"}
@@ -523,7 +477,10 @@ const AddNewEvent = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() =>
                             SaveandConfrimBusinessRequestAsync(
                               responseRequestIDExtracted
@@ -531,8 +488,8 @@ const AddNewEvent = () => {
                           }
                         >
                           {isLoading
-                            ? "Confirming Request..."
-                            : "Confirm Request"}
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -540,12 +497,13 @@ const AddNewEvent = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => onSubmit()}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
                     </div>
@@ -560,4 +518,4 @@ const AddNewEvent = () => {
   );
 };
 
-export default AddNewEvent;
+export default AddEventVCB;
