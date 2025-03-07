@@ -179,9 +179,32 @@ const HomeRequestDetails = () => {
     Venues: null,
     travellerList: 0,
   });
+  const [empsettings, setEmpsettings] = React.useState([]);
+  const employeeEmailAndPositionByEmpId = (empId) => {
+    var config = {
+      method: "get",
+      url: `${URL.BASE_URL}/api/EventEntity/get-employeeEmailAndPositionByEmpId?empId=${empId}`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setEmpsettings(response.data.data);
+        console.log("Settings", response.data.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
   const handleOrgChange = (selectedOption) => {
     console.log("selected Option", selectedOption.label);
     const fullLabel = selectedOption.label;
+    const empId = selectedOption ? selectedOption.value : "";
+    const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+    console.log("Emp Id", empId);
+    employeeEmailAndPositionByEmpId(empId);
     // const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
 
     seteventData((prevState) => ({
@@ -991,6 +1014,54 @@ const HomeRequestDetails = () => {
                           }}
                         />
                       </div>
+                      {/* Organizer Email */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerEmail"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Email
+                        </label>
+                        <div className="input-group w-100">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">@</span>
+                          </div>
+                          <input
+                            type="email"
+                            id="organizerEmail"
+                            name="organizerEmail"
+                            value={
+                              empsettings.email || eventData.organizerEmail
+                            }
+                            onChange={handleChange}
+                            className="form-control form-control-lg"
+                          />
+                        </div>
+                      </div>
+                      {/* Organizer Extension */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerPosition"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Position
+                        </label>
+                        <input
+                          type="text"
+                          id="organizerPosition"
+                          name="organizerPosition"
+                          value={
+                            empsettings.position || eventData.organizerPosition
+                          }
+                          onChange={handleChange}
+                          className="form-control form-control-lg w-100"
+                        />
+                        {errors.organizerPosition && (
+                          <small className="text-danger">
+                            {errors.organizerPosition}
+                          </small>
+                        )}
+                      </div>
                     </>
                   ) : (
                     <>
@@ -1012,74 +1083,52 @@ const HomeRequestDetails = () => {
                           className="form-control form-control-lg w-100"
                         />
                       </div>
+                      {/* Organizer Email */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerEmail"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Email
+                        </label>
+                        <div className="input-group w-100">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">@</span>
+                          </div>
+                          <input
+                            type="email"
+                            id="organizerEmail"
+                            name="organizerEmail"
+                            value={eventData.organizerEmail || ""}
+                            onChange={handleChange}
+                            className="form-control form-control-lg"
+                          />
+                        </div>
+                      </div>
+                      {/* Organizer Extension */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerPosition"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Position
+                        </label>
+                        <input
+                          type="text"
+                          id="organizerPosition"
+                          name="organizerPosition"
+                          value={eventData.organizerPosition || ""}
+                          onChange={handleChange}
+                          className="form-control form-control-lg w-100"
+                        />
+                        {errors.organizerPosition && (
+                          <small className="text-danger">
+                            {errors.organizerPosition}
+                          </small>
+                        )}
+                      </div>
                     </>
                   )}
-
-                  {/* Organizer Extension
-          <div className="col-lg-6">
-            <label
-              htmlFor="OrganizerExtention"
-              className="form-label font-weight-bold"
-            >
-              Organizer Extension
-            </label>
-            <input
-              type="text"
-              id="OrganizerExtention"
-              name="OrganizerExtention"
-              value={eventData.OrganizerExtention || ""}
-              onChange={handleChange}
-              className="form-control form-control-lg w-100"
-            />
-            {errors.OrganizerExtention && (
-              <small className="text-danger">{errors.OrganizerExtention}</small>
-            )}
-          </div> */}
-
-                  {/* Organizer Email */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="organizerEmail"
-                      className="form-label font-weight-bold"
-                    >
-                      Organizer Email
-                    </label>
-                    <div className="input-group w-100">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text">@</span>
-                      </div>
-                      <input
-                        type="email"
-                        id="organizerEmail"
-                        name="organizerEmail"
-                        value={eventData.organizerEmail || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg"
-                      />
-                    </div>
-                  </div>
-                  {/* Organizer Extension */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="organizerPosition"
-                      className="form-label font-weight-bold"
-                    >
-                      Organizer Position
-                    </label>
-                    <input
-                      type="text"
-                      id="organizerPosition"
-                      name="organizerPosition"
-                      value={eventData.organizerPosition || ""}
-                      onChange={handleChange}
-                      className="form-control form-control-lg w-100"
-                    />
-                    {errors.organizerPosition && (
-                      <small className="text-danger">
-                        {errors.organizerPosition}
-                      </small>
-                    )}
-                  </div>
                   {/* Organizer Mobile */}
                   <div className="col-lg-6">
                     <label
@@ -1112,7 +1161,40 @@ const HomeRequestDetails = () => {
                 </div>
               </div>
               {/* <EventInfo eventData={eventData} seteventData={seteventData} /> */}
+              <div className="horizontal-rule mb-4">
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
+              </div>
+              {eventData.confirmedAt == null ? (
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      fontSize: "18px",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      transition: "0.3s ease",
+                      backgroundColor: "#57636f",
+                    }}
+                    onClick={addBuildingVenue}
+                  >
+                    +
+                  </button>
+                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                </div>
+              ) : null}
 
+              {eventData?.buildingVenues?.map((_, index) => (
+                <EventBuildingVenueListUpdate
+                  key={index}
+                  index={index}
+                  eventData={eventData}
+                  seteventData={seteventData}
+                />
+              ))}
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
@@ -1459,43 +1541,6 @@ const HomeRequestDetails = () => {
                   </div>
                 </div>
                 <br />
-                <br />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Venues
-                  </h5>
-                </div>
-                {eventData.confirmedAt == null ? (
-                  <div className="d-flex align-items-center mb-3">
-                    <button
-                      type="button"
-                      className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        fontSize: "18px",
-                        borderRadius: "50%",
-                        marginRight: "10px",
-                        transition: "0.3s ease",
-                        backgroundColor: "#57636f",
-                      }}
-                      onClick={addBuildingVenue}
-                    >
-                      +
-                    </button>
-                    <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                  </div>
-                ) : null}
-
-                {eventData?.buildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListUpdate
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
-                ))}
                 <br />
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
