@@ -230,7 +230,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               htmlFor="natureOfEventId"
               className="form-label font-weight-bold"
             >
-              Event Nature
+              Nature
             </label>
             <select
               className="form-select form-select-lg"
@@ -243,7 +243,6 @@ const EventInfo = ({ eventData, seteventData }) => {
               name="natureOfEventId"
               required
             >
-              <option value="">Select event nature</option>
               {natureofevents.map((data) => (
                 <option key={data.natureOfEventId} value={data.natureOfEventId}>
                   {data.natureOfEvent}
@@ -257,23 +256,68 @@ const EventInfo = ({ eventData, seteventData }) => {
               htmlFor="natureOfEventId"
               className="form-label font-weight-bold"
             >
-              Event Type
+              Type
             </label>
             <select
               className="form-select form-select-lg"
-              value={eventData.eventTypeId}
+              value={eventData.eventType}
               onChange={(e) => {
                 seteventData({
                   ...eventData,
-                  eventTypeId: Number(e.target.value),
+                  eventType: e.target.value,
                 });
               }}
               name="natureOfEventId"
               required
             >
-              <option value="0">Select event type</option>
-              <option value="1">Internal</option>
-              <option value="2">External</option>
+              <option value="Internal">Internal</option>
+              <option value="External">External</option>
+            </select>
+          </div>
+          <div className="col-lg-6">
+            <label
+              htmlFor="natureOfEventId"
+              className="form-label font-weight-bold"
+            >
+              Estimated Cost
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              value={eventData.budgetEstimatedCost}
+              required
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  budgetEstimatedCost: Number(e.target.value),
+                });
+              }}
+            />
+          </div>
+          {/* Organizer Email */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="natureOfEventId"
+              className="form-label font-weight-bold"
+            >
+              Cost Currency
+            </label>
+            <select
+              className="form-select form-select-lg"
+              value={eventData.budgetCostCurrency}
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  budgetCostCurrency: e.target.value,
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option value="EGP">EGP</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="USD">USD</option>
             </select>
           </div>
           <br />
@@ -284,7 +328,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               Organizer Info
             </h5>
           </div>
-          {eventData.eventTypeId == 1 ? (
+          {eventData.eventType == "Internal" ? (
             <>
               {/* Organizer Name */}
               <div className="col-lg-6">
@@ -339,33 +383,6 @@ const EventInfo = ({ eventData, seteventData }) => {
             </>
           )}
 
-          {/* Organizer Mobile */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="OrganizerMobile"
-              className="form-label font-weight-bold"
-            >
-              Organizer Mobile
-            </label>
-            <div className="input-group w-100">
-              <div className="input-group-prepend">
-                <span className="input-group-text">📞</span>
-              </div>
-              <input
-                type="tel"
-                id="OrganizerMobile"
-                name="OrganizerMobile"
-                value={eventData.OrganizerMobile || ""}
-                onChange={handleChange}
-                maxLength={11}
-                className="form-control form-control-lg"
-                placeholder="Enter valid Egyptian phone number"
-              />
-            </div>
-            {errors.OrganizerMobile && (
-              <small className="text-danger">{errors.OrganizerMobile}</small>
-            )}
-          </div>
           {/* Organizer Extension
           <div className="col-lg-6">
             <label
@@ -427,6 +444,33 @@ const EventInfo = ({ eventData, seteventData }) => {
             />
             {errors.organizerPosition && (
               <small className="text-danger">{errors.organizerPosition}</small>
+            )}
+          </div>
+          {/* Organizer Mobile */}
+          <div className="col-lg-6">
+            <label
+              htmlFor="OrganizerMobile"
+              className="form-label font-weight-bold"
+            >
+              Organizer Mobile
+            </label>
+            <div className="input-group w-100">
+              <div className="input-group-prepend">
+                <span className="input-group-text">📞</span>
+              </div>
+              <input
+                type="tel"
+                id="OrganizerMobile"
+                name="OrganizerMobile"
+                value={eventData.OrganizerMobile || ""}
+                onChange={handleChange}
+                maxLength={11}
+                className="form-control form-control-lg"
+                placeholder="Enter valid Egyptian phone number"
+              />
+            </div>
+            {errors.OrganizerMobile && (
+              <small className="text-danger">{errors.OrganizerMobile}</small>
             )}
           </div>
         </div>

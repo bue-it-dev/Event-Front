@@ -40,9 +40,11 @@ const AddHomeTravelRequest = () => {
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
-    OrganizerExtention: 1111,
+    // OrganizerExtention: 1111,
     approvingDepTypeId: 0,
-    eventTypeId: 1,
+    budgetEstimatedCost: 0,
+    budgetCostCurrency: "",
+    eventType: "",
     DeptId: null,
     IsOthers: null,
     isVIP: null,
@@ -402,6 +404,7 @@ const AddHomeTravelRequest = () => {
                       borderRadius: "50%",
                       marginRight: "10px",
                       transition: "0.3s ease",
+                      backgroundColor: "#57636f",
                     }}
                     onClick={addBuildingVenue}
                   >
@@ -419,13 +422,12 @@ const AddHomeTravelRequest = () => {
                   />
                 ))}
                 <br />
-                <div className="horizontal-rule mb-4">
+                <div className="horizontal-rule mb-1">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
                     Attendance
                   </h5>
                 </div>
-
                 <EventFilesSection
                   eventData={eventData}
                   setEventData={seteventData}
@@ -439,7 +441,10 @@ const AddHomeTravelRequest = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() =>
                             ConfrimBusinessRequestAsync(
                               responseRequestIDExtracted
@@ -456,7 +461,10 @@ const AddHomeTravelRequest = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => UpdateDraftEventRequest()}
                         >
                           {isLoading ? "Updating Request..." : "Update Request"}
@@ -472,7 +480,10 @@ const AddHomeTravelRequest = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() =>
                             SaveandConfrimBusinessRequestAsync(
                               responseRequestIDExtracted
@@ -489,7 +500,10 @@ const AddHomeTravelRequest = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => onSubmit()}
                         >
                           {isLoading ? "Saving Draft..." : "Save Draft"}
