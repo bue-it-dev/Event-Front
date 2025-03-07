@@ -359,51 +359,6 @@ const EventSelections = ({ eventData, setEventData }) => {
                     </div>
                   </div>
                 ))}
-                {/* {roomTypes.map((room) => (
-                  <div key={room.roomTypeId} className="col-md-3">
-                    <div className="form-check">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id={`roomType-${room.roomTypeId}`}
-                        value={room.roomTypeId}
-                        checked={eventData.Accommodations.some(
-                          (item) => item.roomTypeId === room.roomTypeId
-                        )}
-                        onChange={(e) =>
-                          handleAccommodationChange(e, room.roomTypeId)
-                        }
-                      />
-                      <label
-                        className="form-check-label text-dark"
-                        htmlFor={`roomType-${room.roomTypeId}`}
-                        style={{ fontSize: "14px" }}
-                      >
-                        {room.roomTypeName}
-                      </label>
-                    </div>
-                    {eventData.Accommodations.some(
-                      (item) => item.roomTypeId === room.roomTypeId
-                    ) && (
-                      <input
-                        type="number"
-                        className="form-control form-control-sm rounded shadow-sm mt-2"
-                        placeholder="Quantity"
-                        value={
-                          eventData.Accommodations.find(
-                            (item) => item.roomTypeId === room.roomTypeId
-                          )?.Quantity || ""
-                        }
-                        onChange={(e) =>
-                          handleAccommodationQuantityChange(
-                            room.roomTypeId,
-                            e.target.value
-                          )
-                        }
-                      />
-                    )}
-                  </div>
-                ))} */}
               </div>
             </div>
           )}

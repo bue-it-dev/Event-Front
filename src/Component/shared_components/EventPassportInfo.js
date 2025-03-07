@@ -57,7 +57,7 @@ const EventInfo = ({ eventData, seteventData }) => {
 
     seteventData((prevState) => ({
       ...prevState,
-      OrganizerName: String(firstPart), // Ensure it's a string
+      OrganizerName: String(fullLabel), // Ensure it's a string
     }));
   };
 

@@ -134,7 +134,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
           {eventData.IsOthers === 1 && (
             <div className="mt-3">
-              <label className="form-label">Upload Visit Agenda:</label>
+              <label className="form-label">Visit Agenda:</label>
               <input
                 type="file"
                 className="form-control"
