@@ -53,7 +53,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label" htmlFor="IsStaffStudents">
-              Is the event only for BUE staff and students?
+              Is the event for BUE staff and students?
             </label>
           </div>
 

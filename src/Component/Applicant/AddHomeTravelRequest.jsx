@@ -371,7 +371,40 @@ const AddHomeTravelRequest = () => {
               </div>
 
               <EventInfo eventData={eventData} seteventData={seteventData} />
+              <div className="horizontal-rule mb-4">
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
+              </div>
 
+              <div className="d-flex align-items-center mb-3">
+                <button
+                  type="button"
+                  className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    fontSize: "18px",
+                    borderRadius: "50%",
+                    marginRight: "10px",
+                    transition: "0.3s ease",
+                    backgroundColor: "#57636f",
+                  }}
+                  onClick={addBuildingVenue}
+                >
+                  +
+                </button>
+                <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+              </div>
+
+              {eventData.BuildingVenues.map((_, index) => (
+                <EventBuildingVenueListInfo
+                  key={index}
+                  index={index}
+                  eventData={eventData}
+                  seteventData={seteventData}
+                />
+              ))}
+              <br />
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
@@ -386,42 +419,7 @@ const AddHomeTravelRequest = () => {
                 />
                 <br />
                 <br />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Venues
-                  </h5>
-                </div>
 
-                <div className="d-flex align-items-center mb-3">
-                  <button
-                    type="button"
-                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      fontSize: "18px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                      transition: "0.3s ease",
-                      backgroundColor: "#57636f",
-                    }}
-                    onClick={addBuildingVenue}
-                  >
-                    +
-                  </button>
-                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div>
-
-                {eventData.BuildingVenues.map((_, index) => (
-                  <EventBuildingVenueListInfo
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
-                ))}
-                <br />
                 <div className="horizontal-rule mb-1">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">

@@ -171,7 +171,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       >
                         <button
                           type="button"
-                          className="btn btn-sm btn-primary d-flex align-items-center justify-content-center"
+                          className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
                           style={{
                             gap: "5px",
                             padding: "8px 14px",
@@ -235,7 +235,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                         >
                           <button
                             type="button"
-                            className="btn btn-sm btn-primary d-flex align-items-center justify-content-center"
+                            className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
                             style={{
                               gap: "5px",
                               padding: "8px 14px",
@@ -326,7 +326,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       >
                         <button
                           type="button"
-                          className="btn btn-sm btn-primary d-flex align-items-center justify-content-center"
+                          className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
                           style={{
                             gap: "5px",
                             padding: "8px 14px",

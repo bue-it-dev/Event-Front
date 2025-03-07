@@ -505,7 +505,11 @@ const HomeRequestDetails = () => {
     rows: approvalTracker.map((data, i) => ({
       Number: i + 1,
       approvalLevelName:
-        data.approvalLevelName == "BOM" ? "BO Manager" : data.approvalLevelName,
+        data.approvalLevelName == "BOM"
+          ? "BO Manager"
+          : data.approvalLevelName == "EAF"
+          ? "Estates and Facilities"
+          : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
       createdAt: data.createdAt,
@@ -1514,7 +1518,10 @@ const HomeRequestDetails = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => ConfrimBusinessRequestAsync(requestId)}
                         >
                           {isLoading
@@ -1527,7 +1534,10 @@ const HomeRequestDetails = () => {
                           type="submit"
                           className="btn btn-dark btn-lg col-12 mt-3"
                           disabled={isLoading}
-                          style={{ transition: "0.3s ease" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                          }}
                           onClick={() => onSubmit()}
                         >
                           {isLoading ? "Updating Request..." : "Update Request"}
