@@ -110,7 +110,7 @@ const VCBTabs = () => {
       case 2:
         history.push("event-request-list-vcb");
         break;
-   
+
       default:
         break;
     }
@@ -126,21 +126,19 @@ const VCBTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          
           <Tab label="New Event Request" {...a11yProps(0)} />
           {/*<Tab label="New Home Leave Request" {...a11yProps(0)} />*/}
           {/*<Tab label="My Home Requests" {...a11yProps(1)} /> */}
 
-          <Tab label="My Event Requests" {...a11yProps(1)} /> 
+          <Tab label="My Event Requests" {...a11yProps(1)} />
           {/* <Tab label="VCB Home Requests Approvals" {...a11yProps(4)} />*/}
-          <Tab label="VCB Events Requests Approvals" {...a11yProps(2)} />
+          <Tab label="Events Requests Approvals" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
       <TabPanel value={value} index={0}></TabPanel>
       <TabPanel value={value} index={1}></TabPanel>
       <TabPanel value={value} index={2}></TabPanel>
-     
     </div>
   );
 };

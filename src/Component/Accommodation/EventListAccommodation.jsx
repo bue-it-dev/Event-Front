@@ -172,8 +172,12 @@ const EventListAccommodation = () => {
               },
             }}
           >
-              <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
-              Decide
+            <button
+              type="button"
+              className="btn btn-sm"
+              style={{ backgroundColor: "#343a40", color: "white" }}
+            >
+              {event.statusName != "Pending" ? <>View</> : <>Decide</>}
             </button>
           </Link>
         </>
