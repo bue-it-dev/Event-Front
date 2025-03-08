@@ -534,6 +534,44 @@ const AdminEventDetails = () => {
       { type: fileData.contentType }
     );
   };
+  // const handleApproval = useCallback(
+  //   async (statusId) => {
+  //     try {
+  //       setisLoading(true);
+  //       // Create a new object with the updated status
+  //       const payload = {
+  //         status: statusId,
+  //         userTypeId: 1,
+  //         eventId: requestId,
+  //         rejectionReason: eventData.rejectionReason,
+  //       };
+  //       // Wait for the backend response
+  //       console.log("payload", payload);
+  //       await UpdateEventApproval(payload);
+  //       setisLoading(false);
+  //       // if (statusId == 1) {
+  //       //   toast.success("Request Approved successfully", {
+  //       //     position: "top-center",
+  //       //   });
+  //       // } else {
+  //       //   toast.error("Request Rejected!", {
+  //       //     position: "top-center",
+  //       //   });
+  //       // }
+  //       // // Ensure UI navigation only happens after the toast is shown
+  //       // setTimeout(() => {
+  //       //   history.push("/hod-event-approvals");
+  //       // }, 1000); // Give users time to see the message
+  //     } catch (error) {
+  //       setisLoading(false);
+  //       console.error("Error while updating user details:", error);
+  //       toast.error("Error while updating user details, please try again", {
+  //         position: "top-center",
+  //       });
+  //     }
+  //   },
+  //   [setisLoading]
+  // );
   const handleApproval = useCallback(
     async (statusId) => {
       try {
@@ -543,25 +581,25 @@ const AdminEventDetails = () => {
           status: statusId,
           userTypeId: 1,
           eventId: requestId,
-          rejectionReason: eventData.rejectionReason,
+          rejectionReason: eventData.rejectionReason, // This will now have the latest value
         };
-        // Wait for the backend response
-        console.log("payload", payload);
+        // Debugging log
+        console.log("Updated payload:", payload);
         await UpdateEventApproval(payload);
-        // setisLoading(false);
-        // if (statusId == 1) {
-        //   toast.success("Request Approved successfully", {
-        //     position: "top-center",
-        //   });
-        // } else {
-        //   toast.error("Request Rejected!", {
-        //     position: "top-center",
-        //   });
-        // }
-        // // Ensure UI navigation only happens after the toast is shown
-        // setTimeout(() => {
-        //   history.push("/hod-event-approvals");
-        // }, 1000); // Give users time to see the message
+        setisLoading(false);
+        if (statusId == 1) {
+          toast.success("Request Approved successfully", {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Request Rejected!", {
+            position: "top-center",
+          });
+        }
+        // Ensure UI navigation only happens after the toast is shown
+        setTimeout(() => {
+          history.push("/hod-event-approvals");
+        }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
         console.error("Error while updating user details:", error);
@@ -570,8 +608,9 @@ const AdminEventDetails = () => {
         });
       }
     },
-    [setisLoading]
+    [eventData, requestId] // Add eventData as a dependency
   );
+
   const ConfrimBusinessRequestAsync = async (requestId) => {
     const confirmAction = () =>
       new Promise((resolve) => {
@@ -1726,7 +1765,7 @@ const AdminEventDetails = () => {
                               className="form-control form-control-lg"
                               required
                               rows="5" // Adjust rows to define how many lines of text are visible
-                              placeholder="Enter the reject notes"
+                              placeholder="Enter the reject comments"
                             />
                           </div>
                           <div>
@@ -1749,16 +1788,58 @@ const AdminEventDetails = () => {
                 ) : (
                   <>
                     <div>
-                      <label
-                        // type="submit"
-                        // disabled
-                        className="btn btn-danger btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "#57636f" }}
-                        disabled={isLoading}
-                        // onClick={() => handleApproval(0)}
-                      >
-                        Already {status}
-                      </label>
+                      {status == "Rejected" ? (
+                        <>
+                          <div className="mb-2 flex-grow-1">
+                            <label
+                              htmlFor="travelpurpose"
+                              className="form-label fs-6"
+                            >
+                              Reject Notes
+                            </label>
+                            <textarea
+                              id="rejectionReason"
+                              name="rejectionReason"
+                              value={eventData.rejectionReason}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  rejectionReason: value,
+                                });
+                              }}
+                              className="form-control form-control-lg"
+                              required
+                              rows="5" // Adjust rows to define how many lines of text are visible
+                              placeholder="Enter the reject comments"
+                            />
+                            <label
+                              // type="submit"
+                              // disabled
+                              className="btn btn-danger btn-lg col-12 mt-4"
+                              style={{ backgroundColor: "#57636f" }}
+                              disabled={isLoading}
+                              // onClick={() => handleApproval(0)}
+                            >
+                              Already {status}
+                            </label>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            // type="submit"
+                            // disabled
+                            className="btn btn-danger btn-lg col-12 mt-4"
+                            style={{ backgroundColor: "#57636f" }}
+                            disabled={isLoading}
+                            // onClick={() => handleApproval(0)}
+                          >
+                            Already {status}
+                          </label>
+                        </>
+                      )}
                     </div>
                   </>
                 )}
