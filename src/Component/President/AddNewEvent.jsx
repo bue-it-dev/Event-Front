@@ -20,7 +20,7 @@ import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
 import { ActionTurnedInNot } from "material-ui/svg-icons";
 
-const AddEventVCB = () => {
+const AddNewEvent = () => {
   const history = useHistory();
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
@@ -35,11 +35,11 @@ const AddEventVCB = () => {
     HasIt: 0,
     HasAccomodation: 0,
     natureOfEventId: 1,
-    organizerPosition: "",
     HasTransportation: 0,
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
+    organizerPosition: "",
     approvingDepTypeId: 0,
     budgetEstimatedCost: 0,
     budgetCostCurrency: "",
@@ -135,7 +135,7 @@ const AddEventVCB = () => {
       }
       setisLoading(false);
       toast.success("Form Updated!", { position: "top-center" });
-      // history.push("/vcb-event-list");
+      // history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -518,4 +518,4 @@ const AddEventVCB = () => {
   );
 };
 
-export default AddEventVCB;
+export default AddNewEvent;

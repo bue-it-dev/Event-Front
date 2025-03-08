@@ -35,11 +35,11 @@ const EventAddEAF = () => {
     HasIt: 0,
     HasAccomodation: 0,
     natureOfEventId: 1,
-    organizerPosition: "",
     HasTransportation: 0,
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
+    organizerPosition: "",
     approvingDepTypeId: 0,
     budgetEstimatedCost: 0,
     budgetCostCurrency: "",
@@ -135,7 +135,7 @@ const EventAddEAF = () => {
       }
       setisLoading(false);
       toast.success("Form Updated!", { position: "top-center" });
-      // history.push("/vcb-event-list");
+      // history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -215,7 +215,7 @@ const EventAddEAF = () => {
         toast.success("Form Submitted!", {
           position: "top-center",
         });
-        history.push("/my-event-request-details-eaf");
+        history.push("/my-event-request-eaf");
       } catch (err) {
         setisLoading(false);
         toast.error("An error occurred. Please try again later.", {
@@ -300,7 +300,7 @@ const EventAddEAF = () => {
         toast.success("Form Submitted!", {
           position: "top-center",
         });
-        history.push("/my-event-request-details-eaf");
+        history.push("/my-event-request-eaf");
       } catch (err) {
         setisLoading(false);
         toast.error("Error while updating user details, please try again", {
