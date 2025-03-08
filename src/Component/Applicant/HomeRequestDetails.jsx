@@ -485,6 +485,10 @@ const HomeRequestDetails = () => {
   //     });
   //   }
   // };
+  const getOriginalFileName = (fileName) => {
+    const parts = fileName.split("_");
+    return parts.length > 1 ? parts.slice(-1)[0] : fileName; // Get only the last part after all UUIDs
+  };
   const onSubmit = async () => {
     try {
       setisLoading(true);
@@ -1109,6 +1113,7 @@ const HomeRequestDetails = () => {
                             type="email"
                             id="organizerEmail"
                             name="organizerEmail"
+                            disabled
                             value={
                               empsettings.email || eventData.organizerEmail
                             }
@@ -1129,6 +1134,7 @@ const HomeRequestDetails = () => {
                           type="text"
                           id="organizerPosition"
                           name="organizerPosition"
+                          disabled
                           value={
                             empsettings.position || eventData.organizerPosition
                           }
