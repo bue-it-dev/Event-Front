@@ -266,7 +266,7 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
 
         {/* Is Others */}
         <div className="card shadow-sm p-4 mt-4">
-          <div className="form-check form-check-lg">
+          <div className="form-check form-switch">
             <input
               type="checkbox"
               id="isOthers"
@@ -277,7 +277,8 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
               disabled
             />
             <label
-              className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
+              className="form-check-label"
+              // className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
               htmlFor="isOthers"
             >
               Will non-BUE individuals attend?{" "}
@@ -356,7 +357,7 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
 
               {/* Is Others NOT VIP */}
               <div className="card shadow-sm p-4 mt-4">
-                <div className="form-check form-check-lg">
+                <div className="form-check form-switch">
                   <input
                     type="checkbox"
                     id="isVip"

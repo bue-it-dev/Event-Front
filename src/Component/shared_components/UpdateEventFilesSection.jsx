@@ -259,7 +259,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
 
         {/* Is Others */}
         <div className="card shadow-sm p-4 mt-4">
-          <div className="form-check form-check-lg">
+          <div className="form-check form-switch">
             <input
               type="checkbox"
               id="isOthers"
@@ -346,7 +346,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
 
               {/* Is Others NOT VIP */}
               <div className="card shadow-sm p-4 mt-4">
-                <div className="form-check form-check-lg">
+                <div className="form-check form-switch">
                   <input
                     type="checkbox"
                     id="isVip"
