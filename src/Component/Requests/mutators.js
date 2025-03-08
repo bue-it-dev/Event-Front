@@ -222,15 +222,16 @@ const AddHomeApprovalRequest = async (application) => {
 
 const UpdateEventApproval = async (application) => {
   try {
-    await axios.put(
-      `${URL.BASE_URL}/api/EventEntity/update-eventApproval`,
-      { ...application },
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    );
+    console.log("Application", application);
+    // await axios.put(
+    //   `${URL.BASE_URL}/api/EventEntity/update-eventApproval`,
+    //   { ...application },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${getToken()}`,
+    //     },
+    //   }
+    // );
     return true;
   } catch (err) {
     throw err;
