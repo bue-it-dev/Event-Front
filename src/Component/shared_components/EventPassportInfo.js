@@ -44,7 +44,6 @@ const EventInfo = ({ eventData, seteventData }) => {
     axios(config)
       .then(function (response) {
         setEmpsettings(response.data.data);
-        console.log("Settings", response.data.data);
       })
       .catch(function (error) {
         console.error(error);
@@ -70,16 +69,48 @@ const EventInfo = ({ eventData, seteventData }) => {
         console.error("Error fetching departments:", error);
       });
   };
-  const handleOrgChange = (selectedOption) => {
+  // const handleOrgChange = (selectedOption) => {
+  //   const fullLabel = selectedOption ? selectedOption.label : "";
+  //   const empId = selectedOption ? selectedOption.value : "";
+  //   console.log("Emp Id", empId);
+  //   var settings = employeeEmailAndPositionByEmpId(empId);
+  //   console.log("settings", settings);
+  //   seteventData((prevState) => ({
+  //     ...prevState,
+  //     OrganizerName: String(fullLabel),
+  //     organizerEmail: empsettings.email, // Ensure it's a string
+  //   }));
+  // };
+  const handleOrgChange = async (selectedOption) => {
     const fullLabel = selectedOption ? selectedOption.label : "";
     const empId = selectedOption ? selectedOption.value : "";
-    const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
-    console.log("Emp Id", empId);
     employeeEmailAndPositionByEmpId(empId);
-    seteventData((prevState) => ({
-      ...prevState,
-      OrganizerName: String(fullLabel), // Ensure it's a string
-    }));
+    console.log("Emp Id", empId);
+    try {
+      // Wait for employee details to be fetched
+      const config = {
+        method: "get",
+        url: `${URL.BASE_URL}/api/EventEntity/get-employeeEmailAndPositionByEmpId?empId=${empId}`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const response = await axios(config);
+      const employeeData = response.data.data;
+
+      console.log("Fetched settings:", employeeData);
+
+      // Now, safely update eventData with fetched employee details
+      seteventData((prevState) => ({
+        ...prevState,
+        OrganizerName: fullLabel,
+        organizerEmail: employeeData.email || "", // Ensure a fallback value
+        organizerPosition: employeeData.position || "", // Ensure a fallback value
+      }));
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
   };
 
   // Validate input and update state
@@ -395,9 +426,15 @@ const EventInfo = ({ eventData, seteventData }) => {
                   <input
                     type="email"
                     id="OrganizerEmail"
-                    name="organizerEmail"
-                    value={empsettings.email || ""}
-                    onChange={handleChange}
+                    name="OrganizerEmail"
+                    disabled
+                    value={empsettings.email || eventData.organizerEmail}
+                    onChange={(e) => {
+                      seteventData({
+                        ...eventData,
+                        organizerEmail: e.target.value,
+                      });
+                    }}
                     className="form-control form-control-lg"
                   />
                 </div>
@@ -414,6 +451,7 @@ const EventInfo = ({ eventData, seteventData }) => {
                   type="text"
                   id="organizerPosition"
                   name="organizerPosition"
+                  disabled
                   value={empsettings.position || ""}
                   onChange={handleChange}
                   className="form-control form-control-lg w-100"

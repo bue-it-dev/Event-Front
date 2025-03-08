@@ -151,7 +151,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       onChange={(e) =>
                         setEventData({
                           ...eventData,
-                          LedOfTheUniversityOrganizerFile: e.target.files[0],
+                          universityFile: e.target.files[0],
                         })
                       }
                     />
@@ -215,7 +215,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                         onChange={(e) =>
                           setEventData({
                             ...eventData,
-                            OfficeOfPresedentFile: e.target.files[0],
+                            presidentFile: e.target.files[0],
                           })
                         }
                       />
@@ -306,7 +306,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       onChange={(e) =>
                         setEventData({
                           ...eventData,
-                          VisitAgendaFile: e.target.files[0],
+                          agendaFile: e.target.files[0],
                         })
                       }
                     />

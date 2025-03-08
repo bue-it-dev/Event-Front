@@ -124,6 +124,9 @@ const HomeRequestDetails = () => {
     eventStartDate: null,
     natureOfEventId: 0,
     eventEndDate: null,
+    agendaFile: null,
+    presidentFile: null,
+    universityFile: null,
     hasIt: 0,
     hasAccomdation: 0,
     hasTransportation: 0,
@@ -131,7 +134,8 @@ const HomeRequestDetails = () => {
     startDateTime: null,
     organizerName: "",
     organizerMobile: "",
-    organizerExtention: "",
+    organizerEmail: "",
+    organizerPosition: "",
     approvingDeptName: null,
     deptId: null,
     isOthers: 0,
@@ -198,19 +202,50 @@ const HomeRequestDetails = () => {
       });
   };
 
-  const handleOrgChange = (selectedOption) => {
-    console.log("selected Option", selectedOption.label);
-    const fullLabel = selectedOption.label;
-    const empId = selectedOption ? selectedOption.value : "";
-    const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
-    console.log("Emp Id", empId);
-    employeeEmailAndPositionByEmpId(empId);
-    // const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+  // const handleOrgChange = (selectedOption) => {
+  //   console.log("selected Option", selectedOption.label);
+  //   const fullLabel = selectedOption.label;
+  //   const empId = selectedOption ? selectedOption.value : "";
+  //   const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+  //   console.log("Emp Id", empId);
+  //   employeeEmailAndPositionByEmpId(empId);
+  //   // const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
 
-    seteventData((prevState) => ({
-      ...prevState,
-      organizerName: String(fullLabel), // Ensure it's a string
-    }));
+  //   seteventData((prevState) => ({
+  //     ...prevState,
+  //     organizerName: String(fullLabel), // Ensure it's a string
+  //   }));
+  // };
+  const handleOrgChange = async (selectedOption) => {
+    const fullLabel = selectedOption ? selectedOption.label : "";
+    const empId = selectedOption ? selectedOption.value : "";
+    employeeEmailAndPositionByEmpId(empId);
+    console.log("Emp Id", empId);
+    try {
+      // Wait for employee details to be fetched
+      const config = {
+        method: "get",
+        url: `${URL.BASE_URL}/api/EventEntity/get-employeeEmailAndPositionByEmpId?empId=${empId}`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const response = await axios(config);
+      const employeeData = response.data.data;
+
+      console.log("Fetched settings:", employeeData);
+
+      // Now, safely update eventData with fetched employee details
+      seteventData((prevState) => ({
+        ...prevState,
+        organizerName: fullLabel,
+        organizerEmail: employeeData.email || "", // Ensure a fallback value
+        organizerPosition: employeeData.position || "", // Ensure a fallback value
+      }));
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
   };
   const [employeelist, setEmployeeList] = React.useState([]);
   // Get List of Approval Department Schema
@@ -427,19 +462,50 @@ const HomeRequestDetails = () => {
     newPassportFiles[index] = files;
     setPassportFiles(newPassportFiles);
   };
+  // const onSubmit = async () => {
+  //   try {
+  //     setisLoading(true);
+  //     await UpdateEventRequest(requestId, eventData);
+  //     if (requestId) {
+  //       await UpdateFiles(
+  //         requestId,
+  //         eventData.passports || [],
+  //         eventData.presidentFile,
+  //         eventData.universityFile,
+  //         eventData.agendaFile
+  //       );
+  //     }
+  //     setisLoading(false);
+  //     toast.success("Form Updated!", { position: "top-center" });
+  //     window.location.reload();
+  //   } catch (err) {
+  //     setisLoading(false);
+  //     toast.error("An error occurred. Please try again later.", {
+  //       position: "top-center",
+  //     });
+  //   }
+  // };
   const onSubmit = async () => {
     try {
       setisLoading(true);
+
       await UpdateEventRequest(requestId, eventData);
+
       if (requestId) {
+        // Convert backend response to actual File objects
+        const presidentFile = createFileObject(eventData.presidentFile);
+        const universityFile = createFileObject(eventData.universityFile);
+        const agendaFile = createFileObject(eventData.agendaFile);
+
         await UpdateFiles(
           requestId,
           eventData.passports || [],
-          eventData.OfficeOfPresedentFile,
-          eventData.LedOfTheUniversityOrganizerFile,
-          eventData.VisitAgendaFile
+          presidentFile || eventData.presidentFile,
+          universityFile || eventData.universityFile,
+          agendaFile || eventData.agendaFile
         );
       }
+
       setisLoading(false);
       toast.success("Form Updated!", { position: "top-center" });
       window.location.reload();
@@ -450,6 +516,18 @@ const HomeRequestDetails = () => {
       });
     }
   };
+
+  // Helper function to create a File object
+  const createFileObject = (fileData) => {
+    if (!fileData || !fileData.fileName || !fileData.contentType) return null;
+
+    return new File(
+      [new Blob([], { type: fileData.contentType })], // Empty Blob (since we don't have the actual binary data)
+      fileData.fileName,
+      { type: fileData.contentType }
+    );
+  };
+
   const ConfrimBusinessRequestAsync = async (requestId) => {
     const confirmAction = () =>
       new Promise((resolve) => {
@@ -872,6 +950,7 @@ const HomeRequestDetails = () => {
                     </label>
                     <select
                       className="form-select form-select-lg"
+                      value={eventData.natureOfEventId}
                       onChange={(e) => {
                         seteventData({
                           ...eventData,

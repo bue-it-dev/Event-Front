@@ -34,7 +34,7 @@ const EventAddEAF = () => {
     EventEndDate: null,
     HasIt: 0,
     HasAccomodation: 0,
-    natureOfEventId: 0,
+    natureOfEventId: 1,
     organizerPosition: "",
     HasTransportation: 0,
     OrganizerName: "",
