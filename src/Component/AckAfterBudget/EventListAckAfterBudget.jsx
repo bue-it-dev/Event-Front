@@ -161,9 +161,7 @@ const EventListAckAfterBudget = () => {
       OrganizerExtension: event.organizerExtension || "N/A",
       OrganizerEmail: event.OrganizerEmail || "N/A",
       statusName:
-        event.approvalName == "Acknowledgement"
-          ? "Acknowledge"
-          : event.statusName,
+        event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
       approvalName: event.approvalName,
       actions: (
         <>
@@ -184,7 +182,11 @@ const EventListAckAfterBudget = () => {
                   },
                 }}
               >
-                <button type="button" className="btn btn-success btn-sm">
+                <button
+                  type="button"
+                  className="btn btn-success btn-sm"
+                  style={{ backgroundColor: "#343a40", color: "white" }}
+                >
                   View
                 </button>
               </Link>

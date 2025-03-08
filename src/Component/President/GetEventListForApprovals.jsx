@@ -160,9 +160,7 @@ const GetEventListForApprovals = () => {
       OrganizerExtension: event.organizerExtension || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
       statusName:
-        event.approvalName == "Acknowledgement"
-          ? "Acknowledge"
-          : event.statusName,
+        event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
       approvalName: event.approvalName,
       actions: (
         <>
@@ -183,8 +181,12 @@ const GetEventListForApprovals = () => {
                   },
                 }}
               >
-              <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
-              View
+                <button
+                  type="button"
+                  className="btn btn-sm"
+                  style={{ backgroundColor: "#343a40", color: "white" }}
+                >
+                  View
                 </button>
               </Link>
             </>
@@ -199,8 +201,12 @@ const GetEventListForApprovals = () => {
                   },
                 }}
               >
-              <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
-              Decide
+                <button
+                  type="button"
+                  className="btn btn-sm"
+                  style={{ backgroundColor: "#343a40", color: "white" }}
+                >
+                  Decide
                 </button>
               </Link>
             </>

@@ -10,22 +10,21 @@ import { getToken } from "../Util/Authenticate";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import EventBuildingVenueListGetinfo from "../shared_components/EventBuildingVenueListGetinfo";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
-import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
+import Select from "react-select";
 import {
   UpdateEventRequest,
   UpdateFiles,
+  ConfrimEventRequest,
   UpdateEventApproval,
 } from "../Requests/mutators";
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 const VCBApprovalDetails = () => {
   const history = useHistory();
-  const [passportFiles, setPassportFiles] = useState([]);
-  const [buildings, setBuildings] = useState([]);
-  const [venues, setVenues] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -33,6 +32,8 @@ const VCBApprovalDetails = () => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
+  const [passportFiles, setPassportFiles] = useState([[]]);
+  const [openrejectnotes, setOpenRejectNotes] = useState(false);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -59,7 +60,7 @@ const VCBApprovalDetails = () => {
 
       case "eventStartDate":
         if (!value) {
-          newErrors[name] = "Start date is required.";
+          newErrors[name] = "Start date is disabled.";
         } else {
           delete newErrors[name];
         }
@@ -67,7 +68,7 @@ const VCBApprovalDetails = () => {
 
       case "EventEndDate":
         if (!value) {
-          newErrors[name] = "End date is required.";
+          newErrors[name] = "End date is disabled.";
         } else if (
           eventData.EventStartDate &&
           value < eventData.EventStartDate
@@ -125,6 +126,9 @@ const VCBApprovalDetails = () => {
     eventStartDate: null,
     natureOfEventId: 0,
     eventEndDate: null,
+    agendaFile: null,
+    presidentFile: null,
+    universityFile: null,
     hasIt: 0,
     hasAccomdation: 0,
     hasTransportation: 0,
@@ -132,8 +136,10 @@ const VCBApprovalDetails = () => {
     startDateTime: null,
     organizerName: "",
     organizerMobile: "",
-    organizerExtention: "",
+    organizerEmail: "",
+    organizerPosition: "",
     approvingDeptName: null,
+    rejectionReason: "",
     deptId: null,
     isOthers: 0,
     isStaffStudents: 0,
@@ -180,7 +186,93 @@ const VCBApprovalDetails = () => {
     Venues: null,
     travellerList: 0,
   });
+  const [empsettings, setEmpsettings] = React.useState([]);
+  const employeeEmailAndPositionByEmpId = (empId) => {
+    var config = {
+      method: "get",
+      url: `${URL.BASE_URL}/api/EventEntity/get-employeeEmailAndPositionByEmpId?empId=${empId}`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setEmpsettings(response.data.data);
+        console.log("Settings", response.data.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
+  // const handleOrgChange = (selectedOption) => {
+  //   console.log("selected Option", selectedOption.label);
+  //   const fullLabel = selectedOption.label;
+  //   const empId = selectedOption ? selectedOption.value : "";
+  //   const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+  //   console.log("Emp Id", empId);
+  //   employeeEmailAndPositionByEmpId(empId);
+  //   // const firstPart = fullLabel.split("(")[0].trim(); // Extract only the first part before '('
+
+  //   seteventData((prevState) => ({
+  //     ...prevState,
+  //     organizerName: String(fullLabel), // Ensure it's a string
+  //   }));
+  // };
+  const handleOrgChange = async (selectedOption) => {
+    const fullLabel = selectedOption ? selectedOption.label : "";
+    const empId = selectedOption ? selectedOption.value : "";
+    employeeEmailAndPositionByEmpId(empId);
+    console.log("Emp Id", empId);
+    try {
+      // Wait for employee details to be fetched
+      const config = {
+        method: "get",
+        url: `${URL.BASE_URL}/api/EventEntity/get-employeeEmailAndPositionByEmpId?empId=${empId}`,
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      };
+
+      const response = await axios(config);
+      const employeeData = response.data.data;
+
+      console.log("Fetched settings:", employeeData);
+
+      // Now, safely update eventData with fetched employee details
+      seteventData((prevState) => ({
+        ...prevState,
+        organizerName: fullLabel,
+        organizerEmail: employeeData.email || "", // Ensure a fallback value
+        organizerPosition: employeeData.position || "", // Ensure a fallback value
+      }));
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
+  };
+  const [employeelist, setEmployeeList] = React.useState([]);
+  // Get List of Approval Department Schema
+  const GetEmployeeList = () => {
+    var config = {
+      method: "get",
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-all-employees-names`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    };
+    axios(config)
+      .then(function (response) {
+        setEmployeeList(
+          response.data.map((employee) => ({
+            value: employee.empId,
+            label: employee.fullname,
+          }))
+        );
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
   const GetEventDetails = async (eventId) => {
     try {
       const response = await axios.get(
@@ -194,16 +286,35 @@ const VCBApprovalDetails = () => {
 
       const eventDetails = response.data.data;
 
-      // Ensure file-related fields are not directly assigned
+      // Extract file-related fields separately
       const {
         ledOfTheUniversityOrganizerFilePath,
         officeOfPresedentFilePath,
         visitAgendaFilePath,
+        passports,
         ...filteredEventDetails
       } = eventDetails;
 
-      seteventData({
+      // ✅ Ensure `passports` contains valid file data
+      const processedPassports =
+        passports?.map((passport, index) => {
+          if (passport.fileUrl) {
+            return new File(
+              [passport.fileData],
+              passport.fileName || `passport_${index}.pdf`,
+              {
+                type: passport.fileType || "application/pdf",
+              }
+            );
+          }
+          return passport; // Keep the existing structure if no file conversion needed
+        }) ?? [];
+
+      // ✅ Update eventData state
+      seteventData((prevState) => ({
+        ...prevState,
         ...filteredEventDetails,
+        passports: processedPassports,
         buildingVenues: eventDetails.buildingVenues ?? [],
         transportations: eventDetails.transportations
           ? [...eventDetails.transportations]
@@ -214,14 +325,15 @@ const VCBApprovalDetails = () => {
         itcomponentEvents: eventDetails.itcomponentEvents
           ? [...eventDetails.itcomponentEvents]
           : [],
-        // Set file-related fields to null or handle them appropriately
-        ledOfTheUniversityOrganizerFilePath:
-          eventDetails.ledOfTheUniversityOrganizerFilePath,
-        officeOfPresedentFilePath: eventDetails.officeOfPresedentFilePath,
-        visitAgendaFilePath: visitAgendaFilePath,
-      });
+        // Handle file paths properly
+        ledOfTheUniversityOrganizerFilePath,
+        officeOfPresedentFilePath,
+        visitAgendaFilePath,
+      }));
+
+      console.log("✅ Updated Event Data:", eventData);
     } catch (error) {
-      console.error("Error fetching event Details:", error);
+      console.error("❌ Error fetching event Details:", error);
     }
   };
 
@@ -288,6 +400,36 @@ const VCBApprovalDetails = () => {
       console.error("Error fetching transportation types:", error);
     }
   };
+  // const [approvalTracker, setApprovalTracker] = useState([]);
+  const GetEventApprovalsTracker = async (requestId) => {
+    try {
+      const response = await axios.post(
+        `${URL.BASE_URL}/api/EventEntity/GetEventApprovalsbyRequestID`,
+        requestId,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Ensure the response data is an array or wrap it in one if it's an object
+      const responseData = Array.isArray(response.data)
+        ? response.data
+        : [response.data];
+
+      // Format the createdAt date for each item
+      const formattedData = responseData.map((item) => ({
+        ...item,
+        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
+      }));
+
+      setApprovalTracker(formattedData);
+    } catch (error) {
+      console.error("Error fetching home request details:", error);
+    }
+  };
 
   // Fetch IT components
   const getItComponents = async () => {
@@ -303,30 +445,77 @@ const VCBApprovalDetails = () => {
       console.error("Error fetching IT components:", error);
     }
   };
-
+  const addBuildingVenue = () => {
+    seteventData((prevData) => ({
+      ...prevData,
+      travellerList: prevData.travellerList + 1,
+      buildingVenues: [
+        ...prevData.buildingVenues,
+        {
+          eventId: prevData.eventId, // Initialize empty
+          venueId: prevData.venueId, // Initialize empty
+          buildingId: prevData.buildingId, // Initialize empty
+        },
+      ],
+    }));
+  };
   const handleFileChange = (e, index) => {
     const files = Array.from(e.target.files);
     const newPassportFiles = [...passportFiles];
     newPassportFiles[index] = files;
     setPassportFiles(newPassportFiles);
   };
+  // const onSubmit = async () => {
+  //   try {
+  //     setisLoading(true);
+  //     await UpdateEventRequest(requestId, eventData);
+  //     if (requestId) {
+  //       await UpdateFiles(
+  //         requestId,
+  //         eventData.passports || [],
+  //         eventData.presidentFile,
+  //         eventData.universityFile,
+  //         eventData.agendaFile
+  //       );
+  //     }
+  //     setisLoading(false);
+  //     toast.success("Form Updated!", { position: "top-center" });
+  //     window.location.reload();
+  //   } catch (err) {
+  //     setisLoading(false);
+  //     toast.error("An error occurred. Please try again later.", {
+  //       position: "top-center",
+  //     });
+  //   }
+  // };
+  const getOriginalFileName = (fileName) => {
+    const parts = fileName.split("_");
+    return parts.length > 1 ? parts.slice(-1)[0] : fileName; // Get only the last part after all UUIDs
+  };
   const onSubmit = async () => {
     try {
       setisLoading(true);
-      await UpdateEventRequest(eventData);
+
+      await UpdateEventRequest(requestId, eventData);
 
       if (requestId) {
+        // Convert backend response to actual File objects
+        const presidentFile = createFileObject(eventData.presidentFile);
+        const universityFile = createFileObject(eventData.universityFile);
+        const agendaFile = createFileObject(eventData.agendaFile);
+
         await UpdateFiles(
           requestId,
-          passportFiles || [],
-          eventData.OfficeOfPresedentFile,
-          eventData.LedOfTheUniversityOrganizerFile,
-          eventData.VisitAgendaFile
+          eventData.passports || [],
+          presidentFile || eventData.presidentFile,
+          universityFile || eventData.universityFile,
+          agendaFile || eventData.agendaFile
         );
       }
+
       setisLoading(false);
-      toast.success("Event added successfully", { position: "top-center" });
-      history.push("/my-event-requests");
+      toast.success("Form Updated!", { position: "top-center" });
+      window.location.reload();
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -335,20 +524,175 @@ const VCBApprovalDetails = () => {
     }
   };
 
+  // Helper function to create a File object
+  const createFileObject = (fileData) => {
+    if (!fileData || !fileData.fileName || !fileData.contentType) return null;
+
+    return new File(
+      [new Blob([], { type: fileData.contentType })], // Empty Blob (since we don't have the actual binary data)
+      fileData.fileName,
+      { type: fileData.contentType }
+    );
+  };
+  // const handleApproval = useCallback(
+  //   async (statusId) => {
+  //     try {
+  //       setisLoading(true);
+  //       // Create a new object with the updated status
+  //       const payload = {
+  //         status: statusId,
+  //         userTypeId: 1,
+  //         eventId: requestId,
+  //         rejectionReason: eventData.rejectionReason,
+  //       };
+  //       // Wait for the backend response
+  //       console.log("payload", payload);
+  //       await UpdateEventApproval(payload);
+  //       setisLoading(false);
+  //       // if (statusId == 1) {
+  //       //   toast.success("Request Approved successfully", {
+  //       //     position: "top-center",
+  //       //   });
+  //       // } else {
+  //       //   toast.error("Request Rejected!", {
+  //       //     position: "top-center",
+  //       //   });
+  //       // }
+  //       // // Ensure UI navigation only happens after the toast is shown
+  //       // setTimeout(() => {
+  //       //   history.push("/hod-event-approvals");
+  //       // }, 1000); // Give users time to see the message
+  //     } catch (error) {
+  //       setisLoading(false);
+  //       console.error("Error while updating user details:", error);
+  //       toast.error("Error while updating user details, please try again", {
+  //         position: "top-center",
+  //       });
+  //     }
+  //   },
+  //   [setisLoading]
+  // );
+  const handleApproval = useCallback(
+    async (statusId) => {
+      try {
+        setisLoading(true);
+        // Create a new object with the updated status
+        const payload = {
+          status: statusId,
+          userTypeId: 2,
+          eventId: requestId,
+          rejectionReason: eventData.rejectionReason, // This will now have the latest value
+        };
+        // Debugging log
+        console.log("Updated payload:", payload);
+        await UpdateEventApproval(payload);
+        setisLoading(false);
+        if (statusId == 1) {
+          toast.success("Request Approved successfully", {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Request Rejected!", {
+            position: "top-center",
+          });
+        }
+        // Ensure UI navigation only happens after the toast is shown
+        setTimeout(() => {
+          history.push("/event-request-list-vcb");
+        }, 1000); // Give users time to see the message
+      } catch (error) {
+        setisLoading(false);
+        console.error("Error while updating user details:", error);
+        toast.error("Error while updating user details, please try again", {
+          position: "top-center",
+        });
+      }
+    },
+    [eventData, requestId] // Add eventData as a dependency
+  );
+
+  const ConfrimBusinessRequestAsync = async (requestId) => {
+    const confirmAction = () =>
+      new Promise((resolve) => {
+        // const toastId = toast.info(
+        //   <>
+        //     <div style={{ textAlign: "center" }}>
+        //       <p>Are you sure you want to confirm this request?</p>
+        //       <div style={{ marginTop: "10px" }}>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(true); // Proceed with confirmation
+        //           }}
+        //           style={{
+        //             marginRight: "10px",
+        //             backgroundColor: "green",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Confirm
+        //         </button>
+        //         <button
+        //           onClick={() => {
+        //             toast.dismiss(toastId); // Dismiss the toast
+        //             resolve(false); // Cancel the operation
+        //           }}
+        //           style={{
+        //             backgroundColor: "#dc3545",
+        //             color: "white",
+        //             border: "none",
+        //             padding: "5px 10px",
+        //             cursor: "pointer",
+        //           }}
+        //         >
+        //           Cancel
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </>,
+        //   {
+        //     autoClose: false,
+        //     closeOnClick: false,
+        //     draggable: false,
+        //     position: "top-center", // Center the toast
+        //   }
+        // );
+      });
+
+    // const userConfirmed = await confirmAction();
+    const userConfirmed = true;
+    if (userConfirmed) {
+      try {
+        setisLoading(true);
+        await ConfrimEventRequest(requestId);
+        setisLoading(false);
+        history.push("/my-event-requests");
+      } catch (err) {
+        setisLoading(false);
+        toast.error("An error occurred. Please try again later.", {
+          position: "top-center",
+        });
+      }
+    }
+  };
   const data = {
     columns: [
       // { label: "#", field: "Number", sort: "asc" },
-      { label: "Approved By", field: "userName", sort: "asc" },
-      { label: "Approval Level", field: "approvalLevelName", sort: "asc" },
+      { label: "Name", field: "userName", sort: "asc" },
+      { label: "Role", field: "approvalLevelName", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Approved At", field: "createdAt", sort: "asc" },
+      { label: "Date", field: "createdAt", sort: "asc" },
     ],
     rows: approvalTracker.map((data, i) => ({
       Number: i + 1,
-      // requesterName: data.requesterName,
       approvalLevelName:
-        data.approvalLevelName == "Business_operation_manager"
-          ? "Business Operation Manager"
+        data.approvalLevelName == "BOM"
+          ? "BO Manager"
+          : data.approvalLevelName == "EAF"
+          ? "Estates and Facilities"
           : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
@@ -495,105 +839,52 @@ const VCBApprovalDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
-  const handleApproval = useCallback(
-    async (statusId) => {
+  // useEffect(() => {
+  //   if (updatehometravelData.confrimedat != null) {
+  //     await GetEventApprovalsTracker(requestId);
+  //   }
+  //   setisLoading(false);
+  //   GetEventDetails(requestId);
+  //   GetApprovalDepartmentSchema();
+  //   GetNatureofEvents();
+  //   getRoomTypes();
+  //   getTransportationTypes();
+  //   getItComponents();
+  //   console.log("Event Data", eventData);
+  // }, [requestId]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setisLoading(true); // Start loading at the beginning
+
       try {
-        setisLoading(true);
-        // Create a new object with the updated status
-        const payload = {
-          status: statusId,
-          userTypeId: 2,
-          eventId: requestId,
-        };
-        // Wait for the backend response
-        const response = await UpdateEventApproval(payload);
-        setisLoading(false);
-        if (statusId == 1) {
-          toast.success("Request Approved successfully", {
-            position: "top-center",
-          });
-        } else {
-          toast.error("Request Rejected!", {
-            position: "top-center",
-          });
+        if (eventData.confirmedAt != null) {
+          await GetEventApprovalsTracker(requestId);
         }
-        // Ensure UI navigation only happens after the toast is shown
-        setTimeout(() => {
-          history.push("/event-request-list-vcb");
-        }, 1000); // Give users time to see the message
+        await Promise.all([
+          GetEventDetails(requestId),
+          GetEmployeeList(),
+          GetApprovalDepartmentSchema(),
+          GetNatureofEvents(),
+          getRoomTypes(),
+          getTransportationTypes(),
+          getItComponents(),
+          console.log("Name", eventData.organizerName),
+          console.log(
+            "Emp Label list:",
+            employeelist.find(
+              (e) => e.label.includes("Omar Mohamed Sherif Al Kotb Mohamed") // Checks if label contains the name
+            ).label
+          ),
+        ]);
       } catch (error) {
-        setisLoading(false);
-        console.error("Error while updating user details:", error);
-        toast.error("Error while updating user details, please try again", {
-          position: "top-center",
-        });
+        console.error("Error in fetchData:", error);
+      } finally {
+        setisLoading(false); // Stop loading after all calls complete
       }
-    },
-    [setisLoading]
-  );
+    };
 
-  // Get List of Buildings
-  const Getbuildings = async () => {
-    try {
-      const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-buildings`,
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
-      );
-      setBuildings(response.data.data);
-    } catch (error) {
-      console.error("Error fetching buildings:", error);
-    }
-  };
-
-  // Get List of Venues for Selected Building
-  const getVenues = async (buildingId) => {
-    try {
-      const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        }
-      );
-      setVenues(response.data.data);
-      console.log("venues", venues);
-    } catch (error) {
-      console.error("Error fetching venues:", error);
-    }
-  };
-
-  const getBuildingVenues = async () => {
-    try {
-      console.log("buildings", buildings);
-      // Assuming `buildings` is an array
-      for (const b of buildings) {
-        await getVenues(b.buildingId); // Await the async function
-      }
-    } catch (error) {
-      console.error("Error fetching venues:", error);
-    }
-  };
-  useEffect(() => {
-    if (buildings.length > 0) {
-      getBuildingVenues();
-    }
-  }, [buildings]);
-  useEffect(() => {
-    setisLoading(false);
-    GetEventDetails(requestId);
-    GetApprovalDepartmentSchema();
-    GetNatureofEvents();
-    getRoomTypes();
-    getTransportationTypes();
-    getItComponents();
-    Getbuildings();
-    getBuildingVenues();
-  }, [requestId]);
+    fetchData();
+  }, [requestId, eventData.confirmedAt]);
 
   return (
     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -623,7 +914,6 @@ const VCBApprovalDetails = () => {
                     });
                   }}
                   name="approvingDepTypeId"
-                  required
                   disabled
                 >
                   <option value="">Choose your department</option>
@@ -634,281 +924,431 @@ const VCBApprovalDetails = () => {
                   ))}
                 </select>
               </div>
-
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
                   Event Info
                 </h5>
               </div>
-              <div className="container-fluid">
-                <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
-                  <div className="row g-4">
-                    {/* Event Title */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="EventTitle"
-                        className="form-label font-weight-bold"
-                      >
-                        Event Title <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="eventTitle"
-                        name="eventTitle"
-                        value={eventData.eventTitle}
-                        disabled
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                        required
-                      />
-                      {errors.eventTitle && (
-                        <small className="text-danger">
-                          {errors.eventTitle}
-                        </small>
-                      )}
-                    </div>
+              <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
+                <div className="row g-4">
+                  {/* Event Title */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="eventTitle"
+                      className="form-label font-weight-bold"
+                    >
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      id="eventTitle"
+                      name="eventTitle"
+                      value={eventData.eventTitle}
+                      onChange={handleChange}
+                      className="form-control form-control-lg w-100"
+                      disabled
+                    />
+                    {errors.eventTitle && (
+                      <small className="text-danger">{errors.eventTitle}</small>
+                    )}
+                  </div>
+                  {/* Number of Participants */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="nomParticipants"
+                      className="form-label font-weight-bold"
+                    >
+                      Number of Participants
+                    </label>
+                    <input
+                      type="number"
+                      id="nomParticipants"
+                      name="nomParticipants"
+                      value={eventData.nomParticipants || ""}
+                      onChange={handleChange}
+                      className="form-control form-control-lg w-100"
+                      disabled
+                      min="1"
+                    />
+                    {errors.nomParticipants && (
+                      <small className="text-danger">
+                        {errors.nomParticipants}
+                      </small>
+                    )}
+                  </div>
+                  {/* Event Start Date */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="eventStartDate"
+                      className="form-label font-weight-bold"
+                    >
+                      Start Date
+                    </label>
+                    <input
+                      type="date"
+                      id="eventStartDate"
+                      name="eventStartDate"
+                      value={
+                        eventData.eventStartDate?.split("T")[0] || "" || ""
+                      }
+                      onChange={handleChange}
+                      className="form-control form-control-lg w-100"
+                      disabled
+                    />
+                    {errors.eventStartDate && (
+                      <small className="text-danger">
+                        {errors.eventStartDate}
+                      </small>
+                    )}
+                  </div>
+                  {/* Event End Date */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="EventEndDate"
+                      className="form-label font-weight-bold"
+                    >
+                      End Date
+                    </label>
+                    <input
+                      type="date"
+                      id="eventEndDate"
+                      name="eventEndDate"
+                      value={eventData.eventEndDate?.split("T")[0] || ""}
+                      onChange={handleChange}
+                      disabled
+                      className="form-control form-control-lg w-100"
+                    />
+                    {errors.eventEndDate && (
+                      <small className="text-danger">
+                        {errors.eventEndDate}
+                      </small>
+                    )}
+                  </div>
+                  {/* Organizer Email */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="natureOfEventId"
+                      className="form-label font-weight-bold"
+                    >
+                      Nature
+                    </label>
+                    <select
+                      className="form-select form-select-lg"
+                      value={eventData.natureOfEventId}
+                      onChange={(e) => {
+                        seteventData({
+                          ...eventData,
+                          natureOfEventId: Number(e.target.value),
+                        });
+                      }}
+                      name="natureOfEventId"
+                      disabled
+                    >
+                      {natureofevents.map((data) => (
+                        <option
+                          key={data.natureOfEventId}
+                          value={data.natureOfEventId}
+                        >
+                          {data.natureOfEvent}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* Organizer Email */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="eventType"
+                      className="form-label font-weight-bold"
+                    >
+                      Type
+                    </label>
+                    <select
+                      className="form-select form-select-lg"
+                      value={eventData.eventType}
+                      onChange={(e) => {
+                        seteventData({
+                          ...eventData,
+                          eventType: e.target.value,
+                        });
+                      }}
+                      name="eventType"
+                      disabled
+                    >
+                      <option value="Internal">Internal</option>
+                      <option value="External">External</option>
+                    </select>
+                  </div>
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="budgetEstimatedCost"
+                      className="form-label font-weight-bold"
+                    >
+                      Estimated Cost
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={eventData.budgetEstimatedCost}
+                      disabled
+                      onChange={(e) => {
+                        seteventData({
+                          ...eventData,
+                          budgetEstimatedCost: Number(e.target.value),
+                        });
+                      }}
+                    />
+                  </div>
+                  {/* Organizer Email */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="budgetCostCurrency"
+                      className="form-label font-weight-bold"
+                    >
+                      Cost Currency
+                    </label>
+                    <select
+                      className="form-select form-select-lg"
+                      value={eventData.budgetCostCurrency}
+                      onChange={(e) => {
+                        seteventData({
+                          ...eventData,
+                          budgetCostCurrency: e.target.value,
+                        });
+                      }}
+                      name="budgetCostCurrency"
+                      disabled
+                    >
+                      <option value="EGP">EGP</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                      <option value="USD">USD</option>
+                    </select>
+                  </div>
+                  <br />
 
-                    {/* Number of Participants */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="NomParticipants"
-                        className="form-label font-weight-bold"
-                      >
-                        Number of Participants
-                      </label>
-                      <input
-                        type="number"
-                        id="nomParticipants"
-                        name="nomParticipants"
-                        disabled
-                        value={eventData.nomParticipants || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                        min="1"
-                      />
-                      {errors.nomParticipants && (
-                        <small className="text-danger">
-                          {errors.nomParticipants}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Event Start Date */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="EventStartDate"
-                        className="form-label font-weight-bold"
-                      >
-                        Event Start Date <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="date"
-                        id="eventStartDate"
-                        name="eventStartDate"
-                        disabled
-                        value={eventData.eventStartDate?.split("T")[0] || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                        required
-                      />
-                      {errors.eventStartDate && (
-                        <small className="text-danger">
-                          {errors.eventStartDate}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Event End Date */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="EventEndDate"
-                        className="form-label font-weight-bold"
-                      >
-                        Event End Date
-                      </label>
-                      <input
-                        type="date"
-                        id="eventEndDate"
-                        name="eventEndDate"
-                        disabled
-                        value={eventData.eventEndDate?.split("T")[0] || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                      />
-                      {errors.eventEndDate && (
-                        <small className="text-danger">
-                          {errors.eventEndDate}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Organizer Name */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="OrganizerName"
-                        className="form-label font-weight-bold"
-                      >
-                        Organizer Name
-                      </label>
-                      <input
-                        type="text"
-                        id="organizerName"
-                        name="organizerName"
-                        disabled
-                        value={eventData.organizerName || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                      />
-                    </div>
-
-                    {/* Organizer Mobile */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="OrganizerMobile"
-                        className="form-label font-weight-bold"
-                      >
-                        Organizer Mobile
-                      </label>
-                      <div className="input-group w-100">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">📞</span>
-                        </div>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Organizer Info
+                    </h5>
+                  </div>
+                  {eventData.eventType == "Internal" ? (
+                    <>
+                      {/* Organizer Name */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerName"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Name
+                        </label>
+                        {}
                         <input
-                          type="tel"
-                          id="organizerMobile"
-                          name="organizerMobile"
+                          type="text"
+                          id="organizerName"
+                          name="organizerName"
+                          value={eventData.organizerName || ""}
                           disabled
-                          value={eventData.organizerMobile || ""}
                           onChange={handleChange}
-                          maxLength={11}
-                          className="form-control form-control-lg"
-                          placeholder="Enter valid Egyptian phone number"
+                          className="form-control form-control-lg w-100"
                         />
                       </div>
-                      {errors.organizerMobile && (
-                        <small className="text-danger">
-                          {errors.organizerMobile}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Organizer Extension */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="OrganizerExtention"
-                        className="form-label font-weight-bold"
-                      >
-                        Organizer Extension
-                      </label>
-                      <input
-                        type="text"
-                        id="organizerExtention"
-                        disabled
-                        name="organizerExtention"
-                        value={eventData.organizerExtention || ""}
-                        onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                      />
-                      {errors.organizerExtention && (
-                        <small className="text-danger">
-                          {errors.organizerExtention}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Organizer Email */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="OrganizerEmail"
-                        className="form-label font-weight-bold"
-                      >
-                        Organizer Email
-                      </label>
-                      <div className="input-group w-100">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text">@</span>
+                      {/* Organizer Email */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerEmail"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Email
+                        </label>
+                        <div className="input-group w-100">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">@</span>
+                          </div>
+                          <input
+                            type="email"
+                            id="organizerEmail"
+                            name="organizerEmail"
+                            disabled
+                            value={
+                              empsettings.email || eventData.organizerEmail
+                            }
+                            onChange={handleChange}
+                            className="form-control form-control-lg"
+                          />
                         </div>
+                      </div>
+                      {/* Organizer Extension */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerPosition"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Position
+                        </label>
                         <input
-                          type="email"
-                          id="OrganizerEmail"
-                          name="organizerEmail"
+                          type="text"
+                          id="organizerPosition"
+                          name="organizerPosition"
                           disabled
-                          value={eventData.organizerEmail || ""}
+                          value={
+                            empsettings.position || eventData.organizerPosition
+                          }
                           onChange={handleChange}
-                          className="form-control form-control-lg"
+                          className="form-control form-control-lg w-100"
+                        />
+                        {errors.organizerPosition && (
+                          <small className="text-danger">
+                            {errors.organizerPosition}
+                          </small>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Organizer Name */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerName"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Name
+                        </label>
+                        {}
+                        <input
+                          type="text"
+                          id="organizerName"
+                          name="organizerName"
+                          value={eventData.organizerName || ""}
+                          disabled
+                          onChange={handleChange}
+                          className="form-control form-control-lg w-100"
                         />
                       </div>
-                    </div>
-                    {/* Organizer Extension */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="organizerPosition"
-                        className="form-label font-weight-bold"
-                      >
-                        Organizer Position
-                      </label>
+                      {/* Organizer Email */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerEmail"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Email
+                        </label>
+                        <div className="input-group w-100">
+                          <div className="input-group-prepend">
+                            <span className="input-group-text">@</span>
+                          </div>
+                          <input
+                            type="email"
+                            id="organizerEmail"
+                            name="organizerEmail"
+                            value={eventData.organizerEmail || ""}
+                            disabled
+                            onChange={handleChange}
+                            className="form-control form-control-lg"
+                          />
+                        </div>
+                      </div>
+                      {/* Organizer Extension */}
+                      <div className="col-lg-6">
+                        <label
+                          htmlFor="organizerPosition"
+                          className="form-label font-weight-bold"
+                        >
+                          Organizer Position
+                        </label>
+                        <input
+                          type="text"
+                          id="organizerPosition"
+                          name="organizerPosition"
+                          value={eventData.organizerPosition || ""}
+                          disabled
+                          onChange={handleChange}
+                          className="form-control form-control-lg w-100"
+                        />
+                        {errors.organizerPosition && (
+                          <small className="text-danger">
+                            {errors.organizerPosition}
+                          </small>
+                        )}
+                      </div>
+                    </>
+                  )}
+                  {/* Organizer Mobile */}
+                  <div className="col-lg-6">
+                    <label
+                      htmlFor="organizerMobile"
+                      className="form-label font-weight-bold"
+                    >
+                      Organizer Mobile
+                    </label>
+                    <div className="input-group w-100">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">📞</span>
+                      </div>
                       <input
-                        type="text"
-                        id="organizerPosition"
-                        name="organizerPosition"
-                        disabled
-                        value={eventData.organizerPosition || ""}
+                        type="tel"
+                        id="organizerMobile"
+                        name="organizerMobile"
+                        value={eventData.organizerMobile || ""}
                         onChange={handleChange}
-                        className="form-control form-control-lg w-100"
-                      />
-                      {errors.organizerPosition && (
-                        <small className="text-danger">
-                          {errors.organizerPosition}
-                        </small>
-                      )}
-                    </div>
-
-                    {/* Organizer Email */}
-                    <div className="col-lg-6">
-                      <label
-                        htmlFor="natureOfEventId"
-                        className="form-label font-weight-bold"
-                      >
-                        Nature of Event
-                      </label>
-                      <select
-                        className="form-select form-select-lg"
-                        value={eventData.natureOfEventId}
+                        maxLength={11}
                         disabled
-                        onChange={(e) => {
-                          seteventData({
-                            ...eventData,
-                            natureOfEventId: Number(e.target.value),
-                          });
-                        }}
-                        name="natureOfEventId"
-                        required
-                      >
-                        <option value="">Select nature of event</option>
-                        {natureofevents.map((data) => (
-                          <option
-                            key={data.natureOfEventId}
-                            value={data.natureOfEventId}
-                          >
-                            {data.natureOfEvent}
-                          </option>
-                        ))}
-                      </select>
+                        className="form-control form-control-lg"
+                        placeholder="Enter valid Egyptian phone number"
+                      />
                     </div>
+                    {errors.organizerMobile && (
+                      <small className="text-danger">
+                        {errors.organizerMobile}
+                      </small>
+                    )}
                   </div>
                 </div>
               </div>
               {/* <EventInfo eventData={eventData} seteventData={seteventData} /> */}
+              <div className="horizontal-rule mb-4">
+                <hr className="border-secondary" />
+                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
+              </div>
+              {eventData.confirmedAt == null ? (
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      fontSize: "18px",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      transition: "0.3s ease",
+                      backgroundColor: "#57636f",
+                    }}
+                    onClick={addBuildingVenue}
+                  >
+                    +
+                  </button>
+                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                </div>
+              ) : null}
 
+              {eventData?.buildingVenues?.map((_, index) => (
+                <EventBuildingVenueListGetinfo
+                  key={index}
+                  index={index}
+                  eventData={eventData}
+                  seteventData={seteventData}
+                />
+              ))}
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Requested Services
+                  Services
                 </h5>
               </div>
 
-              <ValidatorForm onSubmit={onSubmit} className="px-md-2">
+              <ValidatorForm className="px-md-2">
                 <div className="container-fluid">
                   <div
                     className="card shadow-lg px-5 py-4 w-100 mx-auto"
@@ -924,8 +1364,8 @@ const VCBApprovalDetails = () => {
                           type="checkbox"
                           id="hasAccomdation"
                           className="form-check-input me-2"
-                          disabled
                           checked={eventData.hasAccomdation === 1}
+                          disabled
                           onChange={handleAccommodationCheckbox}
                         />
                         <label
@@ -933,7 +1373,7 @@ const VCBApprovalDetails = () => {
                           htmlFor="hasAccomdation"
                           style={{ fontSize: "14px" }}
                         >
-                          Requires Accommodation
+                          Accommodation (Optional)
                         </label>
                       </div>
 
@@ -947,9 +1387,9 @@ const VCBApprovalDetails = () => {
                                     <input
                                       type="checkbox"
                                       className="form-check-input"
-                                      disabled
                                       id={`Rooms-${type.roomTypeId}`}
                                       value={type.roomTypeId}
+                                      disabled
                                       checked={eventData?.accommodations?.some(
                                         (t) => t.roomTypeId === type.roomTypeId
                                       )}
@@ -973,7 +1413,6 @@ const VCBApprovalDetails = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
-                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -988,8 +1427,8 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    disabled
                                     value={accom.startDate?.split("T")[0] || ""}
+                                    disabled
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -1018,9 +1457,9 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    placeholder="Quantity"
-                                    disabled
+                                    placeholder="No. of rooms"
                                     value={accom.numOfRooms || ""}
+                                    disabled
                                     onChange={(e) =>
                                       handleAcommodationChange(
                                         index,
@@ -1047,8 +1486,8 @@ const VCBApprovalDetails = () => {
                           type="checkbox"
                           id="hasTransportation"
                           className="form-check-input me-2"
-                          disabled
                           checked={eventData.hasTransportation === 1}
+                          disabled
                           onChange={() =>
                             seteventData((prev) => ({
                               ...prev,
@@ -1062,7 +1501,7 @@ const VCBApprovalDetails = () => {
                           htmlFor="hasTransportation"
                           style={{ fontSize: "14px" }}
                         >
-                          Requires Transportation
+                          Transportation (Optional)
                         </label>
                       </div>
 
@@ -1106,7 +1545,6 @@ const VCBApprovalDetails = () => {
                                 <div className="col-md-3">
                                   <label
                                     className="form-label font-weight-bold text-dark"
-                                    disabled
                                     style={{ fontSize: "14px" }}
                                   >
                                     {
@@ -1122,10 +1560,10 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    disabled
                                     value={
                                       transport.startDate?.split("T")[0] || ""
                                     }
+                                    disabled
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
@@ -1139,10 +1577,10 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    disabled
                                     value={
                                       transport.endDate?.split("T")[0] || ""
                                     }
+                                    disabled
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
@@ -1156,9 +1594,9 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
-                                    placeholder="Quantity"
-                                    disabled
+                                    placeholder="Number"
                                     value={transport.quantity || ""}
+                                    disabled
                                     onChange={(e) =>
                                       handleTransportationChange(
                                         index,
@@ -1185,8 +1623,8 @@ const VCBApprovalDetails = () => {
                           type="checkbox"
                           id="hasIt"
                           className="form-check-input me-2"
-                          disabled
                           checked={eventData.hasIt === 1}
+                          disabled
                           onChange={handleItComponentsCheckbox}
                         />
                         <label
@@ -1194,7 +1632,7 @@ const VCBApprovalDetails = () => {
                           htmlFor="hasIt"
                           style={{ fontSize: "14px" }}
                         >
-                          Requires IT Components
+                          IT Services (Optional)
                         </label>
                       </div>
 
@@ -1225,7 +1663,7 @@ const VCBApprovalDetails = () => {
                                     htmlFor={`itcomponent-${component.itcomponentId}`}
                                     style={{ fontSize: "14px" }}
                                   >
-                                    {component.component}
+                                    <b>{component.component}</b>
                                   </label>
                                 </div>
                                 {eventData?.itcomponentEvents?.some(
@@ -1236,7 +1674,7 @@ const VCBApprovalDetails = () => {
                                   <input
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm mt-2"
-                                    placeholder="Quantity"
+                                    placeholder="Number"
                                     value={
                                       eventData.itcomponentEvents.find(
                                         (item) =>
@@ -1244,6 +1682,7 @@ const VCBApprovalDetails = () => {
                                           component.itcomponentId
                                       )?.quantity || ""
                                     }
+                                    disabled
                                     onChange={(e) =>
                                       handleItComponentQuantityChange(
                                         component.itcomponentId,
@@ -1265,78 +1704,7 @@ const VCBApprovalDetails = () => {
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Requested Venues
-                  </h5>
-                </div>
-
-                {/* <div className="d-flex align-items-center mb-3">
-                  <button
-                    type="button"
-                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      fontSize: "18px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                      transition: "0.3s ease",
-                    }}
-                    onClick={addBuildingVenue}
-                  >
-                    +
-                  </button>
-                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-                </div> */}
-
-                {eventData?.buildingVenues?.map((_, index) => (
-                  <div className="row align-items-center">
-                    {/* Building Select */}
-                    <div className="col-md-6">
-                      <label className="form-label font-weight-bold">
-                        Building
-                      </label>
-                      <select
-                        className="form-control custom-select custom-select-lg"
-                        value={
-                          eventData.buildingVenues[index]?.buildingId || ""
-                        }
-                        name="buildings"
-                        disabled
-                      >
-                        <option value="">Select building</option>
-                        {buildings.map((data) => (
-                          <option key={data.buildingId} value={data.buildingId}>
-                            {data.building}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    {/* Venue Select (Shown Only When Building is Selected) */}
-                    <div className="col-md-5 mt-3 mt-md-0">
-                      <label className="form-label font-weight-bold">
-                        Venue
-                      </label>
-                      <select
-                        className="form-control custom-select custom-select-lg"
-                        value={eventData.buildingVenues[index]?.venueId || ""}
-                        name="venues"
-                        disabled
-                      >
-                        <option value="">Select venue</option>
-                        {venues.map((venue) => (
-                          <option key={venue.venueId} value={venue.venueId}>
-                            {venue.venueName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                ))}
-                <br />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Event Attendance Section
+                    Attendance
                   </h5>
                 </div>
 
@@ -1345,6 +1713,7 @@ const VCBApprovalDetails = () => {
                   setEventData={seteventData}
                   handleFileChange={handleFileChange}
                 />
+                <br />
                 {status == "Pending" ? (
                   <>
                     <div className="row">
@@ -1364,26 +1733,113 @@ const VCBApprovalDetails = () => {
                           type="submit"
                           className="btn btn-danger btn-lg col-12 mt-4"
                           disabled={isLoading}
-                          onClick={() => handleApproval(0)}
+                          onClick={() => setOpenRejectNotes(true)}
                         >
-                          {isLoading ? "Rejecting Request..." : "Reject"}
+                          Reject
                         </button>
                       </div>
+                      <br />
+                      <br />
+                      <br />
+                      <br />
+                      {openrejectnotes == true ? (
+                        <>
+                          <div className="mb-2 flex-grow-1">
+                            <label
+                              htmlFor="travelpurpose"
+                              className="form-label fs-6"
+                            >
+                              Reject Notes
+                            </label>
+                            <textarea
+                              id="rejectionReason"
+                              name="rejectionReason"
+                              value={eventData.rejectionReason}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  rejectionReason: value,
+                                });
+                              }}
+                              className="form-control form-control-lg"
+                              required
+                              rows="5" // Adjust rows to define how many lines of text are visible
+                              placeholder="Enter the reject comments"
+                            />
+                          </div>
+                          <div>
+                            <button
+                              type="submit"
+                              className="btn btn-danger btn-lg col-6 mt-4"
+                              style={{ backgroundColor: "#57636f" }}
+                              disabled={isLoading}
+                              onClick={() => handleApproval(0)}
+                            >
+                              {isLoading
+                                ? "Submitting Decision..."
+                                : "Submit Decision"}
+                            </button>
+                          </div>
+                        </>
+                      ) : null}
                     </div>
                   </>
                 ) : (
                   <>
                     <div>
-                      <label
-                        // type="submit"
-                        // disabled
-                        className="btn btn-danger btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "#57636f" }}
-                        disabled={isLoading}
-                        // onClick={() => handleApproval(0)}
-                      >
-                        Already {status}
-                      </label>
+                      {status == "Rejected" ? (
+                        <>
+                          <div className="mb-2 flex-grow-1">
+                            <label
+                              htmlFor="travelpurpose"
+                              className="form-label fs-6"
+                            >
+                              Reject Notes
+                            </label>
+                            <textarea
+                              id="rejectionReason"
+                              name="rejectionReason"
+                              value={eventData.rejectionReason}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  rejectionReason: value,
+                                });
+                              }}
+                              className="form-control form-control-lg"
+                              required
+                              rows="5" // Adjust rows to define how many lines of text are visible
+                              placeholder="Enter the reject comments"
+                            />
+                            <label
+                              // type="submit"
+                              // disabled
+                              className="btn btn-danger btn-lg col-12 mt-4"
+                              style={{ backgroundColor: "#57636f" }}
+                              disabled={isLoading}
+                              // onClick={() => handleApproval(0)}
+                            >
+                              Already {status}
+                            </label>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <label
+                            // type="submit"
+                            // disabled
+                            className="btn btn-danger btn-lg col-12 mt-4"
+                            style={{ backgroundColor: "#57636f" }}
+                            disabled={isLoading}
+                            // onClick={() => handleApproval(0)}
+                          >
+                            Already {status}
+                          </label>
+                        </>
+                      )}
                     </div>
                   </>
                 )}

@@ -1771,7 +1771,7 @@ const BusinessRequestDetailsBOM = () => {
               <div className="horizontal-rule mb-4">
                 <hr />
                 <h5 className="horizontal-rule-text fs-5">
-                  Budget Office Section Entry
+                  Budget Office Section
                 </h5>
               </div>
               <div className="mb-4">

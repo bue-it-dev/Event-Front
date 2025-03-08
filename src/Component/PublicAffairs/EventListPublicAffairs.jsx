@@ -137,7 +137,7 @@ const EventListPublicAffairs = () => {
       { label: "End Date", field: "eventEndDate", sort: "asc" },
       { label: "Created At", field: "createdAt", sort: "asc" },
       { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "confirmed At", field: "ConfirmedAt", sort: "asc" },
+      { label: "Confirmed At", field: "confirmedAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Actions", field: "actions", sort: "disabled" },
     ],
@@ -148,8 +148,8 @@ const EventListPublicAffairs = () => {
       updateAt: event.updateAt
         ? new Date(event.updateAt).toLocaleDateString()
         : "N/A",
-        ConfirmedAt: event.ConfirmedAt
-        ? new Date(event.ConfirmedAt).toLocaleDateString()
+      confirmedAt: event.confirmedAt
+        ? new Date(event.confirmedAt).toLocaleDateString()
         : "N/A",
       eventTitle: event.eventTitle,
       eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
@@ -160,22 +160,30 @@ const EventListPublicAffairs = () => {
       OrganizerExtension: event.organizerExtension || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
       statusName:
-        event.approvalName == "Acknowledgement"
-          ? "Acknowledge"
-          : event.statusName,
+        event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
       approvalName: event.approvalName,
       actions: (
-            <>
-              <Link>
-            
-              <button type="button" className="btn btn-sm" style={{ backgroundColor: "#343a40", color : "white"}}            >
+        <>
+          <Link
+            to={{
+              pathname: "/event-details-public-affairs",
+              state: {
+                requestId: event.eventId,
+                statusName: event.statusName,
+              },
+            }}
+          >
+            <button
+              type="button"
+              className="btn btn-sm"
+              style={{ backgroundColor: "#343a40", color: "white" }}
+            >
               View
-                </button>
-              </Link>
-            </>
-          )}
-      )),
- 
+            </button>
+          </Link>
+        </>
+      ),
+    })),
   };
 
   return (
