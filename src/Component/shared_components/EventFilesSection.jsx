@@ -204,7 +204,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ backgroundColor: "#57636f" }}
+                      style={{ backgroundColor: "#57636f", fontSize: "16px" }}
                       onClick={addPassportInput}
                     >
                       + Add Passport

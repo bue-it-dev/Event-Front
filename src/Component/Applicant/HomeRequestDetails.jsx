@@ -127,6 +127,7 @@ const HomeRequestDetails = () => {
     agendaFile: null,
     presidentFile: null,
     universityFile: null,
+    rejectionReason: null,
     hasIt: 0,
     hasAccomdation: 0,
     hasTransportation: 0,
@@ -1700,6 +1701,31 @@ const HomeRequestDetails = () => {
                         />
                       </Table>
                     </div>
+                    {eventData.rejectionReason != null ? (
+                      <>
+                        <div className="horizontal-rule mb-4">
+                          <h5 className="horizontal-rule-text">
+                            Rejection Comment
+                          </h5>
+                        </div>
+                        <textarea
+                          id="rejectionReason"
+                          name="rejectionReason"
+                          value={eventData.rejectionReason}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            seteventData({
+                              ...eventData,
+                              rejectionReason: value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                          disabled
+                          rows="5" // Adjust rows to define how many lines of text are visible
+                          placeholder="Enter the reject comments"
+                        />
+                      </>
+                    ) : null}
                   </>
                 )}
               </ValidatorForm>

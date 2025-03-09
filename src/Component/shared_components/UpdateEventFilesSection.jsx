@@ -432,13 +432,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                           typeof eventData.passports[index] === "string" && (
                             <div className="card shadow-sm p-3 mt-3 text-center">
                               <a
-                                href={`${
-                                  URL.BASE_URL
-                                }/api/EventEntity/get-file?filePath=${
-                                  eventData.passports[index].split(
-                                    "/uploads/"
-                                  )[1]
-                                }`}
+                                href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
                                 target="_blank"
                                 className="text-decoration-none"
                               >
@@ -451,11 +445,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                                     minWidth: "120px",
                                   }}
                                   onClick={() =>
-                                    GetFiles(
-                                      eventData.passports[index].split(
-                                        "/uploads/"
-                                      )[1]
-                                    )
+                                    GetFiles(eventData.passports[index])
                                   }
                                 >
                                   <i className="bi bi-eye"></i> View
