@@ -43,7 +43,7 @@ const Menu = () => {
                   style={{ fontSize: "38px", paddingTop: "20px" }}
                   className="navbar-raw"
                 >
-                  vent
+                  ve
                 </span>
               </span>
             </div>
