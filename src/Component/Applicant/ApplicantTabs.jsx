@@ -100,8 +100,8 @@ const ApplicantTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Event Request" {...a11yProps(0)} />
-          <Tab label="My Event Requests" {...a11yProps(1)} />
+          <Tab label="New Request" {...a11yProps(0)} />
+          <Tab label="My Requests" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
     </div>

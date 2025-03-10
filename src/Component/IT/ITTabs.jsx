@@ -81,11 +81,10 @@ const ITTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="Event Approvals"
+            label="My Approvals"
             href="/event-request-list-IT"
             {...a11yProps(0)}
           />
-          
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>

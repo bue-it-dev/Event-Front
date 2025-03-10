@@ -105,9 +105,9 @@ const AdminTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Event Request" {...a11yProps(0)} />
-          <Tab label="My Events" {...a11yProps(1)} />
-          <Tab label="Event Approvals" {...a11yProps(2)} />
+          <Tab label="New Request" {...a11yProps(0)} />
+          <Tab label="My Requests" {...a11yProps(1)} />
+          <Tab label="My Approvals" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
     </div>

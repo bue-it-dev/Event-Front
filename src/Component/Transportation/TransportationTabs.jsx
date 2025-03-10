@@ -82,7 +82,7 @@ const TransportationTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="My Event Approvals"
+            label="My Approvals"
             href="/event-approval-list-transportation"
             {...a11yProps(0)}
           />

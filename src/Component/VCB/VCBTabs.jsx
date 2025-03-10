@@ -126,13 +126,13 @@ const VCBTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Event Request" {...a11yProps(0)} />
+          <Tab label="New Request" {...a11yProps(0)} />
           {/*<Tab label="New Home Leave Request" {...a11yProps(0)} />*/}
           {/*<Tab label="My Home Requests" {...a11yProps(1)} /> */}
 
-          <Tab label="My Event Requests" {...a11yProps(1)} />
+          <Tab label="My Requests" {...a11yProps(1)} />
           {/* <Tab label="VCB Home Requests Approvals" {...a11yProps(4)} />*/}
-          <Tab label="Events Requests Approvals" {...a11yProps(2)} />
+          <Tab label="My Approvals" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
 
