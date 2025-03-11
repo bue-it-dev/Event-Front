@@ -275,9 +275,9 @@ const EventSelections = ({ eventData, setEventData }) => {
           {eventData.HasAccomdation === 1 && (
             <div className="mt-3">
               <div className="row g-3">
-                <div className="row g-3">
+                <div className="row g-2">
                   {roomTypes.map((type) => (
-                    <div key={type.roomTypeId} className="col-md-3">
+                    <div key={type.roomTypeId} className="col-md-4 col-sm-6">
                       <div className="form-check">
                         <input
                           type="checkbox"
@@ -291,7 +291,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                         />
                         <label
                           className="form-check-label text-dark"
-                          htmlFor={`roomType-${type.roomTypeId}`}
+                          htmlFor={`Rooms-${type.roomTypeId}`}
                           style={{ fontSize: "14px" }}
                         >
                           {type.roomTypeName}

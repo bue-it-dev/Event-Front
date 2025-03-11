@@ -1,19 +1,15 @@
 import React from "react";
 
 const EventFilesSection = ({ eventData, setEventData }) => {
-  // Handle file input changes
   const handleFileChange = (e, index) => {
     const selectedFiles = Array.from(e.target.files);
-
     setEventData((prevData) => {
       const updatedpassportData = [...(prevData.passportData || [])];
       updatedpassportData[index] = selectedFiles;
-
       return { ...prevData, passportData: updatedpassportData };
     });
   };
 
-  // Add a new passport file input
   const addPassportInput = () => {
     setEventData((prevData) => ({
       ...prevData,
@@ -21,7 +17,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     }));
   };
 
-  // Remove a passport file input
   const removePassportInput = (index) => {
     setEventData((prevData) => ({
       ...prevData,
@@ -29,7 +24,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     }));
   };
 
-  // Handle checkbox changes
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setEventData({
@@ -39,10 +33,10 @@ const EventFilesSection = ({ eventData, setEventData }) => {
   };
 
   return (
-    <div className="container-fluid py-4">
-      <div className="card modern-card px-5 py-4 w-100 mx-auto">
+    <div className="container-fluid py-3">
+      <div className="card modern-card p-3 w-100 mx-auto">
         {/* Staff and Students Section */}
-        <div className="card section-card p-4 mt-4">
+        <div className="card section-card p-2 mt-3">
           <div className="form-check form-switch">
             <input
               type="checkbox"
@@ -52,13 +46,13 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               checked={eventData.IsStaffStudents === 1}
               onChange={handleCheckboxChange}
             />
-            <label className="form-check-label" htmlFor="IsStaffStudents">
-              Is the event for BUE staff and students?
+            <label className="form-check-label small" htmlFor="IsStaffStudents">
+              The event is for BUE staff and students
             </label>
           </div>
 
           {eventData.IsStaffStudents === 1 && (
-            <div className="mt-3">
+            <div className="mt-2">
               <div className="form-check form-switch">
                 <input
                   type="checkbox"
@@ -69,21 +63,20 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   onChange={handleCheckboxChange}
                 />
                 <label
-                  className="form-check-label"
+                  className="form-check-label small"
                   htmlFor="IsChairBoardPrisidentVcb"
                 >
-                  Will the Chair, Board Member, President, or VC attend?
+                  The Chair, Board Member, President, or VC attend
                 </label>
               </div>
 
-              {/* Upload Organizer Approval */}
-              <div className="mt-3">
-                <label className="form-label">
+              <div className="mt-2">
+                <label className="form-label small">
                   Lead Organizer’s Approval Form:
                 </label>
                 <input
                   type="file"
-                  className="form-control"
+                  className="form-control form-control-sm"
                   onChange={(e) =>
                     setEventData({
                       ...eventData,
@@ -94,11 +87,13 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               </div>
 
               {eventData.IsChairBoardPrisidentVcb === 1 && (
-                <div className="mt-3">
-                  <label className="form-label">President’s Office Form:</label>
+                <div className="mt-2">
+                  <label className="form-label small">
+                    President’s Office Form:
+                  </label>
                   <input
                     type="file"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     onChange={(e) =>
                       setEventData({
                         ...eventData,
@@ -113,7 +108,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
         </div>
 
         {/* Non-BUE Attendees */}
-        <div className="card section-card p-4 mt-4">
+        <div className="card section-card p-2 mt-3">
           <div className="form-check form-switch">
             <input
               type="checkbox"
@@ -123,21 +118,18 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               checked={eventData.IsOthers === 1}
               onChange={handleCheckboxChange}
             />
-            <label className="form-check-label" htmlFor="IsOthers">
-              Will non-BUE individuals attend?
-              <span className="text-danger">
-                {" "}
-                (Requires President’s Office Approval)
-              </span>
+            <label className="form-check-label small" htmlFor="IsOthers">
+              The event is for non-BUE staff and students.
+              <span className="text-danger"> (Requires Approval)</span>
             </label>
           </div>
 
           {eventData.IsOthers === 1 && (
-            <div className="mt-3">
-              <label className="form-label">Visit Agenda:</label>
+            <div className="mt-2">
+              <label className="form-label small">Visit Agenda:</label>
               <input
                 type="file"
-                className="form-control"
+                className="form-control form-control-sm"
                 onChange={(e) =>
                   setEventData({
                     ...eventData,
@@ -147,7 +139,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               />
 
               {/* VIP Section */}
-              <div className="card section-card p-4 mt-4">
+              <div className="card section-card p-2 mt-3">
                 <div className="form-check form-switch">
                   <input
                     type="checkbox"
@@ -157,24 +149,24 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     checked={eventData.isVIP === 1}
                     onChange={handleCheckboxChange}
                   />
-                  <label className="form-check-label" htmlFor="isVIP">
-                    Will international guests (excluding VIPs) attend?
+                  <label className="form-check-label small" htmlFor="isVIP">
+                    International guests (excluding VIPs) will attend
                   </label>
                 </div>
               </div>
 
               {eventData.isVIP === 1 && (
-                <div className="card passport-card p-4 mt-4">
-                  {/* Passport File Inputs */}
+                <div className="card passport-card p-2 mt-3">
                   {(eventData.passportData || []).map((fileArray, index) => (
-                    <div key={index} className="passport-entry">
+                    <div key={index} className="passport-entry mb-2">
                       <div className="d-flex justify-content-between align-items-center">
-                        <label className="form-label">
+                        <label className="form-label small">
                           Passport {index + 1}:
                         </label>
                         <button
                           type="button"
                           className="btn btn-danger btn-sm"
+                          style={{ padding: "3px 6px", fontSize: "12px" }}
                           onClick={() => removePassportInput(index)}
                         >
                           <i className="bi bi-trash"></i>
@@ -184,12 +176,12 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                       <input
                         type="file"
                         multiple
-                        className="form-control"
+                        className="form-control form-control-sm"
                         onChange={(e) => handleFileChange(e, index)}
                       />
 
                       {fileArray.length > 0 && (
-                        <ul className="mt-2">
+                        <ul className="mt-1 small">
                           {fileArray.map((file, fileIndex) => (
                             <li key={fileIndex} className="file-name">
                               {file.name}
@@ -200,11 +192,15 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     </div>
                   ))}
 
-                  <div className="text-center mt-4">
+                  <div className="text-center mt-2">
                     <button
                       type="button"
-                      className="btn btn-primary"
-                      style={{ backgroundColor: "#57636f", fontSize: "16px" }}
+                      className="btn btn-primary btn-sm"
+                      style={{
+                        backgroundColor: "#57636f",
+                        fontSize: "12px",
+                        padding: "5px 10px",
+                      }}
                       onClick={addPassportInput}
                     >
                       + Add Passport
@@ -220,25 +216,25 @@ const EventFilesSection = ({ eventData, setEventData }) => {
       {/* Modern Styling */}
       <style jsx>{`
         .modern-card {
-          border-radius: 12px;
+          border-radius: 10px;
           background: #f8f9fa;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
         }
 
         .section-card {
-          border-radius: 8px;
+          border-radius: 6px;
           background: white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
         }
 
         .passport-card {
-          border-radius: 8px;
+          border-radius: 6px;
           background: #eef2f5;
-          padding: 15px;
+          padding: 10px;
         }
 
         .btn {
-          transition: all 0.3s ease-in-out;
+          transition: all 0.2s ease-in-out;
         }
 
         .btn-primary:hover {
@@ -249,9 +245,17 @@ const EventFilesSection = ({ eventData, setEventData }) => {
           background: #c82333;
         }
 
+        .form-label {
+          font-size: 14px;
+        }
+
         .file-name {
-          font-size: 13px;
+          font-size: 12px;
           color: #333;
+        }
+
+        .form-check-label {
+          font-size: 13px;
         }
       `}</style>
     </div>

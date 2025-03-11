@@ -112,6 +112,7 @@ const AddHomeTravelRequest = () => {
       setisLoading(false);
       setisDraft(true);
       toast.success("Form Saved!", { position: "top-center" });
+      history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -135,7 +136,7 @@ const AddHomeTravelRequest = () => {
       }
       setisLoading(false);
       toast.success("Form Updated!", { position: "top-center" });
-      // history.push("/my-event-requests");
+      history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -441,32 +442,34 @@ const AddHomeTravelRequest = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                          }}
-                          onClick={() =>
-                            ConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
-                        >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
-                        </button>
-                      </div>
-                      <div className="col-md-6">
-                        <button
-                          type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
-                          disabled={isLoading}
-                          style={{
-                            transition: "0.3s ease",
-                            backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
                           onClick={() => UpdateDraftEventRequest()}
                         >
-                          {isLoading ? "Updating Request..." : "Update Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
+                    </div>
+                    <div className="col-md-6">
+                      <button
+                        type="submit"
+                        className="btn btn-dark btn-lg col-12 mt-3"
+                        disabled={isLoading}
+                        style={{
+                          transition: "0.3s ease",
+                          backgroundColor: "#57636f",
+                          padding: "6px 10px",
+                          fontSize: "14px",
+                        }}
+                        onClick={() =>
+                          ConfrimBusinessRequestAsync(
+                            responseRequestIDExtracted
+                          )
+                        }
+                      >
+                        {isLoading ? "Submitting Request..." : "Submit Request"}
+                      </button>
                     </div>
                   </>
                 ) : (
@@ -480,16 +483,12 @@ const AddHomeTravelRequest = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() =>
-                            SaveandConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
+                          onClick={() => onSubmit()}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -500,10 +499,18 @@ const AddHomeTravelRequest = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() => onSubmit()}
+                          onClick={() =>
+                            SaveandConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
                         >
-                          {isLoading ? "Saving Draft..." : "Save Draft"}
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                     </div>

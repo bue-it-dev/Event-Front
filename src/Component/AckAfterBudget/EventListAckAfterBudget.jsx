@@ -160,8 +160,7 @@ const EventListAckAfterBudget = () => {
       OrganizerMobile: event.organizerMobile || "N/A",
       OrganizerExtension: event.organizerExtension || "N/A",
       OrganizerEmail: event.OrganizerEmail || "N/A",
-      statusName:
-        event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
+      statusName: event.statusName,
       approvalName: event.approvalName,
       actions: (
         <>
