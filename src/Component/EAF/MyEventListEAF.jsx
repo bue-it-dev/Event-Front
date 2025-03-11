@@ -161,7 +161,7 @@ const MyEventListEAF = () => {
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
-        <>
+        <div className="d-inline-flex align-items-center">
           <Link
             to={{
               pathname: "/my-event-request-details-eaf",
@@ -189,7 +189,7 @@ const MyEventListEAF = () => {
               </button>
             </>
           ) : null}
-        </>
+        </div>
       ),
     })),
   };

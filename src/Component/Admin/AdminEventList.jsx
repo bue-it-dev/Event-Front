@@ -161,7 +161,7 @@ const AdminEventList = () => {
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
-        <>
+       <div className="d-inline-flex align-items-center">
           <Link
             to={{
               pathname: "/hod-my-event-request-details",
@@ -189,7 +189,7 @@ const AdminEventList = () => {
               </button>
             </>
           ) : null}
-        </>
+        </div>
       ),
     })),
   };

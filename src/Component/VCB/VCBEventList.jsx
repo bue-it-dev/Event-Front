@@ -161,7 +161,7 @@ const VCBEventList = () => {
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
-        <>
+        <div className="d-inline-flex align-items-center">
           <Link
             to={{
               pathname: "/event-my-request-details-vcb",
@@ -189,7 +189,7 @@ const VCBEventList = () => {
               </button>
             </>
           ) : null}
-        </>
+        </div>
       ),
     })),
   };
