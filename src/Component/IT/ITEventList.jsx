@@ -204,7 +204,7 @@ const ITEventList = () => {
                 <button
                   type="button"
                   className="btn btn-sm"
-                  style={{ backgroundColor: "#343a40", color: "white" }}
+                  style={{ backgroundColor: "#c39900", color: "white" }}
                 >
                   Decide
                 </button>

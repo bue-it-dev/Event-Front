@@ -174,8 +174,7 @@ const SecurityCheckEventList = () => {
             <button
               type="button"
               className="btn btn-sm"
-              style={{ backgroundColor: "#343a40", color: "white" }}
-            >
+              style={{ backgroundColor: event.statusName === "Pending" ? "#c39900" : "#343a40", color : "white"}}  >
               {event.statusName != "Pending" ? <>View</> : <>Decide</>}
             </button>
           </Link>
