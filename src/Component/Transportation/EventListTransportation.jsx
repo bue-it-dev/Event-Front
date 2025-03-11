@@ -126,7 +126,6 @@ const EventListTransportation = () => {
       { label: "Event Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      { label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
       { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
       {
@@ -158,7 +157,6 @@ const EventListTransportation = () => {
       OrganizerName: event.organizerName || "N/A",
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: event.organizerMobile || "N/A",
-      OrganizerExtension: event.organizerExtension || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
       statusName:
         event.approvalName == "Acknowledgement"

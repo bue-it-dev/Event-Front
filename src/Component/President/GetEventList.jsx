@@ -125,7 +125,6 @@ const GetEventList = () => {
       { label: "Event Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       //{ label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      //{ label: "Organizer Extention", field: "eventStartDate", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
       {
@@ -157,7 +156,6 @@ const GetEventList = () => {
       OrganizerName: event.organizerName || "N/A",
       approvingDeptName: event.approvingDeptName || "N/A",
       //OrganizerMobile: event.organizerMobile || "N/A",
-      //OrganizerExtension: event.organizerExtension || "N/A",
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
