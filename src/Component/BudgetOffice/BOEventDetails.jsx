@@ -1380,7 +1380,8 @@ const BOEventDetails = () => {
               <ValidatorForm className="px-md-2">
                 <div className="container-fluid">
                   <div
-                    className="card shadow-lg px-5 py-4 w-100 mx-auto"
+                    // className="card shadow-lg px-5 py-4 w-100 mx-auto"
+                    className="card shadow-lg px-4 py-2 modern-card w-100 mx-auto"
                     style={{ backgroundColor: "#f8f9fa" }}
                   >
                     {/* Accommodation Section */}
@@ -1392,9 +1393,9 @@ const BOEventDetails = () => {
                         <input
                           type="checkbox"
                           id="hasAccomdation"
+                          disabled
                           className="form-check-input me-2"
                           checked={eventData.hasAccomdation === 1}
-                          disabled
                           onChange={handleAccommodationCheckbox}
                         />
                         <label
@@ -1408,99 +1409,89 @@ const BOEventDetails = () => {
 
                       {eventData.hasAccomdation === 1 && (
                         <div className="mt-3">
-                          <div className="row g-3">
-                            <div className="row g-3">
-                              {roomTypes.map((type) => (
-                                <div key={type.roomTypeId} className="col-md-3">
-                                  <div className="form-check">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      id={`Rooms-${type.roomTypeId}`}
-                                      value={type.roomTypeId}
-                                      disabled
-                                      checked={eventData?.accommodations?.some(
-                                        (t) => t.roomTypeId === type.roomTypeId
-                                      )}
-                                      onChange={
-                                        handleAccommodatitonTypeCheckbox
-                                      }
-                                    />
-                                    <label
-                                      className="form-check-label text-dark"
-                                      htmlFor={`transportation-${type.roomTypeId}`}
-                                      style={{ fontSize: "14px" }}
-                                    >
-                                      {type.roomTypeName}
-                                    </label>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            {eventData.accommodations.map((accom, index) => (
-                              <div key={index} className="row g-3 mt-3">
-                                <div className="col-md-3">
+                          {/* Room Type Selection */}
+                          <div className="row g-2">
+                            {roomTypes.map((type) => (
+                              <div
+                                key={type.roomTypeId}
+                                className="col-12 col-md-4"
+                              >
+                                <div className="form-check d-flex align-items-center gap-2">
+                                  <input
+                                    type="checkbox"
+                                    disabled
+                                    className="form-check-input"
+                                    id={`Rooms-${type.roomTypeId}`}
+                                    value={type.roomTypeId}
+                                    checked={eventData?.accommodations?.some(
+                                      (t) => t.roomTypeId === type.roomTypeId
+                                    )}
+                                    onChange={handleAccommodatitonTypeCheckbox}
+                                  />
                                   <label
-                                    className="form-label font-weight-bold text-dark"
-                                    style={{ fontSize: "14px" }}
+                                    className="form-check-label text-dark fw-semibold text-truncate"
+                                    htmlFor={`Rooms-${type.roomTypeId}`}
+                                    style={{
+                                      fontSize: "14px",
+                                      whiteSpace: "nowrap",
+                                    }}
                                   >
-                                    {
-                                      roomTypes.find(
-                                        (room) =>
-                                          room.roomTypeId === accom.roomTypeId
-                                      )?.roomTypeName
-                                    }
+                                    {type.roomTypeName}
                                   </label>
-                                </div>
-                                <div className="col-md-3">
-                                  <input
-                                    type="date"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    value={accom.startDate?.split("T")[0] || ""}
-                                    disabled
-                                    onChange={(e) =>
-                                      handleAcommodationChange(
-                                        index,
-                                        "startDate",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="col-md-3">
-                                  <input
-                                    type="date"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    value={accom.endDate?.split("T")[0] || ""}
-                                    disabled
-                                    onChange={(e) =>
-                                      handleAcommodationChange(
-                                        index,
-                                        "endDate",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="col-md-3">
-                                  <input
-                                    type="number"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    placeholder="No. of rooms"
-                                    value={accom.numOfRooms || ""}
-                                    disabled
-                                    onChange={(e) =>
-                                      handleAcommodationChange(
-                                        index,
-                                        "numOfRooms",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
                                 </div>
                               </div>
                             ))}
                           </div>
+
+                          {/* Accommodation Details (All Inputs on the Same Row) */}
+                          {eventData.accommodations.map((accom, index) => (
+                            <div
+                              key={index}
+                              className="row g-2 mt-3 d-flex align-items-center"
+                            >
+                              <div className="col-3">
+                                <label
+                                  className="form-label fw-semibold text-dark text-truncate"
+                                  style={{
+                                    fontSize: "14px",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {
+                                    roomTypes.find(
+                                      (room) =>
+                                        room.roomTypeId === accom.roomTypeId
+                                    )?.roomTypeName
+                                  }
+                                </label>
+                              </div>
+                              <div className="col-3">
+                                <input
+                                  type="date"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  value={accom.startDate?.split("T")[0] || ""}
+                                  disabled
+                                />
+                              </div>
+                              <div className="col-3">
+                                <input
+                                  type="date"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  value={accom.endDate?.split("T")[0] || ""}
+                                  disabled
+                                />
+                              </div>
+                              <div className="col-3">
+                                <input
+                                  type="number"
+                                  className="form-control form-control-sm rounded shadow-sm"
+                                  placeholder="No. of rooms"
+                                  value={accom.numOfRooms || ""}
+                                  disabled
+                                />
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
                     </div>
@@ -1517,13 +1508,6 @@ const BOEventDetails = () => {
                           className="form-check-input me-2"
                           checked={eventData.hasTransportation === 1}
                           disabled
-                          onChange={() =>
-                            seteventData((prev) => ({
-                              ...prev,
-                              hasTransportation:
-                                prev.hasTransportation === 1 ? 0 : 1, // Toggle state
-                            }))
-                          }
                         />
                         <label
                           className="form-check-label font-weight-bold text-dark"
@@ -1536,30 +1520,33 @@ const BOEventDetails = () => {
 
                       {eventData.hasTransportation === 1 && (
                         <div className="mt-3">
-                          <div className="row g-3">
+                          {/* Transportation Type Selection */}
+                          <div className="row g-2">
                             {transportationTypes.map((type) => (
                               <div
                                 key={type.transportationTypeId}
-                                className="col-md-3"
+                                className="col-12 col-md-4"
                               >
-                                <div className="form-check">
+                                <div className="form-check d-flex align-items-center gap-2">
                                   <input
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`transportation-${type.transportationTypeId}`}
-                                    disabled
                                     value={type.transportationTypeId}
                                     checked={eventData?.transportations?.some(
                                       (t) =>
                                         t.transportationTypeId ===
                                         type.transportationTypeId
                                     )}
-                                    onChange={handleTransportationTypeCheckbox}
+                                    disabled
                                   />
                                   <label
-                                    className="form-check-label text-dark"
+                                    className="form-check-label text-dark fw-semibold text-truncate"
                                     htmlFor={`transportation-${type.transportationTypeId}`}
-                                    style={{ fontSize: "14px" }}
+                                    style={{
+                                      fontSize: "14px",
+                                      whiteSpace: "nowrap",
+                                    }}
                                   >
                                     {type.transportationType1}
                                   </label>
@@ -1568,13 +1555,20 @@ const BOEventDetails = () => {
                             ))}
                           </div>
 
+                          {/* Transportation Details (All Inputs on the Same Row) */}
                           {eventData?.transportations?.map(
                             (transport, index) => (
-                              <div key={index} className="row g-3 mt-3">
-                                <div className="col-md-3">
+                              <div
+                                key={index}
+                                className="row g-2 mt-3 d-flex align-items-center"
+                              >
+                                <div className="col-3">
                                   <label
-                                    className="form-label font-weight-bold text-dark"
-                                    style={{ fontSize: "14px" }}
+                                    className="form-label fw-semibold text-dark text-truncate"
+                                    style={{
+                                      fontSize: "14px",
+                                      whiteSpace: "nowrap",
+                                    }}
                                   >
                                     {
                                       transportationTypes.find(
@@ -1585,7 +1579,7 @@ const BOEventDetails = () => {
                                     }
                                   </label>
                                 </div>
-                                <div className="col-md-3">
+                                <div className="col-3">
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
@@ -1593,16 +1587,9 @@ const BOEventDetails = () => {
                                       transport.startDate?.split("T")[0] || ""
                                     }
                                     disabled
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "startDate",
-                                        e.target.value
-                                      )
-                                    }
                                   />
                                 </div>
-                                <div className="col-md-3">
+                                <div className="col-3">
                                   <input
                                     type="date"
                                     className="form-control form-control-sm rounded shadow-sm"
@@ -1610,29 +1597,15 @@ const BOEventDetails = () => {
                                       transport.endDate?.split("T")[0] || ""
                                     }
                                     disabled
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "endDate",
-                                        e.target.value
-                                      )
-                                    }
                                   />
                                 </div>
-                                <div className="col-md-3">
+                                <div className="col-3">
                                   <input
                                     type="number"
                                     className="form-control form-control-sm rounded shadow-sm"
                                     placeholder="Number"
                                     value={transport.quantity || ""}
                                     disabled
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "quantity",
-                                        e.target.value
-                                      )
-                                    }
                                   />
                                 </div>
                               </div>
@@ -1654,7 +1627,6 @@ const BOEventDetails = () => {
                           className="form-check-input me-2"
                           checked={eventData.hasIt === 1}
                           disabled
-                          onChange={handleItComponentsCheckbox}
                         />
                         <label
                           className="form-check-label font-weight-bold text-dark"
@@ -1667,58 +1639,58 @@ const BOEventDetails = () => {
 
                       {eventData.hasIt === 1 && (
                         <div className="mt-3">
-                          <div className="row g-3">
+                          <div className="row g-2">
                             {itComponentsList?.map((component) => (
                               <div
                                 key={component.itcomponentId}
-                                className="col-md-3"
+                                className="col-6 col-md-3"
                               >
-                                <div className="form-check">
+                                <div className="form-check d-flex align-items-center gap-2">
                                   <input
                                     type="checkbox"
                                     className="form-check-input"
                                     id={`itcomponent-${component.itcomponentId}`}
-                                    disabled
                                     value={component.itcomponentId}
                                     checked={eventData?.itcomponentEvents?.some(
                                       (item) =>
                                         item.itcomponentId ===
                                         component.itcomponentId
                                     )}
-                                    onChange={handleItComponentCheckbox}
+                                    disabled
                                   />
                                   <label
-                                    className="form-check-label text-dark"
+                                    className="form-check-label text-dark fw-semibold text-truncate"
                                     htmlFor={`itcomponent-${component.itcomponentId}`}
-                                    style={{ fontSize: "14px" }}
+                                    style={{
+                                      fontSize: "14px",
+                                      whiteSpace: "nowrap",
+                                    }}
                                   >
-                                    <b>{component.component}</b>
+                                    {component.component}
                                   </label>
                                 </div>
+
                                 {eventData?.itcomponentEvents?.some(
                                   (item) =>
                                     item.itcomponentId ===
                                     component.itcomponentId
                                 ) && (
-                                  <input
-                                    type="number"
-                                    className="form-control form-control-sm rounded shadow-sm mt-2"
-                                    placeholder="Number"
-                                    value={
-                                      eventData.itcomponentEvents.find(
-                                        (item) =>
-                                          item.itcomponentId ===
-                                          component.itcomponentId
-                                      )?.quantity || ""
-                                    }
-                                    disabled
-                                    onChange={(e) =>
-                                      handleItComponentQuantityChange(
-                                        component.itcomponentId,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
+                                  <div className="mt-2 d-flex align-items-center gap-2">
+                                    <input
+                                      type="number"
+                                      className="form-control form-control-sm w-80 rounded shadow-sm"
+                                      style={{ maxWidth: "200px" }}
+                                      placeholder="Number"
+                                      value={
+                                        eventData.itcomponentEvents.find(
+                                          (item) =>
+                                            item.itcomponentId ===
+                                            component.itcomponentId
+                                        )?.quantity || ""
+                                      }
+                                      disabled
+                                    />
+                                  </div>
                                 )}
                               </div>
                             ))}
@@ -1837,7 +1809,13 @@ const BOEventDetails = () => {
                         <button
                           type="submit"
                           className="btn btn-success-approve btn-lg col-12 mt-4"
-                          style={{ backgroundColor: "black", color: "white" }}
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                            color: "white",
+                            padding: "6px 10px",
+                            fontSize: "14px",
+                          }}
                           onClick={() => UpdateEventRequestBudgetOfficeAsync()}
                           disabled={isLoading}
                         >
@@ -1848,19 +1826,22 @@ const BOEventDetails = () => {
                         <button
                           type="submit"
                           className="btn btn-danger btn-lg col-12 mt-4"
+                          style={{
+                            transition: "0.3s ease",
+                            backgroundColor: "darkred",
+                            color: "white",
+                            padding: "6px 10px",
+                            fontSize: "14px",
+                          }}
                           disabled={isLoading}
                           onClick={() => setOpenRejectNotes(true)}
                         >
                           Reject
                         </button>
                       </div>
-                      <br />
-                      <br />
-                      <br />
-                      <br />
                       {openrejectnotes == true ? (
                         <>
-                          <div className="mb-2 flex-grow-1">
+                          <div className="mb-2 mt-2 flex-grow-1">
                             <label
                               htmlFor="travelpurpose"
                               className="form-label fs-6"
@@ -1888,7 +1869,13 @@ const BOEventDetails = () => {
                             <button
                               type="submit"
                               className="btn btn-danger btn-lg col-6 mt-4"
-                              style={{ backgroundColor: "#57636f" }}
+                              style={{
+                                transition: "0.3s ease",
+                                backgroundColor: "#57636f",
+                                // color: "#57636f",
+                                padding: "6px 10px",
+                                fontSize: "14px",
+                              }}
                               disabled={isLoading}
                               onClick={() => handleApproval(0)}
                             >
@@ -1905,51 +1892,75 @@ const BOEventDetails = () => {
                   <>
                     {isBOSubmitted == true ? (
                       <>
-                        <div>
-                          <button
-                            type="submit"
-                            className="btn btn-success-approve btn-lg col-12 mt-4"
-                            style={{ backgroundColor: "black", color: "white" }}
-                            onClick={() =>
-                              UpdateEventRequestBudgetOfficeAsync()
-                            }
-                            disabled={isLoading}
-                          >
-                            {isLoading ? "Saving Data..." : "Save"}
-                          </button>
-                        </div>
                         <div className="row">
-                          <div className="col-md-6">
-                            <button
-                              type="submit"
-                              className="btn btn-success-approve btn-lg col-12 mt-4"
-                              style={{
-                                backgroundColor: "green",
-                                color: "white",
-                              }}
-                              onClick={() => handleApproval(1)}
-                              disabled={isLoading}
-                            >
-                              {isLoading ? "Approving Request..." : "Approve"}
-                            </button>
+                          <div className="container mt-4">
+                            <div className="row g-3">
+                              {/* Save Button */}
+                              <div className="col-md-4">
+                                <button
+                                  type="submit"
+                                  className="btn btn-lg w-100"
+                                  style={{
+                                    transition: "0.3s ease",
+                                    backgroundColor: "#57636f",
+                                    color: "white",
+                                    padding: "6px 10px",
+                                    fontSize: "14px",
+                                  }}
+                                  onClick={() =>
+                                    UpdateEventRequestBudgetOfficeAsync()
+                                  }
+                                  disabled={isLoading}
+                                >
+                                  {isLoading ? "Saving Data..." : "Save"}
+                                </button>
+                              </div>
+
+                              {/* Approve Button */}
+                              <div className="col-md-4">
+                                <button
+                                  type="submit"
+                                  className="btn btn-lg w-100"
+                                  style={{
+                                    transition: "0.3s ease",
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    padding: "6px 10px",
+                                    fontSize: "14px",
+                                  }}
+                                  onClick={() => handleApproval(1)}
+                                  disabled={isLoading}
+                                >
+                                  {isLoading
+                                    ? "Approving Request..."
+                                    : "Approve"}
+                                </button>
+                              </div>
+
+                              {/* Reject Button */}
+                              <div className="col-md-4">
+                                <button
+                                  type="submit"
+                                  className="btn btn-lg w-100"
+                                  style={{
+                                    transition: "0.3s ease",
+                                    backgroundColor: "darkred",
+                                    color: "white",
+                                    padding: "6px 10px",
+                                    fontSize: "14px",
+                                  }}
+                                  disabled={isLoading}
+                                  onClick={() => setOpenRejectNotes(true)}
+                                >
+                                  Reject
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                          <div className="col-md-6">
-                            <button
-                              type="submit"
-                              className="btn btn-danger btn-lg col-12 mt-4"
-                              disabled={isLoading}
-                              onClick={() => setOpenRejectNotes(true)}
-                            >
-                              Reject
-                            </button>
-                          </div>
-                          <br />
-                          <br />
-                          <br />
-                          <br />
+
                           {openrejectnotes == true ? (
                             <>
-                              <div className="mb-2 flex-grow-1">
+                              <div className="mb-2 mt-2 flex-grow-1">
                                 <label
                                   htmlFor="travelpurpose"
                                   className="form-label fs-6"
@@ -1977,7 +1988,13 @@ const BOEventDetails = () => {
                                 <button
                                   type="submit"
                                   className="btn btn-danger btn-lg col-6 mt-4"
-                                  style={{ backgroundColor: "#57636f" }}
+                                  style={{
+                                    transition: "0.3s ease",
+                                    backgroundColor: "#57636f",
+                                    color: "white",
+                                    padding: "6px 10px",
+                                    fontSize: "14px",
+                                  }}
                                   disabled={isLoading}
                                   onClick={() => handleApproval(0)}
                                 >
@@ -1999,7 +2016,13 @@ const BOEventDetails = () => {
                       // type="submit"
                       // disabled
                       className="btn btn-danger btn-lg col-12 mt-4"
-                      style={{ backgroundColor: "#57636f" }}
+                      style={{
+                        transition: "0.3s ease",
+                        backgroundColor: "#57636f",
+                        color: "white",
+                        padding: "6px 10px",
+                        fontSize: "14px",
+                      }}
                       disabled={isLoading}
                       // onClick={() => handleApproval(0)}
                     >
@@ -2036,7 +2059,13 @@ const BOEventDetails = () => {
                         // type="submit"
                         // disabled
                         className="btn btn-danger btn-lg col-12 mt-4"
-                        style={{ backgroundColor: "#57636f" }}
+                        style={{
+                          transition: "0.3s ease",
+                          backgroundColor: "#57636f",
+                          color: "white",
+                          padding: "6px 10px",
+                          fontSize: "14px",
+                        }}
                         disabled={isLoading}
                         // onClick={() => handleApproval(0)}
                       >

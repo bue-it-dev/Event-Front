@@ -105,7 +105,7 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label" htmlFor="isStaffStudents">
-              Is the event only for BUE staff and students?
+              The event is for BUE staff and students
             </label>
           </div>
 
@@ -125,137 +125,96 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                   className="form-check-label"
                   htmlFor="isChairBoardPrisidentVcb"
                 >
-                  Will the Chair, Board Member, President, or VC attend?
+                  The Chair, Board Member, President, or VC attend
                 </label>
               </div>
 
               {/* Upload Led of the University Organizer File */}
-              <div className="mt-3 p-3 border rounded bg-light shadow-sm">
-                <label
-                  htmlFor="LedOfTheUniversityOrganizerFile"
-                  className="form-label text-dark fw-bold text-center d-block"
-                  style={{ fontSize: "14px", letterSpacing: "0.5px" }}
-                >
-                  Lead Organizer’s Approval Form:
-                </label>
+              <div className="mt-3 p-2 border rounded bg-light shadow-sm">
+                <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                  {/* Label */}
+                  <label
+                    htmlFor="LedOfTheUniversityOrganizerFile"
+                    className="form-label text-dark fw-bold m-0"
+                    style={{
+                      fontSize: "14px",
+                      letterSpacing: "0.5px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Lead Organizer’s Approval Form
+                  </label>
 
-                <div className="d-flex flex-column align-items-center gap-3 mt-2">
-                  {eventData.confirmedAt == null && (
-                    <input
-                      type="file"
-                      className="form-control border-2 rounded"
-                      style={{
-                        maxWidth: "300px",
-                        padding: "8px",
-                        borderColor: "#007bff",
-                        backgroundColor: "#fff",
-                      }}
-                      disabled
-                      onChange={(e) =>
-                        setEventData({
-                          ...eventData,
-                          universityFile: e.target.files[0],
-                        })
-                      }
-                    />
-                  )}
-
+                  {/* View Button (Always Shown if File Exists) */}
                   {eventData?.ledOfTheUniversityOrganizerFilePath && (
-                    <Grid
-                      item
-                      xs={12}
-                      md={6}
-                      className="d-flex justify-content-center"
-                      disabled
+                    <a
+                      href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.ledOfTheUniversityOrganizerFilePath}`}
+                      target="_blank"
+                      className="text-decoration-none"
                     >
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                        style={{
+                          gap: "1px",
+                          padding: "2px 6px",
+                          minWidth: "65px",
+                          fontSize: "12px",
+                        }}
+                        disabled
+                        onClick={() =>
+                          GetFiles(
+                            eventData.ledOfTheUniversityOrganizerFilePath
+                          )
+                        }
+                      >
+                        <i className="bi bi-eye"></i> View
+                      </button>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {eventData.isChairBoardPrisidentVcb === 1 && (
+                <div className="mt-3 p-2 border rounded bg-light shadow-sm">
+                  <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                    {/* Label */}
+                    <label
+                      htmlFor="OfficeOfPresedentFile"
+                      className="form-label text-dark fw-bold m-0"
+                      style={{
+                        fontSize: "14px",
+                        letterSpacing: "0.5px",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      President’s Office Form
+                    </label>
+
+                    {/* View Button (Always Shown if File Exists) */}
+                    {eventData?.officeOfPresedentFilePath && (
                       <a
-                        href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.ledOfTheUniversityOrganizerFilePath}`}
+                        href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`}
                         target="_blank"
                         className="text-decoration-none"
                       >
                         <button
                           type="button"
                           className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                          disabled
                           style={{
-                            gap: "5px",
-                            padding: "8px 14px",
-                            minWidth: "120px",
+                            gap: "2px",
+                            padding: "2px 6px",
+                            minWidth: "65px",
+                            fontSize: "12px",
                           }}
+                          disabled
                           onClick={() =>
-                            GetFiles(
-                              eventData.ledOfTheUniversityOrganizerFilePath
-                            )
+                            GetFiles(eventData.officeOfPresedentFilePath)
                           }
                         >
                           <i className="bi bi-eye"></i> View
                         </button>
                       </a>
-                    </Grid>
-                  )}
-                </div>
-              </div>
-
-              {eventData.isChairBoardPrisidentVcb === 1 && (
-                <div className="mt-3 p-3 border rounded bg-light shadow-sm">
-                  <label
-                    htmlFor="OfficeOfPresedentFile"
-                    className="form-label text-dark fw-bold text-center d-block"
-                    style={{ fontSize: "14px", letterSpacing: "0.5px" }}
-                  >
-                    President’s Office Form:
-                  </label>
-
-                  <div className="d-flex flex-column align-items-center gap-3 mt-2">
-                    {eventData.confirmedAt == null && (
-                      <input
-                        type="file"
-                        className="form-control border-2 rounded"
-                        disabled
-                        style={{
-                          maxWidth: "300px",
-                          padding: "8px",
-                          borderColor: "#007bff",
-                          backgroundColor: "#fff",
-                        }}
-                        onChange={(e) =>
-                          setEventData({
-                            ...eventData,
-                            presidentFile: e.target.files[0],
-                          })
-                        }
-                      />
-                    )}
-
-                    {eventData?.officeOfPresedentFilePath && (
-                      <Grid
-                        item
-                        xs={12}
-                        md={6}
-                        className="d-flex justify-content-center"
-                      >
-                        <a
-                          href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`}
-                          target="_blank"
-                          className="text-decoration-none"
-                        >
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                            disabled
-                            style={{
-                              gap: "5px",
-                              padding: "8px 14px",
-                              minWidth: "120px",
-                            }}
-                            onClick={() =>
-                              GetFiles(eventData.officeOfPresedentFilePath)
-                            }
-                          >
-                            <i className="bi bi-eye"></i> View
-                          </button>
-                        </a>
-                      </Grid>
                     )}
                   </div>
                 </div>
@@ -281,7 +240,7 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
               // className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
               htmlFor="isOthers"
             >
-              Will non-BUE individuals attend?{" "}
+              The event is for non-BUE staff and students{" "}
               <span className="text-danger">
                 {" "}
                 (Requires President’s Office Approval)
@@ -292,65 +251,43 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
           {eventData.isOthers === 1 && (
             <div className="mt-3">
               {/* Upload Visit Agenda File */}
-              <div className="mt-3 p-3 border rounded bg-light shadow-sm">
-                <label
-                  htmlFor="VisitAgendaFile"
-                  className="form-label text-dark fw-bold text-center d-block"
-                  style={{ fontSize: "14px", letterSpacing: "0.5px" }}
-                >
-                  Visit Agenda:
-                </label>
+              <div className="mt-3 p-2 border rounded bg-light shadow-sm">
+                <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                  {/* Label */}
+                  <label
+                    htmlFor="VisitAgendaFile"
+                    className="form-label text-dark fw-bold m-0"
+                    style={{
+                      fontSize: "14px",
+                      letterSpacing: "0.5px",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Visit Agenda
+                  </label>
 
-                <div className="d-flex flex-column align-items-center gap-3 mt-2">
-                  {eventData.confirmedAt == null && (
-                    <input
-                      type="file"
-                      className="form-control border-2 rounded"
-                      style={{
-                        maxWidth: "300px",
-                        padding: "8px",
-                        borderColor: "#007bff",
-                        backgroundColor: "#fff",
-                      }}
-                      disabled
-                      onChange={(e) =>
-                        setEventData({
-                          ...eventData,
-                          agendaFile: e.target.files[0],
-                        })
-                      }
-                    />
-                  )}
-
+                  {/* View Button (Always Shown if File Exists) */}
                   {eventData?.visitAgendaFilePath && (
-                    <Grid
-                      item
-                      xs={12}
-                      md={6}
-                      className="d-flex justify-content-center"
+                    <a
+                      href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`}
+                      target="_blank"
+                      className="text-decoration-none"
                     >
-                      <a
-                        href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`}
-                        target="_blank"
-                        className="text-decoration-none"
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                        style={{
+                          gap: "2px",
+                          padding: "2px 6px",
+                          minWidth: "65px",
+                          fontSize: "12px",
+                        }}
+                        disabled
+                        onClick={() => GetFiles(eventData.visitAgendaFilePath)}
                       >
-                        <button
-                          type="button"
-                          disabled
-                          className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                          style={{
-                            gap: "5px",
-                            padding: "8px 14px",
-                            minWidth: "120px",
-                          }}
-                          onClick={() =>
-                            GetFiles(eventData.visitAgendaFilePath)
-                          }
-                        >
-                          <i className="bi bi-eye"></i> View
-                        </button>
-                      </a>
-                    </Grid>
+                        <i className="bi bi-eye"></i> View
+                      </button>
+                    </a>
                   )}
                 </div>
               </div>
@@ -371,12 +308,12 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
                     htmlFor="isVip"
                   >
-                    Will international guests (excluding VIPs) attend?
+                    International guests (excluding VIPs) will attend
                   </label>
                 </div>
               </div>
               {eventData.isVip === 1 && (
-                <div className="card shadow-sm px-5 py-4 w-100 mx-auto">
+                <div className="card shadow-sm px-5 w-100 mx-auto">
                   {/* Check for passports instead of passportData */}
                   {!eventData.passports?.length && (
                     <div className="text-center">
@@ -412,55 +349,23 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                           key={index}
                           className="card shadow-sm p-2"
                           style={{
-                            width: "120px", // Reduce card width
+                            width: "200px", // Increased width to accommodate side-by-side elements
                             backgroundColor: "#fff", // Ensure contrast with background
                           }}
                         >
-                          {/* Header: Passport Label & Remove Button */}
-                          <div className="d-flex justify-content-between align-items-center">
+                          {/* Label & View Button in a Single Row */}
+                          <div className="d-flex justify-content-center gap-2 align-items-center">
                             <label
                               htmlFor={`passports${index}`}
-                              className="form-label text-dark fw-bold"
-                              style={{ fontSize: "14px" }} // Reduce label size
+                              className="form-label text-dark fw-bold m-0"
+                              style={{ fontSize: "14px" }}
                             >
-                              Passport {index + 1}:
+                              Passport {index + 1}
                             </label>
 
-                            {eventData.confirmedAt == null && (
-                              <button
-                                type="button"
-                                className="btn btn-danger btn-sm d-flex align-items-center"
-                                style={{ gap: "5px", padding: "4px 8px" }} // Smaller button
-                                onClick={() => removePassportInput(index)}
-                              >
-                                <i className="bi bi-trash"></i>
-                              </button>
-                            )}
-                          </div>
-
-                          {/* File Input */}
-                          {eventData.confirmedAt == null && (
-                            <input
-                              type="file"
-                              id={`passports${index}`}
-                              name={`passports[${index}]`}
-                              multiple
-                              className="form-control border-2 rounded"
-                              style={{
-                                padding: "6px",
-                                borderColor: "#007bff",
-                                backgroundColor: "#fff",
-                                marginTop: "8px",
-                                fontSize: "12px", // Reduce font size
-                              }}
-                              onChange={(e) => handleFileChange(e, index)}
-                            />
-                          )}
-
-                          {/* File Preview */}
-                          {eventData?.passports?.[index] &&
-                            typeof eventData.passports[index] === "string" && (
-                              <div className="card shadow-sm p-2 mt-2 text-center">
+                            {eventData?.passports?.[index] &&
+                              typeof eventData.passports[index] ===
+                                "string" && (
                                 <a
                                   href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
                                   target="_blank"
@@ -468,13 +373,11 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                                 >
                                   <button
                                     type="button"
-                                    className="btn btn-lg btn-outline-primary d-flex align-items-center justify-content-center mx-auto"
-                                    disabled
+                                    className="btn btn-sm btn-outline-primary d-flex align-items-center"
                                     style={{
                                       gap: "4px",
-                                      padding: "6px 10px",
-                                      minWidth: "100px", // Reduce button width
-                                      fontSize: "14px",
+                                      padding: "4px 8px",
+                                      fontSize: "12px",
                                     }}
                                     onClick={() =>
                                       GetFiles(
@@ -487,8 +390,8 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                                     <i className="bi bi-eye"></i> View
                                   </button>
                                 </a>
-                              </div>
-                            )}
+                              )}
+                          </div>
                         </div>
                       );
                     })}

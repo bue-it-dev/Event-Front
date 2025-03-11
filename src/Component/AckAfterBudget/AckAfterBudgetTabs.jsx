@@ -82,7 +82,7 @@ const AckAfterBudgetTabs = () => {
           aria-label="nav tabs example"
         >
           <LinkTab
-            label="My Approvals"
+            label="My Requests"
             href="/event-approval-list-ack"
             {...a11yProps(0)}
           />

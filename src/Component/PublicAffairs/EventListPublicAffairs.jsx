@@ -157,8 +157,7 @@ const EventListPublicAffairs = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: event.organizerMobile || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
-      statusName:
-        event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
+      statusName: event.statusName,
       approvalName: event.approvalName,
       actions: (
         <>
