@@ -247,7 +247,7 @@ const EventSelections = ({ eventData, setEventData }) => {
   return (
     <div className="container-fluid">
       <div
-        className="card shadow-lg px-5 py-4 w-100 mx-auto"
+        className="card shadow-lg px-4 py-2 w-100 mx-auto"
         style={{ backgroundColor: "#f8f9fa" }}
       >
         {/* Accommodation Section */}
@@ -274,92 +274,93 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasAccomdation === 1 && (
             <div className="mt-3">
-              <div className="row g-3">
-                <div className="row g-2">
-                  {roomTypes.map((type) => (
-                    <div key={type.roomTypeId} className="col-md-4 col-sm-6">
-                      <div className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id={`Rooms-${type.roomTypeId}`}
-                          value={type.roomTypeId}
-                          checked={eventData.Accommodations.some(
-                            (t) => t.roomTypeId === type.roomTypeId
-                          )}
-                          onChange={handleAccommodatitonTypeCheckbox}
-                        />
-                        <label
-                          className="form-check-label text-dark"
-                          htmlFor={`Rooms-${type.roomTypeId}`}
-                          style={{ fontSize: "14px" }}
-                        >
-                          {type.roomTypeName}
-                        </label>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {eventData.Accommodations.map((accom, index) => (
-                  <div key={index} className="row g-3 mt-3">
-                    <div className="col-md-3">
+              {/* Room Type Selection */}
+              <div className="row g-2">
+                {roomTypes.map((type) => (
+                  <div key={type.roomTypeId} className="col-6 col-md-4">
+                    <div className="form-check d-flex align-items-center gap-2">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id={`Rooms-${type.roomTypeId}`}
+                        value={type.roomTypeId}
+                        checked={eventData.Accommodations.some(
+                          (t) => t.roomTypeId === type.roomTypeId
+                        )}
+                        onChange={handleAccommodatitonTypeCheckbox}
+                      />
                       <label
-                        className="form-label font-weight-bold text-dark"
-                        style={{ fontSize: "14px" }}
+                        className="form-check-label text-dark fw-semibold text-truncate"
+                        htmlFor={`Rooms-${type.roomTypeId}`}
+                        style={{ fontSize: "14px", whiteSpace: "nowrap" }}
                       >
-                        {
-                          roomTypes.find(
-                            (room) => room.roomTypeId === accom.roomTypeId
-                          )?.roomTypeName
-                        }
+                        {type.roomTypeName}
                       </label>
-                    </div>
-                    <div className="col-md-3">
-                      <input
-                        type="date"
-                        className="form-control form-control-sm rounded shadow-sm"
-                        value={accom.startDate || ""}
-                        onChange={(e) =>
-                          handleAcommodationChange(
-                            index,
-                            "startDate",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <input
-                        type="date"
-                        className="form-control form-control-sm rounded shadow-sm"
-                        value={accom.endDate || ""}
-                        onChange={(e) =>
-                          handleAcommodationChange(
-                            index,
-                            "endDate",
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <input
-                        type="number"
-                        className="form-control form-control-sm rounded shadow-sm"
-                        placeholder="No. of rooms"
-                        value={accom.numOfRooms || ""}
-                        onChange={(e) =>
-                          handleAcommodationChange(
-                            index,
-                            "numOfRooms",
-                            e.target.value
-                          )
-                        }
-                      />
                     </div>
                   </div>
                 ))}
               </div>
+
+              {/* Accommodation Details */}
+              {eventData.Accommodations.map((accom, index) => (
+                <div key={index} className="row g-2 mt-3 align-items-center">
+                  <div className="col-6 col-md-3">
+                    <label
+                      className="form-label fw-semibold text-dark text-truncate"
+                      style={{ fontSize: "14px", whiteSpace: "nowrap" }}
+                    >
+                      {
+                        roomTypes.find(
+                          (room) => room.roomTypeId === accom.roomTypeId
+                        )?.roomTypeName
+                      }
+                    </label>
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <input
+                      type="date"
+                      className="form-control form-control-sm rounded shadow-sm"
+                      value={accom.startDate || ""}
+                      onChange={(e) =>
+                        handleAcommodationChange(
+                          index,
+                          "startDate",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <input
+                      type="date"
+                      className="form-control form-control-sm rounded shadow-sm"
+                      value={accom.endDate || ""}
+                      onChange={(e) =>
+                        handleAcommodationChange(
+                          index,
+                          "endDate",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="col-6 col-md-3">
+                    <input
+                      type="number"
+                      className="form-control form-control-sm rounded shadow-sm"
+                      placeholder="No. of rooms"
+                      value={accom.numOfRooms || ""}
+                      onChange={(e) =>
+                        handleAcommodationChange(
+                          index,
+                          "numOfRooms",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
@@ -393,10 +394,14 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasTransportation === 1 && (
             <div className="mt-3">
-              <div className="row g-3">
+              {/* Transportation Type Selection */}
+              <div className="row g-2">
                 {transportationTypes.map((type) => (
-                  <div key={type.transportationTypeId} className="col-md-3">
-                    <div className="form-check">
+                  <div
+                    key={type.transportationTypeId}
+                    className="col-6 col-md-3"
+                  >
+                    <div className="form-check d-flex align-items-center gap-2">
                       <input
                         type="checkbox"
                         className="form-check-input"
@@ -409,9 +414,9 @@ const EventSelections = ({ eventData, setEventData }) => {
                         onChange={handleTransportationTypeCheckbox}
                       />
                       <label
-                        className="form-check-label text-dark"
+                        className="form-check-label text-dark fw-semibold text-truncate"
                         htmlFor={`transportation-${type.transportationTypeId}`}
-                        style={{ fontSize: "14px" }}
+                        style={{ fontSize: "14px", whiteSpace: "nowrap" }}
                       >
                         {type.transportationType1}
                       </label>
@@ -420,12 +425,13 @@ const EventSelections = ({ eventData, setEventData }) => {
                 ))}
               </div>
 
+              {/* Transportation Details */}
               {eventData.Transportations.map((transport, index) => (
-                <div key={index} className="row g-3 mt-3">
-                  <div className="col-md-3">
+                <div key={index} className="row g-2 mt-3 align-items-center">
+                  <div className="col-6 col-md-3">
                     <label
-                      className="form-label font-weight-bold text-dark"
-                      style={{ fontSize: "14px" }}
+                      className="form-label fw-semibold text-dark text-truncate"
+                      style={{ fontSize: "14px", whiteSpace: "nowrap" }}
                     >
                       {
                         transportationTypes.find(
@@ -436,7 +442,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       }
                     </label>
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-6 col-md-3">
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
@@ -450,7 +456,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       }
                     />
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-6 col-md-3">
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
@@ -464,7 +470,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       }
                     />
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-6 col-md-3">
                     <input
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
@@ -509,10 +515,10 @@ const EventSelections = ({ eventData, setEventData }) => {
 
           {eventData.HasIt === 1 && (
             <div className="mt-3">
-              <div className="row g-3">
+              <div className="row g-2">
                 {itComponentsList.map((component) => (
-                  <div key={component.itcomponentId} className="col-md-3">
-                    <div className="form-check">
+                  <div key={component.itcomponentId} className="col-6 col-md-3">
+                    <div className="form-check d-flex align-items-center gap-2">
                       <input
                         type="checkbox"
                         className="form-check-input"
@@ -525,9 +531,9 @@ const EventSelections = ({ eventData, setEventData }) => {
                         onChange={handleItComponentCheckbox}
                       />
                       <label
-                        className="form-check-label text-dark"
+                        className="form-check-label text-dark fw-semibold text-truncate"
                         htmlFor={`itcomponent-${component.itcomponentId}`}
-                        style={{ fontSize: "14px" }}
+                        style={{ fontSize: "14px", whiteSpace: "nowrap" }}
                       >
                         {component.component}
                       </label>
@@ -537,7 +543,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                     ) && (
                       <input
                         type="number"
-                        className="form-control form-control-sm rounded shadow-sm mt-2"
+                        className="form-control form-control-sm mt-2 rounded shadow-sm"
                         placeholder="Number"
                         value={
                           eventData.ItcomponentEvents.find(

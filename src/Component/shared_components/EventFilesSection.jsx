@@ -34,7 +34,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
   return (
     <div className="container-fluid py-3">
-      <div className="card modern-card p-3 w-100 mx-auto">
+      <div className="card modern-card w-60 mx-auto">
         {/* Staff and Students Section */}
         <div className="card section-card p-2 mt-3">
           <div className="form-check form-switch">
@@ -70,37 +70,43 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 </label>
               </div>
 
-              <div className="mt-2">
-                <label className="form-label small">
+              <div className="mt-2 text-center">
+                <label className="form-label small d-block">
                   Lead Organizer’s Approval Form:
                 </label>
-                <input
-                  type="file"
-                  className="form-control form-control-sm"
-                  onChange={(e) =>
-                    setEventData({
-                      ...eventData,
-                      LedOfTheUniversityOrganizerFile: e.target.files[0],
-                    })
-                  }
-                />
-              </div>
-
-              {eventData.IsChairBoardPrisidentVcb === 1 && (
-                <div className="mt-2">
-                  <label className="form-label small">
-                    President’s Office Form:
-                  </label>
+                <div className="d-flex justify-content-center">
                   <input
                     type="file"
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm w-50"
+                    style={{ maxWidth: "300px" }}
                     onChange={(e) =>
                       setEventData({
                         ...eventData,
-                        OfficeOfPresedentFile: e.target.files[0],
+                        LedOfTheUniversityOrganizerFile: e.target.files[0],
                       })
                     }
                   />
+                </div>
+              </div>
+
+              {eventData.IsChairBoardPrisidentVcb === 1 && (
+                <div className="mt-2 text-center">
+                  <label className="form-label small d-block">
+                    President’s Office Form:
+                  </label>
+                  <div className="d-flex justify-content-center">
+                    <input
+                      type="file"
+                      className="form-control form-control-sm w-50"
+                      style={{ maxWidth: "300px" }}
+                      onChange={(e) =>
+                        setEventData({
+                          ...eventData,
+                          OfficeOfPresedentFile: e.target.files[0],
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -126,17 +132,24 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
           {eventData.IsOthers === 1 && (
             <div className="mt-2">
-              <label className="form-label small">Visit Agenda:</label>
-              <input
-                type="file"
-                className="form-control form-control-sm"
-                onChange={(e) =>
-                  setEventData({
-                    ...eventData,
-                    VisitAgendaFile: e.target.files[0],
-                  })
-                }
-              />
+              <div className="mt-2 text-center">
+                <label className="form-label small d-block">
+                  Visit Agenda File:
+                </label>
+                <div className="d-flex justify-content-center">
+                  <input
+                    type="file"
+                    className="form-control form-control-sm w-50"
+                    style={{ maxWidth: "300px" }}
+                    onChange={(e) =>
+                      setEventData({
+                        ...eventData,
+                        VisitAgendaFile: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+              </div>
 
               {/* VIP Section */}
               <div className="card section-card p-2 mt-3">
@@ -158,11 +171,24 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               {eventData.isVIP === 1 && (
                 <div className="card passport-card p-2 mt-3">
                   {(eventData.passportData || []).map((fileArray, index) => (
-                    <div key={index} className="passport-entry mb-2">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <label className="form-label small">
-                          Passport {index + 1}:
-                        </label>
+                    <div
+                      key={index}
+                      className="passport-entry mb-3 text-center"
+                    >
+                      {/* Centered Label */}
+                      <label className="form-label small d-block">
+                        Passport {index + 1}:
+                      </label>
+
+                      {/* File Input + Delete Button Row */}
+                      <div className="d-flex justify-content-center align-items-center gap-2">
+                        <input
+                          type="file"
+                          multiple
+                          className="form-control form-control-sm w-50"
+                          style={{ maxWidth: "300px" }}
+                          onChange={(e) => handleFileChange(e, index)}
+                        />
                         <button
                           type="button"
                           className="btn btn-danger btn-sm"
@@ -173,15 +199,9 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                         </button>
                       </div>
 
-                      <input
-                        type="file"
-                        multiple
-                        className="form-control form-control-sm"
-                        onChange={(e) => handleFileChange(e, index)}
-                      />
-
+                      {/* Display File Names */}
                       {fileArray.length > 0 && (
-                        <ul className="mt-1 small">
+                        <ul className="mt-1 small text-center">
                           {fileArray.map((file, fileIndex) => (
                             <li key={fileIndex} className="file-name">
                               {file.name}
