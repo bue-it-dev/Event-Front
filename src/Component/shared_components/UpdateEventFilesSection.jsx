@@ -101,6 +101,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               name="isStaffStudents"
               className="form-check-input"
               checked={eventData.isStaffStudents === 1}
+              style={{ fontSize: "14px" }}
               onChange={handleCheckboxChange}
             />
             <label
@@ -125,6 +126,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   className="form-check-label font-weight-bold fs-8"
                   htmlFor="isChairBoardPrisidentVcb"
+                  style={{ fontSize: "14px" }}
                 >
                   The Chair, Board Member, President, or VC attend
                 </label>
@@ -137,7 +139,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   className="form-label text-dark fw-bold text-center d-block"
                   style={{ fontSize: "12px", letterSpacing: "0.5px" }}
                 >
-                  Lead Organizer’s Approval Form:
+                  Lead Organizer’s Approval Form
                 </label>
 
                 <div className="d-flex flex-column align-items-center gap-3 mt-2">
@@ -192,7 +194,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-label text-dark fw-bold text-center d-block"
                     style={{ fontSize: "12px", letterSpacing: "0.5px" }}
                   >
-                    President’s Office Form:
+                    President’s Office Form
                   </label>
 
                   <div className="d-flex flex-column align-items-center gap-3 mt-2">
@@ -251,6 +253,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               name="isOthers"
               className="form-check-input"
               checked={eventData.isOthers === 1}
+              style={{ fontSize: "14px" }}
               onChange={handleCheckboxChange}
             />
             <label
@@ -258,7 +261,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               htmlFor="isOthers"
             >
               The event is for non-BUE staff and students
-              <span className="text-danger">
+              <span className="text-danger" style={{ fontSize: "14px" }}>
                 {" "}
                 (Requires President’s Office Approval)
               </span>
@@ -274,7 +277,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   className="form-label text-dark fw-bold text-center d-block"
                   style={{ fontSize: "14px", letterSpacing: "0.5px" }}
                 >
-                  Visit Agenda:
+                  Visit Agenda
                 </label>
 
                 <div className="d-flex flex-column align-items-center gap-3 mt-2">
@@ -329,6 +332,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-check-input"
                     checked={eventData.isVip === 1}
                     onChange={handleCheckboxChange}
+                    style={{ fontSize: "14px" }}
                   />
                   <label
                     className="form-check-label fs-8 font-weight-bold text-dark text-wrap"
@@ -369,7 +373,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                         htmlFor={`passports${index}`}
                         className="form-label text-dark fw-bold"
                       >
-                        Passport {index + 1}:
+                        Passport {index + 1}
                       </label>
 
                       {/* File Input + Delete Button (Beside) */}

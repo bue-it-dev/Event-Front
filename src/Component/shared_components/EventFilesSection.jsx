@@ -47,7 +47,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label small" htmlFor="IsStaffStudents">
-              The event is for BUE staff and students
+              <b>The event is for BUE staff and students</b>
             </label>
           </div>
 
@@ -66,13 +66,13 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   className="form-check-label small"
                   htmlFor="IsChairBoardPrisidentVcb"
                 >
-                  The Chair, Board Member, President, or VC attend
+                  <b>The Chair, Board Member, President, or VC attend</b>
                 </label>
               </div>
 
               <div className="mt-2 text-center">
                 <label className="form-label small d-block">
-                  Lead Organizer’s Approval Form:
+                  Lead Organizer’s Approval Form
                 </label>
                 <div className="d-flex justify-content-center">
                   <input
@@ -92,7 +92,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               {eventData.IsChairBoardPrisidentVcb === 1 && (
                 <div className="mt-2 text-center">
                   <label className="form-label small d-block">
-                    President’s Office Form:
+                    President’s Office Form
                   </label>
                   <div className="d-flex justify-content-center">
                     <input
@@ -125,7 +125,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label small" htmlFor="IsOthers">
-              The event is for non-BUE staff and students.
+              <b>The event is for non-BUE staff and students</b>
               <span className="text-danger"> (Requires Approval)</span>
             </label>
           </div>
@@ -134,7 +134,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
             <div className="mt-2">
               <div className="mt-2 text-center">
                 <label className="form-label small d-block">
-                  Visit Agenda File:
+                  Visit Agenda File
                 </label>
                 <div className="d-flex justify-content-center">
                   <input
@@ -163,7 +163,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     onChange={handleCheckboxChange}
                   />
                   <label className="form-check-label small" htmlFor="isVIP">
-                    International guests (excluding VIPs) will attend
+                    <b>International guests (excluding VIPs) will attend</b>
                   </label>
                 </div>
               </div>
@@ -177,7 +177,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     >
                       {/* Centered Label */}
                       <label className="form-label small d-block">
-                        Passport {index + 1}:
+                        Passport {index + 1}
                       </label>
 
                       {/* File Input + Delete Button Row */}

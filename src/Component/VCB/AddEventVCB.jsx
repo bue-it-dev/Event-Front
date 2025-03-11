@@ -112,6 +112,7 @@ const AddEventVCB = () => {
       setisLoading(false);
       setisDraft(true);
       toast.success("Form Saved!", { position: "top-center" });
+      history.push("/vcb-event-list");
     } catch (err) {
       setisLoading(false);
       toast.error("An error occurred. Please try again later.", {
@@ -441,16 +442,12 @@ const AddEventVCB = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() =>
-                            ConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
+                          onClick={() => UpdateDraftEventRequest()}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -461,10 +458,18 @@ const AddEventVCB = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() => UpdateDraftEventRequest()}
+                          onClick={() =>
+                            ConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
                         >
-                          {isLoading ? "Updating Request..." : "Update Request"}
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                     </div>
@@ -480,16 +485,12 @@ const AddEventVCB = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() =>
-                            SaveandConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
+                          onClick={() => onSubmit()}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
                       <div className="col-md-6">
@@ -500,10 +501,18 @@ const AddEventVCB = () => {
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
+                            padding: "6px 10px",
+                            fontSize: "14px",
                           }}
-                          onClick={() => onSubmit()}
+                          onClick={() =>
+                            SaveandConfrimBusinessRequestAsync(
+                              responseRequestIDExtracted
+                            )
+                          }
                         >
-                          {isLoading ? "Saving Draft..." : "Save Draft"}
+                          {isLoading
+                            ? "Submitting Request..."
+                            : "Submit Request"}
                         </button>
                       </div>
                     </div>
