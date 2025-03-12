@@ -77,6 +77,10 @@ import MyEventDetailsEAF from "./Component/EAF/MyEventDetailsEAF";
 import AdminMyEventRequetDetails from "./Component/Admin/AdminMyEventRequetDetails";
 import MyEventDetailsVCB from "./Component/VCB/MyEventDetailsVCB";
 import MyEventDetailsPRE from "./Component/President/MyEventDetailsPRE";
+import COOAllRequestsDetails from "./Component/COO/COOAllRequestsDetails";
+import COOAllEventRequestsList from "./Component/COO/COOAllEventRequestsList";
+import BOMAllRequestsDetails from "./Component/BOM/BOMAllRequestsDetails";
+import BOMAllEventRequestsList from "./Component/BOM/BOMAllEventRequestsList";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -151,6 +155,14 @@ function App() {
                 <>
                   <Switch>
                     <ProtectedRoute
+                      path="/all-event-request-list-bom"
+                      component={BOMAllEventRequestsList}
+                    />
+                    <ProtectedRoute
+                      path="/all-event-request-details-bom"
+                      component={BOMAllRequestsDetails}
+                    />
+                    <ProtectedRoute
                       path="/hod-add-event-request"
                       component={AdminEventAdd}
                     />
@@ -194,6 +206,14 @@ function App() {
                         <ProtectedRoute
                           path="/event-request-details-coo"
                           component={EventDetailsCOO}
+                        />
+                        <ProtectedRoute
+                          path="/all-event-request-list-coo"
+                          component={COOAllEventRequestsList}
+                        />
+                        <ProtectedRoute
+                          path="/all-event-request-details-coo"
+                          component={COOAllRequestsDetails}
                         />
                         <ProtectedRoute
                           path="/event-request-list-vcb"
@@ -298,6 +318,14 @@ function App() {
                 <>
                   <Switch>
                     <ProtectedRoute
+                      path="/all-event-request-list-bom"
+                      component={BOMAllEventRequestsList}
+                    />
+                    <ProtectedRoute
+                      path="/all-event-request-details-bom"
+                      component={BOMAllRequestsDetails}
+                    />
+                    <ProtectedRoute
                       path="/event-approval-list-bom"
                       component={EventListBOM}
                     />
@@ -312,6 +340,14 @@ function App() {
               ) : user.type === "COO" ? (
                 <>
                   <Switch>
+                    <ProtectedRoute
+                      path="/all-event-request-list-coo"
+                      component={COOAllEventRequestsList}
+                    />
+                    <ProtectedRoute
+                      path="/all-event-request-details-coo"
+                      component={COOAllRequestsDetails}
+                    />
                     <ProtectedRoute
                       path="/event-request-list-coo"
                       component={BusinessRequestListCOO}
