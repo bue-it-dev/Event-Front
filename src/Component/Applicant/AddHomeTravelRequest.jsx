@@ -75,23 +75,38 @@ const AddHomeTravelRequest = () => {
   };
 
   // Get List of Approval Department Schema
+  // const GetApprovalDepartmentSchema = () => {
+  //   var config = {
+  //     method: "get",
+  //     url: `${URL.BASE_URL}/api/BusinessRequest/get-approval-departments-schema`,
+  //     headers: {
+  //       Authorization: `Bearer ${getToken()}`,
+  //     },
+  //   };
+  //   axios(config)
+  //     .then(function (response) {
+  //       setapprovalDepartments(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.error("Error fetching departments:", error);
+  //     });
+  // };
   const GetApprovalDepartmentSchema = () => {
+    var data = "";
     var config = {
       method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`,
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-approval-departments-schema`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
+      data: data,
     };
     axios(config)
       .then(function (response) {
-        setapprovalDepartments(response.data.data);
+        setapprovalDepartments(response.data);
       })
-      .catch(function (error) {
-        console.error("Error fetching departments:", error);
-      });
+      .catch(function (error) {});
   };
-
   const onSubmit = async () => {
     try {
       setisLoading(true);
@@ -343,7 +358,7 @@ const AddHomeTravelRequest = () => {
               </div>
 
               <div className="mb-4 flex-grow-1">
-                <select
+                {/* <select
                   className="form-select form-select-lg"
                   onChange={(e) => {
                     seteventData({
@@ -358,6 +373,30 @@ const AddHomeTravelRequest = () => {
                   {approvalDepartments.map((data) => (
                     <option key={data.rowId} value={data.rowId}>
                       {data.depName}
+                    </option>
+                  ))}
+                </select> */}
+                <select
+                  className="form-select form-select-sm custom-select"
+                  style={{
+                    width: "100%",
+                    fontSize: "0.7rem", // Smaller font size
+                    height: "28px", // Adjusted height
+                  }}
+                  value={eventData.approvingDepTypeId}
+                  onChange={(e) => {
+                    seteventData({
+                      ...eventData,
+                      approvingDepTypeId: e.target.value,
+                    });
+                  }}
+                  name="approvingDepartment"
+                  required
+                >
+                  <option value="">Select your approver department</option>
+                  {approvalDepartments.map((data) => (
+                    <option key={data} value={data?.split(" (")[0]}>
+                      {data}
                     </option>
                   ))}
                 </select>
