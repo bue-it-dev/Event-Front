@@ -51,12 +51,18 @@ const Header = () => {
       <React.Fragment>
         <div className="container-fluid">
           <div className="frame">
-            <section style={{ textAlign: "left", marginBottom: "4px" }}>
+            {/* <section style={{ textAlign: "left", marginBottom: "4px" }}>
               <i class="fa fa-id-badge" aria-hidden="true"></i> &nbsp;&nbsp;
               {userData.code}
-            </section>
+              {" - "}{" "}
+              {userData.fullName == "Youssef Youssef ."
+                ? "Youssef Youssef"
+                : userData.fullName}
+            </section> */}
             <section style={{ textAlign: "left", marginBottom: "4px" }}>
               <i class="fa fa-user" aria-hidden="true"></i> &nbsp;&nbsp;
+              {userData.code}
+              {" - "}{" "}
               {userData.fullName == "Youssef Youssef ."
                 ? "Youssef Youssef"
                 : userData.fullName}
@@ -67,12 +73,14 @@ const Header = () => {
             </section>
             <section style={{ textAlign: "left", marginBottom: "4px" }}>
               <i class="fa fa-building" aria-hidden="true"></i> &nbsp;&nbsp;
+              {userData.jobName}
+              {" - "}
               {userData.departmentName}
             </section>
-            <section style={{ textAlign: "left", marginBottom: "4px" }}>
+            {/* <section style={{ textAlign: "left", marginBottom: "4px" }}>
               <i class="fa fa-briefcase" aria-hidden="true"></i> &nbsp;&nbsp;
               {userData.jobName}
-            </section>
+            </section> */}
           </div>
           <br />
         </div>

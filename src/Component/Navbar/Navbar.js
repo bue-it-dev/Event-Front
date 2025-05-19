@@ -26,7 +26,7 @@ const Menu = () => {
               style={{ marginTop: 5 }}
             />
             <div className="navbar-center">
-              <span className="navbar-system-name">
+              {/* <span className="navbar-system-name">
                 <span
                   style={{ fontSize: "38px", paddingTop: "20px" }}
                   className="navbar-uni"
@@ -45,7 +45,7 @@ const Menu = () => {
                 >
                   ve
                 </span>
-              </span>
+              </span> */}
             </div>
           </Navbar.Brand>
           <div className="toggle-container">
