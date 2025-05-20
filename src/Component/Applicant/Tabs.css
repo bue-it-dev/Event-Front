@@ -7,7 +7,7 @@
     padding: 6px 12px;
     overflow: hidden;
     position: relative;
-    font-size: 0.875rem;
+    font-size: 0.7rem !important;
     max-width: 264px;
     min-width: 72px;
     box-sizing: border-box;

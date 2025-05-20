@@ -350,57 +350,12 @@ const AddHomeTravelRequest = () => {
                 Request Event
               </h5>
 
-              <div className="horizontal-rule mb-4">
+              {/* <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
                   Department Info
                 </h5>
-              </div>
-
-              <div className="mb-4 flex-grow-1">
-                {/* <select
-                  className="form-select form-select-lg"
-                  onChange={(e) => {
-                    seteventData({
-                      ...eventData,
-                      approvingDepTypeId: Number(e.target.value),
-                    });
-                  }}
-                  name="approvingDepTypeId"
-                  required
-                >
-                  <option value="">Choose your department</option>
-                  {approvalDepartments.map((data) => (
-                    <option key={data.rowId} value={data.rowId}>
-                      {data.depName}
-                    </option>
-                  ))}
-                </select> */}
-                <select
-                  className="form-select form-select-sm custom-select"
-                  style={{
-                    width: "100%",
-                    fontSize: "0.7rem", // Smaller font size
-                    height: "28px", // Adjusted height
-                  }}
-                  value={eventData.approvingDepTypeId}
-                  onChange={(e) => {
-                    seteventData({
-                      ...eventData,
-                      approvingDepTypeId: e.target.value,
-                    });
-                  }}
-                  name="approvingDepartment"
-                  required
-                >
-                  <option value="">Select your approver department</option>
-                  {approvalDepartments.map((data) => (
-                    <option key={data} value={data?.split(" (")[0]}>
-                      {data}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              </div> */}
 
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />

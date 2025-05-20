@@ -187,65 +187,198 @@ const EventInfo = ({ eventData, seteventData }) => {
     seteventData({ ...eventData, [name]: value });
     setErrors(newErrors);
   };
+  const [approvalDepartments, setapprovalDepartments] = React.useState([]);
+  const GetApprovalDepartmentSchema = () => {
+    var data = "";
+    var config = {
+      method: "get",
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-approval-departments-schema`,
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+      data: data,
+    };
+    axios(config)
+      .then(function (response) {
+        setapprovalDepartments(response.data);
+      })
+      .catch(function (error) {});
+  };
   React.useEffect(() => {
     // setisLoading(false);
     GetNatureofEvents();
+    GetApprovalDepartmentSchema();
     // Getbuildings();
   }, []);
   return (
     <div className="container-fluid">
       <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
         <div className="row g-4">
-          {/* Event Title */}
-          <div className="col-lg-6">
-            <label htmlFor="EventTitle" className="form-label font-weight-bold">
-              Title
-            </label>
-            <input
-              type="text"
-              id="EventTitle"
-              name="EventTitle"
-              value={eventData.EventTitle}
-              onChange={handleChange}
-              className="form-control form-control-lg w-100"
+          <>
+            <style>
+              {`
+      #EventTitle::placeholder {
+        text-align: left;
+      }
+    `}
+            </style>
+            <div className="col-lg-6">
+              <input
+                type="text"
+                id="EventTitle"
+                name="EventTitle"
+                value={eventData.EventTitle}
+                style={{ fontSize: "0.7rem", textAlign: "left" }}
+                onChange={handleChange}
+                className="form-control form-control-lg w-100"
+                required
+                placeholder="Title"
+              />
+              {errors.EventTitle && (
+                <small className="text-danger">{errors.EventTitle}</small>
+              )}
+            </div>
+          </>
+
+          <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+            <select
+              className="form-select form-select-sm custom-select"
+              style={{
+                width: "100%",
+                fontSize: "0.7rem",
+                height: "35px",
+                textAlign: "left",
+              }}
+              value={eventData.approvingDepTypeId}
+              onChange={(e) =>
+                seteventData({
+                  ...eventData,
+                  approvingDepTypeId: e.target.value,
+                })
+              }
+              name="approvingDepartment"
               required
-            />
-            {errors.EventTitle && (
-              <small className="text-danger">{errors.EventTitle}</small>
-            )}
-          </div>
-          {/* Number of Participants */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="NomParticipants"
-              className="form-label font-weight-bold"
             >
-              Number of Participants
-            </label>
-            <input
-              type="number"
-              id="NomParticipants"
-              name="NomParticipants"
-              value={eventData.NomParticipants || ""}
-              onChange={handleChange}
-              className="form-control form-control-lg w-100"
-              min="1"
-            />
-            {errors.NomParticipants && (
-              <small className="text-danger">{errors.NomParticipants}</small>
-            )}
+              <option value="">Select your approver department</option>
+              {approvalDepartments.map((data) => (
+                <option key={data} value={data?.split(" (")[0]}>
+                  {data}
+                </option>
+              ))}
+            </select>
           </div>
-          {/* Event Start Date */}
+          <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+            <select
+              className="form-select form-select-lg"
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  natureOfEventId: Number(e.target.value),
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option value="">Select event nature</option>
+              {natureofevents.map((data) => (
+                <option key={data.natureOfEventId} value={data.natureOfEventId}>
+                  {data.natureOfEvent}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+            <select
+              className="form-select form-select-lg"
+              value={eventData.eventType}
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  eventType: e.target.value,
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option style={{ textAlign: "left" }} value="">
+                Select location type
+              </option>
+              <option value="Internal">On Campus</option>
+              <option value="External">Off Campus</option>
+            </select>
+          </div>
+          <>
+            <style>
+              {`
+      #budgetEstimatedCost::placeholder {
+        text-align: left;
+      }
+    `}
+            </style>
+            <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+              <input
+                type="number"
+                id="budgetEstimatedCost"
+                // className="form-control"
+                style={{ fontSize: "0.7rem" }}
+                value={
+                  eventData.budgetEstimatedCost === 0
+                    ? ""
+                    : eventData.budgetEstimatedCost
+                }
+                required
+                className="form-control form-control-lg w-100"
+                placeholder="Estimated Cost"
+                onChange={(e) => {
+                  seteventData({
+                    ...eventData,
+                    budgetEstimatedCost:
+                      e.target.value === "" ? 0 : Number(e.target.value),
+                  });
+                }}
+              />
+            </div>
+          </>
+          <>
+            <style>
+              {`
+      #NomParticipants::placeholder {
+        text-align: left;
+      }
+    `}
+            </style>
+            <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+              <input
+                type="number"
+                id="NomParticipants"
+                name="NomParticipants"
+                style={{ fontSize: "0.7rem" }}
+                value={eventData.NomParticipants || ""}
+                onChange={handleChange}
+                className="form-control form-control-lg w-100"
+                min="1"
+                placeholder="Number of participants"
+              />
+              {errors.NomParticipants && (
+                <small className="text-danger">{errors.NomParticipants}</small>
+              )}
+            </div>
+          </>
           <div className="col-lg-6">
             <label
               htmlFor="EventStartDate"
               className="form-label font-weight-bold"
+              style={{ fontSize: "0.7rem" }}
             >
               Start Date
             </label>
             <input
               type="date"
               id="EventStartDate"
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
               name="EventStartDate"
               value={eventData.EventStartDate || ""}
               onChange={handleChange}
@@ -256,11 +389,11 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.EventStartDate}</small>
             )}
           </div>
-          {/* Event End Date */}
           <div className="col-lg-6">
             <label
               htmlFor="EventEndDate"
               className="form-label font-weight-bold"
+              style={{ fontSize: "0.7rem" }}
             >
               End Date
             </label>
@@ -268,6 +401,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               type="date"
               id="EventEndDate"
               name="EventEndDate"
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
               value={eventData.EventEndDate || ""}
               onChange={handleChange}
               className="form-control form-control-lg w-100"
@@ -276,282 +410,217 @@ const EventInfo = ({ eventData, seteventData }) => {
               <small className="text-danger">{errors.EventEndDate}</small>
             )}
           </div>
-          {/* Organizer Email */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="natureOfEventId"
-              className="form-label font-weight-bold"
-            >
-              Nature
-            </label>
-            <select
-              className="form-select form-select-lg"
-              onChange={(e) => {
-                seteventData({
-                  ...eventData,
-                  natureOfEventId: Number(e.target.value),
-                });
-              }}
-              name="natureOfEventId"
-              required
-            >
-              {natureofevents.map((data) => (
-                <option key={data.natureOfEventId} value={data.natureOfEventId}>
-                  {data.natureOfEvent}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Organizer Email */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="natureOfEventId"
-              className="form-label font-weight-bold"
-            >
-              Type
-            </label>
-            <select
-              className="form-select form-select-lg"
-              value={eventData.eventType}
-              onChange={(e) => {
-                seteventData({
-                  ...eventData,
-                  eventType: e.target.value,
-                });
-              }}
-              name="natureOfEventId"
-              required
-            >
-              <option value="Internal">Internal</option>
-              <option value="External">External</option>
-            </select>
-          </div>
-          <div className="col-lg-6">
-            <label
-              htmlFor="natureOfEventId"
-              className="form-label font-weight-bold"
-            >
-              Estimated Cost
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              value={eventData.budgetEstimatedCost}
-              required
-              onChange={(e) => {
-                seteventData({
-                  ...eventData,
-                  budgetEstimatedCost: Number(e.target.value),
-                });
-              }}
-            />
-          </div>
-          {/* Organizer Email */}
-          <div className="col-lg-6">
-            <label
-              htmlFor="natureOfEventId"
-              className="form-label font-weight-bold"
-            >
-              Cost Currency
-            </label>
-            <select
-              className="form-select form-select-lg"
-              value={eventData.budgetCostCurrency}
-              onChange={(e) => {
-                seteventData({
-                  ...eventData,
-                  budgetCostCurrency: e.target.value,
-                });
-              }}
-              name="natureOfEventId"
-              required
-            >
-              <option value="EGP">EGP</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-            </select>
-          </div>
-          <br />
-
           <div className="horizontal-rule mb-4">
             <hr className="border-secondary" />
             <h5 className="horizontal-rule-text fs-5 text-dark">
               Organizer Info
             </h5>
           </div>
-          {eventData.eventType == "Internal" ? (
+          {/* {eventData.eventType == "Internal" ? (
+            <> */}
+          {/* Organizer Name */}
+          <div className="col-lg-6">
+            {/* <label
+              htmlFor="OrganizerName"
+              className="form-label font-weight-bold"
+            >
+              Organizer Name
+            </label> */}
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              isClearable
+              isSearchable
+              options={[...employeelist, { value: -1, label: "Others" }]}
+              onChange={handleOrgChange}
+              required
+              placeholder="Select employee name"
+              styles={{
+                option: (provided) => ({
+                  ...provided,
+                  textAlign: "left",
+                  fontSize: "0.7rem",
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  textAlign: "left",
+                  fontSize: "0.7rem",
+                }),
+                placeholder: (provided) => ({
+                  ...provided,
+                  textAlign: "left",
+                  fontSize: "0.7rem",
+                }),
+              }}
+            />
+          </div>
+          {/* Organizer Email */}
+          <div className="col-lg-6">
             <>
-              {/* Organizer Name */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="OrganizerName"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Name
-                </label>
-                <Select
-                  className="basic-single"
-                  classNamePrefix="select"
-                  isClearable
-                  isSearchable
-                  options={[...employeelist, { value: -1, label: "Others" }]}
-                  onChange={handleOrgChange}
-                  required
-                  placeholder="Choose organizer name"
-                  styles={{
-                    option: (provided) => ({
-                      ...provided,
-                      textAlign: "left",
-                    }),
-                    singleValue: (provided) => ({
-                      ...provided,
-                      textAlign: "left",
-                    }),
-                  }}
-                />
-              </div>
-              {/* Organizer Email */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="OrganizerEmail"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Email
-                </label>
-                <div className="input-group w-100">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">@</span>
-                  </div>
-                  <input
-                    type="email"
-                    id="OrganizerEmail"
-                    name="OrganizerEmail"
-                    disabled
-                    value={empsettings.email || eventData.organizerEmail}
-                    onChange={(e) => {
-                      seteventData({
-                        ...eventData,
-                        organizerEmail: e.target.value,
-                      });
-                    }}
-                    className="form-control form-control-lg"
-                  />
+              <style>
+                {`
+      #OrganizerEmail::placeholder {
+        text-align: left;
+      }
+    `}
+              </style>
+              <div className="input-group w-100">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">@</span>
                 </div>
-              </div>
-              {/* Organizer Extension */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="organizerPosition"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Position
-                </label>
                 <input
-                  type="text"
-                  id="organizerPosition"
-                  name="organizerPosition"
+                  type="email"
+                  id="OrganizerEmail"
+                  name="OrganizerEmail"
+                  placeholder="Email"
+                  style={{ fontSize: "0.7rem", textAlign: "left" }}
                   disabled
-                  value={empsettings.position || ""}
-                  onChange={handleChange}
-                  className="form-control form-control-lg w-100"
+                  value={empsettings.email || eventData.organizerEmail}
+                  onChange={(e) => {
+                    seteventData({
+                      ...eventData,
+                      organizerEmail: e.target.value,
+                    });
+                  }}
+                  className="form-control form-control-lg"
                 />
-                {errors.organizerPosition && (
-                  <small className="text-danger">
-                    {errors.organizerPosition}
-                  </small>
-                )}
               </div>
             </>
-          ) : (
+          </div>
+          {/* Organizer Extension */}
+          <div className="col-lg-6">
             <>
-              {/* Organizer Name */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="OrganizerName"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Name
-                </label>
-                {}
-                <input
-                  type="text"
-                  id="OrganizerName"
-                  name="OrganizerName"
-                  value={eventData.OrganizerName || ""}
-                  onChange={handleChange}
-                  className="form-control form-control-lg w-100"
-                />
-              </div>
-              {/* Organizer Email */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="OrganizerEmail"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Email
-                </label>
-                <div className="input-group w-100">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">@</span>
-                  </div>
-                  <input
-                    type="email"
-                    id="OrganizerEmail"
-                    name="organizerEmail"
-                    value={eventData.organizerEmail || ""}
-                    onChange={handleChange}
-                    className="form-control form-control-lg"
-                  />
-                </div>
-              </div>
-              {/* Organizer Extension */}
-              <div className="col-lg-6">
-                <label
-                  htmlFor="organizerPosition"
-                  className="form-label font-weight-bold"
-                >
-                  Organizer Position
-                </label>
-                <input
-                  type="text"
-                  id="organizerPosition"
-                  name="organizerPosition"
-                  value={eventData.organizerPosition || ""}
-                  onChange={handleChange}
-                  className="form-control form-control-lg w-100"
-                />
-                {errors.organizerPosition && (
-                  <small className="text-danger">
-                    {errors.organizerPosition}
-                  </small>
-                )}
-              </div>
+              <style>
+                {`
+      #organizerPosition::placeholder {
+        text-align: left;
+      }
+    `}
+              </style>
+              {/* <label
+              htmlFor="organizerPosition"
+              className="form-label font-weight-bold"
+            >
+              Organizer Position
+            </label> */}
+              <input
+                type="text"
+                id="organizerPosition"
+                name="organizerPosition"
+                style={{ fontSize: "0.7rem", textAlign: "left" }}
+                disabled
+                value={empsettings.position || ""}
+                onChange={handleChange}
+                className="form-control form-control-lg w-100"
+                placeholder="Position"
+              />
+              {errors.organizerPosition && (
+                <small className="text-danger">
+                  {errors.organizerPosition}
+                </small>
+              )}
             </>
-          )}
+          </div>
+          {/* </> 
+          // ) : (
+          //   <>
+          //     
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="OrganizerName"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Name
+          //       </label>
+          //       {}
+          //       <input
+          //         type="text"
+          //         id="OrganizerName"
+          //         name="OrganizerName"
+          //         value={eventData.OrganizerName || ""}
+          //         onChange={handleChange}
+          //         className="form-control form-control-lg w-100"
+          //       />
+          //     </div>
+          //     {/* Organizer Email
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="OrganizerEmail"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Email
+          //       </label>
+          //       <div className="input-group w-100">
+          //         <div className="input-group-prepend">
+          //           <span className="input-group-text">@</span>
+          //         </div>
+          //         <input
+          //           type="email"
+          //           id="OrganizerEmail"
+          //           name="organizerEmail"
+          //           value={eventData.organizerEmail || ""}
+          //           onChange={handleChange}
+          //           className="form-control form-control-lg"
+          //         />
+          //       </div>
+          //     </div>
+          //     {/* Organizer Extension 
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="organizerPosition"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Position
+          //       </label>
+          //       <input
+          //         type="text"
+          //         id="organizerPosition"
+          //         name="organizerPosition"
+          //         value={eventData.organizerPosition || ""}
+          //         onChange={handleChange}
+          //         className="form-control form-control-lg w-100"
+          //       />
+          //       {errors.organizerPosition && (
+          //         <small className="text-danger">
+          //           {errors.organizerPosition}
+          //         </small>
+          //       )}
+          //     </div>
+          //   </>
+          // )}
 
           {/* Organizer Mobile */}
           <div className="col-lg-6">
-            <label
+            {/* <label
               htmlFor="OrganizerMobile"
               className="form-label font-weight-bold"
             >
               Organizer Mobile
-            </label>
+            </label> */}
             <div className="input-group w-100">
               <div className="input-group-prepend">
                 <span className="input-group-text">📞</span>
               </div>
-              <input
-                type="tel"
-                id="OrganizerMobile"
-                name="OrganizerMobile"
-                value={eventData.OrganizerMobile || ""}
-                onChange={handleChange}
-                maxLength={11}
-                className="form-control form-control-lg"
-                placeholder="Enter valid Egyptian phone number"
-              />
+              <>
+                <style>
+                  {`
+      #OrganizerMobile::placeholder {
+        text-align: left;
+      }
+    `}
+                </style>
+                <input
+                  type="tel"
+                  id="OrganizerMobile"
+                  name="OrganizerMobile"
+                  style={{ fontSize: "0.7rem", textAlign: "left" }}
+                  value={eventData.OrganizerMobile || ""}
+                  onChange={handleChange}
+                  maxLength={11}
+                  className="form-control form-control-lg"
+                  placeholder="Enter valid Egyptian phone number"
+                />
+              </>
             </div>
             {errors.OrganizerMobile && (
               <small className="text-danger">{errors.OrganizerMobile}</small>

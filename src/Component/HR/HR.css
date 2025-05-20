@@ -6,27 +6,27 @@
   
   .Buteye:hover {
     color           : red !important;
-    font-size       : 22px;
+    font-size       : 0.7rem;
     background-color: inherit;
   }
   
   .Buteye {
     border          : none;
-    font-size       : 22px;
+    font-size       : 0.7rem;
     background-color: inherit;
   }
   
   
   .Butpen:hover {
     color           : red !important;
-    font-size       : 22px;
+    font-size       : 0.7rem;
     background-color: inherit;
   
   }
   
   .Butpen {
     border      : none;
-    font-size   : 22px;
+    font-size       : 0.7rem;
     color       : #000;
     margin-right: 12px;
   }
@@ -567,6 +567,7 @@
     border-bottom: none;
     padding: 16px 24px;
     border-radius: 8px 8px 0 0;
+    font-size: 0.7rem !important;
   }
   .MuiBox-root {
     padding: 0px !important;

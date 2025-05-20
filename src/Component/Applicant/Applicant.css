@@ -558,6 +558,7 @@ body {
   border-bottom: none;
   padding: 16px 24px;
   border-radius: 8px 8px 0 0;
+  font-size: 1rem !important;
 }
 
 /* Buttons */
@@ -629,7 +630,7 @@ body {
   background: #ffffff;
   padding: 0 10px;
   font-weight: 500;
-  font-size: 18px !important;
+  font-size: 14px !important;
 }
 
 /* Responsive */
