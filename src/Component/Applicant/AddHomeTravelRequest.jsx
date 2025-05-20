@@ -375,19 +375,22 @@ const AddHomeTravelRequest = () => {
                   type="button"
                   className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
                   style={{
-                    width: "40px",
-                    height: "40px",
-                    fontSize: "18px",
+                    width: "24px", // ~1.5rem
+                    height: "24px",
+                    fontSize: "0.7rem",
                     borderRadius: "50%",
                     marginRight: "10px",
                     transition: "0.3s ease",
                     backgroundColor: "#57636f",
+                    padding: "0",
                   }}
                   onClick={addBuildingVenue}
                 >
                   +
                 </button>
-                <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                <p className="text-dark mb-0" style={{ fontSize: "0.7rem" }}>
+                  Add Venue(s)
+                </p>
               </div>
 
               {eventData.BuildingVenues.map((_, index) => (

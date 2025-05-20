@@ -54,9 +54,9 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
       <div className="row align-items-center">
         {/* Building Select */}
         <div className="col-md-6">
-          <label className="form-label font-weight-bold">Select Building</label>
           <select
             className="form-control custom-select custom-select-lg"
+            style={{ fontSize: "0.7rem" }}
             onChange={(e) => {
               const buildingId = e.target.value;
               setSelectedBuildingId(buildingId);
@@ -77,9 +77,9 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
         {/* Venue Select (Shown Only When Building is Selected) */}
         {selectedBuildingId && (
           <div className="col-md-5 mt-3 mt-md-0">
-            <label className="form-label font-weight-bold">Select Venue</label>
             <select
               className="form-control custom-select custom-select-lg"
+              style={{ fontSize: "0.7rem" }}
               onChange={(e) => {
                 const venueId = e.target.value;
                 seteventData((prev) => {
@@ -110,7 +110,17 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
           <button
             type="button"
             className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
-            style={{ width: "42px", height: "42px" }}
+            // style={{ width: "42px", height: "42px" }}
+            style={{
+              width: "24px", // ~1.5rem
+              height: "24px",
+              fontSize: "0.7rem",
+              borderRadius: "50%",
+              marginRight: "10px",
+              transition: "0.3s ease",
+              // backgroundColor: "#57636f",
+              padding: "0",
+            }}
             onClick={() => {
               seteventData((prev) => ({
                 ...prev,
