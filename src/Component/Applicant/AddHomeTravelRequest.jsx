@@ -492,7 +492,7 @@ const AddHomeTravelRequest = () => {
                           }}
                           onClick={() => onSubmit()}
                         >
-                          {isLoading ? "Saving Draft..." : "Save Draft"}
+                          {isLoading ? "Save Draft" : "Save Draft"}
                         </button>
 
                         <button
@@ -512,9 +512,7 @@ const AddHomeTravelRequest = () => {
                             )
                           }
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Submit" : "Submit"}
                         </button>
                       </div>
                     </div>
