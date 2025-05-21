@@ -553,13 +553,17 @@ body {
 
 /* Header */
 .card-header {
-  background-color: #57636f !important; /* Primary color */
-  color: #ffffff;
+  background-color: #57636f !important;
+  color: #fff;
   border-bottom: none;
-  padding: 16px 24px;
+  padding: 10px 16px;
   border-radius: 8px 8px 0 0;
+  width: 60%;
+  margin: 0 auto;
+  line-height: 1.2;
   font-size: 1rem !important;
 }
+
 
 /* Buttons */
 .btn {

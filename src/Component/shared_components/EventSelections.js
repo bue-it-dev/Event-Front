@@ -68,7 +68,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasAccomdation: isChecked ? 1 : 0,
+      HasAccomodation: isChecked ? 1 : 0,
       Accommodations: isChecked ? [] : [],
     }));
   };
@@ -90,6 +90,26 @@ const EventSelections = ({ eventData, setEventData }) => {
       ...prevData,
       HasIt: isChecked ? 1 : 0,
       ItComponents: isChecked ? [] : [],
+    }));
+  };
+
+  // IT Components toggle
+  const handleBudgetComponentsCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    setEventData((prevData) => ({
+      ...prevData,
+      HasBudget: isChecked ? 1 : 0,
+      // ItComponents: isChecked ? [] : [],
+    }));
+  };
+
+  // IT Components toggle
+  const handleMarcomComponentsCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    setEventData((prevData) => ({
+      ...prevData,
+      HasMarcom: isChecked ? 1 : 0,
+      // ItComponents: isChecked ? [] : [],
     }));
   };
 
@@ -250,6 +270,94 @@ const EventSelections = ({ eventData, setEventData }) => {
         className="card shadow-lg px-4 py-2 w-100 mx-auto"
         style={{ backgroundColor: "#f8f9fa" }}
       >
+        {/* IT Components Section */}
+        <div
+          className="card shadow-sm p-3 mt-3"
+          style={{ backgroundColor: "#f1f3f5" }}
+        >
+          <div className="d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="HasBudget"
+              className="form-check-input me-2"
+              checked={eventData.HasBudget === 1}
+              onChange={handleBudgetComponentsCheckbox}
+            />
+            <label
+              className="form-check-label font-weight-bold text-dark"
+              htmlFor="HasIt"
+              style={{ fontSize: "0.7rem" }}
+            >
+              Budget (if needed)
+            </label>
+          </div>
+
+          {eventData.HasBudget === 1 && (
+            <div className="mt-2">
+              <>
+                <style>
+                  {`
+                  #budgetEstimatedCost::placeholder {
+                    text-align: left;
+                  }
+                `}
+                </style>
+
+                <div
+                  className="col-lg-6"
+                  style={{
+                    fontSize: "0.7rem",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <input
+                    type="number"
+                    id="budgetEstimatedCost"
+                    style={{ fontSize: "0.7rem" }}
+                    value={
+                      eventData.budgetEstimatedCost === 0
+                        ? ""
+                        : eventData.budgetEstimatedCost
+                    }
+                    required
+                    className="form-control form-control-lg w-100"
+                    placeholder="Enter event estimated cost"
+                    onChange={(e) => {
+                      setEventData({
+                        ...eventData,
+                        budgetEstimatedCost:
+                          e.target.value === "" ? 0 : Number(e.target.value),
+                      });
+                    }}
+                  />
+                </div>
+              </>
+            </div>
+          )}
+        </div>
+        {/* IT Components Section */}
+        <div
+          className="card shadow-sm p-3 mt-3"
+          style={{ backgroundColor: "#f1f3f5" }}
+        >
+          <div className="d-flex align-items-center">
+            <input
+              type="checkbox"
+              id="HasMarcom"
+              className="form-check-input me-2"
+              checked={eventData.HasMarcom === 1}
+              onChange={handleMarcomComponentsCheckbox}
+            />
+            <label
+              className="form-check-label font-weight-bold text-dark"
+              htmlFor="HasIt"
+              style={{ fontSize: "0.7rem" }}
+            >
+              Marcom (if needed)
+            </label>
+          </div>
+        </div>
         {/* IT Components Section */}
         <div
           className="card shadow-sm p-3 mt-3"
@@ -464,21 +572,21 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasAccomdation"
+              id="HasAccomodation"
               className="form-check-input me-2"
-              checked={eventData.HasAccomdation === 1}
+              checked={eventData.HasAccomodation === 1}
               onChange={handleAccommodationCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasAccomdation"
+              htmlFor="HasAccomodation"
               style={{ fontSize: "0.7rem" }}
             >
-              Accommodation (Optional)
+              Accommodation (If Needed)
             </label>
           </div>
 
-          {eventData.HasAccomdation === 1 && (
+          {eventData.HasAccomodation === 1 && (
             <div className="mt-3">
               {/* Room Type Selection */}
               <div className="row g-2">

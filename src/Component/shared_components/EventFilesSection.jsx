@@ -31,7 +31,17 @@ const EventFilesSection = ({ eventData, setEventData }) => {
       [name]: checked ? 1 : 0,
     });
   };
-
+  const handleVIPCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setEventData({
+      ...eventData,
+      [name]: checked ? 0 : null,
+    });
+  };
+  const handleVIPChange = (e) => {
+    const value = e.target.value === "national" ? 0 : 1;
+    setEventData({ ...eventData, isNationalorInternationalVIP: value });
+  };
   return (
     <div className="container-fluid py-3">
       <div className="card modern-card w-60 mx-auto">
@@ -47,7 +57,10 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label small" htmlFor="IsStaffStudents">
-              <b>The event is for BUE staff and students</b>
+              <b>
+                The Event Exclusively Attended by Staff & Students of the
+                British University in Egypt
+              </b>
             </label>
           </div>
 
@@ -66,11 +79,14 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   className="form-check-label small"
                   htmlFor="IsChairBoardPrisidentVcb"
                 >
-                  <b>The Chair, Board Member, President, or VC attend</b>
+                  <b>
+                    Does the Chair, and/or Board Member, and/or President and
+                    Vice Chancellor need to attend?
+                  </b>
                 </label>
               </div>
 
-              <div className="mt-2 text-center">
+              {/* <div className="mt-2 text-center">
                 <label className="form-label small d-block">
                   Lead Organizer’s Approval Form
                 </label>
@@ -87,11 +103,14 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     }
                   />
                 </div>
-              </div>
+              </div> */}
 
               {eventData.IsChairBoardPrisidentVcb === 1 && (
                 <div className="mt-2 text-center">
-                  <label className="form-label small d-block">
+                  <label
+                    className="form-label small d-block"
+                    style={{ fontSize: "0.7rem" }}
+                  >
                     President’s Office Form
                   </label>
                   <div className="d-flex justify-content-center">
@@ -125,15 +144,20 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label className="form-check-label small" htmlFor="IsOthers">
-              <b>The event is for non-BUE staff and students</b>
-              <span className="text-danger"> (Requires Approval)</span>
+              <b>
+                The event is attended by others; please attach the visit agenda.
+              </b>
+              {/* <span className="text-danger"> (Requires Approval)</span> */}
             </label>
           </div>
 
           {eventData.IsOthers === 1 && (
             <div className="mt-2">
               <div className="mt-2 text-center">
-                <label className="form-label small d-block">
+                <label
+                  className="form-label small d-block"
+                  style={{ fontSize: "0.7rem" }}
+                >
                   Visit Agenda File
                 </label>
                 <div className="d-flex justify-content-center">
@@ -150,56 +174,119 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   />
                 </div>
               </div>
-
               {/* VIP Section */}
               <div className="card section-card p-2 mt-3">
                 <div className="form-check form-switch">
                   <input
                     type="checkbox"
-                    id="isVIP"
-                    name="isVIP"
+                    id="isNationalorInternationalVIP"
+                    name="isNationalorInternationalVIP"
                     className="form-check-input"
-                    checked={eventData.isVIP === 1}
+                    checked={eventData.isNationalorInternationalVIP != null}
+                    onChange={handleVIPCheckboxChange}
+                  />
+                  <label
+                    className="form-check-label small"
+                    htmlFor="isNationalorInternationalVIP"
+                  >
+                    <b>National or International VIP Guests will attend</b>
+                  </label>
+                </div>
+              </div>
+              {eventData.isNationalorInternationalVIP != null ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "0.7rem",
+                      gap: "2rem",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="radio"
+                        name="vipType"
+                        id="national"
+                        value="national"
+                        checked={eventData.isNationalorInternationalVIP === 0}
+                        onChange={handleVIPChange}
+                        style={{ marginRight: "0.3rem" }}
+                      />
+                      <label htmlFor="national">National</label>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="radio"
+                        name="vipType"
+                        id="international"
+                        value="international"
+                        checked={eventData.isNationalorInternationalVIP === 1}
+                        onChange={handleVIPChange}
+                        style={{ marginRight: "0.3rem" }}
+                      />
+                      <label htmlFor="international">International</label>
+                    </div>
+                  </div>
+                </>
+              ) : null}
+              {/* VIP Section */}
+              <div className="card section-card p-2 mt-3">
+                <div className="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    id="isInternationalGuest"
+                    name="isInternationalGuest"
+                    className="form-check-input"
+                    checked={eventData.isInternationalGuest === 1}
                     onChange={handleCheckboxChange}
                   />
-                  <label className="form-check-label small" htmlFor="isVIP">
+                  <label
+                    className="form-check-label small"
+                    htmlFor="isInternationalGuest"
+                  >
                     <b>International guests (excluding VIPs) will attend</b>
                   </label>
                 </div>
               </div>
 
-              {eventData.isVIP === 1 && (
-                <div className="card passport-card p-2 mt-3">
+              {eventData.isInternationalGuest === 1 && (
+                <div className="mt-3">
                   {(eventData.passportData || []).map((fileArray, index) => (
                     <div
                       key={index}
                       className="passport-entry mb-3 text-center"
                     >
                       {/* Centered Label */}
-                      <label className="form-label small d-block">
+                      <label
+                        className="form-label small d-block"
+                        style={{ fontSize: "0.7rem" }}
+                      >
                         Passport {index + 1}
                       </label>
-
                       {/* File Input + Delete Button Row */}
                       <div className="d-flex justify-content-center align-items-center gap-2">
                         <input
                           type="file"
                           multiple
                           className="form-control form-control-sm w-50"
-                          style={{ maxWidth: "300px" }}
+                          style={{ maxWidth: "300px", fontSize: "0.7rem" }}
                           onChange={(e) => handleFileChange(e, index)}
                         />
                         <button
                           type="button"
                           className="btn btn-danger btn-sm"
-                          style={{ padding: "3px 6px", fontSize: "12px" }}
+                          style={{ padding: "3px 6px", fontSize: "0.7rem" }}
                           onClick={() => removePassportInput(index)}
                         >
                           <i className="bi bi-trash"></i>
                         </button>
                       </div>
-
-                      {/* Display File Names */}
+                      {/* 
+                      {/* Display File Names
                       {fileArray.length > 0 && (
                         <ul className="mt-1 small text-center">
                           {fileArray.map((file, fileIndex) => (
@@ -208,7 +295,8 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                             </li>
                           ))}
                         </ul>
-                      )}
+                      )}{" "}
+                      */}
                     </div>
                   ))}
 
@@ -218,7 +306,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                       className="btn btn-primary btn-sm"
                       style={{
                         backgroundColor: "#57636f",
-                        fontSize: "12px",
+                        fontSize: "0.6rem",
                         padding: "5px 10px",
                       }}
                       onClick={addPassportInput}
@@ -249,7 +337,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
         .passport-card {
           border-radius: 6px;
-          background: #eef2f5;
           padding: 10px;
         }
 
@@ -275,7 +362,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
         }
 
         .form-check-label {
-          font-size: 13px;
+          font-size: 0.7rem;
         }
       `}</style>
     </div>

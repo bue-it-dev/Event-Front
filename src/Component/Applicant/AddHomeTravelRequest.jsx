@@ -34,19 +34,22 @@ const AddHomeTravelRequest = () => {
     EventEndDate: null,
     HasIt: 0,
     HasAccomodation: 0,
-    natureOfEventId: 1,
+    HasBudget: 0,
+    HasMarcom: 0,
     HasTransportation: 0,
+    natureOfEventId: 1,
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
     organizerPosition: "",
     approvingDepTypeId: 0,
     budgetEstimatedCost: 0,
-    budgetCostCurrency: "",
+    budgetCostCurrency: "EGP",
     eventType: "Internal",
     DeptId: null,
     IsOthers: null,
-    isVIP: null,
+    isNationalorInternationalVIP: null,
+    isInternationalGuest: null,
     IsStaffStudents: null,
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
@@ -471,33 +474,37 @@ const AddHomeTravelRequest = () => {
                   </>
                 ) : (
                   <>
-                    <div className="row">
-                      <div className="col-md-6">
+                    <div className="row justify-content-center mt-3">
+                      <div
+                        className="d-flex justify-content-center"
+                        style={{ gap: "1rem", flexWrap: "wrap" }}
+                      >
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
+                          className="btn btn-dark btn-lg"
                           disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
                           onClick={() => onSubmit()}
                         >
                           {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
-                      </div>
-                      <div className="col-md-6">
+
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
+                          className="btn btn-dark btn-lg"
                           disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
                           onClick={() =>
                             SaveandConfrimBusinessRequestAsync(

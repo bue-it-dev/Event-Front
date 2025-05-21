@@ -289,7 +289,7 @@ const EventInfo = ({ eventData, seteventData }) => {
             </select>
           </div>
 
-          <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+          {/* <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
             <select
               className="form-select form-select-lg"
               value={eventData.eventType}
@@ -309,8 +309,8 @@ const EventInfo = ({ eventData, seteventData }) => {
               <option value="Internal">On Campus</option>
               <option value="External">Off Campus</option>
             </select>
-          </div>
-          <>
+          </div> */}
+          {/* <>
             <style>
               {`
       #budgetEstimatedCost::placeholder {
@@ -341,7 +341,7 @@ const EventInfo = ({ eventData, seteventData }) => {
                 }}
               />
             </div>
-          </>
+          </> */}
           <>
             <style>
               {`
