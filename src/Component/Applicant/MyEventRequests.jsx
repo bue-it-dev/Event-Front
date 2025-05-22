@@ -157,7 +157,8 @@ const MyEvents = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       //OrganizerMobile: event.organizerMobile || "N/A",
       //OrganizerEmail : event.OrganizerEmail || "N/A",
-      statusName: event.statusName,
+      statusName:
+        event.statusName == "Pending" ? "Submitted" : event.statusName,
       actions: (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -183,7 +184,7 @@ const MyEvents = () => {
                 whiteSpace: "nowrap",
               }}
             >
-              {event.confirmedAt == null ? <>Modify</> : <>View</>}
+              View
             </button>
           </Link>
 
