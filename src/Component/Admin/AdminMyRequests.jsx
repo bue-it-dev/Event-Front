@@ -14,7 +14,7 @@ import AdminTabs from "./AdminTabs";
 import Admin from "./Admin";
 import { toast } from "react-toastify";
 
-const MyHomeRequests = () => {
+const MyEventRequests = () => {
   const [homerequests, sethomerequests] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -202,21 +202,21 @@ const MyHomeRequests = () => {
         </div>
       ) : (
         <div className="row">
-            <Table responsive>
-              <MDBDataTable
-                className="custom-table"
-                striped
-                bordered
-                hover
-                data={data}
-                order={["Number", "asc"]}
-                entries={10}
-              />
-            </Table>
+          <Table responsive>
+            <MDBDataTable
+              className="custom-table"
+              striped
+              bordered
+              hover
+              data={data}
+              order={["Number", "asc"]}
+              entries={10}
+            />
+          </Table>
         </div>
       )}
     </div>
   );
 };
 
-export default MyHomeRequests;
+export default MyEventRequests;

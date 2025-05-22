@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import Login from "./Component/Login/login";
 import Applicant from "./Component/Applicant/Applicant";
-import AddHomeTravel from "./Component/Applicant/AddHomeTravelRequest";
-import MyHomeRequests from "./Component/Applicant/MyHomeRequests";
+import AddHomeTravel from "./Component/Applicant/AddEventRequest";
+import MyEventRequests from "./Component/Applicant/MyEventRequests";
 import Admin from "./Component/Admin/Admin";
 import VCB from "./Component/VCB/VCB";
 import HR from "./Component/HR/HR";
@@ -31,7 +31,7 @@ import { useUser } from "./Component/Entities";
 import ProtectedRoute from "./Component/Common/ProtectedRoute";
 import Header from "./Component/Header/Header";
 import Footer from "./Component/NewFooter/Footer";
-import HomeRequestDetails from "./Component/Applicant/HomeRequestDetails";
+import EventRequestDetails from "./Component/Applicant/EventRequestDetails";
 import AdminAddHomeRequest from "./Component/Admin/AdminAddHomeRequest";
 import EventRequestDetailsVCB from "./Component/VCB/EventRequestDetailsVCB";
 import AdminEventAdd from "./Component/Admin/AdminEventAdd";
@@ -514,12 +514,12 @@ function App() {
                     <ProtectedRoute
                       path="/my-event-requests"
                       exact
-                      component={MyHomeRequests}
+                      component={MyEventRequests}
                     />
                     <ProtectedRoute
                       path="/event-request-details"
                       exact
-                      component={HomeRequestDetails}
+                      component={EventRequestDetails}
                     />
                     <Route path="*" exact component={Page404} />
                   </Switch>

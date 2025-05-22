@@ -397,7 +397,9 @@ div.dataTables_wrapper span.select-item {
 
 .table-bordered td,
 .table-bordered th {
+  font-size: 0.7rem !important;
   border: none
+  
 }
 
 .pagination .page-item.active .page-link {
@@ -415,6 +417,7 @@ tbody+thead {
 .table-bordered th,
 .table-bordered td {
   border: none !important;
+  font-size: 0.7rem !important;
 }
 
 .fa-plus:before {
@@ -634,7 +637,7 @@ body {
   background: #ffffff;
   padding: 0 10px;
   font-weight: 500;
-  font-size: 14px !important;
+  font-size: 0.8rem !important;
 }
 
 /* Responsive */

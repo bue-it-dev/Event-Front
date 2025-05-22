@@ -249,14 +249,14 @@ const EventInfo = ({ eventData, seteventData }) => {
                 height: "35px",
                 textAlign: "left",
               }}
-              value={eventData.approvingDepTypeId}
+              value={eventData.approvingDeptName}
               onChange={(e) =>
                 seteventData({
                   ...eventData,
-                  approvingDepTypeId: e.target.value,
+                  approvingDeptName: e.target.value,
                 })
               }
-              name="approvingDepartment"
+              name="approvingDeptName"
               required
             >
               <option value="">Select your approver department</option>

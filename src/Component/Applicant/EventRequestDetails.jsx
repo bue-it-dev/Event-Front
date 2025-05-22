@@ -22,7 +22,7 @@ import {
   ConfrimEventRequest,
 } from "../Requests/mutators";
 import UpdateEventFilesSection from "../shared_components/UpdateEventFilesSection";
-const HomeRequestDetails = () => {
+const EventRequestDetails = () => {
   const history = useHistory();
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
@@ -1916,4 +1916,4 @@ const HomeRequestDetails = () => {
   );
 };
 
-export default HomeRequestDetails;
+export default EventRequestDetails;

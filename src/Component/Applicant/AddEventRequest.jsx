@@ -20,7 +20,7 @@ import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
 import { ActionTurnedInNot } from "material-ui/svg-icons";
 
-const AddHomeTravelRequest = () => {
+const AddEventRequest = () => {
   const history = useHistory();
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
@@ -32,11 +32,11 @@ const AddHomeTravelRequest = () => {
     NomParticipants: null,
     EventStartDate: null,
     EventEndDate: null,
-    HasIt: 0,
-    HasAccomodation: 0,
-    HasBudget: 0,
-    HasMarcom: 0,
-    HasTransportation: 0,
+    hasBudget: 0,
+    hasMarcom: 0,
+    hasIt: 0,
+    hasAccomdation: 0,
+    hasTransportation: 0,
     natureOfEventId: 1,
     OrganizerName: "",
     OrganizerMobile: "",
@@ -48,8 +48,8 @@ const AddHomeTravelRequest = () => {
     eventType: "Internal",
     DeptId: null,
     IsOthers: null,
-    isNationalorInternationalVIP: null,
-    isInternationalGuest: null,
+    isVip: null,
+    isInernationalGuest: null,
     IsStaffStudents: null,
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
@@ -62,6 +62,7 @@ const AddHomeTravelRequest = () => {
     BuildingVenues: [],
     Venues: null,
     travellerList: 0,
+    approvingDeptName: "",
   });
   const addBuildingVenue = () => {
     seteventData((prevData) => ({
@@ -129,7 +130,7 @@ const AddHomeTravelRequest = () => {
       }
       setisLoading(false);
       setisDraft(true);
-      toast.success("Form Saved!", { position: "top-center" });
+      // toast.success("Form Saved!", { position: "top-center" });
       history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
@@ -316,9 +317,9 @@ const AddHomeTravelRequest = () => {
           );
         }
         setisLoading(false);
-        toast.success("Form Submitted!", {
-          position: "top-center",
-        });
+        // toast.success("Form Submitted!", {
+        //   position: "top-center",
+        // });
         history.push("/my-event-requests");
       } catch (err) {
         setisLoading(false);
@@ -338,7 +339,6 @@ const AddHomeTravelRequest = () => {
   useEffect(() => {
     setisLoading(false);
     GetApprovalDepartmentSchema();
-    // Getbuildings();
   }, []);
 
   return (
@@ -527,4 +527,4 @@ const AddHomeTravelRequest = () => {
   );
 };
 
-export default AddHomeTravelRequest;
+export default AddEventRequest;

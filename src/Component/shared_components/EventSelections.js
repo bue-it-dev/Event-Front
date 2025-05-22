@@ -68,7 +68,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasAccomodation: isChecked ? 1 : 0,
+      hasAccomdation: isChecked ? 1 : 0,
       Accommodations: isChecked ? [] : [],
     }));
   };
@@ -78,7 +78,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasTransportation: isChecked ? 1 : 0,
+      hasTransportation: isChecked ? 1 : 0,
       Transportations: isChecked ? [] : [],
     }));
   };
@@ -88,7 +88,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasIt: isChecked ? 1 : 0,
+      hasIt: isChecked ? 1 : 0,
       ItComponents: isChecked ? [] : [],
     }));
   };
@@ -98,7 +98,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasBudget: isChecked ? 1 : 0,
+      hasBudget: isChecked ? 1 : 0,
       // ItComponents: isChecked ? [] : [],
     }));
   };
@@ -108,7 +108,7 @@ const EventSelections = ({ eventData, setEventData }) => {
     const isChecked = e.target.checked;
     setEventData((prevData) => ({
       ...prevData,
-      HasMarcom: isChecked ? 1 : 0,
+      hasMarcom: isChecked ? 1 : 0,
       // ItComponents: isChecked ? [] : [],
     }));
   };
@@ -278,21 +278,21 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasBudget"
+              id="hasBudget"
               className="form-check-input me-2"
-              checked={eventData.HasBudget === 1}
+              checked={eventData.hasBudget === 1}
               onChange={handleBudgetComponentsCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasIt"
+              htmlFor="hasIt"
               style={{ fontSize: "0.7rem" }}
             >
               Budget (if needed)
             </label>
           </div>
 
-          {eventData.HasBudget === 1 && (
+          {eventData.hasBudget === 1 && (
             <div className="mt-2">
               <>
                 <style>
@@ -344,14 +344,14 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasMarcom"
+              id="hasMarcom"
               className="form-check-input me-2"
-              checked={eventData.HasMarcom === 1}
+              checked={eventData.hasMarcom === 1}
               onChange={handleMarcomComponentsCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasIt"
+              htmlFor="hasIt"
               style={{ fontSize: "0.7rem" }}
             >
               Marcom (if needed)
@@ -366,21 +366,21 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasIt"
+              id="hasIt"
               className="form-check-input me-2"
-              checked={eventData.HasIt === 1}
+              checked={eventData.hasIt === 1}
               onChange={handleItComponentsCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasIt"
+              htmlFor="hasIt"
               style={{ fontSize: "0.7rem" }}
             >
               IT (if needed)
             </label>
           </div>
 
-          {eventData.HasIt === 1 && (
+          {eventData.hasIt === 1 && (
             <div className="mt-3">
               <div className="row g-2">
                 {itComponentsList.map((component) => (
@@ -444,26 +444,26 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasTransportation"
+              id="hasTransportation"
               className="form-check-input me-2"
-              checked={eventData.HasTransportation === 1}
+              checked={eventData.hasTransportation === 1}
               onChange={() =>
                 setEventData((prev) => ({
                   ...prev,
-                  HasTransportation: prev.HasTransportation === 1 ? 0 : 1, // Toggle state
+                  hasTransportation: prev.hasTransportation === 1 ? 0 : 1, // Toggle state
                 }))
               }
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasTransportation"
+              htmlFor="hasTransportation"
               style={{ fontSize: "0.7rem" }}
             >
               Transportation (if needed)
             </label>
           </div>
 
-          {eventData.HasTransportation === 1 && (
+          {eventData.hasTransportation === 1 && (
             <div className="mt-3">
               {/* Transportation Type Selection */}
               <div className="row g-2">
@@ -572,21 +572,21 @@ const EventSelections = ({ eventData, setEventData }) => {
           <div className="d-flex align-items-center">
             <input
               type="checkbox"
-              id="HasAccomodation"
+              id="hasAccomdation"
               className="form-check-input me-2"
-              checked={eventData.HasAccomodation === 1}
+              checked={eventData.hasAccomdation === 1}
               onChange={handleAccommodationCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="HasAccomodation"
+              htmlFor="hasAccomdation"
               style={{ fontSize: "0.7rem" }}
             >
               Accommodation (If Needed)
             </label>
           </div>
 
-          {eventData.HasAccomodation === 1 && (
+          {eventData.hasAccomdation === 1 && (
             <div className="mt-3">
               {/* Room Type Selection */}
               <div className="row g-2">

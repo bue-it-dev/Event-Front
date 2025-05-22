@@ -40,7 +40,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
   };
   const handleVIPChange = (e) => {
     const value = e.target.value === "national" ? 0 : 1;
-    setEventData({ ...eventData, isNationalorInternationalVIP: value });
+    setEventData({ ...eventData, isVip: value });
   };
   return (
     <div className="container-fluid py-3">
@@ -179,21 +179,18 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <div className="form-check form-switch">
                   <input
                     type="checkbox"
-                    id="isNationalorInternationalVIP"
-                    name="isNationalorInternationalVIP"
+                    id="isVip"
+                    name="isVip"
                     className="form-check-input"
-                    checked={eventData.isNationalorInternationalVIP != null}
+                    checked={eventData.isVip != null}
                     onChange={handleVIPCheckboxChange}
                   />
-                  <label
-                    className="form-check-label small"
-                    htmlFor="isNationalorInternationalVIP"
-                  >
+                  <label className="form-check-label small" htmlFor="isVip">
                     <b>National or International VIP Guests will attend</b>
                   </label>
                 </div>
               </div>
-              {eventData.isNationalorInternationalVIP != null ? (
+              {eventData.isVip != null ? (
                 <>
                   <div
                     style={{
@@ -211,7 +208,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                         name="vipType"
                         id="national"
                         value="national"
-                        checked={eventData.isNationalorInternationalVIP === 0}
+                        checked={eventData.isVip === 0}
                         onChange={handleVIPChange}
                         style={{ marginRight: "0.3rem" }}
                       />
@@ -224,7 +221,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                         name="vipType"
                         id="international"
                         value="international"
-                        checked={eventData.isNationalorInternationalVIP === 1}
+                        checked={eventData.isVip === 1}
                         onChange={handleVIPChange}
                         style={{ marginRight: "0.3rem" }}
                       />
@@ -238,22 +235,22 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                 <div className="form-check form-switch">
                   <input
                     type="checkbox"
-                    id="isInternationalGuest"
-                    name="isInternationalGuest"
+                    id="isInernationalGuest"
+                    name="isInernationalGuest"
                     className="form-check-input"
-                    checked={eventData.isInternationalGuest === 1}
+                    checked={eventData.isInernationalGuest === 1}
                     onChange={handleCheckboxChange}
                   />
                   <label
                     className="form-check-label small"
-                    htmlFor="isInternationalGuest"
+                    htmlFor="isInernationalGuest"
                   >
                     <b>International guests (excluding VIPs) will attend</b>
                   </label>
                 </div>
               </div>
 
-              {eventData.isInternationalGuest === 1 && (
+              {eventData.isInernationalGuest === 1 && (
                 <div className="mt-3">
                   {(eventData.passportData || []).map((fileArray, index) => (
                     <div

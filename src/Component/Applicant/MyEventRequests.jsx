@@ -122,7 +122,7 @@ const MyEvents = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       //{ label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
@@ -132,13 +132,13 @@ const MyEvents = () => {
         field: "approvingDeptName",
         sort: "asc",
       },
-      { label: "Start Date", field: "eventStartDate", sort: "asc" },
-      { label: "End Date", field: "eventEndDate", sort: "asc" },
-      { label: "Created At", field: "createdAt", sort: "asc" },
-      { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "confirmed At", field: "confirmedAt", sort: "asc" },
+      // { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      // { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Creation Date", field: "createdAt", sort: "asc" },
+      { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
+      { label: "Modification Date", field: "updateAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Actions", field: "actions", sort: "disabled" },
+      { label: "Action", field: "actions", sort: "disabled" },
     ],
     rows: events.map((event, i) => ({
       Number: i + 1,
@@ -159,7 +159,10 @@ const MyEvents = () => {
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
-       <div className="d-inline-flex align-items-center">
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ gap: "0.4rem" }}
+        >
           <Link
             to={{
               pathname: "/event-request-details",
@@ -172,20 +175,31 @@ const MyEvents = () => {
             <button
               type="button"
               className="btn btn-success btn-sm mb-1"
-              style={{ backgroundColor: "#343a40" }}
+              style={{
+                backgroundColor: "#343a40",
+                fontSize: "0.7rem",
+                width: "auto",
+                padding: "0.25rem 0.6rem",
+                whiteSpace: "nowrap",
+              }}
             >
               {event.confirmedAt == null ? <>Modify</> : <>View</>}
             </button>
           </Link>
+
           {event.confirmedAt == null ? (
-            <>
-              <button
-                className="btn btn-danger btn-sm mb-1 ml-2"
-                onClick={() => handleDelete(event.eventId)}
-              >
-                Delete
-              </button>
-            </>
+            <button
+              className="btn btn-danger btn-sm mb-1"
+              style={{
+                fontSize: "0.7rem",
+                width: "auto",
+                padding: "0.25rem 0.6rem",
+                whiteSpace: "nowrap",
+              }}
+              onClick={() => handleDelete(event.eventId)}
+            >
+              Delete
+            </button>
           ) : null}
         </div>
       ),
