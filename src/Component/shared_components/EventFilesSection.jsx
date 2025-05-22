@@ -35,7 +35,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     const { name, checked } = e.target;
     setEventData({
       ...eventData,
-      [name]: checked ? 0 : null,
+      [name]: checked ? 1 : 0,
     });
   };
   const handleVIPChange = (e) => {
@@ -47,7 +47,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
       <div className="card modern-card w-60 mx-auto">
         {/* Staff and Students Section */}
         <div className="card section-card p-2 mt-3">
-          <div className="form-check form-switch">
+          <div className="form-check">
             <input
               type="checkbox"
               id="IsStaffStudents"
@@ -66,7 +66,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
           {eventData.IsStaffStudents === 1 && (
             <div className="mt-2">
-              <div className="form-check form-switch">
+              <div className="form-check">
                 <input
                   type="checkbox"
                   id="IsChairBoardPrisidentVcb"
@@ -134,7 +134,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
         {/* Non-BUE Attendees */}
         <div className="card section-card p-2 mt-3">
-          <div className="form-check form-switch">
+          <div className="form-check">
             <input
               type="checkbox"
               id="IsOthers"
@@ -176,13 +176,13 @@ const EventFilesSection = ({ eventData, setEventData }) => {
               </div>
               {/* VIP Section */}
               <div className="card section-card p-2 mt-3">
-                <div className="form-check form-switch">
+                <div className="form-check">
                   <input
                     type="checkbox"
                     id="isVip"
                     name="isVip"
-                    className="form-check-input"
-                    checked={eventData.isVip != null}
+                    className="form-check-input me-2"
+                    checked={eventData.isVip == 1}
                     onChange={handleVIPCheckboxChange}
                   />
                   <label className="form-check-label small" htmlFor="isVip">
@@ -190,7 +190,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   </label>
                 </div>
               </div>
-              {eventData.isVip != null ? (
+              {/* {eventData.isVip == 1 ? (
                 <>
                   <div
                     style={{
@@ -229,10 +229,10 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                     </div>
                   </div>
                 </>
-              ) : null}
+              ) : null} */}
               {/* VIP Section */}
               <div className="card section-card p-2 mt-3">
-                <div className="form-check form-switch">
+                <div className="form-check">
                   <input
                     type="checkbox"
                     id="isInernationalGuest"

@@ -354,20 +354,20 @@ const EventRequestDetails = () => {
   };
   // Get List of Approval Department Schema
   const GetApprovalDepartmentSchema = () => {
+    var data = "";
     var config = {
       method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`,
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-approval-departments-schema`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
+      data: data,
     };
     axios(config)
       .then(function (response) {
-        setapprovalDepartments(response.data.data);
+        setapprovalDepartments(response.data);
       })
-      .catch(function (error) {
-        console.error("Error fetching departments:", error);
-      });
+      .catch(function (error) {});
   };
   // Fetch room types
   const getRoomTypes = async () => {
@@ -821,34 +821,6 @@ const EventRequestDetails = () => {
               <div className="horizontal-rule mb-4">
                 <hr className="border-secondary" />
                 <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Department Info
-                </h5>
-              </div>
-
-              <div className="mb-4 flex-grow-1">
-                <select
-                  className="form-select form-select-lg"
-                  value={eventData.approvingDepTypeId}
-                  onChange={(e) => {
-                    seteventData({
-                      ...eventData,
-                      approvingDepTypeId: Number(e.target.value),
-                    });
-                  }}
-                  name="approvingDepTypeId"
-                  required
-                >
-                  <option value="">Choose your department</option>
-                  {approvalDepartments.map((data) => (
-                    <option key={data.rowId} value={data.rowId}>
-                      {data.depName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
                   Event Info
                 </h5>
               </div>
@@ -874,6 +846,33 @@ const EventRequestDetails = () => {
                     {errors.eventTitle && (
                       <small className="text-danger">{errors.eventTitle}</small>
                     )}
+                  </div>
+                  <div className="mb-4 flex-grow-1">
+                    <select
+                      className="form-select form-select-sm custom-select"
+                      style={{
+                        width: "100%",
+                        fontSize: "0.7rem",
+                        height: "35px",
+                        textAlign: "left",
+                      }}
+                      value={eventData.approvingDeptName}
+                      onChange={(e) =>
+                        seteventData({
+                          ...eventData,
+                          approvingDeptName: e.target.value,
+                        })
+                      }
+                      name="approvingDeptName"
+                      required
+                    >
+                      <option value="">Select your approver department</option>
+                      {approvalDepartments.map((data) => (
+                        <option key={data} value={data?.split(" (")[0]}>
+                          {data}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   {/* Number of Participants */}
                   <div className="col-lg-6">

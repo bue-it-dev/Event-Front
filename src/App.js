@@ -532,7 +532,13 @@ function App() {
           <Redirect to="/login" />
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center" // Toast will appear at bottom-left
+        autoClose={2000} // Auto close after 2 seconds
+        hideProgressBar={true} // Hide the progress bar
+        icon={false} // Disable all icons globally
+        closeOnClick={true} // Toast closes when clicked
+      />
     </Router>
   );
 }

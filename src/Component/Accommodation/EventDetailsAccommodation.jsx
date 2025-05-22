@@ -514,7 +514,7 @@ const EventDetailsAccommodation = () => {
       }
 
       setisLoading(false);
-      toast.success("Form Updated!", { position: "top-center" });
+      toast.success("Form Updated");
       window.location.reload();
     } catch (err) {
       setisLoading(false);

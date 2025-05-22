@@ -134,9 +134,7 @@ const AddEventRequest = () => {
       history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      toast.error("An error occurred. Please try again later");
     }
   };
   const responseRequestIDExtracted = localStorage.getItem("eventId");
@@ -158,9 +156,7 @@ const AddEventRequest = () => {
       history.push("/my-event-requests");
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      toast.error("An error occurred. Please try again later.");
     }
   };
   const ConfrimBusinessRequestAsync = async (requestId) => {
