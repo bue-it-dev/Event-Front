@@ -376,7 +376,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               Start Date
             </label>
             <input
-              type="date"
+              type="datetime-local"
               id="EventStartDate"
               style={{ fontSize: "0.7rem", textAlign: "left" }}
               name="EventStartDate"
@@ -398,7 +398,7 @@ const EventInfo = ({ eventData, seteventData }) => {
               End Date
             </label>
             <input
-              type="date"
+              type="datetime-local"
               id="EventEndDate"
               name="EventEndDate"
               style={{ fontSize: "0.7rem", textAlign: "left" }}

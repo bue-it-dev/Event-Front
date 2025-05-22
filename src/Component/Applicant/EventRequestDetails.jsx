@@ -906,12 +906,10 @@ const EventRequestDetails = () => {
                       Start Date
                     </label>
                     <input
-                      type="date"
+                      type="datetime-local"
                       id="eventStartDate"
                       name="eventStartDate"
-                      value={
-                        eventData.eventStartDate?.split("T")[0] || "" || ""
-                      }
+                      value={eventData.eventStartDate}
                       onChange={handleChange}
                       className="form-control form-control-lg w-100"
                       required
@@ -931,10 +929,10 @@ const EventRequestDetails = () => {
                       End Date
                     </label>
                     <input
-                      type="date"
+                      type="datetime-local"
                       id="eventEndDate"
                       name="eventEndDate"
-                      value={eventData.eventEndDate?.split("T")[0] || ""}
+                      value={eventData.eventEndDate}
                       onChange={handleChange}
                       className="form-control form-control-lg w-100"
                     />
