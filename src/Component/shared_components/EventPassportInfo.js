@@ -217,10 +217,10 @@ const EventInfo = ({ eventData, seteventData }) => {
           <>
             <style>
               {`
-      #EventTitle::placeholder {
-        text-align: left;
-      }
-    `}
+              #EventTitle::placeholder {
+                text-align: left;
+              }
+            `}
             </style>
             <div className="col-lg-6">
               <input
@@ -312,11 +312,11 @@ const EventInfo = ({ eventData, seteventData }) => {
           </div> */}
           {/* <>
             <style>
-              {`
-      #budgetEstimatedCost::placeholder {
-        text-align: left;
-      }
-    `}
+                      {`
+              #budgetEstimatedCost::placeholder {
+                text-align: left;
+              }
+            `}
             </style>
             <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
               <input
@@ -345,10 +345,10 @@ const EventInfo = ({ eventData, seteventData }) => {
           <>
             <style>
               {`
-      #NomParticipants::placeholder {
-        text-align: left;
-      }
-    `}
+              #NomParticipants::placeholder {
+                text-align: left;
+              }
+            `}
             </style>
             <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
               <input
@@ -459,10 +459,10 @@ const EventInfo = ({ eventData, seteventData }) => {
             <>
               <style>
                 {`
-      #OrganizerEmail::placeholder {
-        text-align: left;
-      }
-    `}
+                #OrganizerEmail::placeholder {
+                  text-align: left;
+                }
+              `}
               </style>
               <div className="input-group w-100">
                 <div className="input-group-prepend">
@@ -492,10 +492,10 @@ const EventInfo = ({ eventData, seteventData }) => {
             <>
               <style>
                 {`
-      #organizerPosition::placeholder {
-        text-align: left;
-      }
-    `}
+                #organizerPosition::placeholder {
+                  text-align: left;
+                }
+              `}
               </style>
               {/* <label
               htmlFor="organizerPosition"
@@ -604,10 +604,10 @@ const EventInfo = ({ eventData, seteventData }) => {
               <>
                 <style>
                   {`
-      #OrganizerMobile::placeholder {
-        text-align: left;
-      }
-    `}
+                  #OrganizerMobile::placeholder {
+                    text-align: left;
+                  }
+                `}
                 </style>
                 <input
                   type="tel"

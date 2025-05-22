@@ -128,6 +128,8 @@ const EventRequestDetails = () => {
     presidentFile: null,
     universityFile: null,
     rejectionReason: null,
+    hasBudget: 0,
+    hasMarcom: 0,
     hasIt: 0,
     hasAccomdation: 0,
     hasTransportation: 0,
@@ -142,6 +144,7 @@ const EventRequestDetails = () => {
     isOthers: 0,
     isStaffStudents: 0,
     isChairBoardPrisidentVcb: 0,
+    isInernationalGuest: 0,
     ledOfTheUniversityOrganizerFilePath: null,
     officeOfPresedentFilePath: null,
     visitAgendaFilePath: null,
@@ -749,7 +752,25 @@ const EventRequestDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
+  // IT Components toggle
+  const handleBudgetComponentsCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    seteventData((prevData) => ({
+      ...prevData,
+      hasBudget: isChecked ? 1 : 0,
+      // ItComponents: isChecked ? [] : [],
+    }));
+  };
 
+  // IT Components toggle
+  const handleMarcomComponentsCheckbox = (e) => {
+    const isChecked = e.target.checked;
+    seteventData((prevData) => ({
+      ...prevData,
+      hasMarcom: isChecked ? 1 : 0,
+      // ItComponents: isChecked ? [] : [],
+    }));
+  };
   const handleItComponentQuantityChange = (itcomponentId, value) => {
     seteventData((prevData) => {
       const updatedItComponents = prevData.itcomponentEvents.map((item) =>
@@ -826,28 +847,35 @@ const EventRequestDetails = () => {
               </div>
               <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
                 <div className="row g-4">
-                  {/* Event Title */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="eventTitle"
-                      className="form-label font-weight-bold"
-                    >
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      id="eventTitle"
-                      name="eventTitle"
-                      value={eventData.eventTitle}
-                      onChange={handleChange}
-                      className="form-control form-control-lg w-100"
-                      required
-                    />
-                    {errors.eventTitle && (
-                      <small className="text-danger">{errors.eventTitle}</small>
-                    )}
-                  </div>
-                  <div className="mb-4 flex-grow-1">
+                  <>
+                    <style>
+                      {`
+                    #eventTitle::placeholder {
+                      text-align: left;
+                    }
+                  `}
+                    </style>
+                    <div className="col-lg-6">
+                      <input
+                        type="text"
+                        id="eventTitle"
+                        name="eventTitle"
+                        value={eventData.eventTitle}
+                        style={{ fontSize: "0.7rem", textAlign: "left" }}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        required
+                        placeholder="Title"
+                      />
+                      {errors.eventTitle && (
+                        <small className="text-danger">
+                          {errors.eventTitle}
+                        </small>
+                      )}
+                    </div>
+                  </>
+
+                  <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
                     <select
                       className="form-select form-select-sm custom-select"
                       style={{
@@ -874,84 +902,10 @@ const EventRequestDetails = () => {
                       ))}
                     </select>
                   </div>
-                  {/* Number of Participants */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="nomParticipants"
-                      className="form-label font-weight-bold"
-                    >
-                      Number of Participants
-                    </label>
-                    <input
-                      type="number"
-                      id="nomParticipants"
-                      name="nomParticipants"
-                      value={eventData.nomParticipants || ""}
-                      onChange={handleChange}
-                      className="form-control form-control-lg w-100"
-                      min="1"
-                    />
-                    {errors.nomParticipants && (
-                      <small className="text-danger">
-                        {errors.nomParticipants}
-                      </small>
-                    )}
-                  </div>
-                  {/* Event Start Date */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="eventStartDate"
-                      className="form-label font-weight-bold"
-                    >
-                      Start Date
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="eventStartDate"
-                      name="eventStartDate"
-                      value={eventData.eventStartDate}
-                      onChange={handleChange}
-                      className="form-control form-control-lg w-100"
-                      required
-                    />
-                    {errors.eventStartDate && (
-                      <small className="text-danger">
-                        {errors.eventStartDate}
-                      </small>
-                    )}
-                  </div>
-                  {/* Event End Date */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="EventEndDate"
-                      className="form-label font-weight-bold"
-                    >
-                      End Date
-                    </label>
-                    <input
-                      type="datetime-local"
-                      id="eventEndDate"
-                      name="eventEndDate"
-                      value={eventData.eventEndDate}
-                      onChange={handleChange}
-                      className="form-control form-control-lg w-100"
-                    />
-                    {errors.eventEndDate && (
-                      <small className="text-danger">
-                        {errors.eventEndDate}
-                      </small>
-                    )}
-                  </div>
-                  {/* Organizer Email */}
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="natureOfEventId"
-                      className="form-label font-weight-bold"
-                    >
-                      Nature
-                    </label>
+                  <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
                     <select
                       className="form-select form-select-lg"
+                      style={{ fontSize: "0.7rem", textAlign: "left" }}
                       value={eventData.natureOfEventId}
                       onChange={(e) => {
                         seteventData({
@@ -962,6 +916,7 @@ const EventRequestDetails = () => {
                       name="natureOfEventId"
                       required
                     >
+                      <option value="">Select event nature</option>
                       {natureofevents.map((data) => (
                         <option
                           key={data.natureOfEventId}
@@ -972,268 +927,364 @@ const EventRequestDetails = () => {
                       ))}
                     </select>
                   </div>
-                  {/* Organizer Email */}
+
+                  {/* <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+            <select
+              className="form-select form-select-lg"
+              value={eventData.eventType}
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
+              onChange={(e) => {
+                seteventData({
+                  ...eventData,
+                  eventType: e.target.value,
+                });
+              }}
+              name="natureOfEventId"
+              required
+            >
+              <option style={{ textAlign: "left" }} value="">
+                Select location type
+              </option>
+              <option value="Internal">On Campus</option>
+              <option value="External">Off Campus</option>
+            </select>
+          </div> */}
+                  {/* <>
+            <style>
+                      {`
+              #budgetEstimatedCost::placeholder {
+                text-align: left;
+              }
+            `}
+            </style>
+            <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+              <input
+                type="number"
+                id="budgetEstimatedCost"
+                // className="form-control"
+                style={{ fontSize: "0.7rem" }}
+                value={
+                  eventData.budgetEstimatedCost === 0
+                    ? ""
+                    : eventData.budgetEstimatedCost
+                }
+                required
+                className="form-control form-control-lg w-100"
+                placeholder="Estimated Cost"
+                onChange={(e) => {
+                  seteventData({
+                    ...eventData,
+                    budgetEstimatedCost:
+                      e.target.value === "" ? 0 : Number(e.target.value),
+                  });
+                }}
+              />
+            </div>
+          </> */}
+                  <>
+                    <style>
+                      {`
+              #nomParticipants::placeholder {
+                text-align: left;
+              }
+            `}
+                    </style>
+                    <div className="col-lg-6" style={{ fontSize: "0.7rem" }}>
+                      <input
+                        type="number"
+                        id="nomParticipants"
+                        name="nomParticipants"
+                        style={{ fontSize: "0.7rem" }}
+                        value={eventData.nomParticipants || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        min="1"
+                        placeholder="Number of participants"
+                      />
+                      {errors.nomParticipants && (
+                        <small className="text-danger">
+                          {errors.nomParticipants}
+                        </small>
+                      )}
+                    </div>
+                  </>
                   <div className="col-lg-6">
                     <label
-                      htmlFor="eventType"
+                      htmlFor="eventStartDate"
                       className="form-label font-weight-bold"
+                      style={{ fontSize: "0.7rem" }}
                     >
-                      Type
-                    </label>
-                    <select
-                      className="form-select form-select-lg"
-                      value={eventData.eventType}
-                      onChange={(e) => {
-                        seteventData({
-                          ...eventData,
-                          eventType: e.target.value,
-                        });
-                      }}
-                      name="eventType"
-                      required
-                    >
-                      <option value="Internal">Internal</option>
-                      <option value="External">External</option>
-                    </select>
-                  </div>
-                  <div className="col-lg-6">
-                    <label
-                      htmlFor="budgetEstimatedCost"
-                      className="form-label font-weight-bold"
-                    >
-                      Estimated Cost
+                      Start Date
                     </label>
                     <input
-                      type="number"
-                      className="form-control"
-                      value={eventData.budgetEstimatedCost}
+                      type="datetime-local"
+                      id="eventStartDate"
+                      style={{ fontSize: "0.7rem", textAlign: "left" }}
+                      name="eventStartDate"
+                      value={eventData.eventStartDate || ""}
+                      onChange={handleChange}
+                      className="form-control form-control-lg w-100"
                       required
-                      onChange={(e) => {
-                        seteventData({
-                          ...eventData,
-                          budgetEstimatedCost: Number(e.target.value),
-                        });
-                      }}
                     />
+                    {errors.eventStartDate && (
+                      <small className="text-danger">
+                        {errors.eventStartDate}
+                      </small>
+                    )}
                   </div>
-                  {/* Organizer Email */}
                   <div className="col-lg-6">
                     <label
-                      htmlFor="budgetCostCurrency"
+                      htmlFor="eventEndDate"
                       className="form-label font-weight-bold"
+                      style={{ fontSize: "0.7rem" }}
                     >
-                      Cost Currency
+                      End Date
                     </label>
-                    <select
-                      className="form-select form-select-lg"
-                      value={eventData.budgetCostCurrency}
-                      onChange={(e) => {
-                        seteventData({
-                          ...eventData,
-                          budgetCostCurrency: e.target.value,
-                        });
-                      }}
-                      name="budgetCostCurrency"
-                      required
-                    >
-                      <option value="EGP">EGP</option>
-                      <option value="EUR">EUR</option>
-                      <option value="GBP">GBP</option>
-                      <option value="USD">USD</option>
-                    </select>
+                    <input
+                      type="datetime-local"
+                      id="eventEndDate"
+                      name="eventEndDate"
+                      style={{ fontSize: "0.7rem", textAlign: "left" }}
+                      value={eventData.eventEndDate || ""}
+                      onChange={handleChange}
+                      className="form-control form-control-lg w-100"
+                    />
+                    {errors.eventEndDate && (
+                      <small className="text-danger">
+                        {errors.eventEndDate}
+                      </small>
+                    )}
                   </div>
-                  <br />
-
                   <div className="horizontal-rule mb-4">
                     <hr className="border-secondary" />
                     <h5 className="horizontal-rule-text fs-5 text-dark">
                       Organizer Info
                     </h5>
                   </div>
-                  {eventData.eventType == "Internal" ? (
-                    <>
-                      {/* Organizer Name */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerName"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Name
-                        </label>
-                        <Select
-                          className="basic-single"
-                          classNamePrefix="select"
-                          isClearable
-                          isSearchable
-                          options={[
-                            ...employeelist,
-                            { value: -1, label: "Others" },
-                          ]}
-                          onChange={handleOrgChange}
-                          // value={eventData.organizerName}
-                          value={
-                            // Find the selected option in the combined list
-                            [
-                              ...employeelist,
-                              { value: -1, label: "Others" },
-                            ].find(
-                              (option) =>
-                                option.label === eventData.organizerName
-                            ) || null
-                          }
-                          required
-                          placeholder="Choose organizer name"
-                          styles={{
-                            option: (provided) => ({
-                              ...provided,
-                              textAlign: "left",
-                            }),
-                            singleValue: (provided) => ({
-                              ...provided,
-                              textAlign: "left",
-                            }),
-                          }}
-                        />
-                      </div>
-                      {/* Organizer Email */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerEmail"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Email
-                        </label>
-                        <div className="input-group w-100">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text">@</span>
-                          </div>
-                          <input
-                            type="email"
-                            id="organizerEmail"
-                            name="organizerEmail"
-                            disabled
-                            value={
-                              empsettings.email || eventData.organizerEmail
-                            }
-                            onChange={handleChange}
-                            className="form-control form-control-lg"
-                          />
-                        </div>
-                      </div>
-                      {/* Organizer Extension */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerPosition"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Position
-                        </label>
-                        <input
-                          type="text"
-                          id="organizerPosition"
-                          name="organizerPosition"
-                          disabled
-                          value={
-                            empsettings.position || eventData.organizerPosition
-                          }
-                          onChange={handleChange}
-                          className="form-control form-control-lg w-100"
-                        />
-                        {errors.organizerPosition && (
-                          <small className="text-danger">
-                            {errors.organizerPosition}
-                          </small>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Organizer Name */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerName"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Name
-                        </label>
-                        {}
-                        <input
-                          type="text"
-                          id="organizerName"
-                          name="organizerName"
-                          value={eventData.organizerName || ""}
-                          onChange={handleChange}
-                          className="form-control form-control-lg w-100"
-                        />
-                      </div>
-                      {/* Organizer Email */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerEmail"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Email
-                        </label>
-                        <div className="input-group w-100">
-                          <div className="input-group-prepend">
-                            <span className="input-group-text">@</span>
-                          </div>
-                          <input
-                            type="email"
-                            id="organizerEmail"
-                            name="organizerEmail"
-                            value={eventData.organizerEmail || ""}
-                            onChange={handleChange}
-                            className="form-control form-control-lg"
-                          />
-                        </div>
-                      </div>
-                      {/* Organizer Extension */}
-                      <div className="col-lg-6">
-                        <label
-                          htmlFor="organizerPosition"
-                          className="form-label font-weight-bold"
-                        >
-                          Organizer Position
-                        </label>
-                        <input
-                          type="text"
-                          id="organizerPosition"
-                          name="organizerPosition"
-                          value={eventData.organizerPosition || ""}
-                          onChange={handleChange}
-                          className="form-control form-control-lg w-100"
-                        />
-                        {errors.organizerPosition && (
-                          <small className="text-danger">
-                            {errors.organizerPosition}
-                          </small>
-                        )}
-                      </div>
-                    </>
-                  )}
-                  {/* Organizer Mobile */}
+                  {/* {eventData.eventType == "Internal" ? (
+            <> */}
+                  {/* Organizer Name */}
                   <div className="col-lg-6">
-                    <label
-                      htmlFor="organizerMobile"
-                      className="form-label font-weight-bold"
-                    >
-                      Organizer Mobile
-                    </label>
+                    {/* <label
+              htmlFor="OrganizerName"
+              className="form-label font-weight-bold"
+            >
+              Organizer Name
+            </label> */}
+                    <Select
+                      className="basic-single"
+                      classNamePrefix="select"
+                      isClearable
+                      isSearchable
+                      options={[
+                        ...employeelist,
+                        { value: -1, label: "Others" },
+                      ]}
+                      value={
+                        // Find the selected option in the combined list
+                        [...employeelist, { value: -1, label: "Others" }].find(
+                          (option) => option.label === eventData.organizerName
+                        ) || null
+                      }
+                      onChange={handleOrgChange}
+                      required
+                      placeholder="Select employee name"
+                      styles={{
+                        option: (provided) => ({
+                          ...provided,
+                          textAlign: "left",
+                          fontSize: "0.7rem",
+                        }),
+                        singleValue: (provided) => ({
+                          ...provided,
+                          textAlign: "left",
+                          fontSize: "0.7rem",
+                        }),
+                        placeholder: (provided) => ({
+                          ...provided,
+                          textAlign: "left",
+                          fontSize: "0.7rem",
+                        }),
+                      }}
+                    />
+                  </div>
+                  {/* Organizer Email */}
+                  <div className="col-lg-6">
+                    <>
+                      <style>
+                        {`
+                #OrganizerEmail::placeholder {
+                  text-align: left;
+                }
+              `}
+                      </style>
+                      <div className="input-group w-100">
+                        <div className="input-group-prepend">
+                          <span
+                            className="input-group-text"
+                            style={{ fontSize: "0.7rem" }}
+                          >
+                            @
+                          </span>
+                        </div>
+                        <input
+                          type="email"
+                          id="OrganizerEmail"
+                          name="OrganizerEmail"
+                          placeholder="Email"
+                          style={{ fontSize: "0.7rem", textAlign: "left" }}
+                          disabled
+                          value={empsettings.email || eventData.organizerEmail}
+                          onChange={(e) => {
+                            seteventData({
+                              ...eventData,
+                              organizerEmail: e.target.value,
+                            });
+                          }}
+                          className="form-control form-control-lg"
+                        />
+                      </div>
+                    </>
+                  </div>
+                  {/* Organizer Extension */}
+                  <div className="col-lg-6">
+                    <>
+                      <style>
+                        {`
+                #organizerPosition::placeholder {
+                  text-align: left;
+                }
+              `}
+                      </style>
+                      {/* <label
+              htmlFor="organizerPosition"
+              className="form-label font-weight-bold"
+            >
+              Organizer Position
+            </label> */}
+                      <input
+                        type="text"
+                        id="organizerPosition"
+                        name="organizerPosition"
+                        style={{ fontSize: "0.7rem", textAlign: "left" }}
+                        disabled
+                        value={empsettings.position || ""}
+                        onChange={handleChange}
+                        className="form-control form-control-lg w-100"
+                        placeholder="Position"
+                      />
+                      {errors.organizerPosition && (
+                        <small className="text-danger">
+                          {errors.organizerPosition}
+                        </small>
+                      )}
+                    </>
+                  </div>
+                  {/* </> 
+          // ) : (
+          //   <>
+          //     
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="OrganizerName"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Name
+          //       </label>
+          //       {}
+          //       <input
+          //         type="text"
+          //         id="OrganizerName"
+          //         name="OrganizerName"
+          //         value={eventData.OrganizerName || ""}
+          //         onChange={handleChange}
+          //         className="form-control form-control-lg w-100"
+          //       />
+          //     </div>
+          //     {/* Organizer Email
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="OrganizerEmail"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Email
+          //       </label>
+          //       <div className="input-group w-100">
+          //         <div className="input-group-prepend">
+          //           <span className="input-group-text">@</span>
+          //         </div>
+          //         <input
+          //           type="email"
+          //           id="OrganizerEmail"
+          //           name="organizerEmail"
+          //           value={eventData.organizerEmail || ""}
+          //           onChange={handleChange}
+          //           className="form-control form-control-lg"
+          //         />
+          //       </div>
+          //     </div>
+          //     {/* Organizer Extension 
+          //     <div className="col-lg-6">
+          //       <label
+          //         htmlFor="organizerPosition"
+          //         className="form-label font-weight-bold"
+          //       >
+          //         Organizer Position
+          //       </label>
+          //       <input
+          //         type="text"
+          //         id="organizerPosition"
+          //         name="organizerPosition"
+          //         value={eventData.organizerPosition || ""}
+          //         onChange={handleChange}
+          //         className="form-control form-control-lg w-100"
+          //       />
+          //       {errors.organizerPosition && (
+          //         <small className="text-danger">
+          //           {errors.organizerPosition}
+          //         </small>
+          //       )}
+          //     </div>
+          //   </>
+          // )}
+
+          {/* Organizer Mobile */}
+                  <div className="col-lg-6">
+                    {/* <label
+              htmlFor="OrganizerMobile"
+              className="form-label font-weight-bold"
+            >
+              Organizer Mobile
+            </label> */}
                     <div className="input-group w-100">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">📞</span>
+                        <span
+                          className="input-group-text"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          📞
+                        </span>
                       </div>
-                      <input
-                        type="tel"
-                        id="organizerMobile"
-                        name="organizerMobile"
-                        value={eventData.organizerMobile || ""}
-                        onChange={handleChange}
-                        maxLength={11}
-                        className="form-control form-control-lg"
-                        placeholder="Enter valid Egyptian phone number"
-                      />
+                      <>
+                        <style>
+                          {`
+                  #organizerMobile::placeholder {
+                    text-align: left;
+                  }
+                `}
+                        </style>
+                        <input
+                          type="tel"
+                          id="organizerMobile"
+                          name="organizerMobile"
+                          style={{ fontSize: "0.7rem", textAlign: "left" }}
+                          value={eventData.organizerMobile || ""}
+                          onChange={handleChange}
+                          maxLength={11}
+                          className="form-control form-control-lg"
+                          placeholder="Enter valid Egyptian phone number"
+                        />
+                      </>
                     </div>
                     {errors.organizerMobile && (
                       <small className="text-danger">
@@ -1254,19 +1305,22 @@ const EventRequestDetails = () => {
                     type="button"
                     className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
                     style={{
-                      width: "40px",
-                      height: "40px",
-                      fontSize: "18px",
+                      width: "24px", // ~1.5rem
+                      height: "24px",
+                      fontSize: "0.7rem",
                       borderRadius: "50%",
                       marginRight: "10px",
                       transition: "0.3s ease",
                       backgroundColor: "#57636f",
+                      padding: "0",
                     }}
                     onClick={addBuildingVenue}
                   >
                     +
                   </button>
-                  <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
+                  <p className="text-dark mb-0" style={{ fontSize: "0.7rem" }}>
+                    Add Venue(s)
+                  </p>
                 </div>
               ) : null}
 
@@ -1292,6 +1346,331 @@ const EventRequestDetails = () => {
                     className="card shadow-lg px-4 py-2 modern-card w-100 mx-auto"
                     style={{ backgroundColor: "#f8f9fa" }}
                   >
+                    {/* Budget Components Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="hasBudget"
+                          className="form-check-input me-2"
+                          checked={eventData.hasBudget === 1}
+                          onChange={handleBudgetComponentsCheckbox}
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="hasIt"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          Budget (if needed)
+                        </label>
+                      </div>
+
+                      {eventData.hasBudget === 1 && (
+                        <div className="mt-2">
+                          <>
+                            <style>
+                              {`
+                  #budgetEstimatedCost::placeholder {
+                    text-align: left;
+                  }
+                `}
+                            </style>
+
+                            <div
+                              className="col-lg-6"
+                              style={{
+                                fontSize: "0.7rem",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <input
+                                type="number"
+                                id="budgetEstimatedCost"
+                                style={{ fontSize: "0.7rem" }}
+                                value={
+                                  eventData.budgetEstimatedCost === 0
+                                    ? ""
+                                    : eventData.budgetEstimatedCost
+                                }
+                                required
+                                className="form-control form-control-lg w-100"
+                                placeholder="Enter event estimated cost"
+                                onChange={(e) => {
+                                  seteventData({
+                                    ...eventData,
+                                    budgetEstimatedCost:
+                                      e.target.value === ""
+                                        ? 0
+                                        : Number(e.target.value),
+                                  });
+                                }}
+                              />
+                            </div>
+                          </>
+                        </div>
+                      )}
+                    </div>
+                    {/* Marcom Components Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="hasMarcom"
+                          className="form-check-input me-2"
+                          checked={eventData.hasMarcom === 1}
+                          onChange={handleMarcomComponentsCheckbox}
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="hasIt"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          Marcom (if needed)
+                        </label>
+                      </div>
+                    </div>
+                    {/* IT Components Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="hasIt"
+                          style={{ fontSize: "0.7rem" }}
+                          className="form-check-input me-2"
+                          checked={eventData.hasIt === 1}
+                          onChange={handleItComponentsCheckbox}
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="hasIt"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          IT (If Needed)
+                        </label>
+                      </div>
+
+                      {eventData.hasIt === 1 && (
+                        <div className="mt-3">
+                          <div className="row g-2">
+                            {itComponentsList?.map((component) => (
+                              <div
+                                key={component.itcomponentId}
+                                className="col-6 col-md-3"
+                              >
+                                <div className="form-check d-flex align-items-center gap-2">
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={`itcomponent-${component.itcomponentId}`}
+                                    value={component.itcomponentId}
+                                    checked={eventData?.itcomponentEvents?.some(
+                                      (item) =>
+                                        item.itcomponentId ===
+                                        component.itcomponentId
+                                    )}
+                                    onChange={handleItComponentCheckbox}
+                                  />
+                                  <label
+                                    className="form-check-label text-dark fw-semibold text-truncate"
+                                    htmlFor={`itcomponent-${component.itcomponentId}`}
+                                    style={{
+                                      fontSize: "0.7rem",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {component.component}
+                                  </label>
+                                </div>
+
+                                {eventData?.itcomponentEvents?.some(
+                                  (item) =>
+                                    item.itcomponentId ===
+                                    component.itcomponentId
+                                ) && (
+                                  <div className="mt-2 d-flex align-items-center gap-2">
+                                    <input
+                                      type="number"
+                                      className="form-control form-control-sm w-80 rounded shadow-sm"
+                                      style={{
+                                        maxWidth: "200px",
+                                        fontSize: "0.7rem",
+                                      }}
+                                      placeholder="Number"
+                                      value={
+                                        eventData.itcomponentEvents.find(
+                                          (item) =>
+                                            item.itcomponentId ===
+                                            component.itcomponentId
+                                        )?.quantity || ""
+                                      }
+                                      onChange={(e) =>
+                                        handleItComponentQuantityChange(
+                                          component.itcomponentId,
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    {/* Transportation Section */}
+                    <div
+                      className="card shadow-sm p-3 mt-3"
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          id="hasTransportation"
+                          className="form-check-input me-2"
+                          checked={eventData.hasTransportation === 1}
+                          onChange={() =>
+                            seteventData((prev) => ({
+                              ...prev,
+                              hasTransportation:
+                                prev.hasTransportation === 1 ? 0 : 1, // Toggle state
+                            }))
+                          }
+                        />
+                        <label
+                          className="form-check-label font-weight-bold text-dark"
+                          htmlFor="hasTransportation"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          Transportation (If Needed)
+                        </label>
+                      </div>
+
+                      {eventData.hasTransportation === 1 && (
+                        <div className="mt-3">
+                          {/* Transportation Type Selection */}
+                          <div className="row g-2">
+                            {transportationTypes.map((type) => (
+                              <div
+                                key={type.transportationTypeId}
+                                className="col-12 col-md-4"
+                              >
+                                <div className="form-check d-flex align-items-center gap-2">
+                                  <input
+                                    type="checkbox"
+                                    className="form-check-input"
+                                    id={`transportation-${type.transportationTypeId}`}
+                                    value={type.transportationTypeId}
+                                    checked={eventData?.transportations?.some(
+                                      (t) =>
+                                        t.transportationTypeId ===
+                                        type.transportationTypeId
+                                    )}
+                                    onChange={handleTransportationTypeCheckbox}
+                                  />
+                                  <label
+                                    className="form-check-label text-dark fw-semibold text-truncate"
+                                    htmlFor={`transportation-${type.transportationTypeId}`}
+                                    style={{
+                                      fontSize: "0.7rem",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {type.transportationType1}
+                                  </label>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Transportation Details (All Inputs on the Same Row) */}
+                          {eventData?.transportations?.map(
+                            (transport, index) => (
+                              <div
+                                key={index}
+                                className="row g-2 mt-3 d-flex align-items-center"
+                              >
+                                <div className="col-3">
+                                  <label
+                                    className="form-label fw-semibold text-dark text-truncate"
+                                    style={{
+                                      fontSize: "0.7rem",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {
+                                      transportationTypes.find(
+                                        (item) =>
+                                          item.transportationTypeId ===
+                                          transport.transportationTypeId
+                                      )?.transportationType1
+                                    }
+                                  </label>
+                                </div>
+                                <div className="col-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={
+                                      transport.startDate?.split("T")[0] || ""
+                                    }
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "startDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-3">
+                                  <input
+                                    type="date"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    value={
+                                      transport.endDate?.split("T")[0] || ""
+                                    }
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "endDate",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                <div className="col-3">
+                                  <input
+                                    type="number"
+                                    className="form-control form-control-sm rounded shadow-sm"
+                                    placeholder="Number"
+                                    style={{ fontSize: "0.7rem" }}
+                                    value={transport.quantity || ""}
+                                    onChange={(e) =>
+                                      handleTransportationChange(
+                                        index,
+                                        "quantity",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
                     {/* Accommodation Section */}
                     <div
                       className="card shadow-sm p-3 mt-3"
@@ -1308,9 +1687,9 @@ const EventRequestDetails = () => {
                         <label
                           className="form-check-label font-weight-bold text-dark"
                           htmlFor="hasAccomdation"
-                          style={{ fontSize: "14px" }}
+                          style={{ fontSize: "0.7rem" }}
                         >
-                          Accommodation (Optional)
+                          Accommodation ((If Needed)
                         </label>
                       </div>
 
@@ -1338,7 +1717,7 @@ const EventRequestDetails = () => {
                                     className="form-check-label text-dark fw-semibold text-truncate"
                                     htmlFor={`Rooms-${type.roomTypeId}`}
                                     style={{
-                                      fontSize: "14px",
+                                      fontSize: "0.7rem",
                                       whiteSpace: "nowrap",
                                     }}
                                   >
@@ -1359,7 +1738,7 @@ const EventRequestDetails = () => {
                                 <label
                                   className="form-label fw-semibold text-dark text-truncate"
                                   style={{
-                                    fontSize: "14px",
+                                    fontSize: "0.7rem",
                                     whiteSpace: "nowrap",
                                   }}
                                 >
@@ -1416,238 +1795,6 @@ const EventRequestDetails = () => {
                               </div>
                             </div>
                           ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Transportation Section */}
-                    <div
-                      className="card shadow-sm p-3 mt-3"
-                      style={{ backgroundColor: "#f1f3f5" }}
-                    >
-                      <div className="d-flex align-items-center">
-                        <input
-                          type="checkbox"
-                          id="hasTransportation"
-                          className="form-check-input me-2"
-                          checked={eventData.hasTransportation === 1}
-                          onChange={() =>
-                            seteventData((prev) => ({
-                              ...prev,
-                              hasTransportation:
-                                prev.hasTransportation === 1 ? 0 : 1, // Toggle state
-                            }))
-                          }
-                        />
-                        <label
-                          className="form-check-label font-weight-bold text-dark"
-                          htmlFor="hasTransportation"
-                          style={{ fontSize: "14px" }}
-                        >
-                          Transportation (Optional)
-                        </label>
-                      </div>
-
-                      {eventData.hasTransportation === 1 && (
-                        <div className="mt-3">
-                          {/* Transportation Type Selection */}
-                          <div className="row g-2">
-                            {transportationTypes.map((type) => (
-                              <div
-                                key={type.transportationTypeId}
-                                className="col-12 col-md-4"
-                              >
-                                <div className="form-check d-flex align-items-center gap-2">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id={`transportation-${type.transportationTypeId}`}
-                                    value={type.transportationTypeId}
-                                    checked={eventData?.transportations?.some(
-                                      (t) =>
-                                        t.transportationTypeId ===
-                                        type.transportationTypeId
-                                    )}
-                                    onChange={handleTransportationTypeCheckbox}
-                                  />
-                                  <label
-                                    className="form-check-label text-dark fw-semibold text-truncate"
-                                    htmlFor={`transportation-${type.transportationTypeId}`}
-                                    style={{
-                                      fontSize: "14px",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {type.transportationType1}
-                                  </label>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Transportation Details (All Inputs on the Same Row) */}
-                          {eventData?.transportations?.map(
-                            (transport, index) => (
-                              <div
-                                key={index}
-                                className="row g-2 mt-3 d-flex align-items-center"
-                              >
-                                <div className="col-3">
-                                  <label
-                                    className="form-label fw-semibold text-dark text-truncate"
-                                    style={{
-                                      fontSize: "14px",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {
-                                      transportationTypes.find(
-                                        (item) =>
-                                          item.transportationTypeId ===
-                                          transport.transportationTypeId
-                                      )?.transportationType1
-                                    }
-                                  </label>
-                                </div>
-                                <div className="col-3">
-                                  <input
-                                    type="date"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    value={
-                                      transport.startDate?.split("T")[0] || ""
-                                    }
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "startDate",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="col-3">
-                                  <input
-                                    type="date"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    value={
-                                      transport.endDate?.split("T")[0] || ""
-                                    }
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "endDate",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                                <div className="col-3">
-                                  <input
-                                    type="number"
-                                    className="form-control form-control-sm rounded shadow-sm"
-                                    placeholder="Number"
-                                    value={transport.quantity || ""}
-                                    onChange={(e) =>
-                                      handleTransportationChange(
-                                        index,
-                                        "quantity",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            )
-                          )}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* IT Components Section */}
-                    <div
-                      className="card shadow-sm p-3 mt-3"
-                      style={{ backgroundColor: "#f1f3f5" }}
-                    >
-                      <div className="d-flex align-items-center">
-                        <input
-                          type="checkbox"
-                          id="hasIt"
-                          className="form-check-input me-2"
-                          checked={eventData.hasIt === 1}
-                          onChange={handleItComponentsCheckbox}
-                        />
-                        <label
-                          className="form-check-label font-weight-bold text-dark"
-                          htmlFor="hasIt"
-                          style={{ fontSize: "14px" }}
-                        >
-                          IT Services (Optional)
-                        </label>
-                      </div>
-
-                      {eventData.hasIt === 1 && (
-                        <div className="mt-3">
-                          <div className="row g-2">
-                            {itComponentsList?.map((component) => (
-                              <div
-                                key={component.itcomponentId}
-                                className="col-6 col-md-3"
-                              >
-                                <div className="form-check d-flex align-items-center gap-2">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id={`itcomponent-${component.itcomponentId}`}
-                                    value={component.itcomponentId}
-                                    checked={eventData?.itcomponentEvents?.some(
-                                      (item) =>
-                                        item.itcomponentId ===
-                                        component.itcomponentId
-                                    )}
-                                    onChange={handleItComponentCheckbox}
-                                  />
-                                  <label
-                                    className="form-check-label text-dark fw-semibold text-truncate"
-                                    htmlFor={`itcomponent-${component.itcomponentId}`}
-                                    style={{
-                                      fontSize: "14px",
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {component.component}
-                                  </label>
-                                </div>
-
-                                {eventData?.itcomponentEvents?.some(
-                                  (item) =>
-                                    item.itcomponentId ===
-                                    component.itcomponentId
-                                ) && (
-                                  <div className="mt-2 d-flex align-items-center gap-2">
-                                    <input
-                                      type="number"
-                                      className="form-control form-control-sm w-80 rounded shadow-sm"
-                                      style={{ maxWidth: "200px" }}
-                                      placeholder="Number"
-                                      value={
-                                        eventData.itcomponentEvents.find(
-                                          (item) =>
-                                            item.itcomponentId ===
-                                            component.itcomponentId
-                                        )?.quantity || ""
-                                      }
-                                      onChange={(e) =>
-                                        handleItComponentQuantityChange(
-                                          component.itcomponentId,
-                                          e.target.value
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
                         </div>
                       )}
                     </div>
@@ -1769,39 +1916,41 @@ const EventRequestDetails = () => {
 
                 {eventData.confirmedAt == null ? (
                   <>
-                    <div className="row">
-                      <div className="col-md-6">
+                    <div className="row justify-content-center mt-3">
+                      <div
+                        className="d-flex justify-content-center"
+                        style={{ gap: "1rem", flexWrap: "wrap" }}
+                      >
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
+                          className="btn btn-dark btn-lg"
                           disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
                           onClick={() => onSubmit()}
                         >
-                          {isLoading ? "Saving Draft..." : "Save Draft"}
+                          {isLoading ? "Save Draft" : "Save Draft"}
                         </button>
-                      </div>
-                      <div className="col-md-6">
+
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
+                          className="btn btn-dark btn-lg"
                           disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
                           onClick={() => ConfrimBusinessRequestAsync(requestId)}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Submit" : "Submit"}
                         </button>
                       </div>
                     </div>
@@ -1842,6 +1991,7 @@ const EventRequestDetails = () => {
                         <textarea
                           id="rejectionReason"
                           name="rejectionReason"
+                          style={{ fontSize: "0.7rem" }}
                           value={eventData.rejectionReason}
                           onChange={(e) => {
                             const value = e.target.value;

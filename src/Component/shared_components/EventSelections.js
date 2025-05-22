@@ -270,7 +270,7 @@ const EventSelections = ({ eventData, setEventData }) => {
         className="card shadow-lg px-4 py-2 w-100 mx-auto"
         style={{ backgroundColor: "#f8f9fa" }}
       >
-        {/* IT Components Section */}
+        {/* Budget Components Section */}
         <div
           className="card shadow-sm p-3 mt-3"
           style={{ backgroundColor: "#f1f3f5" }}
@@ -336,7 +336,7 @@ const EventSelections = ({ eventData, setEventData }) => {
             </div>
           )}
         </div>
-        {/* IT Components Section */}
+        {/* Marcom Components Section */}
         <div
           className="card shadow-sm p-3 mt-3"
           style={{ backgroundColor: "#f1f3f5" }}
