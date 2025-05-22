@@ -493,6 +493,51 @@ const EventRequestDetails = () => {
     const parts = fileName.split("_");
     return parts.length > 1 ? parts.slice(-1)[0] : fileName; // Get only the last part after all UUIDs
   };
+  const createPassportFileObject = (fileData) => {
+    if (!fileData) return null;
+
+    // Handle plain string (filename)
+    if (typeof fileData === "string") {
+      const fileName = fileData;
+      const extension = fileName.split(".").pop()?.toLowerCase();
+      let contentType = "application/octet-stream";
+
+      // Simple type inference
+      if (["png", "jpg", "jpeg"].includes(extension)) {
+        contentType = `image/${extension === "jpg" ? "jpeg" : extension}`;
+      } else if (extension === "pdf") {
+        contentType = "application/pdf";
+      }
+
+      return new File([new Blob([], { type: contentType })], fileName, {
+        type: contentType,
+      });
+    }
+
+    // Original object format
+    const { fileName, contentType } = fileData;
+    if (!fileName || !contentType) return null;
+
+    return new File([new Blob([], { type: contentType })], fileName, {
+      type: contentType,
+    });
+  };
+  const convertPassportObject = (passportObj) => {
+    const result = [];
+
+    Object.values(passportObj).forEach((item) => {
+      if (typeof item === "string") {
+        // Convert filename to dummy File
+        result.push(createPassportFileObject(item));
+      } else if (Array.isArray(item) && item[0] instanceof File) {
+        // Use the real File object
+        result.push(item[0]);
+      }
+    });
+
+    return result.filter(Boolean); // Clean up any nulls
+  };
+
   const onSubmit = async () => {
     try {
       setisLoading(true);
@@ -500,14 +545,19 @@ const EventRequestDetails = () => {
       await UpdateEventRequest(requestId, eventData);
 
       if (requestId) {
-        // Convert backend response to actual File objects
+        // Convert all related data to File objects
         const presidentFile = createFileObject(eventData.presidentFile);
         const universityFile = createFileObject(eventData.universityFile);
         const agendaFile = createFileObject(eventData.agendaFile);
 
+        const convertedPassports = convertPassportObject(
+          eventData.passports || {}
+        );
+
+        console.log("Event Data converted passports", convertedPassports);
         await UpdateFiles(
           requestId,
-          eventData.passports || [],
+          convertedPassports,
           presidentFile || eventData.presidentFile,
           universityFile || eventData.universityFile,
           agendaFile || eventData.agendaFile
