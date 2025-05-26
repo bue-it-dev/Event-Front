@@ -336,6 +336,7 @@ const AddEventRequest = () => {
   const [ITChoice, setITChoice] = useState(false);
   const [TransportChoice, setTransportChoice] = useState(false);
   const [AccommodationChoice, setAccommodationChoice] = useState(false);
+
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const onClickeSubmit = () => {
     // if (employeeSelected == true && ITChoice == true && eventData.hasIt == 1) {
@@ -383,6 +384,10 @@ const AddEventRequest = () => {
         toast.error("Please select at least one Accommodation choice.");
         return;
       }
+    }
+    if (!eventData.IsStaffStudents && !eventData.IsOthers) {
+      toast.error("Select an option from the attendance section");
+      return;
     }
     handleSubmit(clickedButtonId);
   };
