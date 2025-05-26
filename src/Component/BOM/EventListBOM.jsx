@@ -72,19 +72,13 @@ const EventListBOM = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event deleted successfully!", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.success("Event deleted successfully!");
                 // Refresh events
                 GetEvents(empID);
               } catch (error) {
                 console.error("Error deleting event:", error);
                 // Error toast
-                toast.error("Failed to delete event. Please try again.", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.error("Failed to delete event. Please try again.");
               }
             }}
           >
@@ -165,7 +159,7 @@ const EventListBOM = () => {
           ? "Acknowledge"
           : event.statusName,
       approvalName: event.approvalName,
-     
+
       actions: (
         <>
           <Link
@@ -177,15 +171,22 @@ const EventListBOM = () => {
               },
             }}
           >
-            <button type="button" className="btn btn-sm" 
-            style={{ backgroundColor: event.statusName === "Pending" ? "#c39900" : "#343a40", color : "white"}}  >
+            <button
+              type="button"
+              className="btn btn-sm"
+              style={{
+                backgroundColor:
+                  event.statusName === "Pending" ? "#c39900" : "#343a40",
+                color: "white",
+              }}
+            >
               {event.statusName != "Pending" ? <>View</> : <>Decide</>}
-                  </button>
+            </button>
           </Link>
         </>
       ),
     })),
-    };
+  };
 
   return (
     <div className="my-events">

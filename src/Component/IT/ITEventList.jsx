@@ -70,19 +70,13 @@ const ITEventList = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event deleted successfully!", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.success("Event deleted successfully!");
                 // Refresh events
                 GetEvents(empID);
               } catch (error) {
                 console.error("Error deleting event:", error);
                 // Error toast
-                toast.error("Failed to delete event. Please try again.", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.error("Failed to delete event. Please try again.");
               }
             }}
           >

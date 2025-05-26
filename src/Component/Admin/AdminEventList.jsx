@@ -69,19 +69,13 @@ const AdminEventList = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event Deleted!", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.success("Event Deleted!");
                 // Refresh events
                 GetEvents(empID);
               } catch (error) {
                 console.error("Error deleting event:", error);
                 // Error toast
-                toast.error("Failed to delete event. Please try again.", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.error("Failed to delete event. Please try again.");
               }
             }}
           >
@@ -159,7 +153,7 @@ const AdminEventList = () => {
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
-       <div className="d-inline-flex align-items-center">
+        <div className="d-inline-flex align-items-center">
           <Link
             to={{
               pathname: "/hod-my-event-request-details",

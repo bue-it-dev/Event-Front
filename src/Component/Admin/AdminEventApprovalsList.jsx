@@ -71,19 +71,13 @@ const AdminEventApprovalsList = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event deleted successfully!", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.success("Event deleted successfully!");
                 // Refresh events
                 GetEvents(empID);
               } catch (error) {
                 console.error("Error deleting event:", error);
                 // Error toast
-                toast.error("Failed to delete event. Please try again.", {
-                  position: "top-center",
-                  autoClose: 3000,
-                });
+                toast.error("Failed to delete event. Please try again.");
               }
             }}
           >
@@ -173,7 +167,12 @@ const AdminEventApprovalsList = () => {
             <button
               type="button"
               className="btn btn-success btn-sm"
-              style={{ backgroundColor: event.statusName === "Pending" ? "#c39900" : "#343a40", color : "white"}}  >
+              style={{
+                backgroundColor:
+                  event.statusName === "Pending" ? "#c39900" : "#343a40",
+                color: "white",
+              }}
+            >
               {event.statusName != "Pending" ? <>View</> : <>Decide</>}
             </button>
           </Link>

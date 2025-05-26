@@ -21,6 +21,7 @@ import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueL
 import { ActionTurnedInNot } from "material-ui/svg-icons";
 
 const AddEventRequest = () => {
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(true);
   const history = useHistory();
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
@@ -331,7 +332,67 @@ const AddEventRequest = () => {
     newpassportData[index] = files;
     setpassportData(newpassportData);
   };
-
+  const [employeeSelected, setemployeeSelected] = useState(false);
+  const [ITChoice, setITChoice] = useState(false);
+  const [TransportChoice, setTransportChoice] = useState(false);
+  const [AccommodationChoice, setAccommodationChoice] = useState(false);
+  const [clickedButtonId, setClickedButtonId] = useState(null);
+  const onClickeSubmit = () => {
+    // if (employeeSelected == true && ITChoice == true && eventData.hasIt == 1) {
+    //   handleSubmit(clickedButtonId);
+    // } else {
+    //   if (employeeSelected == false) {
+    //     toast.error("Employee name is required.");
+    //     return;
+    //   } else if (ITChoice == false && eventData.hasIt == 1) {
+    //     toast.error("Please select at least one IT component.");
+    //     return;
+    //   }
+    // }
+    let isValidationValid = false;
+    if (employeeSelected == true) {
+      isValidationValid = true;
+    } else {
+      toast.error("Employee name is required.");
+      return;
+    }
+    if (!eventData.BuildingVenues || eventData.BuildingVenues.length === 0) {
+      toast.error("Select the event venue(s).");
+      return;
+    }
+    if (eventData.hasIt == 1) {
+      if (ITChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one IT component.");
+        return;
+      }
+    }
+    if (eventData.hasTransportation == 1) {
+      if (TransportChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Transportation choice.");
+        return;
+      }
+    }
+    if (eventData.hasAccomdation == 1) {
+      if (AccommodationChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Accommodation choice.");
+        return;
+      }
+    }
+    handleSubmit(clickedButtonId);
+  };
+  const handleSubmit = (id) => {
+    if (id == 1) {
+      onSubmit();
+    } else if (id == 2) {
+      SaveandConfrimBusinessRequestAsync(responseRequestIDExtracted);
+    }
+  };
   useEffect(() => {
     setisLoading(false);
     GetApprovalDepartmentSchema();
@@ -348,75 +409,73 @@ const AddEventRequest = () => {
               <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
                 Request Event
               </h5>
-
-              {/* <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Department Info
-                </h5>
-              </div> */}
-
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Event Info
-                </h5>
-              </div>
-
-              <EventInfo eventData={eventData} seteventData={seteventData} />
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
-              </div>
-
-              <div className="d-flex align-items-center mb-3">
-                <button
-                  type="button"
-                  className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                  style={{
-                    width: "24px", // ~1.5rem
-                    height: "24px",
-                    fontSize: "0.7rem",
-                    borderRadius: "50%",
-                    marginRight: "10px",
-                    transition: "0.3s ease",
-                    backgroundColor: "#57636f",
-                    padding: "0",
-                  }}
-                  onClick={addBuildingVenue}
-                >
-                  +
-                </button>
-                <p className="text-dark mb-0" style={{ fontSize: "0.7rem" }}>
-                  Add Venue(s)
-                </p>
-              </div>
-
-              {eventData.BuildingVenues.map((_, index) => (
-                <EventBuildingVenueListInfo
-                  key={index}
-                  index={index}
+              <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
+                <div className="horizontal-rule mb-4">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
+                    Event Info
+                  </h5>
+                </div>
+                <EventInfo
                   eventData={eventData}
                   seteventData={seteventData}
+                  employeeSelected={employeeSelected}
+                  setemployeeSelected={setemployeeSelected}
                 />
-              ))}
-              <br />
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Services
-                </h5>
-              </div>
+                <div className="horizontal-rule mb-4">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
+                    Venues
+                  </h5>
+                </div>
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "24px", // ~1.5rem
+                      height: "24px",
+                      fontSize: "0.7rem",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      transition: "0.3s ease",
+                      backgroundColor: "#57636f",
+                      padding: "0",
+                    }}
+                    onClick={addBuildingVenue}
+                  >
+                    +
+                  </button>
+                  <p className="text-dark mb-0" style={{ fontSize: "0.7rem" }}>
+                    Add Venue(s)
+                  </p>
+                </div>
+                {eventData.BuildingVenues.map((_, index) => (
+                  <EventBuildingVenueListInfo
+                    key={index}
+                    index={index}
+                    eventData={eventData}
+                    seteventData={seteventData}
+                  />
+                ))}
+                <br />
+                <div className="horizontal-rule mt-2">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
+                    Services
+                  </h5>
+                </div>
 
-              <ValidatorForm className="px-md-2">
                 <EventSelections
                   eventData={eventData}
                   setEventData={seteventData}
+                  setITChoice={setITChoice}
+                  setTransportChoice={setTransportChoice}
+                  setAccommodationChoice={setAccommodationChoice}
                 />
                 <br />
                 <br />
-
-                <div className="horizontal-rule mb-1">
+                <div className="horizontal-rule mb-2">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
                     Attendance
@@ -476,9 +535,19 @@ const AddEventRequest = () => {
                         style={{ gap: "1rem", flexWrap: "wrap" }}
                       >
                         <button
+                          // type="submit"
+                          // className="btn btn-dark btn-lg"
+                          // disabled={isLoading}
+                          // style={{
+                          //   transition: "0.3s ease",
+                          //   backgroundColor: "#57636f",
+                          //   padding: "6px 16px",
+                          //   fontSize: "0.7rem",
+                          //   whiteSpace: "nowrap",
+                          // }}
+                          // onClick={() => onSubmit()}
                           type="submit"
                           className="btn btn-dark btn-lg"
-                          disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
@@ -486,15 +555,30 @@ const AddEventRequest = () => {
                             fontSize: "0.7rem",
                             whiteSpace: "nowrap",
                           }}
-                          onClick={() => onSubmit()}
+                          disabled={!isSubmitEnabled || isLoading}
+                          onClick={() => setClickedButtonId(1)}
                         >
                           {isLoading ? "Save Draft" : "Save Draft"}
                         </button>
 
                         <button
+                          // type="submit"
+                          // className="btn btn-dark btn-lg"
+                          // disabled={isLoading}
+                          // style={{
+                          //   transition: "0.3s ease",
+                          //   backgroundColor: "#57636f",
+                          //   padding: "6px 16px",
+                          //   fontSize: "0.7rem",
+                          //   whiteSpace: "nowrap",
+                          // }}
+                          // onClick={() =>
+                          //   SaveandConfrimBusinessRequestAsync(
+                          //     responseRequestIDExtracted
+                          //   )
+                          // }
                           type="submit"
                           className="btn btn-dark btn-lg"
-                          disabled={isLoading}
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
@@ -502,11 +586,8 @@ const AddEventRequest = () => {
                             fontSize: "0.7rem",
                             whiteSpace: "nowrap",
                           }}
-                          onClick={() =>
-                            SaveandConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
+                          disabled={!isSubmitEnabled || isLoading}
+                          onClick={() => setClickedButtonId(2)}
                         >
                           {isLoading ? "Submit" : "Submit"}
                         </button>

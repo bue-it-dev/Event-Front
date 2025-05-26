@@ -124,6 +124,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                           OfficeOfPresedentFile: e.target.files[0],
                         })
                       }
+                      required
                     />
                   </div>
                 </div>
@@ -171,6 +172,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                         VisitAgendaFile: e.target.files[0],
                       })
                     }
+                    required
                   />
                 </div>
               </div>
@@ -271,6 +273,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                           multiple
                           className="form-control form-control-sm w-50"
                           style={{ maxWidth: "300px", fontSize: "0.7rem" }}
+                          required
                           onChange={(e) => handleFileChange(e, index)}
                         />
                         <button

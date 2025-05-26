@@ -3,7 +3,13 @@ import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 
-const EventSelections = ({ eventData, setEventData }) => {
+const EventSelections = ({
+  eventData,
+  setEventData,
+  setITChoice = { setITChoice },
+  setTransportChoice = { setTransportChoice },
+  setAccommodationChoice = { setAccommodationChoice },
+}) => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [transportationTypes, setTransportationTypes] = useState([]);
   const [itComponentsList, setItComponentsList] = useState([]);
@@ -164,11 +170,13 @@ const EventSelections = ({ eventData, setEventData }) => {
             numOfRooms: "",
           });
         }
+        setAccommodationChoice(true);
       } else {
         // Remove the item if unchecked
         updatedAccommodations = updatedAccommodations.filter(
           (t) => t.roomTypeId !== roomTypeId
         );
+        setAccommodationChoice(false);
       }
 
       return { ...prevData, Accommodations: updatedAccommodations };
@@ -205,11 +213,13 @@ const EventSelections = ({ eventData, setEventData }) => {
             quantity: "",
           });
         }
+        setTransportChoice(true);
       } else {
         // Remove the item if unchecked
         updatedTransportations = updatedTransportations.filter(
           (t) => t.TransportationTypeId !== transportationTypeId
         );
+        setTransportChoice(false);
       }
 
       return { ...prevData, Transportations: updatedTransportations };
@@ -241,11 +251,13 @@ const EventSelections = ({ eventData, setEventData }) => {
         ) {
           updatedItComponents.push({ itcomponentId, Quantity: "" });
         }
+        setITChoice(true);
       } else {
         // Remove the item if unchecked
         updatedItComponents = updatedItComponents.filter(
           (item) => item.itcomponentId !== itcomponentId
         );
+        setITChoice(false);
       }
 
       return { ...prevData, ItcomponentEvents: updatedItComponents };
@@ -414,6 +426,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                           type="number"
                           className="form-control form-control-sm mt-2 rounded shadow-sm"
                           placeholder="Number"
+                          required
                           style={{ textAlign: "left", fontSize: "0.7rem" }}
                           value={
                             eventData.ItcomponentEvents.find(
@@ -515,6 +528,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <input
+                      required
                       type="date"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       className="form-control form-control-sm rounded shadow-sm"
@@ -530,6 +544,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <input
+                      required
                       type="date"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       className="form-control form-control-sm rounded shadow-sm"
@@ -545,6 +560,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <input
+                      required
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
@@ -632,6 +648,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <input
+                      required
                       type="date"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       className="form-control form-control-sm rounded shadow-sm"
@@ -647,6 +664,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                   </div>
                   <div className="col-6 col-md-3">
                     <input
+                      required
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
@@ -670,6 +688,7 @@ const EventSelections = ({ eventData, setEventData }) => {
                       `}
                       </style>
                       <input
+                        required
                         id="numOfRooms"
                         type="number"
                         className="form-control form-control-sm rounded shadow-sm"

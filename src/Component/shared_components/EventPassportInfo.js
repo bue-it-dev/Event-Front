@@ -4,7 +4,12 @@ import axios from "axios";
 import URL from "../Util/config";
 import Select from "react-select";
 
-const EventInfo = ({ eventData, seteventData }) => {
+const EventInfo = ({
+  eventData,
+  seteventData,
+  employeeSelected,
+  setemployeeSelected,
+}) => {
   const [errors, setErrors] = useState({});
   const [natureofevents, setnatureofEvents] = useState([]);
   const [employeelist, setEmployeeList] = React.useState([]);
@@ -108,6 +113,7 @@ const EventInfo = ({ eventData, seteventData }) => {
         organizerEmail: employeeData.email || "", // Ensure a fallback value
         organizerPosition: employeeData.position || "", // Ensure a fallback value
       }));
+      setemployeeSelected(true);
     } catch (error) {
       console.error("Error fetching employee details:", error);
     }
@@ -361,6 +367,7 @@ const EventInfo = ({ eventData, seteventData }) => {
                 className="form-control form-control-lg w-100"
                 min="1"
                 placeholder="Number of participants"
+                required
               />
               {errors.NomParticipants && (
                 <small className="text-danger">{errors.NomParticipants}</small>
@@ -399,6 +406,7 @@ const EventInfo = ({ eventData, seteventData }) => {
             </label>
             <input
               type="datetime-local"
+              required
               id="EventEndDate"
               name="EventEndDate"
               style={{ fontSize: "0.7rem", textAlign: "left" }}
@@ -619,6 +627,7 @@ const EventInfo = ({ eventData, seteventData }) => {
                   maxLength={11}
                   className="form-control form-control-lg"
                   placeholder="Enter valid Egyptian phone number"
+                  required
                 />
               </>
             </div>
