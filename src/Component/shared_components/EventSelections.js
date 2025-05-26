@@ -279,25 +279,25 @@ const EventSelections = ({
   return (
     <div className="container-fluid">
       <div
-        className="card shadow-lg px-4 py-2 w-100 mx-auto"
+        className="card shadow-sm px-3 py-2 w-100 mx-auto"
         style={{ backgroundColor: "#f8f9fa" }}
       >
         {/* Budget Components Section */}
         <div
-          className="card shadow-sm p-3 mt-3"
-          style={{ backgroundColor: "#f1f3f5" }}
+          className="card section-card p-2 mt-3"
+          // style={{ backgroundColor: "#f1f3f5" }}
         >
-          <div className="d-flex align-items-center">
+          <div className="form-check text-left">
             <input
               type="checkbox"
               id="hasBudget"
-              className="form-check-input me-2"
+              className="form-check-input"
               checked={eventData.hasBudget === 1}
               onChange={handleBudgetComponentsCheckbox}
             />
             <label
               className="form-check-label font-weight-bold text-dark"
-              htmlFor="hasIt"
+              htmlFor="hasBudget"
               style={{ fontSize: "0.7rem" }}
             >
               Budget (if needed)
@@ -350,10 +350,10 @@ const EventSelections = ({
         </div>
         {/* Marcom Components Section */}
         <div
-          className="card shadow-sm p-3 mt-3"
-          style={{ backgroundColor: "#f1f3f5" }}
+          className="card section-card p-2 mt-3"
+          // style={{ backgroundColor: "#f1f3f5" }}
         >
-          <div className="d-flex align-items-center">
+          <div className="form-check text-left">
             <input
               type="checkbox"
               id="hasMarcom"
@@ -372,10 +372,10 @@ const EventSelections = ({
         </div>
         {/* IT Components Section */}
         <div
-          className="card shadow-sm p-3 mt-3"
-          style={{ backgroundColor: "#f1f3f5" }}
+          className="card section-card p-2 mt-3"
+          // style={{ backgroundColor: "#f1f3f5" }}
         >
-          <div className="d-flex align-items-center">
+          <div className="form-check text-left">
             <input
               type="checkbox"
               id="hasIt"
@@ -451,10 +451,10 @@ const EventSelections = ({
         </div>
         {/* Transportation Section */}
         <div
-          className="card shadow-sm p-3 mt-3"
-          style={{ backgroundColor: "#f1f3f5" }}
+          className="card section-card p-2 mt-3"
+          // style={{ backgroundColor: "#f1f3f5" }}
         >
-          <div className="d-flex align-items-center">
+          <div className="form-check text-left">
             <input
               type="checkbox"
               id="hasTransportation"
@@ -582,10 +582,10 @@ const EventSelections = ({
         </div>
         {/* Accommodation Section */}
         <div
-          className="card shadow-sm p-3 mt-3"
-          style={{ backgroundColor: "#f1f3f5" }}
+          className="card section-card p-2 mt-3"
+          // style={{ backgroundColor: "#f1f3f5" }}
         >
-          <div className="d-flex align-items-center">
+          <div className="form-check text-left">
             <input
               type="checkbox"
               id="hasAccomdation"
@@ -598,7 +598,7 @@ const EventSelections = ({
               htmlFor="hasAccomdation"
               style={{ fontSize: "0.7rem" }}
             >
-              Accommodation (If Needed)
+              Accommodation (If needed)
             </label>
           </div>
 

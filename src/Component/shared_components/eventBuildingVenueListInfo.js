@@ -50,13 +50,16 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
   }, []);
 
   return (
-    <div className="card shadow-sm p-3 mb-3">
+    <div
+      className="card shadow-sm px-3 py-2 w-100 mx-auto"
+      style={{ backgroundColor: "#f8f9fa" }}
+    >
       <div className="row align-items-center">
         {/* Building Select */}
         <div className="col-md-6">
           <select
             className="form-control custom-select custom-select-lg"
-            style={{ fontSize: "0.7rem" }}
+            style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
             onChange={(e) => {
               const buildingId = e.target.value;
               setSelectedBuildingId(buildingId);
@@ -79,7 +82,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
           <div className="col-md-5 mt-3 mt-md-0">
             <select
               className="form-control custom-select custom-select-lg"
-              style={{ fontSize: "0.7rem" }}
+              style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
               onChange={(e) => {
                 const venueId = e.target.value;
                 seteventData((prev) => {

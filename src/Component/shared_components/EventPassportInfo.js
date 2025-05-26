@@ -88,7 +88,7 @@ const EventInfo = ({
   // };
   const handleOrgChange = async (selectedOption) => {
     const fullLabel = selectedOption ? selectedOption.label : "";
-    const empId = selectedOption ? selectedOption.value : "";
+    const empId = selectedOption ? selectedOption.value : 0;
     employeeEmailAndPositionByEmpId(empId);
     console.log("Emp Id", empId);
     try {
@@ -107,13 +107,24 @@ const EventInfo = ({
       console.log("Fetched settings:", employeeData);
 
       // Now, safely update eventData with fetched employee details
-      seteventData((prevState) => ({
-        ...prevState,
-        OrganizerName: fullLabel,
-        organizerEmail: employeeData.email || "", // Ensure a fallback value
-        organizerPosition: employeeData.position || "", // Ensure a fallback value
-      }));
-      setemployeeSelected(true);
+      if (empId != 0) {
+        seteventData((prevState) => ({
+          ...prevState,
+          OrganizerName: fullLabel,
+          organizerEmail: employeeData.email || "", // Ensure a fallback value
+          organizerPosition: employeeData.position || "", // Ensure a fallback value
+        }));
+        setemployeeSelected(true);
+      } else {
+        console.log("No employee selected, resetting organizer fields.");
+        seteventData((prevState) => ({
+          ...prevState,
+          OrganizerName: "",
+          organizerEmail: "", // Ensure a fallback value
+          organizerPosition: "", // Ensure a fallback value
+        }));
+        setemployeeSelected(false);
+      }
     } catch (error) {
       console.error("Error fetching employee details:", error);
     }
@@ -218,7 +229,10 @@ const EventInfo = ({
   }, []);
   return (
     <div className="container-fluid">
-      <div className="card shadow-sm px-5 py-4 w-150 mx-auto">
+      <div
+        className="card shadow-sm px-5 py-4 w-150 mx-auto"
+        style={{ backgroundColor: "#f8f9fa" }}
+      >
         <div className="row g-4">
           <>
             <style>
@@ -473,9 +487,7 @@ const EventInfo = ({
               `}
               </style>
               <div className="input-group w-100">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">@</span>
-                </div>
+                <div className="input-group-prepend"></div>
                 <input
                   type="email"
                   id="OrganizerEmail"
@@ -605,10 +617,7 @@ const EventInfo = ({
             >
               Organizer Mobile
             </label> */}
-            <div className="input-group w-100">
-              <div className="input-group-prepend">
-                <span className="input-group-text">📞</span>
-              </div>
+            <div className="input-group w-70">
               <>
                 <style>
                   {`
@@ -626,7 +635,7 @@ const EventInfo = ({
                   onChange={handleChange}
                   maxLength={11}
                   className="form-control form-control-lg"
-                  placeholder="Enter valid Egyptian phone number"
+                  placeholder="Enter your mobile number"
                   required
                 />
               </>
