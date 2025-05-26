@@ -418,6 +418,7 @@ tbody+thead {
 .table-bordered td {
   border: none !important;
   font-size: 0.7rem !important;
+  font-weight: 400 !important;
 }
 
 .fa-plus:before {

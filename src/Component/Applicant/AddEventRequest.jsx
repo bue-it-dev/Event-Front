@@ -540,17 +540,6 @@ const AddEventRequest = () => {
                         style={{ gap: "1rem", flexWrap: "wrap" }}
                       >
                         <button
-                          // type="submit"
-                          // className="btn btn-dark btn-lg"
-                          // disabled={isLoading}
-                          // style={{
-                          //   transition: "0.3s ease",
-                          //   backgroundColor: "#57636f",
-                          //   padding: "6px 16px",
-                          //   fontSize: "0.7rem",
-                          //   whiteSpace: "nowrap",
-                          // }}
-                          // onClick={() => onSubmit()}
                           type="submit"
                           className="btn btn-dark btn-lg"
                           style={{
@@ -565,23 +554,7 @@ const AddEventRequest = () => {
                         >
                           {isLoading ? "Save Draft" : "Save Draft"}
                         </button>
-
                         <button
-                          // type="submit"
-                          // className="btn btn-dark btn-lg"
-                          // disabled={isLoading}
-                          // style={{
-                          //   transition: "0.3s ease",
-                          //   backgroundColor: "#57636f",
-                          //   padding: "6px 16px",
-                          //   fontSize: "0.7rem",
-                          //   whiteSpace: "nowrap",
-                          // }}
-                          // onClick={() =>
-                          //   SaveandConfrimBusinessRequestAsync(
-                          //     responseRequestIDExtracted
-                          //   )
-                          // }
                           type="submit"
                           className="btn btn-dark btn-lg"
                           style={{
