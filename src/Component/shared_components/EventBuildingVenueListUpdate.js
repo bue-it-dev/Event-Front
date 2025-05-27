@@ -100,14 +100,17 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   };
 
   return (
-    <div className="card shadow-sm p-3 mb-3">
+    <div
+      className="card shadow-sm px-3 py-2 w-100 mx-auto"
+      style={{ backgroundColor: "#f8f9fa" }}
+    >
       <div className="row align-items-center">
         {/* Building Select */}
         <div className="col-md-6">
           {/* <label className="form-label font-weight-bold">Select Building</label> */}
           <select
             className="form-control custom-select custom-select-lg"
-            style={{ fontSize: "0.7rem" }}
+            style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
             value={selectedBuildingId}
             onChange={handleBuildingChange}
             name="buildings"
@@ -128,7 +131,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
             {/* <label className="form-label font-weight-bold">Select Venue</label> */}
             <select
               className="form-control custom-select custom-select-lg"
-              style={{ fontSize: "0.7rem" }}
+              style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
               value={selectedVenueId}
               onChange={handleVenueChange}
               name="venues"

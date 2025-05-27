@@ -91,9 +91,12 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
 
   return (
     <div className="container-fluid">
-      <div className="card modern-card px-2 w-80 mx-auto">
+      <div
+        className="card shadow-sm px-3 py-2 w-100 mx-auto"
+        style={{ backgroundColor: "#f8f9fa" }}
+      >
         {/* Is Staff or Students */}
-        <div className="card section-card p-4 mt-4">
+        <div className="card section-card p-2 mt-3">
           <div className="form-check">
             <input
               type="checkbox"
@@ -105,17 +108,19 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label
-              className="form-check-label font-weight-bold fs-8"
+              className="form-check-label small "
               style={{ fontSize: "0.7rem" }}
               htmlFor="isStaffStudents"
             >
-              The Event Exclusively Attended by Staff & Students of the British
-              University in Egypt
+              <b>
+                The Event Exclusively Attended by Staff & Students of the
+                British University in Egypt
+              </b>
             </label>
           </div>
 
           {eventData.isStaffStudents === 1 && (
-            <div className="mt-3">
+            <div className="mt-2">
               <div className="form-check">
                 <input
                   type="checkbox"
@@ -126,12 +131,14 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                   onChange={handleCheckboxChange}
                 />
                 <label
-                  className="form-check-label font-weight-bold fs-8"
+                  className="form-check-label small"
                   htmlFor="isChairBoardPrisidentVcb"
                   style={{ fontSize: "0.7rem" }}
                 >
-                  Does the Chair, and/or Board Member, and/or President and Vice
-                  Chancellor need to attend?
+                  <b>
+                    Does the Chair, and/or Board Member, and/or President and
+                    Vice Chancellor need to attend?
+                  </b>
                 </label>
               </div>
 
@@ -196,12 +203,12 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               </div> */}
 
               {eventData.isChairBoardPrisidentVcb === 1 && (
-                <div className="mt-3 p-1 border rounded bg-light shadow-sm">
+                <div className="p-1 border rounded bg-light shadow-sm">
                   <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
                     {/* Label */}
                     <label
                       htmlFor="OfficeOfPresedentFile"
-                      className="form-label text-dark fw-bold m-0"
+                      className="form-check-label small"
                       style={{
                         fontSize: "0.7rem",
                         letterSpacing: "0.5px",
@@ -258,7 +265,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
         </div>
 
         {/* Is Others */}
-        <div className="card shadow-sm p-4 mt-4">
+        <div className="card section-card p-2 mt-3">
           <div className="form-check">
             <input
               type="checkbox"
@@ -270,7 +277,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               onChange={handleCheckboxChange}
             />
             <label
-              className="form-check-label fs-8 font-weight-bold text-dark text-wrap"
+              className="form-check-label small fw-bold"
               htmlFor="isOthers"
             >
               The event is attended by others; please attach the visit agenda.
@@ -278,14 +285,14 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
           </div>
 
           {eventData.isOthers === 1 && (
-            <div className="mt-3">
+            <div>
               {/* Upload Visit Agenda File */}
-              <div className="mt-3 p-1 border rounded bg-light shadow-sm">
+              <div className="p-1 border rounded bg-light shadow-sm">
                 <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
                   {/* Label */}
                   <label
                     htmlFor="VisitAgendaFile"
-                    className="form-label text-dark fw-bold m-0"
+                    className="form-check-label small"
                     style={{
                       fontSize: "0.7rem",
                       letterSpacing: "0.5px",
@@ -351,7 +358,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                 </div>
               </div>
               {/* Is Others NOT VIP */}
-              <div className="card shadow-sm p-4 mt-4">
+              <div className="card section-card p-2 mt-3">
                 <div className="form-check">
                   <input
                     type="checkbox"
@@ -363,7 +370,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     style={{ fontSize: "0.7rem" }}
                   />
                   <label
-                    className="form-check-label fs-8 font-weight-bold text-dark text-wrap"
+                    className="form-check-label small fw-bold"
                     htmlFor="isInernationalGuest"
                   >
                     International guests (excluding VIPs) will attend
@@ -371,7 +378,8 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                 </div>
               </div>
               {eventData.isInernationalGuest === 1 && (
-                <div className="card shadow-sm px-5 w-100 mx-auto">
+                // <div className="card shadow-sm px-5 w-100 mx-auto mb-2">
+                <>
                   {/* Check for passports */}
                   {!eventData.passports?.length && (
                     <div className="text-center">
@@ -379,7 +387,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       {eventData.confirmedAt == null && (
                         <button
                           type="button"
-                          className="btn btn-primary btn-sm"
+                          className="btn btn-primary btn-sm mb-2"
                           style={{
                             backgroundColor: "#57636f",
                             padding: "4px 8px",
@@ -403,7 +411,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                         {/* Label */}
                         <label
                           htmlFor={`passports${index}`}
-                          className="form-label text-dark fw-bold m-0"
+                          className="form-label text-dark m-0"
                           style={{ fontSize: "0.7rem", whiteSpace: "nowrap" }}
                         >
                           Passport {index + 1}
@@ -486,14 +494,15 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       )}
                     </div>
                   )}
-                </div>
+                  {/* </div> */}
+                </>
               )}
             </div>
           )}
         </div>
       </div>
       {/* Modern Styling */}
-      <style jsx>{`
+      {/* <style jsx>{`
         .modern-card {
           border-radius: 12px;
           background: #f8f9fa;
@@ -547,7 +556,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
           background-color: #0056b3;
           color: white;
         }
-      `}</style>
+      `}</style> */}
     </div>
   );
 };
