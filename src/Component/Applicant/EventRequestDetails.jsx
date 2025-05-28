@@ -835,10 +835,10 @@ const EventRequestDetails = () => {
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
-  const [employeeSelected, setemployeeSelected] = useState(false);
-  const [ITChoice, setITChoice] = useState(false);
-  const [TransportChoice, setTransportChoice] = useState(false);
-  const [AccommodationChoice, setAccommodationChoice] = useState(false);
+  const [employeeSelected, setemployeeSelected] = useState(true);
+  const [ITChoice, setITChoice] = useState(true);
+  const [TransportChoice, setTransportChoice] = useState(true);
+  const [AccommodationChoice, setAccommodationChoice] = useState(true);
   // useEffect(() => {
   //   if (updatehometravelData.confrimedat != null) {
   //     await GetEventApprovalsTracker(requestId);
@@ -854,45 +854,45 @@ const EventRequestDetails = () => {
   // }, [requestId]);
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const onClickeSubmit = () => {
-    // let isValidationValid = false;
-    // if (employeeSelected == true) {
-    //   isValidationValid = true;
-    // } else {
-    //   toast.error("Employee name is required.");
-    //   return;
-    // }
-    // if (!eventData.buildingVenues || eventData.buildingVenues.length === 0) {
-    //   toast.error("Select the event venue(s).");
-    //   return;
-    // }
-    // if (eventData.hasIt == 1) {
-    //   if (ITChoice == true) {
-    //     isValidationValid = true;
-    //   } else {
-    //     toast.error("Please select at least one IT component.");
-    //     return;
-    //   }
-    // }
-    // if (eventData.hasTransportation == 1) {
-    //   if (TransportChoice == true) {
-    //     isValidationValid = true;
-    //   } else {
-    //     toast.error("Please select at least one Transportation choice.");
-    //     return;
-    //   }
-    // }
-    // if (eventData.hasAccomdation == 1) {
-    //   if (AccommodationChoice == true) {
-    //     isValidationValid = true;
-    //   } else {
-    //     toast.error("Please select at least one Accommodation choice.");
-    //     return;
-    //   }
-    // }
-    // if (!eventData.IsStaffStudents && !eventData.IsOthers) {
-    //   toast.error("Select an option from the attendance section");
-    //   return;
-    // }
+    let isValidationValid = false;
+    if (employeeSelected == true) {
+      isValidationValid = true;
+    } else {
+      toast.error("Employee name is required.");
+      return;
+    }
+    if (!eventData.buildingVenues || eventData.buildingVenues.length === 0) {
+      toast.error("Select the event venue(s).");
+      return;
+    }
+    if (eventData.hasIt == 1) {
+      if (ITChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one IT component.");
+        return;
+      }
+    }
+    if (eventData.hasTransportation == 1) {
+      if (TransportChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Transportation choice.");
+        return;
+      }
+    }
+    if (eventData.hasAccomdation == 1) {
+      if (AccommodationChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Accommodation choice.");
+        return;
+      }
+    }
+    if (!eventData.isStaffStudents && !eventData.isOthers) {
+      toast.error("Select an option from the attendance section");
+      return;
+    }
     handleSubmit(clickedButtonId);
   };
   const handleSubmit = (id) => {

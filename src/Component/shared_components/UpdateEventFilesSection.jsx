@@ -93,7 +93,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
     <div className="container-fluid">
       <div
         className="card shadow-sm px-3 py-2 w-100 mx-auto"
-        style={{ backgroundColor: "#f8f9fa" }}
+        // style={{ backgroundColor: "#f8f9fa" }}
       >
         {/* Is Staff or Students */}
         <div className="card section-card p-2 mt-3">

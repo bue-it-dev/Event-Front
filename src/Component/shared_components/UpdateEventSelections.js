@@ -185,11 +185,13 @@ const EventSelections = ({
         ) {
           updatedItComponents.push({ itcomponentId, Quantity: "" });
         }
+        setITChoice(true);
       } else {
         // Remove the item if unchecked
         updatedItComponents = updatedItComponents.filter(
           (item) => item.itcomponentId !== itcomponentId
         );
+        setITChoice(false);
       }
 
       return { ...prevData, itcomponentEvents: updatedItComponents };
@@ -230,7 +232,7 @@ const EventSelections = ({
     <div className="container-fluid">
       <div
         className="card shadow-sm px-3 py-2 w-100 mx-auto"
-        style={{ backgroundColor: "#f8f9fa" }}
+        // style={{ backgroundColor: "#f8f9fa" }}
       >
         {/* Budget Components Section */}
         <div

@@ -231,7 +231,7 @@ const UpdateEventPassportInfo = ({
     <div className="container-fluid">
       <div
         className="card shadow-sm px-5 py-4 w-150 mx-auto"
-        style={{ backgroundColor: "#f8f9fa" }}
+        // style={{ backgroundColor: "#f8f9fa" }}
       >
         <div className="row g-4">
           <>
