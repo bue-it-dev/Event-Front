@@ -110,13 +110,17 @@ const EventFilesSection = ({ eventData, setEventData }) => {
 
               {eventData.IsChairBoardPrisidentVcb === 1 && (
                 <div className="mt-2 text-center">
-                  <label
-                    className="form-label small d-block"
-                    style={{ fontSize: "0.7rem" }}
-                  >
-                    President’s Office Form
-                  </label>
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                    <label
+                      className="form-label mb-0 small"
+                      style={{
+                        fontSize: "0.7rem",
+                        minWidth: "150px",
+                        textAlign: "right",
+                      }}
+                    >
+                      President’s Office Form
+                    </label>
                     <input
                       type="file"
                       className="form-control form-control-sm w-50"
@@ -158,13 +162,17 @@ const EventFilesSection = ({ eventData, setEventData }) => {
           {eventData.IsOthers === 1 && (
             <div className="mt-2">
               <div className="mt-2 text-center">
-                <label
-                  className="form-label small d-block"
-                  style={{ fontSize: "0.7rem" }}
-                >
-                  Visit Agenda File
-                </label>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                  <label
+                    className="form-label mb-0 small"
+                    style={{
+                      fontSize: "0.7rem",
+                      minWidth: "130px",
+                      textAlign: "right",
+                    }}
+                  >
+                    Visit Agenda File
+                  </label>
                   <input
                     type="file"
                     className="form-control form-control-sm w-50"
@@ -179,6 +187,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                   />
                 </div>
               </div>
+
               {/* VIP Section */}
               <div className="card section-card p-2 mt-3">
                 <div className="form-check">
@@ -272,7 +281,7 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                             textAlign: "right",
                           }}
                         >
-                          Passport {index + 1}:
+                          Passport {index + 1}
                         </label>
                         <input
                           type="file"

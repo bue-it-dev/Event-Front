@@ -239,6 +239,7 @@ const EventInfo = ({
               {`
               #EventTitle::placeholder {
                 text-align: left;
+              
               }
             `}
             </style>
@@ -394,7 +395,7 @@ const EventInfo = ({
               className="form-label font-weight-bold"
               style={{ fontSize: "0.7rem" }}
             >
-              Start Date
+              Start Date & Time
             </label>
             <input
               type="datetime-local"
@@ -416,7 +417,7 @@ const EventInfo = ({
               className="form-label font-weight-bold"
               style={{ fontSize: "0.7rem" }}
             >
-              End Date
+              End Date & Time
             </label>
             <input
               type="datetime-local"

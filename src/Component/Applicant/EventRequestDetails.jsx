@@ -645,6 +645,27 @@ const EventRequestDetails = () => {
     if (userConfirmed) {
       try {
         setisLoading(true);
+        await UpdateEventRequest(requestId, eventData);
+
+        if (requestId) {
+          // Convert all related data to File objects
+          const presidentFile = createFileObject(eventData.presidentFile);
+          const universityFile = createFileObject(eventData.universityFile);
+          const agendaFile = createFileObject(eventData.agendaFile);
+
+          const convertedPassports = convertPassportObject(
+            eventData.passports || {}
+          );
+
+          console.log("Event Data converted passports", convertedPassports);
+          await UpdateFiles(
+            requestId,
+            convertedPassports,
+            presidentFile || eventData.presidentFile,
+            universityFile || eventData.universityFile,
+            agendaFile || eventData.agendaFile
+          );
+        }
         await ConfrimEventRequest(requestId);
         setisLoading(false);
         history.push("/my-event-requests");
