@@ -242,18 +242,20 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                       >
                         <button
                           type="button"
-                          className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                          className="btn btn-sm  d-flex align-items-center justify-content-center"
                           style={{
                             gap: "1px",
                             padding: "2px 6px",
                             minWidth: "65px",
                             fontSize: "0.7rem",
+                            backgroundColor: "#57636f",
+                            color: "white",
                           }}
                           onClick={() =>
                             GetFiles(eventData.officeOfPresedentFilePath)
                           }
                         >
-                          <i className="bi bi-eye"></i> View
+                          View File
                         </button>
                       </a>
                     )}
@@ -326,16 +328,18 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     >
                       <button
                         type="button"
-                        className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                        className="btn btn-sm  d-flex align-items-center justify-content-center"
                         style={{
                           gap: "1px",
                           padding: "2px 6px",
                           minWidth: "65px",
                           fontSize: "0.7rem",
+                          backgroundColor: "#57636f",
+                          color: "white",
                         }}
                         onClick={() => GetFiles(eventData.visitAgendaFilePath)}
                       >
-                        <i className="bi bi-eye"></i> View
+                        View File
                       </button>
                     </a>
                   )}
@@ -456,18 +460,20 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                             >
                               <button
                                 type="button"
-                                className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                                className="btn btn-sm  d-flex align-items-center justify-content-center"
                                 style={{
                                   gap: "1px",
                                   padding: "2px 6px",
                                   minWidth: "65px",
                                   fontSize: "0.7rem",
+                                  backgroundColor: "#57636f",
+                                  color: "white",
                                 }}
                                 onClick={() =>
                                   GetFiles(eventData.passports[index])
                                 }
                               >
-                                <i className="bi bi-eye"></i> View
+                                View Passport
                               </button>
                             </a>
                           )}

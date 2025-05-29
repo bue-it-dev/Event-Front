@@ -245,6 +245,7 @@ const EventSelections = ({
               id="hasBudget"
               className="form-check-input"
               checked={eventData.hasBudget === 1}
+              style={{ fontSize: "0.7rem", textAlign: "left" }}
               onChange={handleBudgetComponentsCheckbox}
             />
             <label

@@ -262,15 +262,18 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                       key={index}
                       className="passport-entry mb-3 text-center"
                     >
-                      {/* Centered Label */}
-                      <label
-                        className="form-label small d-block"
-                        style={{ fontSize: "0.7rem" }}
-                      >
-                        Passport {index + 1}
-                      </label>
-                      {/* File Input + Delete Button Row */}
-                      <div className="d-flex justify-content-center align-items-center gap-2">
+                      {/* File Input + Label + Delete Button on Same Row */}
+                      <div className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                        <label
+                          className="form-label mb-0 small"
+                          style={{
+                            fontSize: "0.7rem",
+                            minWidth: "80px",
+                            textAlign: "right",
+                          }}
+                        >
+                          Passport {index + 1}:
+                        </label>
                         <input
                           type="file"
                           multiple
@@ -288,18 +291,6 @@ const EventFilesSection = ({ eventData, setEventData }) => {
                           <i className="bi bi-trash"></i>
                         </button>
                       </div>
-                      {/* 
-                      {/* Display File Names
-                      {fileArray.length > 0 && (
-                        <ul className="mt-1 small text-center">
-                          {fileArray.map((file, fileIndex) => (
-                            <li key={fileIndex} className="file-name">
-                              {file.name}
-                            </li>
-                          ))}
-                        </ul>
-                      )}{" "}
-                      */}
                     </div>
                   ))}
 
