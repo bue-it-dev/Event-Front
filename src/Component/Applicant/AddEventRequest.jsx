@@ -389,6 +389,14 @@ const AddEventRequest = () => {
       toast.error("Select an option from the attendance section");
       return;
     }
+    if (eventData.IsOthers == 1) {
+      if (!eventData.isVip && !eventData.isInernationalGuest) {
+        toast.error(
+          "Please select at least one option from the Others section"
+        );
+        return;
+      }
+    }
     handleSubmit(clickedButtonId);
   };
   const handleSubmit = (id) => {
