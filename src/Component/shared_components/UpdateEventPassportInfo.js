@@ -396,7 +396,7 @@ const UpdateEventPassportInfo = ({
               className="form-label font-weight-bold"
               style={{ fontSize: "0.7rem" }}
             >
-              Start Date
+              Start Date & Time
             </label>
             <input
               type="datetime-local"
@@ -419,7 +419,7 @@ const UpdateEventPassportInfo = ({
               className="form-label font-weight-bold"
               style={{ fontSize: "0.7rem" }}
             >
-              End Date
+              End Date & Time
             </label>
             <input
               type="datetime-local"
@@ -642,7 +642,14 @@ const UpdateEventPassportInfo = ({
                   name="organizerMobile"
                   style={{ fontSize: "0.7rem", textAlign: "left" }}
                   // value={eventData.organizerMobile || ""}
-                  value={eventData.organizerMobile || ""}
+                  // value={eventData.organizerMobile || ""}
+                  value={
+                    eventData.organizerMobile
+                      ? eventData.organizerMobile.startsWith("0")
+                        ? eventData.organizerMobile
+                        : "0" + eventData.organizerMobile
+                      : ""
+                  }
                   onChange={handleChange}
                   maxLength={11}
                   className="form-control form-control-lg"

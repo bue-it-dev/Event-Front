@@ -108,11 +108,13 @@ const EventSelections = ({
             numOfRooms: "",
           });
         }
+        setAccommodationChoice(true);
       } else {
         // Remove the item if unchecked
         updatedaccommodations = updatedaccommodations.filter(
           (t) => t.roomTypeId !== roomTypeId
         );
+        setAccommodationChoice(false);
       }
 
       return { ...prevData, accommodations: updatedaccommodations };
@@ -149,11 +151,13 @@ const EventSelections = ({
             quantity: "",
           });
         }
+        setTransportChoice(true);
       } else {
         // Remove the item if unchecked
         updatedtransportations = updatedtransportations.filter(
           (t) => t.transportationTypeId !== transportationTypeId
         );
+        setTransportChoice(false);
       }
 
       return { ...prevData, transportations: updatedtransportations };
@@ -193,7 +197,6 @@ const EventSelections = ({
         );
         setITChoice(false);
       }
-
       return { ...prevData, itcomponentEvents: updatedItComponents };
     });
   };
@@ -387,6 +390,7 @@ const EventSelections = ({
                             fontSize: "0.7rem",
                           }}
                           placeholder="Number"
+                          required
                           value={
                             eventData.itcomponentEvents.find(
                               (item) =>
@@ -495,6 +499,7 @@ const EventSelections = ({
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       value={transport.startDate?.split("T")[0] || ""}
                       onChange={(e) =>
                         handleTransportationChange(
@@ -509,6 +514,7 @@ const EventSelections = ({
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       value={transport.endDate?.split("T")[0] || ""}
                       onChange={(e) =>
                         handleTransportationChange(
@@ -523,6 +529,7 @@ const EventSelections = ({
                     <input
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       placeholder="Number"
                       style={{ fontSize: "0.7rem" }}
                       value={transport.quantity || ""}
@@ -616,6 +623,7 @@ const EventSelections = ({
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       value={accom.startDate?.split("T")[0] || ""}
                       onChange={(e) =>
                         handleAcommodationChange(
@@ -630,6 +638,7 @@ const EventSelections = ({
                     <input
                       type="date"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       value={accom.endDate?.split("T")[0] || ""}
                       onChange={(e) =>
                         handleAcommodationChange(
@@ -644,6 +653,7 @@ const EventSelections = ({
                     <input
                       type="number"
                       className="form-control form-control-sm rounded shadow-sm"
+                      required
                       placeholder="No. of rooms"
                       value={accom.numOfRooms || ""}
                       onChange={(e) =>

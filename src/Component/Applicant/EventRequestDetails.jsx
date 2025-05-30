@@ -692,6 +692,12 @@ const EventRequestDetails = () => {
           ? "BO Manager"
           : data.approvalLevelName == "EAF"
           ? "Estates and Facilities"
+          : data.approvalLevelName == "BudgetOffice"
+          ? "Budget Office"
+          : data.approvalLevelName == "OfficeOfThePresident"
+          ? "Office of the President"
+          : data.approvalLevelName == "public Affairs"
+          ? "Public Affairs"
           : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
@@ -857,9 +863,9 @@ const EventRequestDetails = () => {
     });
   };
   const [employeeSelected, setemployeeSelected] = useState(true);
-  const [ITChoice, setITChoice] = useState(true);
-  const [TransportChoice, setTransportChoice] = useState(true);
-  const [AccommodationChoice, setAccommodationChoice] = useState(true);
+  const [ITChoice, setITChoice] = useState(false);
+  const [TransportChoice, setTransportChoice] = useState(false);
+  const [AccommodationChoice, setAccommodationChoice] = useState(false);
   // useEffect(() => {
   //   if (updatehometravelData.confrimedat != null) {
   //     await GetEventApprovalsTracker(requestId);
@@ -887,7 +893,7 @@ const EventRequestDetails = () => {
       return;
     }
     if (eventData.hasIt == 1) {
-      if (ITChoice == true) {
+      if (ITChoice == true || eventData.itcomponentEvents.length > 0) {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one IT component.");
@@ -895,7 +901,7 @@ const EventRequestDetails = () => {
       }
     }
     if (eventData.hasTransportation == 1) {
-      if (TransportChoice == true) {
+      if (TransportChoice == true || eventData.transportations.length > 0) {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Transportation choice.");
@@ -903,7 +909,7 @@ const EventRequestDetails = () => {
       }
     }
     if (eventData.hasAccomdation == 1) {
-      if (AccommodationChoice == true) {
+      if (AccommodationChoice == true || eventData.accommodations.length > 0) {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Accommodation choice.");
@@ -914,6 +920,16 @@ const EventRequestDetails = () => {
       toast.error("Select an option from the attendance section");
       return;
     }
+
+    if (eventData.isOthers == 1) {
+      if (eventData.isVip == 0 && eventData.isInernationalGuest == 0) {
+        toast.error(
+          "Please select at least one option from the Others section"
+        );
+        return;
+      }
+    }
+
     handleSubmit(clickedButtonId);
   };
   const handleSubmit = (id) => {

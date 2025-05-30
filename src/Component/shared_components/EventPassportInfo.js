@@ -221,6 +221,9 @@ const EventInfo = ({
       })
       .catch(function (error) {});
   };
+  const filteredDepartments = approvalDepartments.filter(
+    (dept) => dept !== "President (President)"
+  );
   React.useEffect(() => {
     // setisLoading(false);
     GetNatureofEvents();
@@ -281,7 +284,7 @@ const EventInfo = ({
               required
             >
               <option value="">Select your approver department</option>
-              {approvalDepartments.map((data) => (
+              {filteredDepartments.map((data) => (
                 <option key={data} value={data?.split(" (")[0]}>
                   {data}
                 </option>

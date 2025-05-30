@@ -224,6 +224,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                         type="file"
                         className="form-control form-control-sm rounded flex-grow-1"
                         style={{ maxWidth: "250px", padding: "6px" }}
+                        required={!eventData?.officeOfPresedentFilePath}
                         onChange={(e) =>
                           setEventData({
                             ...eventData,
@@ -309,6 +310,8 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     <input
                       type="file"
                       className="form-control form-control-sm rounded flex-grow-1"
+                      // value={eventData?.visitAgendaFilePath || ""}
+                      required={!eventData?.visitAgendaFilePath}
                       style={{ maxWidth: "250px", padding: "6px" }}
                       onChange={(e) =>
                         setEventData({
@@ -427,7 +430,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                             type="file"
                             id={`passports${index}`}
                             name={`passports[${index}]`}
-                            multiple
+                            required={!eventData?.passports[index]}
                             className="form-control form-control-sm rounded flex-grow-1"
                             style={{ maxWidth: "250px", padding: "6px" }}
                             onChange={(e) => handleFileChange(e, index)}
