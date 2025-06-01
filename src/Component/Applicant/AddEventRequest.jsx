@@ -5,7 +5,7 @@ import {
   UpdateEventRequest,
   UpdateFiles,
 } from "../Requests/mutators";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
@@ -336,29 +336,30 @@ const AddEventRequest = () => {
   const [ITChoice, setITChoice] = useState(false);
   const [TransportChoice, setTransportChoice] = useState(false);
   const [AccommodationChoice, setAccommodationChoice] = useState(false);
-
   const [clickedButtonId, setClickedButtonId] = useState(null);
+  const eventInfoRef = useRef(null);
+
+  const venueSectionRef = useRef(null);
+  const ServiceSectionRef = useRef(null);
   const onClickeSubmit = () => {
-    // if (employeeSelected == true && ITChoice == true && eventData.hasIt == 1) {
-    //   handleSubmit(clickedButtonId);
-    // } else {
-    //   if (employeeSelected == false) {
-    //     toast.error("Employee name is required.");
-    //     return;
-    //   } else if (ITChoice == false && eventData.hasIt == 1) {
-    //     toast.error("Please select at least one IT component.");
-    //     return;
-    //   }
-    // }
     let isValidationValid = false;
     if (employeeSelected == true) {
       isValidationValid = true;
     } else {
       toast.error("Employee name is required.");
+      // Scroll to EventInfo
+      eventInfoRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (!eventData.BuildingVenues || eventData.BuildingVenues.length === 0) {
       toast.error("Select the event venue(s).");
+      venueSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (eventData.hasIt == 1) {
@@ -366,6 +367,10 @@ const AddEventRequest = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one IT component.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -374,6 +379,10 @@ const AddEventRequest = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Transportation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -382,6 +391,10 @@ const AddEventRequest = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Accommodation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -429,17 +442,22 @@ const AddEventRequest = () => {
                     Event Info
                   </h5>
                 </div>
-                <EventInfo
-                  eventData={eventData}
-                  seteventData={seteventData}
-                  employeeSelected={employeeSelected}
-                  setemployeeSelected={setemployeeSelected}
-                />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Venues
-                  </h5>
+                <div ref={venueSectionRef}>
+                  <div ref={eventInfoRef}>
+                    <EventInfo
+                      eventData={eventData}
+                      seteventData={seteventData}
+                      employeeSelected={employeeSelected}
+                      setemployeeSelected={setemployeeSelected}
+                    />
+                  </div>
+
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Venues
+                    </h5>
+                  </div>
                 </div>
                 <div className="d-flex align-items-center mb-3">
                   <button
@@ -463,29 +481,33 @@ const AddEventRequest = () => {
                     Add Venue(s)
                   </p>
                 </div>
-                {eventData.BuildingVenues.map((_, index) => (
-                  <EventBuildingVenueListInfo
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
-                ))}
-                <br />
-                <div className="horizontal-rule mt-2">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Services
-                  </h5>
+                <div>
+                  {eventData.BuildingVenues.map((_, index) => (
+                    <EventBuildingVenueListInfo
+                      key={index}
+                      index={index}
+                      eventData={eventData}
+                      seteventData={seteventData}
+                    />
+                  ))}
                 </div>
+                <br />
+                <div ref={ServiceSectionRef}>
+                  <div className="horizontal-rule mt-2">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Services
+                    </h5>
+                  </div>
 
-                <EventSelections
-                  eventData={eventData}
-                  setEventData={seteventData}
-                  setITChoice={setITChoice}
-                  setTransportChoice={setTransportChoice}
-                  setAccommodationChoice={setAccommodationChoice}
-                />
+                  <EventSelections
+                    eventData={eventData}
+                    setEventData={seteventData}
+                    setITChoice={setITChoice}
+                    setTransportChoice={setTransportChoice}
+                    setAccommodationChoice={setAccommodationChoice}
+                  />
+                </div>
                 <br />
                 <br />
                 <div className="horizontal-rule mb-2">
