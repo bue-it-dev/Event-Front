@@ -5,7 +5,7 @@ import {
   UpdateEventRequest,
   UpdateFiles,
 } from "../Requests/mutators";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
@@ -21,6 +21,7 @@ import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueL
 import { ActionTurnedInNot } from "material-ui/svg-icons";
 
 const AdminEventAdd = () => {
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(true);
   const history = useHistory();
   const [isDraft, setisDraft] = React.useState(false);
   const [isLoading, setisLoading] = React.useState(true);
@@ -32,21 +33,24 @@ const AdminEventAdd = () => {
     NomParticipants: null,
     EventStartDate: null,
     EventEndDate: null,
-    HasIt: 0,
-    HasAccomodation: 0,
+    hasBudget: 0,
+    hasMarcom: 0,
+    hasIt: 0,
+    hasAccomdation: 0,
+    hasTransportation: 0,
     natureOfEventId: 1,
-    HasTransportation: 0,
     OrganizerName: "",
     OrganizerMobile: "",
     organizerEmail: "",
     organizerPosition: "",
     approvingDepTypeId: 0,
     budgetEstimatedCost: 0,
-    budgetCostCurrency: "",
+    budgetCostCurrency: "EGP",
     eventType: "Internal",
     DeptId: null,
     IsOthers: null,
-    isVIP: null,
+    isVip: null,
+    isInernationalGuest: null,
     IsStaffStudents: null,
     IsChairBoardPrisidentVcb: null,
     LedOfTheUniversityOrganizerFile: null,
@@ -59,6 +63,7 @@ const AdminEventAdd = () => {
     BuildingVenues: [],
     Venues: null,
     travellerList: 0,
+    approvingDeptName: "",
   });
   const addBuildingVenue = () => {
     seteventData((prevData) => ({
@@ -75,23 +80,38 @@ const AdminEventAdd = () => {
   };
 
   // Get List of Approval Department Schema
+  // const GetApprovalDepartmentSchema = () => {
+  //   var config = {
+  //     method: "get",
+  //     url: `${URL.BASE_URL}/api/BusinessRequest/get-approval-departments-schema`,
+  //     headers: {
+  //       Authorization: `Bearer ${getToken()}`,
+  //     },
+  //   };
+  //   axios(config)
+  //     .then(function (response) {
+  //       setapprovalDepartments(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.error("Error fetching departments:", error);
+  //     });
+  // };
   const GetApprovalDepartmentSchema = () => {
+    var data = "";
     var config = {
       method: "get",
-      url: `${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`,
+      url: `https://hcms.bue.edu.eg/TravelBE/api/BusinessRequest/get-approval-departments-schema`,
       headers: {
         Authorization: `Bearer ${getToken()}`,
       },
+      data: data,
     };
     axios(config)
       .then(function (response) {
-        setapprovalDepartments(response.data.data);
+        setapprovalDepartments(response.data);
       })
-      .catch(function (error) {
-        console.error("Error fetching departments:", error);
-      });
+      .catch(function (error) {});
   };
-
   const onSubmit = async () => {
     try {
       setisLoading(true);
@@ -111,13 +131,11 @@ const AdminEventAdd = () => {
       }
       setisLoading(false);
       setisDraft(true);
-      toast.success("Form Saved!", { position: "top-center" });
+      // toast.success("Form Saved!", { position: "top-center" });
       history.push("/hod-my-events-request");
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      toast.error("An error occurred. Please try again later");
     }
   };
   const responseRequestIDExtracted = localStorage.getItem("eventId");
@@ -136,12 +154,10 @@ const AdminEventAdd = () => {
       }
       setisLoading(false);
       toast.success("Form Updated!", { position: "top-center" });
-      // history.push("/my-event-requests");
+      history.push("/hod-my-events-request");
     } catch (err) {
       setisLoading(false);
-      toast.error("An error occurred. Please try again later.", {
-        position: "top-center",
-      });
+      toast.error("An error occurred. Please try again later.");
     }
   };
   const ConfrimBusinessRequestAsync = async (requestId) => {
@@ -298,9 +314,9 @@ const AdminEventAdd = () => {
           );
         }
         setisLoading(false);
-        toast.success("Form Submitted!", {
-          position: "top-center",
-        });
+        // toast.success("Form Submitted!", {
+        //   position: "top-center",
+        // });
         history.push("/hod-my-events-request");
       } catch (err) {
         setisLoading(false);
@@ -316,11 +332,96 @@ const AdminEventAdd = () => {
     newpassportData[index] = files;
     setpassportData(newpassportData);
   };
+  const [employeeSelected, setemployeeSelected] = useState(false);
+  const [ITChoice, setITChoice] = useState(false);
+  const [TransportChoice, setTransportChoice] = useState(false);
+  const [AccommodationChoice, setAccommodationChoice] = useState(false);
+  const [clickedButtonId, setClickedButtonId] = useState(null);
+  const eventInfoRef = useRef(null);
 
+  const venueSectionRef = useRef(null);
+  const ServiceSectionRef = useRef(null);
+  const onClickeSubmit = () => {
+    let isValidationValid = false;
+    if (employeeSelected == true) {
+      isValidationValid = true;
+    } else {
+      toast.error("Employee name is required.");
+      // Scroll to EventInfo
+      eventInfoRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
+    if (!eventData.BuildingVenues || eventData.BuildingVenues.length === 0) {
+      toast.error("Select the event venue(s).");
+      venueSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
+    if (eventData.hasIt == 1) {
+      if (ITChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one IT component.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
+    }
+    if (eventData.hasTransportation == 1) {
+      if (TransportChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Transportation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
+    }
+    if (eventData.hasAccomdation == 1) {
+      if (AccommodationChoice == true) {
+        isValidationValid = true;
+      } else {
+        toast.error("Please select at least one Accommodation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        return;
+      }
+    }
+    if (!eventData.IsStaffStudents && !eventData.IsOthers) {
+      toast.error("Select an option from the attendance section");
+      return;
+    }
+    if (eventData.IsOthers == 1) {
+      if (!eventData.isVip && !eventData.isInernationalGuest) {
+        toast.error(
+          "Please select at least one option from the Others section"
+        );
+        return;
+      }
+    }
+    handleSubmit(clickedButtonId);
+  };
+  const handleSubmit = (id) => {
+    if (id == 1) {
+      onSubmit();
+    } else if (id == 2) {
+      SaveandConfrimBusinessRequestAsync(responseRequestIDExtracted);
+    }
+  };
   useEffect(() => {
     setisLoading(false);
     GetApprovalDepartmentSchema();
-    // Getbuildings();
   }, []);
 
   return (
@@ -334,93 +435,82 @@ const AdminEventAdd = () => {
               <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
                 Request Event
               </h5>
+              <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
+                <div className="horizontal-rule mb-4">
+                  <hr className="border-secondary" />
+                  <h5 className="horizontal-rule-text fs-5 text-dark">
+                    Event Info
+                  </h5>
+                </div>
+                <div ref={venueSectionRef}>
+                  <div ref={eventInfoRef}>
+                    <EventInfo
+                      eventData={eventData}
+                      seteventData={seteventData}
+                      employeeSelected={employeeSelected}
+                      setemployeeSelected={setemployeeSelected}
+                    />
+                  </div>
 
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Department Info
-                </h5>
-              </div>
-
-              <div className="mb-4 flex-grow-1">
-                <select
-                  className="form-select form-select-lg"
-                  onChange={(e) => {
-                    seteventData({
-                      ...eventData,
-                      approvingDepTypeId: Number(e.target.value),
-                    });
-                  }}
-                  name="approvingDepTypeId"
-                  required
-                >
-                  <option value="">Choose your department</option>
-                  {approvalDepartments.map((data) => (
-                    <option key={data.rowId} value={data.rowId}>
-                      {data.depName}
-                    </option>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Venues
+                    </h5>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "24px", // ~1.5rem
+                      height: "24px",
+                      fontSize: "0.7rem",
+                      borderRadius: "50%",
+                      marginRight: "10px",
+                      transition: "0.3s ease",
+                      backgroundColor: "#57636f",
+                      padding: "0",
+                    }}
+                    onClick={addBuildingVenue}
+                  >
+                    +
+                  </button>
+                  <p className="text-dark mb-0" style={{ fontSize: "0.7rem" }}>
+                    Add Venue(s)
+                  </p>
+                </div>
+                <div>
+                  {eventData.BuildingVenues.map((_, index) => (
+                    <EventBuildingVenueListInfo
+                      key={index}
+                      index={index}
+                      eventData={eventData}
+                      seteventData={seteventData}
+                    />
                   ))}
-                </select>
-              </div>
+                </div>
+                <br />
+                <div ref={ServiceSectionRef}>
+                  <div className="horizontal-rule mt-2">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Services
+                    </h5>
+                  </div>
 
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Event Info
-                </h5>
-              </div>
-
-              <EventInfo eventData={eventData} seteventData={seteventData} />
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">Venues</h5>
-              </div>
-
-              <div className="d-flex align-items-center mb-3">
-                <button
-                  type="button"
-                  className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    fontSize: "18px",
-                    borderRadius: "50%",
-                    marginRight: "10px",
-                    transition: "0.3s ease",
-                    backgroundColor: "#57636f",
-                  }}
-                  onClick={addBuildingVenue}
-                >
-                  +
-                </button>
-                <p className="text-dark mb-0 fs-6">Add Venue(s)</p>
-              </div>
-
-              {eventData.BuildingVenues.map((_, index) => (
-                <EventBuildingVenueListInfo
-                  key={index}
-                  index={index}
-                  eventData={eventData}
-                  seteventData={seteventData}
-                />
-              ))}
-              <br />
-              <div className="horizontal-rule mb-4">
-                <hr className="border-secondary" />
-                <h5 className="horizontal-rule-text fs-5 text-dark">
-                  Services
-                </h5>
-              </div>
-
-              <ValidatorForm className="px-md-2">
-                <EventSelections
-                  eventData={eventData}
-                  setEventData={seteventData}
-                />
+                  <EventSelections
+                    eventData={eventData}
+                    setEventData={seteventData}
+                    setITChoice={setITChoice}
+                    setTransportChoice={setTransportChoice}
+                    setAccommodationChoice={setAccommodationChoice}
+                  />
+                </div>
                 <br />
                 <br />
-
-                <div className="horizontal-rule mb-1">
+                <div className="horizontal-rule mb-2">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">
                     Attendance
@@ -450,69 +540,64 @@ const AdminEventAdd = () => {
                           {isLoading ? "Saving Draft..." : "Save Draft"}
                         </button>
                       </div>
-                      <div className="col-md-6">
-                        <button
-                          type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
-                          disabled={isLoading}
-                          style={{
-                            transition: "0.3s ease",
-                            backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
-                          }}
-                          onClick={() =>
-                            ConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
-                        >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
-                        </button>
-                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <button
+                        type="submit"
+                        className="btn btn-dark btn-lg col-12 mt-3"
+                        disabled={isLoading}
+                        style={{
+                          transition: "0.3s ease",
+                          backgroundColor: "#57636f",
+                          padding: "6px 10px",
+                          fontSize: "14px",
+                        }}
+                        onClick={() =>
+                          ConfrimBusinessRequestAsync(
+                            responseRequestIDExtracted
+                          )
+                        }
+                      >
+                        {isLoading ? "Submitting Request..." : "Submit Request"}
+                      </button>
                     </div>
                   </>
                 ) : (
                   <>
-                    <div className="row">
-                      <div className="col-md-6">
+                    <div className="row justify-content-center mt-3">
+                      <div
+                        className="d-flex justify-content-center"
+                        style={{ gap: "1rem", flexWrap: "wrap" }}
+                      >
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
-                          disabled={isLoading}
+                          className="btn btn-dark btn-lg"
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
-                          onClick={() => onSubmit()}
+                          disabled={!isSubmitEnabled || isLoading}
+                          onClick={() => setClickedButtonId(1)}
                         >
-                          {isLoading ? "Saving Draft..." : "Save Draft"}
+                          {isLoading ? "Save Draft" : "Save Draft"}
                         </button>
-                      </div>
-                      <div className="col-md-6">
                         <button
                           type="submit"
-                          className="btn btn-dark btn-lg col-12 mt-3"
-                          disabled={isLoading}
+                          className="btn btn-dark btn-lg"
                           style={{
                             transition: "0.3s ease",
                             backgroundColor: "#57636f",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            padding: "6px 16px",
+                            fontSize: "0.7rem",
+                            whiteSpace: "nowrap",
                           }}
-                          onClick={() =>
-                            SaveandConfrimBusinessRequestAsync(
-                              responseRequestIDExtracted
-                            )
-                          }
+                          disabled={!isSubmitEnabled || isLoading}
+                          onClick={() => setClickedButtonId(2)}
                         >
-                          {isLoading
-                            ? "Submitting Request..."
-                            : "Submit Request"}
+                          {isLoading ? "Submit" : "Submit"}
                         </button>
                       </div>
                     </div>
