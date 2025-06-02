@@ -352,6 +352,7 @@ const AddEventRequest = () => {
         behavior: "smooth",
         block: "start",
       });
+      document.getElementById("EmployeeSelect-Event").focus();
       return;
     }
     if (!eventData.BuildingVenues || eventData.BuildingVenues.length === 0) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
-
+import { toast } from "react-toastify";
 const EventSelections = ({
   eventData,
   setEventData,
@@ -265,6 +265,8 @@ const EventSelections = ({
   };
 
   const handleItComponentQuantityChange = (itcomponentId, value) => {
+    // const sanitizedValue = Math.max(0, Number(value)); // Ensures non-negative numeric value
+
     setEventData((prevData) => {
       const updatedItComponents = prevData.ItcomponentEvents.map((item) =>
         item.itcomponentId === itcomponentId
@@ -336,6 +338,14 @@ const EventSelections = ({
                     className="form-control form-control-lg w-100"
                     placeholder="Enter event estimated cost"
                     onChange={(e) => {
+                      const inputValue = Number(e.target.value);
+
+                      if (isNaN(inputValue) || inputValue < 0) {
+                        toast.error(
+                          "The value cannot be negative. Only positive numbers are allowed"
+                        );
+                        return;
+                      }
                       setEventData({
                         ...eventData,
                         budgetEstimatedCost:
@@ -434,12 +444,20 @@ const EventSelections = ({
                                 item.itcomponentId === component.itcomponentId
                             )?.Quantity || ""
                           }
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const inputValue = Number(e.target.value);
+
+                            if (isNaN(inputValue) || inputValue < 0) {
+                              toast.error(
+                                "The value cannot be negative. Only positive numbers are allowed"
+                              );
+                              return;
+                            }
                             handleItComponentQuantityChange(
                               component.itcomponentId,
                               e.target.value
-                            )
-                          }
+                            );
+                          }}
                         />
                       </>
                     )}
@@ -549,13 +567,21 @@ const EventSelections = ({
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       className="form-control form-control-sm rounded shadow-sm"
                       value={transport.endDate || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const startDate = new Date(transport.startDate);
+                        const endDate = new Date(e.target.value);
+
+                        if (startDate && endDate && endDate < startDate) {
+                          toast.error("End date cannot be before start date");
+                          return;
+                        }
+
                         handleTransportationChange(
                           index,
                           "endDate",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                   <div className="col-6 col-md-3">
@@ -566,13 +592,22 @@ const EventSelections = ({
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       placeholder="Number"
                       value={transport.quantity || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const inputValue = Number(e.target.value);
+
+                        if (isNaN(inputValue) || inputValue < 0) {
+                          toast.error(
+                            "The value cannot be negative. Only positive numbers are allowed"
+                          );
+                          return;
+                        }
+
                         handleTransportationChange(
                           index,
                           "quantity",
-                          e.target.value
-                        )
-                      }
+                          inputValue
+                        );
+                      }}
                     />
                   </div>
                 </div>
@@ -669,13 +704,21 @@ const EventSelections = ({
                       className="form-control form-control-sm rounded shadow-sm"
                       style={{ textAlign: "left", fontSize: "0.7rem" }}
                       value={accom.endDate || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const startDate = new Date(accom.startDate);
+                        const endDate = new Date(e.target.value);
+
+                        if (startDate && endDate && endDate < startDate) {
+                          toast.error("End date cannot be before start date");
+                          return;
+                        }
+
                         handleAcommodationChange(
                           index,
                           "endDate",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                   <div className="col-6 col-md-3">
@@ -695,13 +738,21 @@ const EventSelections = ({
                         placeholder="No. of rooms"
                         style={{ textAlign: "left", fontSize: "0.7rem" }}
                         value={accom.numOfRooms || ""}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          const inputValue = Number(e.target.value);
+
+                          if (isNaN(inputValue) || inputValue < 0) {
+                            toast.error(
+                              "The value cannot be negative. Only positive numbers are allowed"
+                            );
+                            return;
+                          }
                           handleAcommodationChange(
                             index,
                             "numOfRooms",
                             e.target.value
-                          )
-                        }
+                          );
+                        }}
                       />
                     </>
                   </div>

@@ -454,6 +454,7 @@ const EventInfo = ({
             </label> */}
             <Select
               className="basic-single"
+              id="EmployeeSelect-Event"
               classNamePrefix="select"
               isClearable
               isSearchable
