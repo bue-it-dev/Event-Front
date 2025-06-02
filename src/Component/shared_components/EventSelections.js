@@ -336,11 +336,11 @@ const EventSelections = ({
                     }
                     required
                     className="form-control form-control-lg w-100"
-                    placeholder="Enter event estimated cost"
+                    placeholder="Estimated event cost (EGP)"
                     onChange={(e) => {
                       const inputValue = Number(e.target.value);
 
-                      if (isNaN(inputValue) || inputValue < 0) {
+                      if (isNaN(inputValue) || inputValue <= 0) {
                         toast.error(
                           "The value cannot be negative. Only positive numbers are allowed"
                         );
@@ -447,7 +447,7 @@ const EventSelections = ({
                           onChange={(e) => {
                             const inputValue = Number(e.target.value);
 
-                            if (isNaN(inputValue) || inputValue < 0) {
+                            if (isNaN(inputValue) || inputValue <= 0) {
                               toast.error(
                                 "The value cannot be negative. Only positive numbers are allowed"
                               );

@@ -338,7 +338,6 @@ const AddEventRequest = () => {
   const [AccommodationChoice, setAccommodationChoice] = useState(false);
   const [clickedButtonId, setClickedButtonId] = useState(null);
   const eventInfoRef = useRef(null);
-
   const venueSectionRef = useRef(null);
   const ServiceSectionRef = useRef(null);
   const onClickeSubmit = () => {

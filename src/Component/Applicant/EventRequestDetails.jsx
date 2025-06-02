@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import URL from "../Util/config";
 import "./Applicant.css";
 import { MDBDataTable } from "mdbreact";
@@ -866,6 +866,9 @@ const EventRequestDetails = () => {
   const [ITChoice, setITChoice] = useState(false);
   const [TransportChoice, setTransportChoice] = useState(false);
   const [AccommodationChoice, setAccommodationChoice] = useState(false);
+  const eventInfoRef = useRef(null);
+  const venueSectionRef = useRef(null);
+  const ServiceSectionRef = useRef(null);
   // useEffect(() => {
   //   if (updatehometravelData.confrimedat != null) {
   //     await GetEventApprovalsTracker(requestId);
@@ -886,10 +889,18 @@ const EventRequestDetails = () => {
       isValidationValid = true;
     } else {
       toast.error("Employee name is required.");
+      eventInfoRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (!eventData.buildingVenues || eventData.buildingVenues.length === 0) {
       toast.error("Select the event venue(s).");
+      venueSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (eventData.hasIt == 1) {
@@ -897,6 +908,10 @@ const EventRequestDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one IT component.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -905,6 +920,10 @@ const EventRequestDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Transportation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -913,6 +932,10 @@ const EventRequestDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Accommodation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -989,17 +1012,21 @@ const EventRequestDetails = () => {
                     Event Info
                   </h5>
                 </div>
-                <UpdateEventPassportInfo
-                  eventData={eventData}
-                  seteventData={seteventData}
-                  employeeSelected={employeeSelected}
-                  setemployeeSelected={setemployeeSelected}
-                />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Venues
-                  </h5>
+                <div ref={venueSectionRef}>
+                  <div ref={eventInfoRef}>
+                    <UpdateEventPassportInfo
+                      eventData={eventData}
+                      seteventData={seteventData}
+                      employeeSelected={employeeSelected}
+                      setemployeeSelected={setemployeeSelected}
+                    />
+                  </div>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Venues
+                    </h5>
+                  </div>
                 </div>
                 {eventData.confirmedAt == null ? (
                   <div className="d-flex align-items-center mb-3">
@@ -1037,21 +1064,23 @@ const EventRequestDetails = () => {
                     seteventData={seteventData}
                   />
                 ))}
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-6  text-dark">
-                    Services
-                  </h5>
+                <div ref={ServiceSectionRef}>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-6  text-dark">
+                      Services
+                    </h5>
+                  </div>
+                  <UpdateEventSelections
+                    eventData={eventData}
+                    seteventData={seteventData}
+                    setITChoice={setITChoice}
+                    setTransportChoice={setTransportChoice}
+                    setAccommodationChoice={setAccommodationChoice}
+                  />
+                  <br />
+                  <br />
                 </div>
-                <UpdateEventSelections
-                  eventData={eventData}
-                  seteventData={seteventData}
-                  setITChoice={setITChoice}
-                  setTransportChoice={setTransportChoice}
-                  setAccommodationChoice={setAccommodationChoice}
-                />
-                <br />
-                <br />
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
                   <h5 className="horizontal-rule-text fs-5 text-dark">

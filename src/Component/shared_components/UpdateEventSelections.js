@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
+import { toast } from "react-toastify";
 
 const EventSelections = ({
   eventData,
@@ -290,8 +291,16 @@ const EventSelections = ({
                     }
                     required
                     className="form-control form-control-lg w-100"
-                    placeholder="Enter event estimated cost"
+                    placeholder="Estimated event cost (EGP)"
                     onChange={(e) => {
+                      const inputValue = Number(e.target.value);
+
+                      if (isNaN(inputValue) || inputValue < 0) {
+                        toast.error(
+                          "The value cannot be negative. Only positive numbers are allowed"
+                        );
+                        return;
+                      }
                       seteventData({
                         ...eventData,
                         budgetEstimatedCost:
@@ -397,12 +406,20 @@ const EventSelections = ({
                                 item.itcomponentId === component.itcomponentId
                             )?.quantity || ""
                           }
-                          onChange={(e) =>
+                          onChange={(e) => {
+                            const inputValue = Number(e.target.value);
+
+                            if (isNaN(inputValue) || inputValue < 0) {
+                              toast.error(
+                                "The value cannot be negative. Only positive numbers allowed"
+                              );
+                              return;
+                            }
                             handleItComponentQuantityChange(
                               component.itcomponentId,
                               e.target.value
-                            )
-                          }
+                            );
+                          }}
                         />
                       </div>
                     )}
@@ -516,13 +533,20 @@ const EventSelections = ({
                       className="form-control form-control-sm rounded shadow-sm"
                       required
                       value={transport.endDate?.split("T")[0] || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const startDate = new Date(transport.startDate);
+                        const endDate = new Date(e.target.value);
+
+                        if (startDate && endDate && endDate < startDate) {
+                          toast.error("End date cannot be before start date");
+                          return;
+                        }
                         handleTransportationChange(
                           index,
                           "endDate",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                   <div className="col-3">
@@ -533,13 +557,21 @@ const EventSelections = ({
                       placeholder="Number"
                       style={{ fontSize: "0.7rem" }}
                       value={transport.quantity || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const inputValue = Number(e.target.value);
+
+                        if (isNaN(inputValue) || inputValue < 0) {
+                          toast.error(
+                            "The value cannot be negative. Only positive numbers are allowed"
+                          );
+                          return;
+                        }
                         handleTransportationChange(
                           index,
                           "quantity",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                 </div>
@@ -640,13 +672,21 @@ const EventSelections = ({
                       className="form-control form-control-sm rounded shadow-sm"
                       required
                       value={accom.endDate?.split("T")[0] || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const startDate = new Date(accom.startDate);
+                        const endDate = new Date(e.target.value);
+
+                        if (startDate && endDate && endDate < startDate) {
+                          toast.error("End date cannot be before start date");
+                          return;
+                        }
+
                         handleAcommodationChange(
                           index,
                           "endDate",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                   <div className="col-3">
@@ -656,13 +696,21 @@ const EventSelections = ({
                       required
                       placeholder="No. of rooms"
                       value={accom.numOfRooms || ""}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const inputValue = Number(e.target.value);
+
+                        if (isNaN(inputValue) || inputValue < 0) {
+                          toast.error(
+                            "The value cannot be negative. Only positive numbers are allowed"
+                          );
+                          return;
+                        }
                         handleAcommodationChange(
                           index,
                           "numOfRooms",
                           e.target.value
-                        )
-                      }
+                        );
+                      }}
                     />
                   </div>
                 </div>
