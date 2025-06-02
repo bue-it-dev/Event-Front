@@ -69,7 +69,7 @@ const MyEvents = () => {
                   }
                 );
                 // Success toast
-                toast.success("Event Deleted");
+                // toast.success("Event Deleted");
                 // Refresh events
                 GetEvents(empID);
               } catch (error) {
