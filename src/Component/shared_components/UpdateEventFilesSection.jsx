@@ -360,7 +360,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     onChange={handleCheckboxChange}
                   />
                   <label className="form-check-label small" htmlFor="isVip">
-                    <b>National or International VIP Guests will attend</b>
+                    <b>National or International VIP Guests</b>
                   </label>
                 </div>
               </div>
@@ -380,7 +380,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-check-label small fw-bold"
                     htmlFor="isInernationalGuest"
                   >
-                    International guests (excluding VIPs) will attend
+                    International guests (excluding VIPs)
                   </label>
                 </div>
               </div>

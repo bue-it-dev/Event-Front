@@ -308,7 +308,7 @@ const GetEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-check-label fs-6 font-weight-bold text-dark text-wrap"
                     htmlFor="isVip"
                   >
-                    International guests (excluding VIPs) will attend
+                    International guests (excluding VIPs)
                   </label>
                 </div>
               </div>
