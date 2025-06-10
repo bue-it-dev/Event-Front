@@ -900,7 +900,7 @@ const AdminEventDetails = () => {
   const venueSectionRef = useRef(null);
   const ServiceSectionRef = useRef(null);
   return (
-    <div className="row d-flex justify-content-center align-items-center h-100">
+    <div>
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col-lg-6 col-xl-6">
           <div className="card rounded-3 shadow-lg border-0">
@@ -930,15 +930,16 @@ const AdminEventDetails = () => {
                   </h5>
                 </div>
               </div>
-
-              {eventData?.buildingVenues?.map((_, index) => (
-                <EventBuildingVenueListGET
-                  key={index}
-                  index={index}
-                  eventData={eventData}
-                  seteventData={seteventData}
-                />
-              ))}
+              <div className="justify-content-center">
+                {eventData?.buildingVenues?.map((_, index) => (
+                  <EventBuildingVenueListGET
+                    key={index}
+                    index={index}
+                    eventData={eventData}
+                    seteventData={seteventData}
+                  />
+                ))}
+              </div>
               <div>
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
@@ -1206,13 +1207,16 @@ const AdminEventDetails = () => {
                             }}
                             className="form-control"
                             required
-                            rows="5"
+                            rows="2"
                             placeholder="Enter the reject comments"
                             style={{
                               fontSize: "0.7rem",
                               textAlign: "justify",
                               lineHeight: "1.4",
                               padding: "8px",
+                              maxWidth: "85%",
+                              margin: "0 auto",
+                              display: "block",
                             }}
                           />
                           <button
@@ -1234,7 +1238,7 @@ const AdminEventDetails = () => {
                       </>
                     ) : (
                       <>
-                        <label
+                        <button
                           // className="btn btn-danger btn-sm"
                           className="btn btn-lg w-50 mt-3"
                           disabled
@@ -1249,7 +1253,7 @@ const AdminEventDetails = () => {
                           }}
                         >
                           Already {status}
-                        </label>
+                        </button>
                       </>
                     )}
                   </div>
