@@ -594,19 +594,20 @@ const AdminEventDetails = () => {
         console.log("Updated payload:", payload);
         await UpdateEventApproval(payload);
         setisLoading(false);
-        if (statusId == 1) {
-          toast.success("Request Approved successfully", {
-            position: "top-center",
-          });
-        } else {
-          toast.error("Request Rejected!", {
-            position: "top-center",
-          });
-        }
+        // if (statusId == 1) {
+        //   toast.success("Request Approved successfully", {
+        //     position: "top-center",
+        //   });
+        // } else {
+        //   toast.error("Request Rejected!", {
+        //     position: "top-center",
+        //   });
+        // }
         // Ensure UI navigation only happens after the toast is shown
-        setTimeout(() => {
-          history.push("/hod-event-approvals");
-        }, 1000); // Give users time to see the message
+        // setTimeout(() => {
+        //   history.push("/hod-event-approvals");
+        // }, 1000); // Give users time to see the message
+        history.push("/hod-event-approvals");
       } catch (error) {
         setisLoading(false);
         console.error("Error while updating user details:", error);
@@ -1118,10 +1119,10 @@ const AdminEventDetails = () => {
                                 borderRadius: "4px",
                                 fontSize: "0.7rem",
                                 resize: "vertical",
-                                minHeight: "100px",
+                                // minHeight: "100px",
                               }}
                               required
-                              rows="2"
+                              rows="3"
                               placeholder="Enter the reject comments"
                             />
                           </div>
@@ -1207,7 +1208,7 @@ const AdminEventDetails = () => {
                             }}
                             className="form-control"
                             required
-                            rows="2"
+                            rows="3"
                             placeholder="Enter the reject comments"
                             style={{
                               fontSize: "0.7rem",
