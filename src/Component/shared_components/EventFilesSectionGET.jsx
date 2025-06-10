@@ -420,80 +420,99 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                   )}
 
                   {/* Map through passports */}
-                  {eventData.passports?.map((fileArray, index) => (
-                    <div
-                      key={index}
-                      className="mt-2 p-2 border rounded bg-light shadow-sm"
-                    >
-                      <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
-                        {/* Label */}
-                        <label
-                          htmlFor={`passports${index}`}
-                          className="form-label text-dark m-0"
-                          style={{ fontSize: "0.7rem", whiteSpace: "nowrap" }}
+                  <div className="row g-2 mt-2">
+                    {eventData.passports?.map((fileArray, index) => (
+                      <div
+                        key={index}
+                        className={`${
+                          eventData.passports.length === 1
+                            ? "col-12 d-flex justify-content-center"
+                            : "col-lg-6 col-md-6 col-12"
+                        }`}
+                      >
+                        <div
+                          className="mt-2 p-2 border rounded bg-light shadow-sm w-100"
+                          style={{
+                            maxWidth:
+                              eventData.passports.length === 1
+                                ? "400px"
+                                : "none",
+                          }}
                         >
-                          Passport {index + 1}
-                        </label>
-
-                        {/* File Input (If not confirmed) */}
-                        {eventData.confirmedAt == null && (
-                          <input
-                            type="file"
-                            id={`passports${index}`}
-                            name={`passports[${index}]`}
-                            required={!eventData?.passports[index]}
-                            className="form-control form-control-sm rounded flex-grow-1"
-                            style={{ maxWidth: "250px", padding: "6px" }}
-                            onChange={(e) => handleFileChange(e, index)}
-                          />
-                        )}
-
-                        {/* Delete Button (If not confirmed) */}
-                        {eventData.confirmedAt == null && (
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm d-flex align-items-center"
-                            style={{
-                              gap: "1px",
-                              padding: "2px 6px",
-                              fontSize: "0.7rem",
-                            }}
-                            onClick={() => removePassportInput(index)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        )}
-
-                        {/* View Button (Always shown if file exists) */}
-                        {eventData?.passports?.[index] &&
-                          typeof eventData.passports[index] === "string" && (
-                            <a
-                              href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
-                              target="_blank"
-                              className="text-decoration-none"
+                          <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                            {/* Label */}
+                            <label
+                              htmlFor={`passports${index}`}
+                              className="form-label m-0"
+                              disabled
+                              style={{
+                                fontSize: "0.7rem",
+                                whiteSpace: "nowrap",
+                              }}
                             >
+                              Passport {index + 1}
+                            </label>
+                            {/* File Input (If not confirmed) */}
+                            {eventData.confirmedAt == null && (
+                              <input
+                                type="file"
+                                id={`passports${index}`}
+                                name={`passports[${index}]`}
+                                required={!eventData?.passports[index]}
+                                className="form-control form-control-sm rounded flex-grow-1"
+                                style={{ maxWidth: "250px", padding: "6px" }}
+                                onChange={(e) => handleFileChange(e, index)}
+                              />
+                            )}
+                            {/* Delete Button (If not confirmed) */}
+                            {eventData.confirmedAt == null && (
                               <button
                                 type="button"
-                                className="btn btn-sm  d-flex align-items-center justify-content-center"
+                                className="btn btn-danger btn-sm d-flex align-items-center"
                                 style={{
                                   gap: "1px",
                                   padding: "2px 6px",
-                                  minWidth: "65px",
                                   fontSize: "0.7rem",
-                                  backgroundColor: "#57636f",
-                                  color: "white",
                                 }}
-                                onClick={() =>
-                                  GetFiles(eventData.passports[index])
-                                }
+                                onClick={() => removePassportInput(index)}
+                                disabled
                               >
-                                View Passport
+                                <i className="bi bi-trash"></i>
                               </button>
-                            </a>
-                          )}
+                            )}
+                            {/* View Button (Always shown if file exists) */}
+                            {eventData?.passports?.[index] &&
+                              typeof eventData.passports[index] ===
+                                "string" && (
+                                <a
+                                  href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
+                                  target="_blank"
+                                  className="text-decoration-none"
+                                >
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm d-flex align-items-center justify-content-center"
+                                    style={{
+                                      gap: "1px",
+                                      padding: "2px 6px",
+                                      minWidth: "65px",
+                                      fontSize: "0.7rem",
+                                      backgroundColor: "#57636f",
+                                      color: "white",
+                                    }}
+                                    onClick={() =>
+                                      GetFiles(eventData.passports[index])
+                                    }
+                                  >
+                                    View Passport
+                                  </button>
+                                </a>
+                              )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
 
                   {/* Show add button if passports exist */}
                   {eventData.passports?.length > 0 && (
