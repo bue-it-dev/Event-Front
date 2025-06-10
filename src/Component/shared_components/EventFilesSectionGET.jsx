@@ -250,7 +250,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                             gap: "1px",
                             padding: "2px 6px",
                             minWidth: "65px",
-                            fontSize: "0.7rem",
+                            fontSize: "0.6rem",
                             backgroundColor: "#57636f",
                             color: "white",
                           }}
@@ -340,7 +340,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                           gap: "1px",
                           padding: "2px 6px",
                           minWidth: "65px",
-                          fontSize: "0.7rem",
+                          fontSize: "0.6rem",
                           backgroundColor: "#57636f",
                           color: "white",
                         }}
@@ -496,7 +496,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                                       gap: "1px",
                                       padding: "2px 6px",
                                       minWidth: "65px",
-                                      fontSize: "0.7rem",
+                                      fontSize: "0.6rem",
                                       backgroundColor: "#57636f",
                                       color: "white",
                                     }}

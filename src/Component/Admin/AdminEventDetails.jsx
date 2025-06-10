@@ -971,33 +971,36 @@ const AdminEventDetails = () => {
               {status == "Pending" ? (
                 <>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
                       <button
                         type="submit"
-                        className="btn btn-success-approve btn-sm col-12 mt-4"
+                        className="btn btn-success-approve btn-sm"
                         style={{
                           transition: "0.3s ease",
                           backgroundColor: "green",
                           color: "white",
-                          padding: "6px 10px",
-                          fontSize: "14px",
+                          padding: "4px 8px",
+                          fontSize: "0.65rem",
+                          minWidth: "110px",
+                          height: "28px",
                         }}
                         onClick={() => handleApproval(1)}
                         disabled={isLoading}
                       >
-                        {isLoading ? "Approving Request..." : "Approve"}
+                        {isLoading ? "Approve" : "Approve"}
                       </button>
-                    </div>
-                    <div className="col-md-6">
+
                       <button
                         type="submit"
-                        className="btn btn-danger btn-sm col-12 mt-4"
+                        className="btn btn-danger btn-sm"
                         style={{
                           transition: "0.3s ease",
                           backgroundColor: "darkred",
                           color: "white",
-                          padding: "6px 10px",
-                          fontSize: "14px",
+                          padding: "4px 8px",
+                          fontSize: "0.65rem",
+                          minWidth: "110px",
+                          height: "28px",
                         }}
                         disabled={isLoading}
                         onClick={() => setOpenRejectNotes(true)}
@@ -1005,6 +1008,7 @@ const AdminEventDetails = () => {
                         Reject
                       </button>
                     </div>
+
                     {openrejectnotes == true ? (
                       <>
                         <div className="mb-2 mt-2 flex-grow-1">
