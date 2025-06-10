@@ -171,7 +171,7 @@ const AdminEventList = () => {
               type="button"
               className="btn btn-success btn-sm mb-1"
               style={{
-                backgroundColor: "#343a40",
+                backgroundColor: "#57636f",
                 fontSize: "0.7rem",
                 width: "auto",
                 padding: "0.25rem 0.6rem",
