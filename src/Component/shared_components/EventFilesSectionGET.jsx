@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import PassportFilesSection from "../shared_components/PassportFilesSection "; // Import PassportFilesSection
+import PassportFilesSection from "./PassportFilesSection "; // Import PassportFilesSection
 import axios from "axios";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
@@ -16,7 +16,7 @@ import {
   FormControlLabel,
 } from "@material-ui/core";
 // import axios from "axios";
-const UpdateEventFilesSection = ({ eventData, setEventData }) => {
+const EventFilesSectionGET = ({ eventData, setEventData }) => {
   const [passportFiles, setPassportFiles] = useState([]);
   const [files, setFiles] = useState(null); // Add this state for storing file data
 
@@ -103,13 +103,14 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               id="isStaffStudents"
               name="isStaffStudents"
               className="form-check-input"
+              disabled
               checked={eventData.isStaffStudents === 1}
               style={{ fontSize: "0.7rem" }}
               onChange={handleCheckboxChange}
             />
             <label
               className="form-check-label small "
-              style={{ fontSize: "0.7rem" }}
+              style={{ fontSize: "0.7rem", color: "black" }}
               htmlFor="isStaffStudents"
             >
               <b>
@@ -124,6 +125,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               <div className="form-check">
                 <input
                   type="checkbox"
+                  disabled
                   id="isChairBoardPrisidentVcb"
                   name="isChairBoardPrisidentVcb"
                   className="form-check-input"
@@ -133,7 +135,7 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                 <label
                   className="form-check-label small"
                   htmlFor="isChairBoardPrisidentVcb"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{ fontSize: "0.7rem", color: "black" }}
                 >
                   <b>
                     Does the Chair, and/or Board Member, and/or President and
@@ -278,11 +280,12 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
               checked={eventData.isOthers === 1}
               style={{ fontSize: "0.7rem" }}
               onChange={handleCheckboxChange}
+              disabled
             />
             <label
               className="form-check-label small fw-bold"
               htmlFor="isOthers"
-              style={{ fontSize: "0.7rem" }}
+              style={{ fontSize: "0.7rem", color: "black" }}
             >
               The event is attended by others; please attach the visit agenda.
             </label>
@@ -359,11 +362,12 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     className="form-check-input me-2"
                     checked={eventData.isVip == 1}
                     onChange={handleCheckboxChange}
+                    disabled
                   />
                   <label
                     className="form-check-label small"
                     htmlFor="isVip"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{ fontSize: "0.7rem", color: "black" }}
                   >
                     <b>National or International VIP Guests</b>
                   </label>
@@ -380,11 +384,12 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
                     checked={eventData.isInernationalGuest === 1}
                     onChange={handleCheckboxChange}
                     style={{ fontSize: "0.7rem" }}
+                    disabled
                   />
                   <label
                     className="form-check-label small fw-bold"
                     htmlFor="isInernationalGuest"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{ fontSize: "0.7rem", color: "black" }}
                   >
                     International guests (excluding VIPs)
                   </label>
@@ -576,4 +581,4 @@ const UpdateEventFilesSection = ({ eventData, setEventData }) => {
   );
 };
 
-export default UpdateEventFilesSection;
+export default EventFilesSectionGET;
