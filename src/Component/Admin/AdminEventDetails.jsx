@@ -20,6 +20,7 @@ import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
 import UpdateEventPassportInfo from "../shared_components/UpdateEventPassportInfo";
 import UpdateEventSelections from "../shared_components/UpdateEventSelections";
 import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
+import DialogBox from "../shared_components/DialogBox";
 import {
   UpdateEventRequest,
   UpdateFiles,
@@ -968,6 +969,19 @@ const AdminEventDetails = () => {
                 handleFileChange={handleFileChange}
               />
               <br />
+              {/* <DialogBox
+                open={pedningId != null}
+                // title={"Travelers List"}
+                cancelText={"Close"}
+                handleClose={() => {
+                  setpendingId(null);
+                  setPendingTravellers([]); // clear travellers too
+                }}
+              >
+                <div style={{ gap: "1rem" }}>
+                  <p>Pop-up</p>
+                </div>
+              </DialogBox> */}
               {status == "Pending" ? (
                 <>
                   <div className="row">
@@ -980,7 +994,7 @@ const AdminEventDetails = () => {
                           backgroundColor: "green",
                           color: "white",
                           padding: "4px 8px",
-                          fontSize: "0.65rem",
+                          fontSize: "0.7rem",
                           minWidth: "110px",
                           height: "28px",
                         }}
@@ -989,7 +1003,6 @@ const AdminEventDetails = () => {
                       >
                         {isLoading ? "Approve" : "Approve"}
                       </button>
-
                       <button
                         type="submit"
                         className="btn btn-danger btn-sm"
@@ -998,7 +1011,7 @@ const AdminEventDetails = () => {
                           backgroundColor: "darkred",
                           color: "white",
                           padding: "4px 8px",
-                          fontSize: "0.65rem",
+                          fontSize: "0.7rem",
                           minWidth: "110px",
                           height: "28px",
                         }}
@@ -1009,53 +1022,157 @@ const AdminEventDetails = () => {
                       </button>
                     </div>
 
-                    {openrejectnotes == true ? (
-                      <>
-                        <div className="mb-2 mt-2 flex-grow-1">
-                          <label
-                            htmlFor="travelpurpose"
-                            className="form-label fs-6"
-                          >
-                            Reject Notes
-                          </label>
-                          <textarea
-                            id="rejectionReason"
-                            name="rejectionReason"
-                            value={eventData.rejectionReason}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              seteventData({
-                                ...eventData,
-                                rejectionReason: value,
-                              });
-                            }}
-                            className="form-control form-control-lg"
-                            required
-                            rows="5" // Adjust rows to define how many lines of text are visible
-                            placeholder="Enter the reject comments"
-                          />
-                        </div>
-                        <div>
-                          <button
-                            type="submit"
-                            className="btn btn-danger"
+                    {/* Dialog Box Overlay */}
+                    {openrejectnotes && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          zIndex: 1050,
+                        }}
+                      >
+                        {/* Dialog Box */}
+                        <div
+                          style={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            padding: "20px",
+                            width: "90%",
+                            maxWidth: "500px",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                          }}
+                        >
+                          {/* Dialog Header */}
+                          <div
                             style={{
-                              transition: "0.3s ease",
-                              backgroundColor: "#57636f",
-                              color: "white",
-                              padding: "6px 10px",
-                              fontSize: "14px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "15px",
+                              borderBottom: "1px solid #dee2e6",
+                              paddingBottom: "10px",
                             }}
-                            disabled={isLoading}
-                            onClick={() => handleApproval(0)}
                           >
-                            {isLoading
-                              ? "Submitting Decision..."
-                              : "Submit Decision"}
-                          </button>
+                            <h5
+                              style={{
+                                margin: 0,
+                                fontSize: "0.7rem",
+                                fontWeight: "bold",
+                                color: "#333",
+                              }}
+                            >
+                              Reject Request
+                            </h5>
+                            <button
+                              type="button"
+                              style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "0.7rem",
+                                cursor: "pointer",
+                                color: "#999",
+                              }}
+                              onClick={() => setOpenRejectNotes(false)}
+                            >
+                              ×
+                            </button>
+                          </div>
+
+                          {/* Dialog Body */}
+                          <div style={{ marginBottom: "20px" }}>
+                            {/* <label
+                              htmlFor="rejectionReason"
+                              style={{
+                                display: "block",
+                                marginBottom: "8px",
+                                fontSize: "0.7rem",
+                                fontWeight: "500",
+                                color: "#333",
+                              }}
+                            >
+                              Reject Notes
+                            </label> */}
+                            <textarea
+                              id="rejectionReason"
+                              name="rejectionReason"
+                              value={eventData.rejectionReason}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  rejectionReason: value,
+                                });
+                              }}
+                              style={{
+                                width: "100%",
+                                padding: "8px",
+                                border: "1px solid #ced4da",
+                                borderRadius: "4px",
+                                fontSize: "0.7rem",
+                                resize: "vertical",
+                                minHeight: "100px",
+                              }}
+                              required
+                              rows="2"
+                              placeholder="Enter the reject comments"
+                            />
+                          </div>
+
+                          {/* Dialog Footer */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              gap: "10px",
+                            }}
+                          >
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "#6c757d",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              onClick={() => setOpenRejectNotes(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "darkred",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              disabled={isLoading}
+                              onClick={() => {
+                                handleApproval(0);
+                                setOpenRejectNotes(false);
+                              }}
+                            >
+                              {isLoading ? "Save" : "Save"}
+                            </button>
+                          </div>
                         </div>
-                      </>
-                    ) : null}
+                      </div>
+                    )}
                   </div>
                 </>
               ) : (
@@ -1065,8 +1182,13 @@ const AdminEventDetails = () => {
                       <>
                         <div className="mb-2 mt-2 flex-grow-1">
                           <label
-                            htmlFor="travelpurpose"
-                            className="form-label fs-6"
+                            htmlFor="rejectionReason"
+                            className="form-label"
+                            style={{
+                              fontSize: "0.7rem",
+                              fontWeight: "500",
+                              color: "#333",
+                            }}
                           >
                             Reject Notes
                           </label>
@@ -1082,44 +1204,49 @@ const AdminEventDetails = () => {
                                 rejectionReason: value,
                               });
                             }}
-                            className="form-control form-control-lg"
+                            className="form-control"
                             required
-                            rows="5" // Adjust rows to define how many lines of text are visible
+                            rows="5"
                             placeholder="Enter the reject comments"
+                            style={{
+                              fontSize: "0.7rem",
+                              textAlign: "justify",
+                              lineHeight: "1.4",
+                              padding: "8px",
+                            }}
                           />
-                          <label
-                            // type="submit"
-                            // disabled
-                            className="btn btn-danger btn-lg col-12 mt-4"
+                          <button
+                            className="btn btn-lg w-50 mt-3"
+                            disabled
                             style={{
                               transition: "0.3s ease",
-                              backgroundColor: "#57636f",
-                              color: "white",
-                              padding: "6px 10px",
-                              fontSize: "14px",
+                              // backgroundColor: "lightgrey",
+                              // color: "black",
+                              padding: "4px 8px",
+                              fontSize: "0.7rem",
+                              minWidth: "110px",
+                              height: "28px",
                             }}
-                            disabled={isLoading}
-                            // onClick={() => handleApproval(0)}
                           >
                             Already {status}
-                          </label>
+                          </button>
                         </div>
                       </>
                     ) : (
                       <>
                         <label
-                          // type="submit"
-                          // disabled
-                          className="btn btn-danger btn-lg col-12 mt-4"
+                          // className="btn btn-danger btn-sm"
+                          className="btn btn-lg w-50 mt-3"
+                          disabled
                           style={{
                             transition: "0.3s ease",
-                            backgroundColor: "#57636f",
-                            color: "white",
-                            padding: "6px 10px",
-                            fontSize: "14px",
+                            // backgroundColor: "lightgrey",
+                            // color: "black",
+                            padding: "4px 8px",
+                            fontSize: "0.7rem",
+                            minWidth: "110px",
+                            height: "28px",
                           }}
-                          disabled={isLoading}
-                          // onClick={() => handleApproval(0)}
                         >
                           Already {status}
                         </label>
