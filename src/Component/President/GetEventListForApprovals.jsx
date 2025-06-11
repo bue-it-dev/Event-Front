@@ -165,12 +165,7 @@ const GetEventListForApprovals = () => {
                   pathname: "/event-approval",
                   state: {
                     requestId: event.eventId,
-                    statusName:
-                      event.approvalName == "Acknowledgement"
-                        ? "Acknowledgement"
-                        : event.statusName != "Pending"
-                        ? event.statusName
-                        : "N/A",
+                    statusName: event.statusName,
                   },
                 }}
               >
