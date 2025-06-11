@@ -81,6 +81,10 @@ import COOAllRequestsDetails from "./Component/COO/COOAllRequestsDetails";
 import COOAllEventRequestsList from "./Component/COO/COOAllEventRequestsList";
 import BOMAllRequestsDetails from "./Component/BOM/BOMAllRequestsDetails";
 import BOMAllEventRequestsList from "./Component/BOM/BOMAllEventRequestsList";
+import Marcom from "./Component/Marcom/Marcom";
+import MAREventDetails from "./Component/Marcom/MAREventDetails";
+import MAREventList from "./Component/Marcom/MAREventList";
+// import MARCOMTabs from "./Component/Marcom/MARCOMTabs";
 function App() {
   const [user, { setUser }] = useUser();
   const currentUser = getCurrentUser();
@@ -127,8 +131,8 @@ function App() {
                     ? BOM
                     : user.type === "COO"
                     ? COO
-                    : user.type === "Travel_Office"
-                    ? TravelOffice
+                    : user.type === "Marcom"
+                    ? Marcom
                     : user.type === "BudgetOffice"
                     ? BudgetOffice
                     : user.type === "IT"
@@ -143,8 +147,7 @@ function App() {
                     ? Transportation
                     : user.type === "EAF"
                     ? EAF
-                    : user.type === "Marcom" ||
-                      user.type === "Campus" ||
+                    : user.type === "Campus" ||
                       user.type === "Security" ||
                       user.type === "HSE"
                     ? AckAfterBudget
@@ -375,6 +378,21 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
+              ) : user.type === "Marcom" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-request-list-marcom"
+                      component={MAREventList}
+                    />
+                    <ProtectedRoute
+                      path="/event-request-details-marcom"
+                      component={MAREventDetails}
+                    />
+                    <Route path="/" exact component={Marcom} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
               ) : user.type === "IT" ? (
                 <>
                   <Switch>
@@ -485,8 +503,7 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "Marcom" ||
-                user.type === "Campus" ||
+              ) : user.type === "Campus" ||
                 user.type === "Security" ||
                 user.type === "HSE" ? (
                 <>

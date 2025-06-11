@@ -30,7 +30,7 @@ import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
 import GetEventPassportInfo from "../shared_components/GetEventPassportInfo";
 import GETEventSelections from "../shared_components/GETEventSelections";
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
-const BOEventDetails = () => {
+const MAREventDetails = () => {
   const history = useHistory();
   const [isBOSubmitted, setisBOSubmitted] = useState(false);
   const [roomTypes, setRoomTypes] = useState([]);
@@ -588,7 +588,7 @@ const BOEventDetails = () => {
         // Create a new object with the updated status
         const payload = {
           status: statusId,
-          userTypeId: 5,
+          userTypeId: 6,
           eventId: requestId,
           rejectionReason: eventData.rejectionReason, // This will now have the latest value
         };
@@ -607,7 +607,7 @@ const BOEventDetails = () => {
         // }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-request-list-budget-office");
+          history.push("/event-request-list-marcom");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1098,7 +1098,40 @@ const BOEventDetails = () => {
                   </div>
                 </div>
               </div>
-              {status == "Pending" && isBOSubmitted == false ? (
+              <div
+                className="horizontal-rule"
+                style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
+              >
+                <hr />
+                <h5
+                  className="horizontal-rule-text"
+                  style={{ marginBottom: "0" }}
+                >
+                  Approvals Hierarchy
+                </h5>
+              </div>
+              <div className="row" style={{ marginTop: "0", paddingTop: "0" }}>
+                <Table responsive style={{ marginTop: "0" }}>
+                  <MDBDataTable
+                    className="custom-table"
+                    striped
+                    bordered
+                    hover
+                    data={data}
+                    paging={false} // Disables pagination
+                    scrollX={false} // Disables horizontal scrolling
+                    scrollY={false} // Disables vertical scrolling
+                    order={["Number", "asc"]}
+                    entries={10}
+                    searching={false} // Disables the search bar
+                  />
+                </Table>
+              </div>
+              <div className="horizontal-rule mb-4">
+                <hr />
+                <h5 className="horizontal-rule-text fs-5">Approval</h5>
+              </div>
+              {status == "Pending" ? (
                 <>
                   <div className="row">
                     <div className="d-flex justify-content-center align-items-center gap-2">
@@ -1107,21 +1140,21 @@ const BOEventDetails = () => {
                         className="btn btn-success-approve btn-sm"
                         style={{
                           transition: "0.3s ease",
-                          backgroundColor: "#57636f",
+                          backgroundColor: "green",
                           color: "white",
                           padding: "4px 8px",
                           fontSize: "0.7rem",
                           minWidth: "110px",
                           height: "28px",
                         }}
-                        onClick={() => UpdateEventRequestBudgetOfficeAsync()}
+                        onClick={() => handleApproval(1)}
                         disabled={isLoading}
                       >
-                        {isLoading ? "Save" : "Save"}
+                        {isLoading ? "Approve" : "Approve"}
                       </button>
                       <button
                         type="submit"
-                        className="btn btn-success-approve btn-sm"
+                        className="btn btn-danger btn-sm"
                         style={{
                           transition: "0.3s ease",
                           backgroundColor: "darkred",
@@ -1137,6 +1170,8 @@ const BOEventDetails = () => {
                         Reject
                       </button>
                     </div>
+
+                    {/* Dialog Box Overlay */}
                     {openrejectnotes && (
                       <div
                         style={{
@@ -1291,328 +1326,88 @@ const BOEventDetails = () => {
                 </>
               ) : (
                 <>
-                  {status == "Pending" && isBOSubmitted == true ? (
-                    <>
-                      <div className="row">
-                        <div className="row g-1">
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "green",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              onClick={() => handleApproval(1)}
-                              disabled={isLoading}
-                            >
-                              {isLoading ? "Approve" : "Approve"}
-                            </button>
-                          </div>
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "#57636f",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              onClick={() =>
-                                UpdateEventRequestBudgetOfficeAsync()
-                              }
-                              disabled={isLoading}
-                            >
-                              {isLoading ? "Save" : "Save"}
-                            </button>
-                          </div>
-                          {/* Approve Button */}
-                          {/* Reject Button */}
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "darkred",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              disabled={isLoading}
-                              onClick={() => setOpenRejectNotes(true)}
-                            >
-                              Reject
-                            </button>
-                          </div>
-                        </div>
-                        {openrejectnotes && (
-                          <div
+                  <div>
+                    {status == "Rejected" ? (
+                      <>
+                        <div className="mb-2 mt-2 flex-grow-1">
+                          <label
+                            htmlFor="rejectionReason"
+                            className="form-label"
                             style={{
-                              position: "fixed",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: "100%",
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              zIndex: 1050,
+                              fontSize: "0.7rem",
+                              fontWeight: "500",
+                              color: "#333",
                             }}
                           >
-                            {/* Dialog Box */}
-                            <div
-                              style={{
-                                backgroundColor: "white",
-                                borderRadius: "8px",
-                                padding: "20px",
-                                width: "90%",
-                                maxWidth: "500px",
-                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                              }}
-                            >
-                              {/* Dialog Header */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  marginBottom: "15px",
-                                  borderBottom: "1px solid #dee2e6",
-                                  paddingBottom: "10px",
-                                }}
-                              >
-                                <h5
-                                  style={{
-                                    margin: 0,
-                                    fontSize: "0.7rem",
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  Reject Request
-                                </h5>
-                                <button
-                                  type="button"
-                                  style={{
-                                    background: "none",
-                                    border: "none",
-                                    fontSize: "0.7rem",
-                                    cursor: "pointer",
-                                    color: "#999",
-                                  }}
-                                  onClick={() => setOpenRejectNotes(false)}
-                                >
-                                  ×
-                                </button>
-                              </div>
-
-                              {/* Dialog Body */}
-                              <div style={{ marginBottom: "20px" }}>
-                                {/* <label
-                              htmlFor="rejectionReason"
-                              style={{
-                                display: "block",
-                                marginBottom: "8px",
-                                fontSize: "0.7rem",
-                                fontWeight: "500",
-                                color: "#333",
-                              }}
-                            >
-                              Reject Notes
-                            </label> */}
-                                <textarea
-                                  id="rejectionReason"
-                                  name="rejectionReason"
-                                  value={eventData.rejectionReason}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    seteventData({
-                                      ...eventData,
-                                      rejectionReason: value,
-                                    });
-                                  }}
-                                  style={{
-                                    width: "100%",
-                                    padding: "8px",
-                                    border: "1px solid #ced4da",
-                                    borderRadius: "4px",
-                                    fontSize: "0.7rem",
-                                    resize: "vertical",
-                                    // minHeight: "100px",
-                                  }}
-                                  required
-                                  rows="3"
-                                  placeholder="Enter the reject comments"
-                                />
-                              </div>
-
-                              {/* Dialog Footer */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                  gap: "10px",
-                                }}
-                              >
-                                <button
-                                  type="button"
-                                  style={{
-                                    padding: "6px 12px",
-                                    fontSize: "0.7rem",
-                                    backgroundColor: "#6c757d",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    transition: "0.3s ease",
-                                  }}
-                                  onClick={() => setOpenRejectNotes(false)}
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  style={{
-                                    padding: "6px 12px",
-                                    fontSize: "0.7rem",
-                                    backgroundColor: "darkred",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    transition: "0.3s ease",
-                                  }}
-                                  disabled={isLoading}
-                                  onClick={() => {
-                                    handleApproval(0);
-                                    setOpenRejectNotes(false);
-                                  }}
-                                >
-                                  {isLoading ? "Save" : "Save"}
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  ) : null}
-                </>
-              )}
-              {status == "Approved" ? (
-                <>
-                  <button
-                    // className="btn btn-danger btn-sm"
-                    className="btn btn-lg w-50 mt-3"
-                    disabled
-                    style={{
-                      transition: "0.3s ease",
-                      // backgroundColor: "lightgrey",
-                      // color: "black",
-                      padding: "4px 8px",
-                      fontSize: "0.7rem",
-                      minWidth: "110px",
-                      height: "28px",
-                    }}
-                  >
-                    Already {status}
-                  </button>
-                </>
-              ) : status == "Rejected" ? (
-                <>
-                  <div className="mb-2 mt-2 flex-grow-1">
-                    <label
-                      htmlFor="rejectionReason"
-                      className="form-label"
-                      style={{
-                        fontSize: "0.7rem",
-                        fontWeight: "500",
-                        color: "#333",
-                      }}
-                    >
-                      Reject Notes
-                    </label>
-                    <textarea
-                      id="rejectionReason"
-                      name="rejectionReason"
-                      value={eventData.rejectionReason}
-                      disabled
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        seteventData({
-                          ...eventData,
-                          rejectionReason: value,
-                        });
-                      }}
-                      className="form-control"
-                      required
-                      rows="3"
-                      placeholder="Enter the reject comments"
-                      style={{
-                        fontSize: "0.7rem",
-                        textAlign: "justify",
-                        lineHeight: "1.4",
-                        padding: "8px",
-                        maxWidth: "85%",
-                        margin: "0 auto",
-                        display: "block",
-                      }}
-                    />
-                    <button
-                      className="btn btn-lg w-50 mt-3"
-                      disabled
-                      style={{
-                        transition: "0.3s ease",
-                        // backgroundColor: "lightgrey",
-                        // color: "black",
-                        padding: "4px 8px",
-                        fontSize: "0.7rem",
-                        minWidth: "110px",
-                        height: "28px",
-                      }}
-                    >
-                      Already {status}
-                    </button>
+                            Reject Notes
+                          </label>
+                          <textarea
+                            id="rejectionReason"
+                            name="rejectionReason"
+                            value={eventData.rejectionReason}
+                            disabled
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              seteventData({
+                                ...eventData,
+                                rejectionReason: value,
+                              });
+                            }}
+                            className="form-control"
+                            required
+                            rows="3"
+                            placeholder="Enter the reject comments"
+                            style={{
+                              fontSize: "0.7rem",
+                              textAlign: "justify",
+                              lineHeight: "1.4",
+                              padding: "8px",
+                              maxWidth: "85%",
+                              margin: "0 auto",
+                              display: "block",
+                            }}
+                          />
+                          <button
+                            className="btn btn-lg w-50 mt-3"
+                            disabled
+                            style={{
+                              transition: "0.3s ease",
+                              // backgroundColor: "lightgrey",
+                              // color: "black",
+                              padding: "4px 8px",
+                              fontSize: "0.7rem",
+                              minWidth: "110px",
+                              height: "28px",
+                            }}
+                          >
+                            Already {status}
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          // className="btn btn-danger btn-sm"
+                          className="btn btn-lg w-50 mt-3"
+                          disabled
+                          style={{
+                            transition: "0.3s ease",
+                            // backgroundColor: "lightgrey",
+                            // color: "black",
+                            padding: "4px 8px",
+                            fontSize: "0.7rem",
+                            minWidth: "110px",
+                            height: "28px",
+                          }}
+                        >
+                          Already {status}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </>
-              ) : null}
+              )}
               {/* </ValidatorForm> */}
-              <div
-                className="horizontal-rule"
-                style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
-              >
-                <hr />
-                <h5
-                  className="horizontal-rule-text"
-                  style={{ marginBottom: "0" }}
-                >
-                  Approvals Hierarchy
-                </h5>
-              </div>
-              <div className="row" style={{ marginTop: "0", paddingTop: "0" }}>
-                <Table responsive style={{ marginTop: "0" }}>
-                  <MDBDataTable
-                    className="custom-table"
-                    striped
-                    bordered
-                    hover
-                    data={data}
-                    paging={false} // Disables pagination
-                    scrollX={false} // Disables horizontal scrolling
-                    scrollY={false} // Disables vertical scrolling
-                    order={["Number", "asc"]}
-                    entries={10}
-                    searching={false} // Disables the search bar
-                  />
-                </Table>
-              </div>
             </div>
           </div>
         </div>
@@ -1621,4 +1416,4 @@ const BOEventDetails = () => {
   );
 };
 
-export default BOEventDetails;
+export default MAREventDetails;
