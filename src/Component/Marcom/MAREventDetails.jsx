@@ -1028,7 +1028,7 @@ const MAREventDetails = () => {
                         }}
                         className="form-control form-control-lg"
                         style={{ fontSize: "0.7rem" }}
-                        required
+                        disabled
                       />
                     </div>
                     <div className="col-md-4 mb-4">
@@ -1047,7 +1047,7 @@ const MAREventDetails = () => {
                         }}
                         className="form-control form-control-lg"
                         style={{ fontSize: "0.7rem" }}
-                        required
+                        disabled
                       />
                     </div>
                     <div className="col-md-4 mb-4">
@@ -1066,7 +1066,7 @@ const MAREventDetails = () => {
                         }}
                         className="form-control form-control-lg"
                         style={{ fontSize: "0.7rem" }}
-                        required
+                        disabled
                         title="Only letters and spaces are allowed"
                         // pattern="[a-zA-Z ]*"
                       />
@@ -1089,7 +1089,7 @@ const MAREventDetails = () => {
                         }}
                         className="form-control form-control-lg"
                         style={{ fontSize: "0.7rem" }}
-                        required
+                        disabled
                         rows={2}
                         title="Only letters and spaces are allowed"
                         // pattern="[a-zA-Z ]*"
