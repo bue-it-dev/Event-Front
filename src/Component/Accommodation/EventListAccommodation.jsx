@@ -117,23 +117,23 @@ const EventListAccommodation = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
-      {
-        label: "Approving Deptartment",
-        field: "approvingDeptName",
-        sort: "asc",
-      },
-      { label: "Start Date", field: "eventStartDate", sort: "asc" },
-      { label: "End Date", field: "eventEndDate", sort: "asc" },
-      { label: "Created At", field: "createdAt", sort: "asc" },
-      { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "confirmed At", field: "confirmedAt", sort: "asc" },
+      // {
+      //   label: "Approving Deptartment",
+      //   field: "approvingDeptName",
+      //   sort: "asc",
+      // },
+      // { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      // { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Creation Date", field: "createdAt", sort: "asc" },
+      { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
+      { label: "Modification Date", field: "updateAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Actions", field: "actions", sort: "disabled" },
+      { label: "Action", field: "actions", sort: "disabled" },
     ],
     rows: events.map((event, i) => ({
       Number: i + 1,
@@ -150,7 +150,7 @@ const EventListAccommodation = () => {
       eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
       OrganizerName: event.organizerName || "N/A",
       approvingDeptName: event.approvingDeptName || "N/A",
-      OrganizerMobile: event.organizerMobile || "N/A",
+      OrganizerMobile: "0" + event.organizerMobile || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
       statusName: event.statusName,
       actions: (
@@ -166,14 +166,17 @@ const EventListAccommodation = () => {
           >
             <button
               type="button"
-              className="btn btn-sm"
+              className="btn btn-success btn-sm"
               style={{
-                backgroundColor:
-                  event.statusName === "Pending" ? "#c39900" : "#343a40",
+                backgroundColor: "#57636f",
                 color: "white",
+                fontSize: "0.7rem",
+                width: "auto",
+                padding: "0.25rem 0.6rem",
+                whiteSpace: "nowrap",
               }}
             >
-              {event.statusName != "Pending" ? <>View</> : <>Decide</>}
+              {event.statusName != "Pending" ? <>View</> : <>Review</>}
             </button>
           </Link>
         </>
