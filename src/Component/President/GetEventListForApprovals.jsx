@@ -117,22 +117,23 @@ const GetEventListForApprovals = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
-      { label: "Event Title", field: "eventTitle", sort: "asc" },
+      { label: "Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      { label: "Organizer Email", field: "organizerEmail", sort: "asc" },
-      {
-        label: "Approving Deptartment",
-        field: "approvingDeptName",
-        sort: "asc",
-      },
-      { label: "Start Date", field: "eventStartDate", sort: "asc" },
-      { label: "End Date", field: "eventEndDate", sort: "asc" },
-      { label: "Created At", field: "createdAt", sort: "asc" },
-      { label: "Updated At", field: "updateAt", sort: "asc" },
-      { label: "confirmed At", field: "confirmedAt", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
+      // {
+      //   label: "Approving Deptartment",
+      //   field: "approvingDeptName",
+      //   sort: "asc",
+      // },
+      // { label: "Start Date", field: "eventStartDate", sort: "asc" },
+      // { label: "End Date", field: "eventEndDate", sort: "asc" },
+      { label: "Creation Date", field: "createdAt", sort: "asc" },
+      { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
+      { label: "Modification Date", field: "updateAt", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Actions", field: "actions", sort: "disabled" },
+      { label: "Action", field: "actions", sort: "disabled" },
     ],
     rows: events.map((event, i) => ({
       Number: i + 1,
@@ -149,7 +150,7 @@ const GetEventListForApprovals = () => {
       eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
       OrganizerName: event.organizerName || "N/A",
       approvingDeptName: event.approvingDeptName || "N/A",
-      OrganizerMobile: event.organizerMobile || "N/A",
+      OrganizerMobile: "0" + event.organizerMobile || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
       statusName:
         event.approvalName == "Acknowledgement" ? "Notified" : event.statusName,
@@ -175,8 +176,14 @@ const GetEventListForApprovals = () => {
               >
                 <button
                   type="button"
-                  className="btn btn-sm"
-                  style={{ backgroundColor: "#343a40", color: "white" }}
+                  className="btn btn-success btn-sm mb-1"
+                  style={{
+                    backgroundColor: "#57636f",
+                    fontSize: "0.7rem",
+                    width: "auto",
+                    padding: "0.25rem 0.6rem",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   View
                 </button>
@@ -195,10 +202,16 @@ const GetEventListForApprovals = () => {
               >
                 <button
                   type="button"
-                  className="btn btn-sm"
-                  style={{ backgroundColor: "#c39900", color: "white" }}
+                  className="btn btn-success btn-sm mb-1"
+                  style={{
+                    backgroundColor: "#57636f",
+                    fontSize: "0.7rem",
+                    width: "auto",
+                    padding: "0.25rem 0.6rem",
+                    whiteSpace: "nowrap",
+                  }}
                 >
-                  Decide
+                  Review
                 </button>
               </Link>
             </>

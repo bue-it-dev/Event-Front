@@ -81,8 +81,8 @@ const PresidentTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab label="New Request" href="/add-event" {...a11yProps(0)} />
-          <LinkTab label="My Requests" href="/event-list" {...a11yProps(0)} />
+          {/* <LinkTab label="New Request" href="/add-event" {...a11yProps(0)} />
+          <LinkTab label="My Requests" href="/event-list" {...a11yProps(0)} /> */}
           <LinkTab
             label="My Approvals"
             href="/event-approval-list"
