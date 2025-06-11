@@ -60,6 +60,7 @@ const VCB = () => {
               color: activeButton === "VCB" ? "white" : "black", // White text when active, black when inactive
               border: "none",
               marginRight: "15px",
+              fontSize: "0.7rem", // Adjust font size as needed
             }}
             onClick={handleVCBClick}
           >
@@ -73,6 +74,7 @@ const VCB = () => {
               color: activeButton === "COO" ? "white" : "black", // White text when active, black when inactive
               border: "none",
               marginRight: "15px",
+              fontSize: "0.7rem", // Adjust font size as needed
             }}
             onClick={handleCOOClick}
           >

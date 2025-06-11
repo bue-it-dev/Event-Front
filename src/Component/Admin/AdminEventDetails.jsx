@@ -11,12 +11,14 @@ import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import EventBuildingVenueListGET from "../shared_components/EventBuildingVenueListGET";
+import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
+import GetEventPassportInfo from "../shared_components/GetEventPassportInfo";
+import GETEventSelections from "../shared_components/GETEventSelections";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
 import EventBuildingVenueListInfo from "../shared_components/eventBuildingVenueListInfo";
 import Select from "react-select";
-import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
 import UpdateEventPassportInfo from "../shared_components/UpdateEventPassportInfo";
 import UpdateEventSelections from "../shared_components/UpdateEventSelections";
 import EventBuildingVenueListUpdate from "../shared_components/EventBuildingVenueListUpdate";
@@ -28,8 +30,7 @@ import {
   UpdateEventApproval,
 } from "../Requests/mutators";
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
-import GetEventPassportInfo from "../shared_components/GetEventPassportInfo";
-import GETEventSelections from "../shared_components/GETEventSelections";
+
 const AdminEventDetails = () => {
   const history = useHistory();
   const [roomTypes, setRoomTypes] = useState([]);
@@ -407,36 +408,6 @@ const AdminEventDetails = () => {
       console.error("Error fetching transportation types:", error);
     }
   };
-  // const [approvalTracker, setApprovalTracker] = useState([]);
-  const GetEventApprovalsTracker = async (requestId) => {
-    try {
-      const response = await axios.post(
-        `${URL.BASE_URL}/api/EventEntity/GetEventApprovalsbyRequestID`,
-        requestId,
-        {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Ensure the response data is an array or wrap it in one if it's an object
-      const responseData = Array.isArray(response.data)
-        ? response.data
-        : [response.data];
-
-      // Format the createdAt date for each item
-      const formattedData = responseData.map((item) => ({
-        ...item,
-        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
-      }));
-
-      setApprovalTracker(formattedData);
-    } catch (error) {
-      console.error("Error fetching home request details:", error);
-    }
-  };
 
   // Fetch IT components
   const getItComponents = async () => {
@@ -701,6 +672,12 @@ const AdminEventDetails = () => {
           ? "BO Manager"
           : data.approvalLevelName == "EAF"
           ? "Estates and Facilities"
+          : data.approvalLevelName == "BudgetOffice"
+          ? "Budget Office"
+          : data.approvalLevelName == "OfficeOfThePresident"
+          ? "Office of the President"
+          : data.approvalLevelName == "public Affairs"
+          ? "Public Affairs"
           : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
@@ -860,15 +837,46 @@ const AdminEventDetails = () => {
   //   getItComponents();
   //   console.log("Event Data", eventData);
   // }, [requestId]);
+  // const [approvalTracker, setApprovalTracker] = useState([]);
+  const GetEventApprovalsTracker = async (requestId) => {
+    try {
+      const response = await axios.post(
+        `${URL.BASE_URL}/api/EventEntity/GetEventApprovalsbyRequestID`,
+        requestId,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Ensure the response data is an array or wrap it in one if it's an object
+      const responseData = Array.isArray(response.data)
+        ? response.data
+        : [response.data];
+
+      // Format the createdAt date for each item
+      const formattedData = responseData.map((item) => ({
+        ...item,
+        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
+      }));
+
+      setApprovalTracker(formattedData);
+    } catch (error) {
+      console.error("Error fetching home request details:", error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       setisLoading(true); // Start loading at the beginning
 
       try {
-        if (eventData.confirmedAt != null) {
-          await GetEventApprovalsTracker(requestId);
-        }
+        // if (eventData.confirmedAt != null) {
+        //   await GetEventApprovalsTracker(requestId);
+        // }
         await Promise.all([
+          GetEventApprovalsTracker(requestId),
           GetEventDetails(requestId),
           GetEmployeeList(),
           GetApprovalDepartmentSchema(),
@@ -971,6 +979,35 @@ const AdminEventDetails = () => {
                 handleFileChange={handleFileChange}
               />
               <br />
+              <div
+                className="horizontal-rule"
+                style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
+              >
+                <hr />
+                <h5
+                  className="horizontal-rule-text"
+                  style={{ marginBottom: "0" }}
+                >
+                  Approvals Hierarchy
+                </h5>
+              </div>
+              <div className="row" style={{ marginTop: "0", paddingTop: "0" }}>
+                <Table responsive style={{ marginTop: "0" }}>
+                  <MDBDataTable
+                    className="custom-table"
+                    striped
+                    bordered
+                    hover
+                    data={data}
+                    paging={false} // Disables pagination
+                    scrollX={false} // Disables horizontal scrolling
+                    scrollY={false} // Disables vertical scrolling
+                    order={["Number", "asc"]}
+                    entries={10}
+                    searching={false} // Disables the search bar
+                  />
+                </Table>
+              </div>
               {/* <DialogBox
                 open={pedningId != null}
                 // title={"Travelers List"}
@@ -984,10 +1021,14 @@ const AdminEventDetails = () => {
                   <p>Pop-up</p>
                 </div>
               </DialogBox> */}
+              <div className="horizontal-rule mb-4">
+                <hr />
+                <h5 className="horizontal-rule-text fs-5">Approval</h5>
+              </div>
               {status == "Pending" ? (
                 <>
                   <div className="row">
-                    <div className="d-flex justify-content-center align-items-center gap-2 mt-4">
+                    <div className="d-flex justify-content-center align-items-center gap-2">
                       <button
                         type="submit"
                         className="btn btn-success-approve btn-sm"

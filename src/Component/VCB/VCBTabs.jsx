@@ -102,13 +102,13 @@ const VCBTabs = () => {
     // Navigate to the corresponding route
     switch (newValue) {
       case 0:
-        history.push("/add-event-VCB");
+        history.push("/event-request-list-vcb");
         break;
       case 1:
-        history.push("/vcb-event-list");
+        history.push("/event-request-list-vcb");
         break;
       case 2:
-        history.push("event-request-list-vcb");
+        history.push("/event-request-list-vcb");
         break;
 
       default:
@@ -130,9 +130,9 @@ const VCBTabs = () => {
           {/*<Tab label="New Home Leave Request" {...a11yProps(0)} />*/}
           {/*<Tab label="My Home Requests" {...a11yProps(1)} /> */}
 
-          <Tab label="My Requests" {...a11yProps(1)} />
+          {/* <Tab label="My Requests" {...a11yProps(1)} /> */}
           {/* <Tab label="VCB Home Requests Approvals" {...a11yProps(4)} />*/}
-          <Tab label="My Approvals" {...a11yProps(2)} />
+          {/* <Tab label="My Approvals" {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
 

@@ -1235,17 +1235,25 @@ const EventRequestDetails = () => {
                   </>
                 ) : (
                   <>
-                    <div className="horizontal-rule mb-4">
-                      <h5 className="horizontal-rule-text">
-                        Approvals hierarchy
+                    <div
+                      className="horizontal-rule"
+                      style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
+                    >
+                      <hr />
+                      <h5
+                        className="horizontal-rule-text"
+                        style={{ marginBottom: "0" }}
+                      >
+                        Approvals Hierarchy
                       </h5>
                     </div>
-                    <div className="row">
-                      <Table responsive>
+                    <div
+                      className="row"
+                      style={{ marginTop: "0", paddingTop: "0" }}
+                    >
+                      <Table responsive style={{ marginTop: "0" }}>
                         <MDBDataTable
-                          // className="text-left"
                           className="custom-table"
-                          // autoWidth={true}
                           striped
                           bordered
                           hover
