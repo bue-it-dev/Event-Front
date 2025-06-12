@@ -126,7 +126,7 @@ const VCBTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <Tab label="New Request" {...a11yProps(0)} />
+          <Tab label="My Approvals" {...a11yProps(0)} />
           {/*<Tab label="New Home Leave Request" {...a11yProps(0)} />*/}
           {/*<Tab label="My Home Requests" {...a11yProps(1)} /> */}
 
