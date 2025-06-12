@@ -1094,7 +1094,40 @@ const BOMAllRequestsDetails = () => {
                   />
                 </Table>
               </div>
+              {eventData.rejectionReason != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <h5 className="horizontal-rule-text">Reject Comment</h5>
+                  </div>
 
+                  <textarea
+                    id="rejectionReason"
+                    name="rejectionReason"
+                    value={eventData.rejectionReason}
+                    disabled
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      seteventData({
+                        ...eventData,
+                        rejectionReason: value,
+                      });
+                    }}
+                    className="form-control"
+                    required
+                    rows="3"
+                    placeholder="Enter the reject comments"
+                    style={{
+                      fontSize: "0.7rem",
+                      textAlign: "justify",
+                      lineHeight: "1.4",
+                      padding: "8px",
+                      maxWidth: "85%",
+                      margin: "0 auto",
+                      display: "block",
+                    }}
+                  />
+                </>
+              ) : null}
               {/* </ValidatorForm> */}
             </div>
           </div>
