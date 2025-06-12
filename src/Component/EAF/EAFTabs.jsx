@@ -81,7 +81,7 @@ const EAFTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab
+          {/* <LinkTab
             label="New Request"
             href="/add-event-request-eaf"
             {...a11yProps(0)}
@@ -90,7 +90,7 @@ const EAFTabs = () => {
             label="My Requests"
             href="/my-event-request-eaf"
             {...a11yProps(0)}
-          />
+          /> */}
           <LinkTab
             label="My Approvals"
             href="/event-approval-list-eaf"
