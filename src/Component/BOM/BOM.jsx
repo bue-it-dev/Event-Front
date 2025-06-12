@@ -60,6 +60,7 @@ const BOM = () => {
               color: activeButton === "admin" ? "white" : "black", // White text when active, black when inactive
               border: "none",
               marginRight: "15px",
+              fontSize: "0.7rem", // Increased font size for better visibility
             }}
             onClick={handleHODClick}
           >
@@ -73,6 +74,7 @@ const BOM = () => {
               color: activeButton === "bom" ? "white" : "black", // White text when active, black when inactive
               border: "none",
               marginRight: "15px",
+              fontSize: "0.7rem", // Increased font size for better visibility
             }}
             onClick={handleBOMClick}
           >
