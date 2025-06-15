@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import EAFTabs from "./EAFTabs";
+import EAF from "./EAF";
 const EventListEAF = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -188,7 +188,7 @@ const EventListEAF = () => {
 
   return (
     <div className="my-events">
-      <EAFTabs />
+      <EAF />
       {error && <Alert variant="danger">{error}</Alert>}
 
       {isLoading ? (

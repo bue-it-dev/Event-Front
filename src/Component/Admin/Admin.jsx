@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import AdminTabs from "./AdminTabs";
 import BOMTabs from "../BOM/BOMTabs";
+import EAFTabs from "../EAF/EAFTabs";
 import jwt_decode from "jwt-decode"; // Assuming you have this installed to decode the token
 // import COOTabs from "../COO/COOTabs";
 import { useHistory } from "react-router-dom"; // useHistory instead of useNavigate for v5
@@ -11,6 +12,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState("admin");
   const [userID, setUserID] = useState(null); // State to store the userID
   const [isHead, setIsHead] = useState(false); // State to conditionally show buttons
+  const [isEAFHead, setisEAFHead] = useState(false); // State to conditionally show buttons
   const history = useHistory(); // useHistory hook
 
   useEffect(() => {
@@ -28,11 +30,15 @@ const Admin = () => {
       // 4. Check if userID is 55
       if (retrievedUserID === "35") {
         setIsHead(true); // Set to true if the user is head of department
+        console.log("User is Head of Department:", retrievedUserID);
+      } else if (retrievedUserID === "33") {
+        setisEAFHead(true); // Set to true if the user is head of department
       }
     }
   }, []);
 
   const [activeButton, setActiveButton] = useState("admin");
+  const [activeEAFButton, setActiveEAFButton] = useState("eafadmin");
   const handleHODClick = () => {
     setActiveTab("admin");
     setActiveButton("admin");
@@ -41,6 +47,10 @@ const Admin = () => {
   const handleBOMClick = () => {
     setActiveTab("bom");
     setActiveButton("bom");
+  };
+  const handleEAFClick = () => {
+    setActiveTab("eafadmin");
+    setActiveEAFButton("eafadmin");
   };
   const handledashboardClick = () => {
     setActiveTab("dashboard");
@@ -95,6 +105,54 @@ const Admin = () => {
             Dashboard
           </button> */}
         </div>
+      ) : isEAFHead ? (
+        <>
+          <div className="button-group" style={{ marginBottom: "20px" }}>
+            <button
+              className="btn me-2"
+              style={{
+                backgroundColor:
+                  activeButton === "admin" ? "#343a40" : "#D3D3D3", // Baby blue when active, grey when inactive
+                color: activeButton === "admin" ? "white" : "black", // White text when active, black when inactive
+                border: "none",
+                marginRight: "15px",
+                fontSize: "0.7rem", // Increased font size for better visibility
+              }}
+              onClick={handleHODClick}
+            >
+              Head of Department
+            </button>
+
+            <button
+              className="btn me-2"
+              style={{
+                backgroundColor:
+                  activeEAFButton === "bom" ? "#343a40" : "#D3D3D3", // Baby blue when active, grey when inactive
+                color: activeEAFButton === "bom" ? "white" : "black", // White text when active, black when inactive
+                border: "none",
+                marginRight: "15px",
+                fontSize: "0.7rem", // Increased font size for better visibility
+              }}
+              onClick={handleEAFClick}
+            >
+              Estates and Facilities Manager
+            </button>
+
+            {/* <button
+          className="btn me-2"
+          style={{
+            backgroundColor:
+              activeButton === "Dashboard" ? "#587dbb" : "#D3D3D3", // Baby blue when active, grey when inactive
+            color: activeButton === "Dashboard" ? "white" : "black", // White text when active, black when inactive
+            border: "none",
+            marginRight: "15px",
+          }}
+          onClick={handledashboardClick}
+        >
+          Dashboard
+        </button> */}
+          </div>
+        </>
       ) : (
         <>
           {/* <h4>Head of Department Portal</h4> */}
@@ -108,6 +166,15 @@ const Admin = () => {
         <div>
           {activeTab === "admin" && <AdminTabs />}
           {activeTab === "bom" && <BOMTabs />}
+          {/* {activeTab === "dashboard" && <Dashboard />} */}
+        </div>
+      )}
+
+      {/* Conditionally render content based on active tab */}
+      {isEAFHead && (
+        <div>
+          {activeTab === "admin" && <AdminTabs />}
+          {activeTab === "eafadmin" && <EAFTabs />}
           {/* {activeTab === "dashboard" && <Dashboard />} */}
         </div>
       )}

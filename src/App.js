@@ -193,6 +193,14 @@ function App() {
                       path="/event-details-bom"
                       component={EventDetailsBOM}
                     />
+                    <ProtectedRoute
+                      path="/event-approval-list-eaf"
+                      component={EventListEAF}
+                    />
+                    <ProtectedRoute
+                      path="/event-request-details-eaf"
+                      component={EventDetailsEAF}
+                    />
                     <Route path="/" exact component={Admin} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
