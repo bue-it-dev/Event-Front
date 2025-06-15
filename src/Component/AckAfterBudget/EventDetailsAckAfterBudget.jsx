@@ -1100,7 +1100,7 @@ const EventDetailsAckAfterBudget = () => {
               </div>
               <div className="horizontal-rule mb-4">
                 <hr />
-                <h5 className="horizontal-rule-text fs-5">Approval</h5>
+                <h5 className="horizontal-rule-text fs-5">Acknowledge</h5>
               </div>
               {status == "Pending" ? (
                 <>
