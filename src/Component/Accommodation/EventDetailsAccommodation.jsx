@@ -972,99 +972,103 @@ const EventDetailsAccommodation = () => {
                 setEventData={seteventData}
                 handleFileChange={handleFileChange}
               />
-              <div className="horizontal-rule mb-4">
-                <hr />
-                <h5 className="horizontal-rule-text fs-5">Budget Office</h5>
-              </div>
-              <div className="mb-4">
-                <div className="mb-4">
-                  <div className="row">
-                    <div className="col-md-4 mb-4">
-                      <input
-                        type="text"
-                        placeholder="Enter budget code"
-                        id="budgetCode"
-                        name="budgetCode"
-                        value={eventData.budgetCode || ""} // Adjusted to match state structure
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          seteventData({
-                            ...eventData,
-                            budgetCode: value,
-                          });
-                        }}
-                        className="form-control form-control-lg"
-                        style={{ fontSize: "0.7rem" }}
-                        disabled
-                      />
-                    </div>
-                    <div className="col-md-4 mb-4">
-                      <input
-                        placeholder="Enter budget cost center"
-                        type="text"
-                        id="budgetCostCenter"
-                        name="budgetCostCenter"
-                        value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          seteventData({
-                            ...eventData,
-                            budgetCostCenter: value,
-                          });
-                        }}
-                        className="form-control form-control-lg"
-                        style={{ fontSize: "0.7rem" }}
-                        disabled
-                      />
-                    </div>
-                    <div className="col-md-4 mb-4">
-                      <input
-                        type="text"
-                        placeholder="Enter budget line name"
-                        id="budgetlineName"
-                        name="budgetlineName"
-                        value={eventData.budgetlineName || ""} // Adjusted to match state structure
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          seteventData({
-                            ...eventData,
-                            budgetlineName: value,
-                          });
-                        }}
-                        className="form-control form-control-lg"
-                        style={{ fontSize: "0.7rem" }}
-                        disabled
-                        title="Only letters and spaces are allowed"
-                        // pattern="[a-zA-Z ]*"
-                      />
+              {eventData.budgetCode != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <hr />
+                    <h5 className="horizontal-rule-text fs-5">Budget Office</h5>
+                  </div>
+                  <div className="mb-4">
+                    <div className="mb-4">
+                      <div className="row">
+                        <div className="col-md-4 mb-4">
+                          <input
+                            type="text"
+                            placeholder="Enter budget code"
+                            id="budgetCode"
+                            name="budgetCode"
+                            value={eventData.budgetCode || ""} // Adjusted to match state structure
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              seteventData({
+                                ...eventData,
+                                budgetCode: value,
+                              });
+                            }}
+                            className="form-control form-control-lg"
+                            style={{ fontSize: "0.7rem" }}
+                            disabled
+                          />
+                        </div>
+                        <div className="col-md-4 mb-4">
+                          <input
+                            placeholder="Enter budget cost center"
+                            type="text"
+                            id="budgetCostCenter"
+                            name="budgetCostCenter"
+                            value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              seteventData({
+                                ...eventData,
+                                budgetCostCenter: value,
+                              });
+                            }}
+                            className="form-control form-control-lg"
+                            style={{ fontSize: "0.7rem" }}
+                            disabled
+                          />
+                        </div>
+                        <div className="col-md-4 mb-4">
+                          <input
+                            type="text"
+                            placeholder="Enter budget line name"
+                            id="budgetlineName"
+                            name="budgetlineName"
+                            value={eventData.budgetlineName || ""} // Adjusted to match state structure
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              seteventData({
+                                ...eventData,
+                                budgetlineName: value,
+                              });
+                            }}
+                            className="form-control form-control-lg"
+                            style={{ fontSize: "0.7rem" }}
+                            disabled
+                            title="Only letters and spaces are allowed"
+                            // pattern="[a-zA-Z ]*"
+                          />
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-12 mb-4">
+                          <textarea
+                            type="text"
+                            placeholder="Enter notes if needed"
+                            id="notes"
+                            name="notes"
+                            value={eventData.notes || ""} // Adjusted to match state structure
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              seteventData({
+                                ...eventData,
+                                notes: value,
+                              });
+                            }}
+                            className="form-control form-control-lg"
+                            style={{ fontSize: "0.7rem" }}
+                            disabled
+                            rows={2}
+                            title="Only letters and spaces are allowed"
+                            // pattern="[a-zA-Z ]*"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-12 mb-4">
-                      <textarea
-                        type="text"
-                        placeholder="Enter notes if needed"
-                        id="notes"
-                        name="notes"
-                        value={eventData.notes || ""} // Adjusted to match state structure
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          seteventData({
-                            ...eventData,
-                            notes: value,
-                          });
-                        }}
-                        className="form-control form-control-lg"
-                        style={{ fontSize: "0.7rem" }}
-                        disabled
-                        rows={2}
-                        title="Only letters and spaces are allowed"
-                        // pattern="[a-zA-Z ]*"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+                </>
+              ) : null}
               <div
                 className="horizontal-rule"
                 style={{ marginBottom: "0.25rem", marginTop: "2.0rem" }}

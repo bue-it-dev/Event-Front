@@ -152,7 +152,25 @@ const MyEvents = () => {
       //OrganizerMobile: event.organizerMobile || "N/A",
       //OrganizerEmail : event.OrganizerEmail || "N/A",
       statusName:
-        event.statusName == "Pending" ? "Submitted" : event.statusName,
+        event.statusName == "Pending"
+          ? "Submitted"
+          : event.statusName == "public Affairs Approved"
+          ? "Public Affairs"
+          : event.statusName == "OfficeOfThePresident Approved"
+          ? "Office Of The President Approved"
+          : event.statusName == "OfficeOfThePresident Rejected"
+          ? "Office Of The President Rejected"
+          : event.statusName == "BudgetOffice Approved"
+          ? "Budget Office Approved"
+          : event.statusName == "BOM Approved"
+          ? "BO Manager Approved"
+          : event.statusName == "BOM Rejected"
+          ? "BO Manager Rejected"
+          : event.statusName == "EAF Approved"
+          ? "Estate & Facilities Director Approved"
+          : event.statusName == "EAF Rejected"
+          ? "Estate & Facilities Director Rejected"
+          : event.statusName,
       actions: (
         <div
           className="d-flex justify-content-center align-items-center"
