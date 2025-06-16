@@ -50,7 +50,7 @@ const Admin = () => {
   };
   const handleEAFClick = () => {
     setActiveTab("eafadmin");
-    setActiveEAFButton("eafadmin");
+    setActiveButton("eafadmin");
   };
   const handledashboardClick = () => {
     setActiveTab("dashboard");
@@ -127,8 +127,8 @@ const Admin = () => {
               className="btn me-2"
               style={{
                 backgroundColor:
-                  activeEAFButton === "bom" ? "#343a40" : "#D3D3D3", // Baby blue when active, grey when inactive
-                color: activeEAFButton === "bom" ? "white" : "black", // White text when active, black when inactive
+                  activeButton === "eafadmin" ? "#343a40" : "#D3D3D3", // Baby blue when active, grey when inactive
+                color: activeButton === "eafadmin" ? "white" : "black", // White text when active, black when inactive
                 border: "none",
                 marginRight: "15px",
                 fontSize: "0.7rem", // Increased font size for better visibility

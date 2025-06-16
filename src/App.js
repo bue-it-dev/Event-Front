@@ -125,27 +125,27 @@ function App() {
                     ? Admin
                     : user.type === "VCB"
                     ? VCB
-                    : user.type === "OfficeOfThePresident"
+                    : user.type === "Office of The President"
                     ? President
-                    : user.type === "BOM"
+                    : user.type === "Business Operation Manager"
                     ? BOM
                     : user.type === "COO"
                     ? COO
                     : user.type === "Marcom"
                     ? Marcom
-                    : user.type === "BudgetOffice"
+                    : user.type === "Budget Office"
                     ? BudgetOffice
                     : user.type === "IT"
                     ? IT
                     : user.type === "SecurityCheck"
                     ? SecurityCheck
-                    : user.type === "public Affairs"
+                    : user.type === "Public Affairs"
                     ? PublicAffairs
                     : user.type === "Accommodation"
                     ? Accommodation
                     : user.type === "Transportation"
                     ? Transportation
-                    : user.type === "EAF"
+                    : user.type === "Estates and Facilities Executive Director"
                     ? EAF
                     : user.type === "Campus" ||
                       user.type === "Security" ||
@@ -287,7 +287,7 @@ function App() {
                     </>
                   )}
                 </>
-              ) : user.type === "OfficeOfThePresident" ? (
+              ) : user.type === "Office of The President" ? (
                 <>
                   <Switch>
                     <ProtectedRoute
@@ -325,7 +325,7 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "BOM" ? (
+              ) : user.type === "Business Operation Manager" ? (
                 <>
                   <Switch>
                     <ProtectedRoute
@@ -371,7 +371,7 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "BudgetOffice" ? (
+              ) : user.type === "Budget Office" ? (
                 <>
                   <Switch>
                     <ProtectedRoute
@@ -436,7 +436,7 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "public Affairs" ? (
+              ) : user.type === "Public Affairs" ? (
                 <>
                   <Switch>
                     <ProtectedRoute
@@ -481,7 +481,7 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "EAF" ? (
+              ) : user.type === "Estates and Facilities Executive Director" ? (
                 <>
                   <Switch>
                     <ProtectedRoute

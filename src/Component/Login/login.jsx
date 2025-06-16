@@ -90,9 +90,9 @@ const Login = () => {
                         const roles = {
                           1: "HOD",
                           2: "VCB",
-                          3: "public Affairs",
-                          4: "OfficeOfThePresident",
-                          5: "BudgetOffice",
+                          3: "Public Affairs",
+                          4: "Office of The President",
+                          5: "Budget Office",
                           6: "Marcom",
                           7: "IT",
                           8: "Transportation",
@@ -100,8 +100,8 @@ const Login = () => {
                           10: "Campus",
                           10: "Security",
                           10: "HSE",
-                          11: "BOM",
-                          12: "EAF",
+                          11: "Business Operation Manager",
+                          12: "Estates and Facilities Executive Director",
                           13: "COO",
                           14: "Staff",
                         };
