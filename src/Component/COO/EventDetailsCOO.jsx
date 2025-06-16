@@ -583,7 +583,7 @@ const EventDetailsCOO = () => {
         // Create a new object with the updated status
         const payload = {
           status: statusId,
-          userTypeId: 15,
+          userTypeId: 13,
           eventId: requestId,
           rejectionReason: eventData.rejectionReason, // This will now have the latest value
         };

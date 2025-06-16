@@ -583,7 +583,7 @@ const EventDetailsEAF = () => {
         // Create a new object with the updated status
         const payload = {
           status: statusId,
-          userTypeId: 14,
+          userTypeId: 12,
           eventId: requestId,
           rejectionReason: eventData.rejectionReason, // This will now have the latest value
         };

@@ -98,12 +98,12 @@ const Login = () => {
                           8: "Transportation",
                           9: "Accommodation",
                           10: "Campus",
-                          11: "Security",
-                          12: "HSE",
-                          13: "BOM",
-                          14: "EAF",
-                          15: "COO",
-                          16: "Staff",
+                          10: "Security",
+                          10: "HSE",
+                          11: "BOM",
+                          12: "EAF",
+                          13: "COO",
+                          14: "Staff",
                         };
                         setUser({
                           ...user,

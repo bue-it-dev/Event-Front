@@ -33,7 +33,7 @@ const MyEventListEAF = () => {
       setEvents(response.data);
     } catch (error) {
       console.error("Error fetching event details:", error);
-      setError("Failed to fetch events. Please try again later.");
+      // setError("Failed to fetch events. Please try again later.");
     } finally {
       setIsLoading(false);
     }
