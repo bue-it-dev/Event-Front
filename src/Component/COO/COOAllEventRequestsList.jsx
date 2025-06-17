@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "../Applicant/Applicant.css";
 import { MDBDataTable } from "mdbreact";
-import Table from "react-bootstrap/Table";
+// import Table from "react-bootstrap/Table";
 import URL from "../Util/config";
 import { getToken } from "../Util/Authenticate";
 import axios from "axios";
 import jwt from "jwt-decode";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
+import DataGrid from "../shared_components/Grid";
 // import AdminTabs from "./AdminTabs";
 import COO from "./COO";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,7 +16,10 @@ import { UpdateEventApproval } from "../Requests/mutators";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import { white } from "material-ui/styles/colors";
+import { Button, Tooltip } from "@mui/material";
 const COOAllEventRequestsList = () => {
+  const [requestId, setRequestId] = useState(null);
+  const [statusName, setStatusName] = useState("");
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -115,75 +119,394 @@ const COOAllEventRequestsList = () => {
   useEffect(() => {
     GetEvents(empID);
   }, [empID]);
-
-  const data = {
-    columns: [
-      { label: "#", field: "Number", sort: "asc" },
-      { label: "Title", field: "eventTitle", sort: "asc" },
-      { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
-      { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
-      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
-      //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
-      // {
-      //   label: "Approving Deptartment",
-      //   field: "approvingDeptName",
-      //   sort: "asc",
-      // },
-      // { label: "Start Date", field: "eventStartDate", sort: "asc" },
-      // { label: "End Date", field: "eventEndDate", sort: "asc" },
-      { label: "Creation Date", field: "createdAt", sort: "asc" },
-      { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
-      { label: "Modification Date", field: "updateAt", sort: "asc" },
-      { label: "Status", field: "statusName", sort: "asc" },
-      { label: "Action", field: "actions", sort: "disabled" },
-    ],
-    rows: events.map((event, i) => ({
-      Number: i + 1,
-      eventId: event.eventId,
-      createdAt: new Date(event.createdAt).toLocaleDateString(),
-      updateAt: event.updateAt
-        ? new Date(event.updateAt).toLocaleDateString()
-        : "N/A",
-      confirmedAt: event.confirmedAt
-        ? new Date(event.confirmedAt).toLocaleDateString()
-        : "N/A",
-      eventTitle: event.eventTitle,
-      eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
-      eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
-      OrganizerName: event.organizerName || "N/A",
-      approvingDeptName: event.approvingDeptName || "N/A",
-      OrganizerMobile: "0" + event.organizerMobile || "N/A",
-      organizerEmail: event.organizerEmail || "N/A",
-      statusName: event.statusName,
-      actions: (
-        <>
-          <Link
-            to={{
-              pathname: "/all-event-request-details-coo",
-              state: {
-                requestId: event.eventId,
-                statusName: event.statusName,
-              },
-            }}
-          >
-            <button
-              type="button"
-              className="btn btn-success btn-sm mb-1"
-              style={{
-                backgroundColor: "#57636f",
-                fontSize: "0.7rem",
-                width: "auto",
-                padding: "0.25rem 0.6rem",
-                whiteSpace: "nowrap",
-              }}
-            >
-              View
-            </button>
-          </Link>
-        </>
+  const columns = [
+    {
+      field: "actions",
+      headerName: "Action",
+      width: 112,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => {
+        return (
+          <div className="d-flex justify-content-center">
+            <Tooltip title="View" placement="left" arrow>
+              <Link
+                to={{
+                  pathname: "/all-event-request-details-coo",
+                  state: {
+                    requestId: params.row.eventId,
+                    statusName: params.row.statusName,
+                  },
+                }}
+                // target="_blank"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setRequestId(params.row.eventId);
+                  setStatusName(params.row.statusName);
+                }}
+                style={{ textDecoration: "none" }} // Optional: removes the default link underline
+              >
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#57636f",
+                    color: "white",
+                    padding: "2px 5px",
+                    borderRadius: "3px",
+                    textTransform: "none",
+                    fontSize: "12px",
+                    fontWeight: "bold",
+                    minWidth: "50px", // Decrease the width
+                  }}
+                >
+                  View
+                </Button>
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      },
+    },
+    // { field: "serial", headerName: "#", width: 150 },
+    {
+      field: "id",
+      headerName: "Serial",
+      width: 110,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "organizerName",
+      headerName: "Organizer Name",
+      width: 290,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.organizerName}>
+          <span className="table-cell-trucate">{params.row.organizerName}</span>
+        </Tooltip>
       ),
-    })),
-  };
+    },
+    {
+      field: "organizerMobile",
+      headerName: "Organizer Mobile",
+      width: 172,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.organizerMobile}>
+          <span className="table-cell-trucate">
+            {params.row.organizerMobile}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "organizerEmail",
+      headerName: "Organizer Email",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.organizerEmail}>
+          <span className="table-cell-trucate">
+            {params.row.organizerEmail}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "approvingDeptName",
+      headerName: "Department",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.approvingDeptName}>
+          <span className="table-cell-trucate">
+            {params.row.approvingDeptName}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "eventTitle",
+      headerName: "Title",
+      width: 250,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.eventTitle}>
+          <span className="table-cell-trucate">{params.row.eventTitle}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "eventStartDate",
+      headerName: "Start Date",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.eventStartDate}>
+          <span className="table-cell-trucate">
+            {params.row.eventStartDate}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "eventEndDate",
+      headerName: "End Date",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.eventEndDate}>
+          <span className="table-cell-trucate">{params.row.eventEndDate}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "hasIt",
+      headerName: "IT",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.hasIt}>
+          <span className="table-cell-trucate">{params.row.hasIt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "hasAccomdation",
+      headerName: "Accommodation",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.hasAccomdation}>
+          <span className="table-cell-trucate">
+            {params.row.hasAccomdation}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "hasTransportation",
+      headerName: "Transportation",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.hasTransportation}>
+          <span className="table-cell-trucate">
+            {params.row.hasTransportation}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "budgetlineName",
+      headerName: "Budget Line Name",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.budgetlineName}>
+          <span className="table-cell-trucate">
+            {params.row.budgetlineName}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "budgetCode",
+      headerName: "Budget Code",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.budgetCode}>
+          <span className="table-cell-trucate">{params.row.budgetCode}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "budgetCostCenter",
+      headerName: "Budget Cost Center",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.budgetCostCenter}>
+          <span className="table-cell-trucate">
+            {params.row.budgetCostCenter}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "budgetEstimatedCost",
+      headerName: "Estimated Cost (EGP)",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.budgetEstimatedCost}>
+          <span className="table-cell-trucate">
+            {params.row.budgetEstimatedCost}
+          </span>
+        </Tooltip>
+      ),
+    },
+
+    {
+      field: "confirmedAt",
+      headerName: "Confrimation Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.confirmedAt}>
+          <span className="table-cell-trucate">{params.row.confirmedAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "updateAt",
+      headerName: "Modification Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.updateAt}>
+          <span className="table-cell-trucate">{params.row.updateAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "createdAt",
+      headerName: "Submission Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.createdAt}>
+          <span className="table-cell-trucate">{params.row.createdAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "statusName",
+      headerName: "Status",
+      width: 190,
+      align: "left",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.statusName}>
+          <span className="table-cell-trucate">{params.row.statusName}</span>
+        </Tooltip>
+      ),
+    },
+  ];
+
+  const rows = events.map((event, i) => ({
+    Number: i + 1,
+    id: event.eventId,
+    eventId: event.eventId,
+    eventTitle: event.eventTitle,
+    eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
+    eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+    organizerName: event.organizerName || "N/A",
+    organizerMobile: "0" + event.organizerMobile || "N/A",
+    organizerEmail: event.organizerEmail || "N/A",
+    approvingDeptName: event.approvingDeptName || "N/A",
+    createdAt: new Date(event.createdAt).toLocaleDateString(),
+    updateAt: event.updateAt
+      ? new Date(event.updateAt).toLocaleDateString()
+      : "N/A",
+    confirmedAt: event.confirmedAt
+      ? new Date(event.confirmedAt).toLocaleDateString()
+      : "N/A",
+    statusName: event.statusName,
+    hasIt: event.hasIt ? "Yes" : "No",
+    hasAccomdation: event.hasAccomdation ? "Yes" : "No",
+    hasTransportation: event.hasTransportation ? "Yes" : "No",
+    budgetlineName: event.budgetlineName || "N/A",
+    budgetCode: event.budgetCode || "N/A",
+    budgetCostCenter: event.budgetCostCenter || "N/A",
+    budgetEstimatedCost: event.budgetEstimatedCost || "N/A",
+  }));
+  // const data = {
+  //   columns: [
+  //     // { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+  //     { label: "#", field: "Number", sort: "asc" },
+  //     { label: "Title", field: "eventTitle", sort: "asc" },
+  //     { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
+  //     { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
+  //     { label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
+  //     {
+  //       label: "Approving Deptartment",
+  //       field: "approvingDeptName",
+  //       sort: "asc",
+  //     },
+  //     { label: "Start Date", field: "eventStartDate", sort: "asc" },
+  //     { label: "End Date", field: "eventEndDate", sort: "asc" },
+  //     { label: "Creation Date", field: "createdAt", sort: "asc" },
+  //     { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
+  //     { label: "Modification Date", field: "updateAt", sort: "asc" },
+  //     { label: "Status", field: "statusName", sort: "asc" },
+  //     { label: "Action", field: "actions", sort: "disabled" },
+  //   ],
+  //   rows: events.map((event, i) => ({
+  //     Number: i + 1,
+  //     eventId: event.eventId,
+  //     createdAt: new Date(event.createdAt).toLocaleDateString(),
+  //     updateAt: event.updateAt
+  //       ? new Date(event.updateAt).toLocaleDateString()
+  //       : "N/A",
+  //     confirmedAt: event.confirmedAt
+  //       ? new Date(event.confirmedAt).toLocaleDateString()
+  //       : "N/A",
+  //     eventTitle: event.eventTitle,
+  //     eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
+  //     eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+  //     OrganizerName: event.organizerName || "N/A",
+  //     approvingDeptName: event.approvingDeptName || "N/A",
+  //     OrganizerMobile: "0" + event.organizerMobile || "N/A",
+  //     organizerEmail: event.organizerEmail || "N/A",
+  //     statusName: event.statusName,
+  //     actions: (
+  //       <>
+  //         <Link
+  //           to={{
+  //             pathname: "/all-event-request-details-coo",
+  //             state: {
+  //               requestId: event.eventId,
+  //               statusName: event.statusName,
+  //             },
+  //           }}
+  //         >
+  //           <button
+  //             type="button"
+  //             className="btn btn-success btn-sm mb-1"
+  //             style={{
+  //               backgroundColor: "#57636f",
+  //               fontSize: "0.7rem",
+  //               width: "auto",
+  //               padding: "0.25rem 0.6rem",
+  //               whiteSpace: "nowrap",
+  //             }}
+  //           >
+  //             View
+  //           </button>
+  //         </Link>
+  //       </>
+  //     ),
+  //   })),
+  // };
 
   return (
     <div className="my-events">
@@ -197,20 +520,43 @@ const COOAllEventRequestsList = () => {
           </Spinner>
         </div>
       ) : (
-        <div className="table-responsive-wrapper">
-          <div className="table-responsive">
-            <MDBDataTable
-              className="custom-table"
-              striped
-              bordered
-              hover
-              data={data}
-              order={["Number", "asc"]}
-              entries={10}
-            />
-          </div>
+        <div
+          className="table-container"
+          style={{
+            overflowX: "auto",
+            maxHeight: "600px",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.05)",
+            padding: "16px",
+            backgroundColor: "#fff",
+            marginTop: "20px",
+            width: "95%",
+            maxWidth: "95%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            style={{
+              minWidth: "100%",
+              fontFamily: "Segoe UI, sans-serif",
+              fontSize: "0.7rem",
+            }}
+            rowHeight={40}
+            headerHeight={50}
+            columnHeaderStyle={{
+              backgroundColor: "#f8f9fa",
+              fontWeight: "bold",
+              borderBottom: "1px solid #dee2e6",
+            }}
+            getRowClassName={() => "custom-row"}
+          />
         </div>
       )}
+
       <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );

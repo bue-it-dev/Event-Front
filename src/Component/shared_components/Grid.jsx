@@ -25,6 +25,11 @@ export default function MyDataGrid(props) {
       pagination
       disableSelectionOnClick
       components={{ Toolbar: GridToolbar }}
+      style={{
+        // minWidth: "100%",
+        // fontFamily: "Segoe UI, sans-serif",
+        fontSize: "0.7rem",
+      }}
       slotProps={{
         toolbar: {
           showQuickFilter: true,
