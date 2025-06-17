@@ -1070,25 +1070,18 @@ const AdminMyEventRequetDetails = () => {
                     <div className="horizontal-rule mb-4">
                       <hr />
                       <h5 className="horizontal-rule-text fs-5">
-                        Budget Office Section
+                        Budget Office
                       </h5>
                     </div>
                     <div className="mb-4">
                       <div className="mb-4">
                         <div className="row">
-                          <div className="col-md-6 mb-4">
-                            {/* Add margin bottom for spacing */}
-                            <label
-                              htmlFor="budgetCode"
-                              className="form-label fs-6"
-                            >
-                              Budget Code
-                            </label>
+                          <div className="col-md-4 mb-4">
                             <input
                               type="text"
+                              placeholder="Enter budget code"
                               id="budgetCode"
                               name="budgetCode"
-                              disabled
                               value={eventData.budgetCode || ""} // Adjusted to match state structure
                               onChange={(e) => {
                                 const value = e.target.value;
@@ -1098,25 +1091,15 @@ const AdminMyEventRequetDetails = () => {
                                 });
                               }}
                               className="form-control form-control-lg"
-                              required
-                              // pattern="[a-zA-Z ]*"
-                              // title="Only letters and spaces are allowed"
+                              style={{ fontSize: "0.7rem" }}
+                              disabled
                             />
                           </div>
-
-                          <div className="col-md-6 mb-4">
-                            {" "}
-                            {/* Add margin bottom for spacing */}
-                            <label
-                              htmlFor="budgetCostCenter"
-                              className="form-label fs-6"
-                            >
-                              Budget Cost Center
-                            </label>
+                          <div className="col-md-4 mb-4">
                             <input
+                              placeholder="Enter budget cost center"
                               type="text"
                               id="budgetCostCenter"
-                              disabled
                               name="budgetCostCenter"
                               value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
                               onChange={(e) => {
@@ -1127,23 +1110,16 @@ const AdminMyEventRequetDetails = () => {
                                 });
                               }}
                               className="form-control form-control-lg"
-                              required
+                              style={{ fontSize: "0.7rem" }}
+                              disabled
                             />
                           </div>
-                          <div>
-                            {" "}
-                            {/* Add margin bottom for spacing */}
-                            <label
-                              htmlFor="budgetlineName"
-                              className="form-label fs-6"
-                            >
-                              Budget Line name
-                            </label>
+                          <div className="col-md-4 mb-4">
                             <input
                               type="text"
+                              placeholder="Enter budget line name"
                               id="budgetlineName"
                               name="budgetlineName"
-                              disabled
                               value={eventData.budgetlineName || ""} // Adjusted to match state structure
                               onChange={(e) => {
                                 const value = e.target.value;
@@ -1153,9 +1129,34 @@ const AdminMyEventRequetDetails = () => {
                                 });
                               }}
                               className="form-control form-control-lg"
-                              // pattern="[a-zA-Z ]*"
-                              required
+                              style={{ fontSize: "0.7rem" }}
+                              disabled
                               title="Only letters and spaces are allowed"
+                              // pattern="[a-zA-Z ]*"
+                            />
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12 mb-4">
+                            <textarea
+                              type="text"
+                              placeholder="Enter notes if needed"
+                              id="notes"
+                              name="notes"
+                              value={eventData.notes || ""} // Adjusted to match state structure
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  notes: value,
+                                });
+                              }}
+                              className="form-control form-control-lg"
+                              style={{ fontSize: "0.7rem" }}
+                              disabled
+                              rows={2}
+                              title="Only letters and spaces are allowed"
+                              // pattern="[a-zA-Z ]*"
                             />
                           </div>
                         </div>
@@ -1206,17 +1207,25 @@ const AdminMyEventRequetDetails = () => {
                   </>
                 ) : (
                   <>
-                    <div className="horizontal-rule mb-4">
-                      <h5 className="horizontal-rule-text">
-                        Approvals hierarchy
+                    <div
+                      className="horizontal-rule"
+                      style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
+                    >
+                      <hr />
+                      <h5
+                        className="horizontal-rule-text"
+                        style={{ marginBottom: "0" }}
+                      >
+                        Approvals Hierarchy
                       </h5>
                     </div>
-                    <div className="row">
-                      <Table responsive>
+                    <div
+                      className="row"
+                      style={{ marginTop: "0", paddingTop: "0" }}
+                    >
+                      <Table responsive style={{ marginTop: "0" }}>
                         <MDBDataTable
-                          // className="text-left"
                           className="custom-table"
-                          // autoWidth={true}
                           striped
                           bordered
                           hover
@@ -1234,14 +1243,15 @@ const AdminMyEventRequetDetails = () => {
                       <>
                         <div className="horizontal-rule mb-4">
                           <h5 className="horizontal-rule-text">
-                            Rejection Comment
+                            Reject Comment
                           </h5>
                         </div>
+
                         <textarea
                           id="rejectionReason"
                           name="rejectionReason"
-                          style={{ fontSize: "0.7rem" }}
                           value={eventData.rejectionReason}
+                          disabled
                           onChange={(e) => {
                             const value = e.target.value;
                             seteventData({
@@ -1249,10 +1259,19 @@ const AdminMyEventRequetDetails = () => {
                               rejectionReason: value,
                             });
                           }}
-                          className="form-control form-control-lg"
-                          disabled
-                          rows="5" // Adjust rows to define how many lines of text are visible
+                          className="form-control"
+                          required
+                          rows="3"
                           placeholder="Enter the reject comments"
+                          style={{
+                            fontSize: "0.7rem",
+                            textAlign: "justify",
+                            lineHeight: "1.4",
+                            padding: "8px",
+                            maxWidth: "85%",
+                            margin: "0 auto",
+                            display: "block",
+                          }}
                         />
                       </>
                     ) : null}
