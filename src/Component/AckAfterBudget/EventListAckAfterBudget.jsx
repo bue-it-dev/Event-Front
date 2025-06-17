@@ -23,7 +23,7 @@ const EventListAckAfterBudget = () => {
   const GetEvents = async (empID) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-eventRequestCampus/`,
+        `${URL.BASE_URL}/api/EventEntity/get-eventRequestForAcknowledgements/`,
 
         {
           headers: {

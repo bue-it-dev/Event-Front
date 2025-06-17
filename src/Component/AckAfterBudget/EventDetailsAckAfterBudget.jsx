@@ -21,6 +21,7 @@ import {
   UpdateFiles,
   ConfrimEventRequest,
   UpdateEventApproval,
+  UpdateEventAcknowledge,
 } from "../Requests/mutators";
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
 import EventBuildingVenueListGET from "../shared_components/EventBuildingVenueListGET";
@@ -583,26 +584,26 @@ const EventDetailsAckAfterBudget = () => {
         // Create a new object with the updated status
         const payload = {
           status: statusId,
-          userTypeId: 3,
+          userTypeId: 10,
           eventId: requestId,
           rejectionReason: eventData.rejectionReason, // This will now have the latest value
         };
         // Debugging log
         console.log("Updated payload:", payload);
-        await UpdateEventApproval(payload);
+        await UpdateEventAcknowledge(payload);
         setisLoading(false);
-        if (statusId == 1) {
-          toast.success("Request Approved successfully", {
-            position: "top-center",
-          });
-        } else {
-          toast.error("Request Rejected!", {
-            position: "top-center",
-          });
-        }
+        // if (statusId == 1) {
+        //   toast.success("Request Approved successfully", {
+        //     position: "top-center",
+        //   });
+        // } else {
+        //   toast.error("Request Rejected!", {
+        //     position: "top-center",
+        //   });
+        // }
         // Ensure UI navigation only happens after the toast is shown
         setTimeout(() => {
-          history.push("/event-approval-list");
+          history.push("/event-approval-list-ack");
         }, 1000); // Give users time to see the message
       } catch (error) {
         setisLoading(false);
@@ -1111,7 +1112,7 @@ const EventDetailsAckAfterBudget = () => {
                         className="btn btn-success-approve btn-sm"
                         style={{
                           transition: "0.3s ease",
-                          backgroundColor: "green",
+                          backgroundColor: "#57636f",
                           color: "white",
                           padding: "4px 8px",
                           fontSize: "0.7rem",
@@ -1121,9 +1122,9 @@ const EventDetailsAckAfterBudget = () => {
                         onClick={() => handleApproval(1)}
                         disabled={isLoading}
                       >
-                        {isLoading ? "Approve" : "Approve"}
+                        {isLoading ? "Acknowledge" : "Acknowledge"}
                       </button>
-                      <button
+                      {/* <button
                         type="submit"
                         className="btn btn-danger btn-sm"
                         style={{
@@ -1139,7 +1140,7 @@ const EventDetailsAckAfterBudget = () => {
                         onClick={() => setOpenRejectNotes(true)}
                       >
                         Reject
-                      </button>
+                      </button> */}
                     </div>
 
                     {/* Dialog Box Overlay */}
@@ -1351,7 +1352,7 @@ const EventDetailsAckAfterBudget = () => {
                               height: "28px",
                             }}
                           >
-                            Already {status}
+                            Acknowledged
                           </button>
                         </div>
                       </>
@@ -1371,7 +1372,7 @@ const EventDetailsAckAfterBudget = () => {
                             height: "28px",
                           }}
                         >
-                          Already {status}
+                          Acknowledged
                         </button>
                       </>
                     )}

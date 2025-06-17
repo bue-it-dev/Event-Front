@@ -238,6 +238,24 @@ const UpdateEventApproval = async (application) => {
   }
 };
 
+const UpdateEventAcknowledge = async (application) => {
+  try {
+    // console.log("Application", application);
+    await axios.put(
+      `${URL.BASE_URL}/api/EventEntity/update-eventack`,
+      { ...application },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const AddBusinessApprovalRequest = async (application) => {
   try {
     await axios.put(
@@ -566,5 +584,6 @@ export {
   AddFiles,
   UpdateFiles,
   UpdateEventApproval,
+  UpdateEventAcknowledge,
   AddBudgetOfficeEventRequest,
 };
