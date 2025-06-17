@@ -150,11 +150,12 @@ const COOAllEventRequestsList = () => {
                   variant="contained"
                   style={{
                     backgroundColor: "#57636f",
+                    // maxWidth: "50px", // Decrease the width
                     color: "white",
                     padding: "2px 5px",
                     borderRadius: "3px",
                     textTransform: "none",
-                    fontSize: "12px",
+                    fontSize: "0.7rem",
                     fontWeight: "bold",
                     minWidth: "50px", // Decrease the width
                   }}
@@ -243,8 +244,8 @@ const COOAllEventRequestsList = () => {
     },
     {
       field: "eventStartDate",
-      headerName: "Start Date",
-      width: 150,
+      headerName: "Start Date & Time",
+      width: 200,
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
@@ -257,13 +258,51 @@ const COOAllEventRequestsList = () => {
     },
     {
       field: "eventEndDate",
-      headerName: "End Date",
-      width: 150,
+      headerName: "End Date & Time",
+      width: 200,
       align: "center",
       headerAlign: "center",
       renderCell: (params) => (
         <Tooltip title={params.row.eventEndDate}>
           <span className="table-cell-trucate">{params.row.eventEndDate}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "nomParticipants",
+      headerName: "Number of Particpants",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.nomParticipants}>
+          <span className="table-cell-trucate">
+            {params.row.nomParticipants}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "hasBudget",
+      headerName: "Budget",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.hasBudget}>
+          <span className="table-cell-trucate">{params.row.hasBudget}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "hasMarcom",
+      headerName: "Marcom",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.hasMarcom}>
+          <span className="table-cell-trucate">{params.row.hasMarcom}</span>
         </Tooltip>
       ),
     },
@@ -361,7 +400,72 @@ const COOAllEventRequestsList = () => {
         </Tooltip>
       ),
     },
-
+    {
+      field: "isStaffStudents",
+      headerName: "BUE Internal Audience",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isStaffStudents}>
+          <span className="table-cell-trucate">
+            {params.row.isStaffStudents}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "isChairBoardPrisidentVcb",
+      headerName: "Leadership Attendance",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isChairBoardPrisidentVcb}>
+          <span className="table-cell-trucate">
+            {params.row.isChairBoardPrisidentVcb}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "isOthers",
+      headerName: "External Visitors & Agenda",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isOthers}>
+          <span className="table-cell-trucate">{params.row.isOthers}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "isVip",
+      headerName: "VIP Guests",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isVip}>
+          <span className="table-cell-trucate">{params.row.isVip}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "isInernationalGuest",
+      headerName: "nternational Delegations",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isInernationalGuest}>
+          <span className="table-cell-trucate">
+            {params.row.isInernationalGuest}
+          </span>
+        </Tooltip>
+      ),
+    },
     {
       field: "confirmedAt",
       headerName: "Confrimation Date",
@@ -417,8 +521,8 @@ const COOAllEventRequestsList = () => {
     id: event.eventId,
     eventId: event.eventId,
     eventTitle: event.eventTitle,
-    eventStartDate: new Date(event.eventStartDate).toLocaleDateString(),
-    eventEndDate: new Date(event.eventEndDate).toLocaleDateString(),
+    eventStartDate: event.eventStartDate,
+    eventEndDate: event.eventEndDate,
     organizerName: event.organizerName || "N/A",
     organizerMobile: "0" + event.organizerMobile || "N/A",
     organizerEmail: event.organizerEmail || "N/A",
@@ -438,6 +542,15 @@ const COOAllEventRequestsList = () => {
     budgetCode: event.budgetCode || "N/A",
     budgetCostCenter: event.budgetCostCenter || "N/A",
     budgetEstimatedCost: event.budgetEstimatedCost || "N/A",
+    hasBudget: event.hasBudget ? "Yes" : "No",
+    hasMarcom: event.hasMarcom ? "Yes" : "No",
+    notes: event.notes || "N/A",
+    isStaffStudents: event.isStaffStudents ? "Yes" : "No",
+    isChairBoardPrisidentVcb: event.isChairBoardPrisidentVcb ? "Yes" : "No",
+    isOthers: event.isOthers ? "Yes" : "No",
+    isVip: event.isVip ? "Yes" : "No",
+    isInernationalGuest: event.isInernationalGuest ? "Yes" : "No",
+    nomParticipants: event.nomParticipants || "N/A",
   }));
   // const data = {
   //   columns: [
@@ -523,7 +636,7 @@ const COOAllEventRequestsList = () => {
         <div
           className="table-container"
           style={{
-            overflowX: "auto",
+            overflowX: "hidden",
             maxHeight: "600px",
             border: "1px solid #ddd",
             borderRadius: "8px",
@@ -531,8 +644,8 @@ const COOAllEventRequestsList = () => {
             padding: "16px",
             backgroundColor: "#fff",
             marginTop: "20px",
-            width: "95%",
-            maxWidth: "95%",
+            width: "98%",
+            maxWidth: "98%",
             marginLeft: "auto",
             marginRight: "auto",
           }}

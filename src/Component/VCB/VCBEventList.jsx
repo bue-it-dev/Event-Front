@@ -198,12 +198,30 @@ const VCBEventList = () => {
           </Spinner>
         </div>
       ) : (
-        <div className="table-responsive-wrapper">
+        <div
+          className="table-container"
+          style={{
+            overflowX: "hidden",
+            overflowY: "hidden",
+            // maxHeight: "600px",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.05)",
+            padding: "16px",
+            backgroundColor: "#fff",
+            marginTop: "20px",
+            width: "98%",
+            maxWidth: "98%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
           <div className="table-responsive">
             <MDBDataTable
               className="custom-table"
               striped
               bordered
+              // scrollX
               hover
               data={data}
               order={["Number", "asc"]}
