@@ -132,7 +132,7 @@ const EventListPublicAffairs = () => {
       { label: "Creation Date", field: "createdAt", sort: "asc" },
       { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
       { label: "Modification Date", field: "updateAt", sort: "asc" },
-      // { label: "Status", field: "statusName", sort: "asc" },
+      { label: "Status", field: "statusName", sort: "asc" },
       { label: "Action", field: "actions", sort: "disabled" },
     ],
     rows: events.map((event, i) => ({
@@ -152,7 +152,7 @@ const EventListPublicAffairs = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       OrganizerMobile: "0" + event.organizerMobile || "N/A",
       organizerEmail: event.organizerEmail || "N/A",
-      // statusName: event.statusName,
+      statusName: event.statusName,
       approvalName: event.approvalName,
       actions: (
         <>
