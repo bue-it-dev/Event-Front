@@ -81,19 +81,19 @@ const VCB = () => {
             Chief Operating Officer
           </button>
 
-          {/* <button
+          <button
             className="btn me-2"
             style={{
               backgroundColor:
                 activeButton === "Dashboard" ? "#587dbb" : "#D3D3D3", // Baby blue when active, grey when inactive
               color: activeButton === "Dashboard" ? "white" : "black", // White text when active, black when inactive
               border: "none",
-              marginRight: "15px",
+              fontSize: "0.7rem", // Adjust font size as needed
             }}
             onClick={handledashboardClick}
           >
             Dashboard
-          </button> */}
+          </button>
         </div>
       ) : (
         <>

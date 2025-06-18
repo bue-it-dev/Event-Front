@@ -798,16 +798,16 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     colors: ["#4CAF50", "#E53935", "#FFC107", "#3c89db"],
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   /*
@@ -835,16 +835,16 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12, maxLines: 3 }, // Limit to 3 lines
+      titleTextStyle: { fontSize: 12 },
     },
     colors: ["#79c1fb", "#3c89db"],
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Count
@@ -874,16 +874,16 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12, maxLines: 3 }, // Limit to 3 lines
+      titleTextStyle: { fontSize: 12 },
     },
     colors: ["#4CAF50", "#E53935", "#FFC107", "#3c89db"],
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Transportation Count
@@ -913,16 +913,16 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b"],
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Allowance Count
@@ -952,18 +952,18 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     // colors: ["#4CAF50", "#FFC107", "#1E88E5", "#E53935"],
     colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b"],
 
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Participation Fee Count
@@ -993,17 +993,17 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     // colors: ["#4CAF50", "#FFC107", "#1E88E5", "#E53935"],
     colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b"],
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Visa Count
@@ -1033,18 +1033,18 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     // colors: ["#4CAF50", "#FFC107", "#1E88E5", "#E53935"],
     colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b"],
 
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   //Business Request Accomdation Count
@@ -1074,18 +1074,18 @@ const Statistics = () => {
     hAxis: {
       title: "Count",
       minValue: 0,
-      textStyle: { fontSize: 16 },
-      titleTextStyle: { fontSize: 18 },
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
       textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
-      titleTextStyle: { fontSize: 18 },
+      titleTextStyle: { fontSize: 12 },
     },
     // colors: ["#4CAF50", "#FFC107", "#1E88E5", "#E53935"],
     colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b"],
 
-    legend: { position: "top", textStyle: { fontSize: 16 } },
+    legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
   return (
@@ -1096,11 +1096,15 @@ const Statistics = () => {
       </div>
       <div className="charts-container">
         <div className="chart">
-          <h4>Total Allowance Cost</h4>
+          <h6>Total Allowance Cost</h6>
           <div className="expandable-filter-section">
             <button
               className="mb-3"
-              style={{ backgroundColor: "#355c7b", color: "white" }}
+              style={{
+                backgroundColor: "#355c7b",
+                color: "white",
+                fontSize: "0.8rem",
+              }}
               onClick={() => {
                 if (isAllowanceExpanded) {
                   setSelectedDepType(""); // Reset depTypeId
@@ -1119,6 +1123,7 @@ const Statistics = () => {
                     <select
                       className="form-select form-select-lg custom-select"
                       value={selectedDepType}
+                      style={{ fontSize: "0.8rem" }}
                       onChange={(e) => setSelectedDepType(e.target.value)}
                       name="otherTransferId"
                     >
@@ -1135,10 +1140,13 @@ const Statistics = () => {
                 <div className="row mb-3">
                   <div className="col-12 col-sm-6">
                     <div className="form-group">
-                      <label htmlFor="startDate">Start Date</label>
+                      <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                        Start Date
+                      </label>
                       <input
                         type="date"
                         className="form-control"
+                        style={{ fontSize: "0.8rem" }}
                         id="startDate"
                         onChange={(e) =>
                           setAllowancepieStartDate(e.target.value || null)
@@ -1148,9 +1156,12 @@ const Statistics = () => {
                   </div>
                   <div className="col-12 col-sm-6">
                     <div className="form-group">
-                      <label htmlFor="endDate">End Date</label>
+                      <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                        End Date
+                      </label>
                       <input
                         type="date"
+                        style={{ fontSize: "0.8rem" }}
                         className="form-control"
                         id="endDate"
                         onChange={(e) =>
@@ -1172,10 +1183,14 @@ const Statistics = () => {
           />
         </div>
         <div className="chart">
-          <h4>Total Participation Cost</h4>
+          <h6>Total Participation Cost</h6>
           <button
             className="mb-3"
-            style={{ backgroundColor: "#355c7b", color: "white" }}
+            style={{
+              backgroundColor: "#355c7b",
+              color: "white",
+              fontSize: "0.8rem",
+            }}
             onClick={() => {
               if (isParticpationExpanded) {
                 // Reset fields when hiding the filter
@@ -1194,6 +1209,7 @@ const Statistics = () => {
                 <div className="form-group">
                   <select
                     className="form-select form-select-lg custom-select"
+                    style={{ fontSize: "0.8rem" }}
                     value={ParticpationselectedDepType}
                     onChange={(e) =>
                       setParticpationselectedDepType(e.target.value)
@@ -1213,10 +1229,13 @@ const Statistics = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
                       className="form-control"
+                      style={{ fontSize: "0.8rem" }}
                       id="startDate"
                       onChange={(e) =>
                         setParticpationsPieStartDate(e.target.value || null)
@@ -1226,9 +1245,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="endDate"
                       onChange={(e) =>
@@ -1249,10 +1271,14 @@ const Statistics = () => {
           />
         </div>
         <div className="chart">
-          <h4>Total Visa Cost</h4>
+          <h6>Total Visa Cost</h6>
           <button
             className="mb-3"
-            style={{ backgroundColor: "#355c7b", color: "white" }}
+            style={{
+              backgroundColor: "#355c7b",
+              color: "white",
+              fontSize: "0.8rem",
+            }}
             onClick={() => {
               if (isVisaExpanded) {
                 // Reset fields when hiding the filter
@@ -1270,6 +1296,7 @@ const Statistics = () => {
               <div>
                 <div className="form-group">
                   <select
+                    style={{ fontSize: "0.8rem" }}
                     className="form-select form-select-lg custom-select"
                     value={VisaselectedDepType}
                     onChange={(e) => {
@@ -1290,9 +1317,12 @@ const Statistics = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="startDate"
                       onChange={(e) =>
@@ -1303,9 +1333,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="endDate"
                       onChange={(e) =>
@@ -1328,10 +1361,14 @@ const Statistics = () => {
       </div>
       <div className="charts-container">
         <div className="chart">
-          <h4>Total Transfer Cost</h4>
+          <h6>Total Transfer Cost</h6>
           <button
             className="mb-3"
-            style={{ backgroundColor: "#355c7b", color: "white" }}
+            style={{
+              backgroundColor: "#355c7b",
+              color: "white",
+              fontSize: "0.8rem",
+            }}
             onClick={() => {
               if (isTransferExpanded) {
                 // Reset fields when hiding the filter
@@ -1351,6 +1388,7 @@ const Statistics = () => {
                   <select
                     className="form-select form-select-lg custom-select"
                     value={TransferselectedDepType}
+                    style={{ fontSize: "0.8rem" }}
                     onChange={(e) => {
                       setTransferselectedDepType(e.target.value);
                     }}
@@ -1369,9 +1407,12 @@ const Statistics = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="startDate"
                       onChange={(e) =>
@@ -1382,9 +1423,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="endDate"
                       onChange={(e) =>
@@ -1405,10 +1449,14 @@ const Statistics = () => {
           />
         </div>
         <div className="chart">
-          <h4>Total Accomdation Cost</h4>
+          <h6>Total Accomdation Cost</h6>
           <button
             className="mb-3"
-            style={{ backgroundColor: "#355c7b", color: "white" }}
+            style={{
+              backgroundColor: "#355c7b",
+              color: "white",
+              fontSize: "0.8rem",
+            }}
             onClick={() => {
               if (isAccomdationExpanded) {
                 // Reset fields when hiding the filter
@@ -1426,6 +1474,7 @@ const Statistics = () => {
               <div>
                 <div className="form-group">
                   <select
+                    style={{ fontSize: "0.8rem" }}
                     className="form-select form-select-lg custom-select"
                     value={AccomdationselectedDepType}
                     onChange={(e) => {
@@ -1446,9 +1495,12 @@ const Statistics = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="startDate"
                       onChange={(e) =>
@@ -1459,10 +1511,13 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
                       className="form-control"
+                      style={{ fontSize: "0.8rem" }}
                       id="endDate"
                       onChange={(e) =>
                         setAccomdationpieEndDate(e.target.value || null)
@@ -1482,10 +1537,14 @@ const Statistics = () => {
           />
         </div>
         <div className="chart">
-          <h4>Total Cost</h4>
+          <h6>Total Cost</h6>
           <button
             className="mb-3"
-            style={{ backgroundColor: "#355c7b", color: "white" }}
+            style={{
+              backgroundColor: "#355c7b",
+              color: "white",
+              fontSize: "0.8rem",
+            }}
             onClick={() => {
               if (isOverallExpanded) {
                 // Reset fields when hiding the filter
@@ -1504,6 +1563,7 @@ const Statistics = () => {
                 <div className="form-group">
                   <select
                     className="form-select form-select-lg custom-select"
+                    style={{ fontSize: "0.8rem" }}
                     value={TotalselectedDepType}
                     onChange={(e) => {
                       setTotalselectedDepType(e.target.value);
@@ -1523,9 +1583,12 @@ const Statistics = () => {
               <div className="row mb-3">
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="startDate"
                       onChange={(e) =>
@@ -1536,9 +1599,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-6">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="endDate"
                       onChange={(e) =>
@@ -1576,7 +1642,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -1585,8 +1651,11 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
+                      style={{ fontSize: "0.8rem" }}
                       className="form-select form-select-lg custom-select"
                       value={BusinessStatusBarselectedDepType}
                       onChange={(e) =>
@@ -1607,9 +1676,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="startDate"
                     onChange={(e) =>
@@ -1620,9 +1692,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>
@@ -1636,6 +1711,7 @@ const Statistics = () => {
               chartType="BarChart"
               width="100%"
               height="500px"
+              style={{ fontSize: "0.8rem" }}
               data={businessRequestdata}
               options={businessRequestoptions}
               legendToggle
@@ -1669,8 +1745,11 @@ const Statistics = () => {
                 <div className="col-12 col-sm-4">
                   <div>
                     <div className="form-group">
-                      <label htmlFor="startDate">Department Type</label>
+                      <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                        Department Type
+                      </label>
                       <select
+                        style={{ fontSize: "0.8rem" }}
                         className="form-select form-select-lg custom-select"
                         value={TransferBarselectedDepType}
                         onChange={(e) =>
@@ -1691,9 +1770,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <div className="form-group">
-                    <label htmlFor="startDate">Start Date</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Start Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="startDate"
                       onChange={(e) => setStartDate(e.target.value || null)}
@@ -1702,9 +1784,12 @@ const Statistics = () => {
                 </div>
                 <div className="col-12 col-sm-4">
                   <div className="form-group">
-                    <label htmlFor="endDate">End Date</label>
+                    <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                      End Date
+                    </label>
                     <input
                       type="date"
+                      style={{ fontSize: "0.8rem" }}
                       className="form-control"
                       id="endDate"
                       onChange={(e) => setEndDate(e.target.value || null)}
@@ -1741,7 +1826,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -1750,9 +1835,12 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
                       className="form-select form-select-lg custom-select"
+                      style={{ fontSize: "0.8rem" }}
                       value={AllowanceBarselectedDepType}
                       onChange={(e) =>
                         setAllowanceBarselectedDepType(e.target.value)
@@ -1772,9 +1860,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="startDate"
                     onChange={(e) =>
@@ -1785,9 +1876,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>
@@ -1824,7 +1918,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -1833,8 +1927,11 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
+                      style={{ fontSize: "0.8rem" }}
                       className="form-select form-select-lg custom-select"
                       value={ParticpationBarselectedDepType}
                       onChange={(e) =>
@@ -1855,9 +1952,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="startDate"
                     onChange={(e) =>
@@ -1868,9 +1968,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>
@@ -1907,7 +2010,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -1916,8 +2019,11 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
+                      style={{ fontSize: "0.8rem" }}
                       className="form-select form-select-lg custom-select"
                       value={VisaBarselectedDepType}
                       onChange={(e) =>
@@ -1938,8 +2044,11 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
+                    style={{ fontSize: "0.8rem" }}
                     type="date"
                     className="form-control"
                     id="startDate"
@@ -1949,9 +2058,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) => setVisaEndDate(e.target.value || null)}
@@ -1986,7 +2098,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -1995,9 +2107,12 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
                       className="form-select form-select-lg custom-select"
+                      style={{ fontSize: "0.8rem" }}
                       value={AccomdationBarselectedDepType}
                       onChange={(e) =>
                         setAccomdationBarselectedDepType(e.target.value)
@@ -2017,9 +2132,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="startDate"
                     onChange={(e) =>
@@ -2030,9 +2148,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>
@@ -2073,7 +2194,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -2082,8 +2203,11 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
+                      style={{ fontSize: "0.8rem" }}
                       className="form-select form-select-lg custom-select"
                       value={HomeStatusBarselectedDepType}
                       onChange={(e) =>
@@ -2104,9 +2228,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="startDate"
                     onChange={(e) =>
@@ -2117,9 +2244,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>
@@ -2156,7 +2286,7 @@ const Statistics = () => {
           message={error}
           type="error"
           showIcon
-          style={{ fontSize: "18px", padding: "12px" }}
+          style={{ fontSize: "12px", padding: "12px" }}
         />
       ) : (
         <>
@@ -2165,8 +2295,11 @@ const Statistics = () => {
               <div className="col-12 col-sm-4">
                 <div>
                   <div className="form-group">
-                    <label htmlFor="startDate">Department Type</label>
+                    <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                      Department Type
+                    </label>
                     <select
+                      style={{ fontSize: "0.8rem" }}
                       className="form-select form-select-lg custom-select"
                       value={HomeFlightBarselectedDepType}
                       onChange={(e) =>
@@ -2187,8 +2320,11 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="startDate">Start Date</label>
+                  <label htmlFor="startDate" style={{ fontSize: "0.8rem" }}>
+                    Start Date
+                  </label>
                   <input
+                    style={{ fontSize: "0.8rem" }}
                     type="date"
                     className="form-control"
                     id="startDate"
@@ -2200,9 +2336,12 @@ const Statistics = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-group">
-                  <label htmlFor="endDate">End Date</label>
+                  <label htmlFor="endDate" style={{ fontSize: "0.8rem" }}>
+                    End Date
+                  </label>
                   <input
                     type="date"
+                    style={{ fontSize: "0.8rem" }}
                     className="form-control"
                     id="endDate"
                     onChange={(e) =>

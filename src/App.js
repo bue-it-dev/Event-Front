@@ -84,6 +84,11 @@ import BOMAllEventRequestsList from "./Component/BOM/BOMAllEventRequestsList";
 import Marcom from "./Component/Marcom/Marcom";
 import MAREventDetails from "./Component/Marcom/MAREventDetails";
 import MAREventList from "./Component/Marcom/MAREventList";
+import Dashboard from "./Component/Dashboard/Dashboard";
+import Home from "./Component/Dashboard/Home";
+import Statistics from "./Component/Dashboard/Statistics";
+import BusinessReports from "./Component/Dashboard/BusinessReports";
+import HomeReports from "./Component/Dashboard/HomeReports";
 // import MARCOMTabs from "./Component/Marcom/MARCOMTabs";
 function App() {
   const [user, { setUser }] = useUser();
@@ -201,6 +206,26 @@ function App() {
                       path="/event-request-details-eaf"
                       component={EventDetailsEAF}
                     />
+                    <ProtectedRoute
+                      path="/dashboard-menu"
+                      component={Dashboard}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/home"
+                      component={Home}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/statistics"
+                      component={Statistics}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/business-reports"
+                      component={BusinessReports}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/home-reports"
+                      component={HomeReports}
+                    />
                     <Route path="/" exact component={Admin} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -245,6 +270,26 @@ function App() {
                         <ProtectedRoute
                           path="/event-my-request-details-vcb"
                           component={MyEventDetailsVCB}
+                        />
+                        <ProtectedRoute
+                          path="/dashboard-menu"
+                          component={Dashboard}
+                        />
+                        <ProtectedRoute
+                          path="/dashboard-menu/home"
+                          component={Home}
+                        />
+                        <ProtectedRoute
+                          path="/dashboard-menu/statistics"
+                          component={Statistics}
+                        />
+                        <ProtectedRoute
+                          path="/dashboard-menu/reports/business-reports"
+                          component={BusinessReports}
+                        />
+                        <ProtectedRoute
+                          path="/dashboard-menu/reports/home-reports"
+                          component={HomeReports}
                         />
                         <Route path="/" exact component={VCB} />
                         <Route path="*" exact component={Page404} />
@@ -344,6 +389,26 @@ function App() {
                       path="/event-details-bom"
                       component={EventDetailsBOM}
                     />
+                    <ProtectedRoute
+                      path="/dashboard-menu"
+                      component={Dashboard}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/home"
+                      component={Home}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/statistics"
+                      component={Statistics}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/business-reports"
+                      component={BusinessReports}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/home-reports"
+                      component={HomeReports}
+                    />
                     <Route path="/" exact component={BOM} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
@@ -366,6 +431,26 @@ function App() {
                     <ProtectedRoute
                       path="/event-request-details-coo"
                       component={EventDetailsCOO}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu"
+                      component={Dashboard}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/home"
+                      component={Home}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/statistics"
+                      component={Statistics}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/business-reports"
+                      component={BusinessReports}
+                    />
+                    <ProtectedRoute
+                      path="/dashboard-menu/reports/home-reports"
+                      component={HomeReports}
                     />
                     <Route path="/" exact component={COO} />
                     <Route path="*" exact component={Page404} />

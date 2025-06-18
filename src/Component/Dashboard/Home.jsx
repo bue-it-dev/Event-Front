@@ -140,7 +140,7 @@ const Home = () => {
 
   const renderApprovedTable = (title, data, columns) => (
     <div className="recent-requests">
-      <h5>{title}</h5>
+      <h6>{title}</h6>
       <table>
         <thead>
           <tr>
@@ -175,22 +175,22 @@ const Home = () => {
     <div className="home-container">
       <div className="stats-cards">
         <div className="chartcard">
-          <h5>Home Request Count</h5>
-          <h5>{homeRequestCount}</h5>
+          <h6>Home Request Count</h6>
+          <h6>{homeRequestCount}</h6>
         </div>
         <div className="chartcard">
-          <h5>Business Request Count</h5>
-          <h5>{businessRequestCount}</h5>
+          <h6>Business Request Count</h6>
+          <h6>{businessRequestCount}</h6>
         </div>
       </div>
 
       <div className="charts-container">
         <div className="chart-container">
-          <h5>Home Request Approval Chart</h5>
+          <h6>Home Request Approval Chart</h6>
           <Pie data={homeapprovalPieData} options={Pieoptions} />
         </div>
         <div className="chart-container">
-          <h5>Business Request Approval Chart</h5>
+          <h6>Business Request Approval Chart</h6>
           <Pie data={businesspprovalPieData} options={Pieoptions} />
         </div>
       </div>

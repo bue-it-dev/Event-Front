@@ -46,7 +46,7 @@ const Dashboard = () => {
             >
               <FaHome className="icon" />
               {!isSidebarCollapsed && (
-                <span style={{ fontSize: "18px" }}>Home</span>
+                <span style={{ fontSize: "14px" }}>Home</span>
               )}
             </Link>
           </li>
@@ -59,7 +59,7 @@ const Dashboard = () => {
             >
               <FaChartLine className="icon" />
               {!isSidebarCollapsed && (
-                <span style={{ fontSize: "18px" }}>Statistics</span>
+                <span style={{ fontSize: "14px" }}>Statistics</span>
               )}
             </Link>
           </li>
@@ -71,7 +71,7 @@ const Dashboard = () => {
             >
               <FaFileAlt className="icon" />
               {!isSidebarCollapsed && (
-                <span style={{ fontSize: "18px" }}>Reports</span>
+                <span style={{ fontSize: "14px" }}>Reports</span>
               )}
               <FaChevronDown
                 className={`submenu-arrow ${showReportsSubmenu ? "open" : ""}`}
@@ -81,7 +81,7 @@ const Dashboard = () => {
               <ul className="submenu">
                 <li>
                   <Link
-                    style={{ fontSize: "18px" }}
+                    style={{ fontSize: "14px" }}
                     to="/dashboard-menu/reports/home-reports"
                     className={
                       activeTab === "/dashboard-menu/reports/home-reports"
@@ -95,7 +95,7 @@ const Dashboard = () => {
                 <li>
                   <Link
                     to="/dashboard-menu/reports/business-reports"
-                    style={{ fontSize: "18px" }}
+                    style={{ fontSize: "14px" }}
                     className={
                       activeTab === "/dashboard-menu/reports/business-reports"
                         ? "active"
