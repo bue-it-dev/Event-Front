@@ -45,29 +45,30 @@ const Home = () => {
       "/api/Dashboard/get-approved-businessRequests",
       setBusinessApproval
     );
-    fetchData("/api/Dashboard/get-homeRequest-Top5", setHomeList);
+    fetchData("/api/EventDashboard/get-events-top-five", setHomeList);
     fetchData("/api/Dashboard/get-businessRequest-Top5", setBusinessList);
-    fetchData(
-      "/api/Dashboard/get-approval-homeRequest-Top5",
-      setapprovedhomeList
-    );
+    fetchData("/api/EventDashboard/get-events-top-five", setapprovedhomeList);
     fetchData(
       "/api/Dashboard/get-approval-businessRequest-Top5",
       setapprovedbusinessList
     );
   }, []);
-
+  const approvedPercentage = Math.round(
+    (homeApproval.approved * 100) / homeRequestCount
+  );
+  const rejectedPercentage = Math.round(
+    (homeApproval.rejected * 100) / homeRequestCount
+  );
+  const pendingPercentage = Math.round(
+    (homeApproval.pending * 100) / homeRequestCount
+  );
   // Pie chart data for requests and approvals
   const homeapprovalPieData = {
     labels: ["Approved Request", "Rejected Request", "Pending Request"],
     datasets: [
       {
         label: "Event Request Approval Count",
-        data: [
-          homeApproval.approved,
-          homeApproval.rejected,
-          homeApproval.pending,
-        ],
+        data: [approvedPercentage, rejectedPercentage, pendingPercentage],
         backgroundColor: ["#4CAF50", "#E53935", "#FFC107"],
         hoverBackgroundColor: ["green", "red", "orange"],
       },
@@ -85,10 +86,16 @@ const Home = () => {
         font: {
           size: 12,
         },
-        formatter: (value) => `${value}`, // Customize label format
+        formatter: (value, context) => {
+          const data = context.chart.data.datasets[0].data;
+          const total = data.reduce((sum, val) => sum + val, 0);
+          const percentage = Math.round((value / total) * 100);
+          return `${percentage}%`;
+        },
       },
     },
   };
+
   const businesspprovalPieData = {
     labels: ["Approved Request", "Rejected Request", "Pending Request"],
     datasets: [
@@ -122,7 +129,8 @@ const Home = () => {
             data.map((request, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{request.name || "Unknown"}</td>
+                <td>{request.organizerName || "Unknown"}</td>
+                <td>{request.title || "Unknown"}</td>
                 <td>{new Date(request.createdAt).toLocaleDateString()}</td>
                 {request.status !== undefined && (
                   <td>{request.status === 1 ? "Approved" : "Rejected"}</td>
@@ -141,7 +149,7 @@ const Home = () => {
 
   const renderApprovedTable = (title, data, columns) => (
     <div className="recent-requests">
-      <h6>{title}</h6>
+      <p style={{ fontSize: "0.7erm" }}>{title}</p>
       <table>
         <thead>
           <tr>
@@ -155,7 +163,8 @@ const Home = () => {
             data.map((request, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{request.name || "Unknown"}</td>
+                <td>{request.title || "Unknown"}</td>
+                <td>{request.organizerName || "Unknown"}</td>
                 <td>{new Date(request.createdAt).toLocaleDateString()}</td>
                 {request.statusName !== undefined && (
                   <td>{request.statusName}</td>
@@ -173,57 +182,139 @@ const Home = () => {
   );
 
   return (
-    <div className="home-container">
-      <div className="stats-cards">
-        <div className="chartcard">
-          <h6>Event Request Count</h6>
-          <h6>{homeRequestCount}</h6>
+    <>
+      <div className="home-container">
+        <div
+          className="charts-container"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <div
+            className="col-md-6"
+            style={{
+              boxShadow: "0 4px 8px rgba(121, 121, 121, 0.1)",
+              border: "1px solid #dbdbdb",
+              borderRadius: "8px",
+              padding: "20px",
+            }}
+          >
+            {/* First row - Total Count */}
+            <div
+              style={{
+                height: "60px",
+                width: "100%",
+                marginBottom: "20px",
+                backgroundColor: "#57636f",
+                color: "#fff",
+                padding: "10px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                fontSize: "0.7rem",
+              }}
+            >
+              <h6>
+                Event Total Count: <br />
+                <b>{homeRequestCount}</b>
+              </h6>
+            </div>
+
+            {/* Second row - Approved, Rejected, Pending */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{
+                  height: "60px",
+                  width: "32%",
+                  marginBottom: "20px",
+                  backgroundColor: "#4CAF50",
+                  color: "#fff",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  fontSize: "0.7rem",
+                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <h6>
+                  Approved: <b>{homeApproval.approved}</b>
+                </h6>
+              </div>
+
+              <div
+                style={{
+                  height: "60px",
+                  width: "32%",
+                  marginBottom: "20px",
+                  backgroundColor: "darkred",
+                  color: "#fff",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  fontSize: "0.7rem",
+                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <h6>
+                  Rejected: <b>{homeApproval.rejected}</b>
+                </h6>
+              </div>
+
+              <div
+                style={{
+                  height: "60px",
+                  width: "32%",
+                  marginBottom: "20px",
+                  backgroundColor: "#FFC107",
+                  color: "black",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  fontSize: "0.7rem",
+                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <h6>
+                  Pending: <b>{homeApproval.pending}</b>
+                </h6>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="col-md-8 chart-container"
+            // style={{}}
+            style={{
+              boxShadow: "0 4px 8px rgba(121, 121, 121, 0.1)",
+              border: "1px solid #dbdbdb",
+              borderRadius: "8px",
+              paddingTop: "20px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              paddingBottom: "20px",
+            }}
+          >
+            <h6>Event Request Approval Chart</h6>
+            <Pie data={homeapprovalPieData} options={Pieoptions} />
+          </div>
         </div>
-        {/* <div className="chartcard">
-          <h6>Business Request Count</h6>
-          <h6>{businessRequestCount}</h6>
-        </div> */}
       </div>
 
-      <div className="charts-container">
-        <div className="chart-container">
-          <h6>Event Request Approval Chart</h6>
-          <Pie data={homeapprovalPieData} options={Pieoptions} />
+      <br />
+      <div className="home-container">
+        <div className="recent-claims-container">
+          {renderApprovedTable(
+            "Last 5 Submitted Event Requests",
+            approvedhomeList,
+            ["#", "Name", "Title", "Date of Submission", "Status"]
+          )}
         </div>
-        {/* <div className="chart-container">
-          <h6>Business Request Approval Chart</h6>
-          <Pie data={businesspprovalPieData} options={Pieoptions} />
-        </div> */}
       </div>
-
-      {/* <div className="recent-claims-container">
-        {renderTable("Recently Submitted Home Requests", homeList, [
-          "#",
-          "Name",
-          "Date of Submission",
-        ])}
-        {renderTable("Recently Submitted Business Requests", businessList, [
-          "#",
-          "Name",
-          "Date of Submission",
-        ])}
-      </div> */}
-
-      <div className="recent-claims-container">
-        {renderApprovedTable("Last 5 Submitted", approvedhomeList, [
-          "#",
-          "Name",
-          "Date of Submission",
-          "Status",
-        ])}
-        {/* {renderApprovedTable("Last 5 Submitted", approvedbusinessList, [
-          "#",
-          "Name",
-          "Date of Submission",
-          "Status",
-        ])} */}
-      </div>
-    </div>
+    </>
   );
 };
 

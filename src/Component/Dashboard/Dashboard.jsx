@@ -31,13 +31,13 @@ const Dashboard = () => {
     <div className="dashboard-container">
       {/* Sidebar */}
       <nav className={`sidebar ${isSidebarCollapsed ? "collapsed" : ""}`}>
-        <button
+        {/* <button
           onClick={toggleSidebar}
           className="sidebar-toggle"
           aria-label="Toggle Sidebar"
         >
           {isSidebarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
-        </button>
+        </button> */}
         <ul>
           <li>
             <Link
