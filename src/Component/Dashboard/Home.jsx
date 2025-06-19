@@ -175,13 +175,13 @@ const Home = () => {
     <div className="home-container">
       <div className="stats-cards">
         <div className="chartcard">
-          <h6>Home Request Count</h6>
+          <h6>Event Request Count</h6>
           <h6>{homeRequestCount}</h6>
         </div>
-        <div className="chartcard">
+        {/* <div className="chartcard">
           <h6>Business Request Count</h6>
           <h6>{businessRequestCount}</h6>
-        </div>
+        </div> */}
       </div>
 
       <div className="charts-container">
