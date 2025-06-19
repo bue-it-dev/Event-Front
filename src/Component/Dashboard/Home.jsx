@@ -14,15 +14,17 @@ const Home = () => {
   const [homeList, setHomeList] = useState([]);
   const [approvedbusinessList, setapprovedbusinessList] = useState([]);
   const [approvedhomeList, setapprovedhomeList] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setisLoading] = useState(true);
   const [businessApproval, setBusinessApproval] = useState({
     approvedCount: 0,
     rejectedCount: 0,
     pendingCount: 0,
   });
   const [homeApproval, setHomeApproval] = useState({
-    approvedCount: 0,
-    rejectedCount: 0,
-    pendingCount: 0,
+    approved: 0,
+    rejected: 0,
+    pending: 0,
   });
 
   // Reusable function to fetch data from an API
@@ -31,15 +33,14 @@ const Home = () => {
       .get(`${URL.BASE_URL}${url}`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       })
-      .then((response) => stateSetter(response.data))
+      .then((response) => stateSetter(response.data.data))
       .catch((error) => console.error(error));
   };
-
   // Fetch counts and top requests on component mount
   useEffect(() => {
     fetchData("/api/Dashboard/get-bussiness-count", setBusinessRequestCount);
-    fetchData("/api/Dashboard/get-home-count", setHomeRequestCount);
-    fetchData("/api/Dashboard/get-approved-homeRequests", setHomeApproval);
+    fetchData("/api/EventDashboard/get-events-count", setHomeRequestCount);
+    fetchData("/api/EventDashboard/get-event-approvals-count", setHomeApproval);
     fetchData(
       "/api/Dashboard/get-approved-businessRequests",
       setBusinessApproval
@@ -61,11 +62,11 @@ const Home = () => {
     labels: ["Approved Request", "Rejected Request", "Pending Request"],
     datasets: [
       {
-        label: "Travel Request Approval Count",
+        label: "Event Request Approval Count",
         data: [
-          homeApproval.approvedCount,
-          homeApproval.rejectedCount,
-          homeApproval.pendingCount,
+          homeApproval.approved,
+          homeApproval.rejected,
+          homeApproval.pending,
         ],
         backgroundColor: ["#4CAF50", "#E53935", "#FFC107"],
         hoverBackgroundColor: ["green", "red", "orange"],
@@ -186,13 +187,13 @@ const Home = () => {
 
       <div className="charts-container">
         <div className="chart-container">
-          <h6>Home Request Approval Chart</h6>
+          <h6>Event Request Approval Chart</h6>
           <Pie data={homeapprovalPieData} options={Pieoptions} />
         </div>
-        <div className="chart-container">
+        {/* <div className="chart-container">
           <h6>Business Request Approval Chart</h6>
           <Pie data={businesspprovalPieData} options={Pieoptions} />
-        </div>
+        </div> */}
       </div>
 
       {/* <div className="recent-claims-container">
@@ -215,12 +216,12 @@ const Home = () => {
           "Date of Submission",
           "Status",
         ])}
-        {renderApprovedTable("Last 5 Submitted", approvedbusinessList, [
+        {/* {renderApprovedTable("Last 5 Submitted", approvedbusinessList, [
           "#",
           "Name",
           "Date of Submission",
           "Status",
-        ])}
+        ])} */}
       </div>
     </div>
   );
