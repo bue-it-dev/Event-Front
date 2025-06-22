@@ -183,142 +183,285 @@ const Home = () => {
 
   return (
     <>
-      <div className="home-container">
-        <div className="horizontal-rule mb-4">
-          <hr />
-          <h5 className="horizontal-rule-text" style={{ fontSize: "16px" }}>
-            Event Request Status Count
-          </h5>
-        </div>
-        <div
-          className="charts-container"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            className="col-md-6"
-            style={{
-              boxShadow: "0 4px 8px rgba(121, 121, 121, 0.1)",
-              border: "1px solid #dbdbdb",
-              borderRadius: "8px",
-              padding: "20px",
-            }}
-          >
-            <br />
-            {/* First row - Total Count */}
+      <div className="container-fluid bg-white min-vh-100 py-5">
+        {/* Main Content Container */}
+        <div className="row mb-5">
+          {/* Stats Cards Section - Takes 1/3 of width */}
+          <div className="col-md-6">
             <div
+              className="card border-0 shadow-lg h-100"
               style={{
-                height: "40px",
-                width: "100%",
-                marginBottom: "20px",
-                backgroundColor: "#f0f4f8",
-                color: "black",
-                padding: "10px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                fontSize: "0.7rem",
+                borderRadius: "24px",
+                background: "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(20px)",
               }}
             >
-              <h6>
-                Total Count:
-                <b>{homeRequestCount}</b>
-              </h6>
-            </div>
-
-            {/* Second row - Approved, Rejected, Pending */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  height: "60px",
-                  width: "32%",
-                  marginBottom: "20px",
-                  backgroundColor: "#4CAF50",
-                  color: "#fff",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontSize: "0.7rem",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <h6>
-                  Approved: <b>{homeApproval.approved}</b>
-                </h6>
+              <div>
+                <h3
+                  className="card-title font-weight-bold text-dark text-center "
+                  style={{ fontSize: "0.7rem", paddingTop: "25px" }}
+                >
+                  Request Count Distribution
+                </h3>
               </div>
-
               <div
+                className="card-body"
                 style={{
-                  height: "60px",
-                  width: "32%",
-                  marginBottom: "20px",
-                  backgroundColor: "#E53935",
-                  color: "#fff",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontSize: "0.7rem",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                  paddingTop: "40px",
+                  paddingLeft: "50px",
+                  paddingRight: "50px",
                 }}
               >
-                <h6>
-                  Rejected: <b>{homeApproval.rejected}</b>
-                </h6>
-              </div>
+                {/* First Row - Total Count */}
+                <div
+                  className="card mb-4 border-0 shadow-sm"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+                    borderRadius: "16px",
+                    transition: "all 0.3s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0 12px 24px rgba(0, 0, 0, 0.15)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 4px rgba(0, 0, 0, 0.1)";
+                  }}
+                >
+                  <div className="card-body p-3">
+                    <div>
+                      <div>
+                        <p
+                          className="card-text text-muted text-uppercase font-weight-bold mb-2 text-center"
+                          style={{
+                            fontSize: "0.7rem",
+                            letterSpacing: "0.5px",
+                            width: "100%", // Ensures full width for centering
+                          }}
+                        >
+                          Total Requests
+                        </p>
+                        <h3
+                          className="card-title mb-0 font-weight-bold text-dark"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          {homeRequestCount}
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-              <div
-                style={{
-                  height: "60px",
-                  width: "32%",
-                  marginBottom: "20px",
-                  backgroundColor: "#f1ba16",
-                  color: "white",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontSize: "0.7rem",
-                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <h6>
-                  Pending: <b>{homeApproval.pending}</b>
-                </h6>
+                {/* Second Row - Status Cards */}
+                <div className="row no-gutters">
+                  {/* Approved Card */}
+                  <div className="col-4 pr-1">
+                    <div
+                      className="card border-0 text-white text-center h-100"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                        borderRadius: "16px",
+                        boxShadow: "0 8px 16px rgba(16, 185, 129, 0.3)",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(-2px) scale(1.02)";
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 24px rgba(16, 185, 129, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(0) scale(1)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 16px rgba(16, 185, 129, 0.3)";
+                      }}
+                    >
+                      <div className="card-body p-2">
+                        <p
+                          className="card-text mb-1 font-weight-bold"
+                          style={{
+                            fontSize: "0.7rem",
+                            opacity: "0.9",
+                          }}
+                        >
+                          Approved
+                        </p>
+                        <h4
+                          className="card-title mb-0 font-weight-bold"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          {homeApproval.approved}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Rejected Card */}
+                  <div className="col-4 px-1">
+                    <div
+                      className="card border-0 text-white text-center h-100"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                        borderRadius: "16px",
+                        boxShadow: "0 8px 16px rgba(239, 68, 68, 0.3)",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(-2px) scale(1.02)";
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 24px rgba(239, 68, 68, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(0) scale(1)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 16px rgba(239, 68, 68, 0.3)";
+                      }}
+                    >
+                      <div className="card-body p-2">
+                        <p
+                          className="card-text mb-1 font-weight-bold"
+                          style={{
+                            fontSize: "0.7rem",
+                            opacity: "0.9",
+                          }}
+                        >
+                          Rejected
+                        </p>
+                        <h4
+                          className="card-title mb-0 font-weight-bold"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          {homeApproval.rejected}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Pending Card */}
+                  <div className="col-4 pl-1">
+                    <div
+                      className="card border-0 text-white text-center h-100"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                        borderRadius: "16px",
+                        boxShadow: "0 8px 16px rgba(245, 158, 11, 0.3)",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(-2px) scale(1.02)";
+                        e.currentTarget.style.boxShadow =
+                          "0 12px 24px rgba(245, 158, 11, 0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(0) scale(1)";
+                        e.currentTarget.style.boxShadow =
+                          "0 8px 16px rgba(245, 158, 11, 0.3)";
+                      }}
+                    >
+                      <div className="card-body p-2">
+                        <p
+                          className="card-text mb-1 font-weight-bold"
+                          style={{
+                            fontSize: "0.7rem",
+                            opacity: "0.9",
+                          }}
+                        >
+                          Pending
+                        </p>
+                        <h4
+                          className="card-title mb-0 font-weight-bold"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          {homeApproval.pending}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div
-            className="col-md-8 chart-container"
-            // style={{}}
-            style={{
-              boxShadow: "0 4px 8px rgba(121, 121, 121, 0.1)",
-              border: "1px solid #dbdbdb",
-              borderRadius: "8px",
-              paddingTop: "20px",
-              paddingLeft: "20px",
-              paddingRight: "20px",
-              paddingBottom: "20px",
-            }}
-          >
-            {/* <h6>Event Request Approval Chart</h6> */}
-            <Pie data={homeapprovalPieData} options={Pieoptions} />
+          {/* Chart Section - Takes 2/3 of width */}
+          <div className="col-md-6">
+            <div
+              className="card border-0 shadow-lg h-100"
+              style={{
+                borderRadius: "24px",
+                background: "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              <div className="card-body p-4 d-flex flex-column align-items-center">
+                <h3
+                  className="card-title font-weight-bold text-dark text-center mb-4"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  Request Percentage Distribution
+                </h3>
+                <div className="w-100 d-flex justify-content-center">
+                  <div style={{ maxWidth: "500px", width: "100%" }}>
+                    <Pie data={homeapprovalPieData} options={Pieoptions} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <br />
-      <div className="home-container">
-        <div className="recent-claims-container">
-          {renderApprovedTable(
-            "Last 5 Submitted Event Requests",
-            approvedhomeList,
-            ["#", "Name", "Title", "Date of Submission", "Status"]
-          )}
+        {/* Recent Requests Table */}
+        <div className="row">
+          <div className="col-12">
+            <div
+              className="card border-0 shadow-lg"
+              style={{
+                borderRadius: "24px",
+                background: "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              <div className="card-body p-4">
+                <h3
+                  // className="card-title font-weight-bold text-dark mb-4 d-flex align-items-center"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  Recent Event Requests
+                </h3>
+                <div
+                // className="p-3 border rounded"
+                // style={{
+                //   background: "#f8fafc",
+                //   borderRadius: "16px !important",
+                //   borderColor: "#e2e8f0 !important",
+                // }}
+                >
+                  {renderApprovedTable("", approvedhomeList, [
+                    "#",
+                    "Name",
+                    "Title",
+                    "Date of Submission",
+                    "Status",
+                  ])}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
