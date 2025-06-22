@@ -199,7 +199,7 @@ const Home = () => {
               <div>
                 <h3
                   className="card-title font-weight-bold text-dark text-center "
-                  style={{ fontSize: "0.7rem", paddingTop: "25px" }}
+                  style={{ fontSize: "0.8rem", paddingTop: "25px" }}
                 >
                   Request Count Distribution
                 </h3>
@@ -411,7 +411,7 @@ const Home = () => {
               <div className="card-body p-4 d-flex flex-column align-items-center">
                 <h3
                   className="card-title font-weight-bold text-dark text-center mb-4"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{ fontSize: "0.8rem" }}
                 >
                   Request Percentage Distribution
                 </h3>
@@ -434,22 +434,29 @@ const Home = () => {
                 borderRadius: "24px",
                 background: "rgba(255, 255, 255, 0.95)",
                 backdropFilter: "blur(20px)",
+                // marginLeft: "00px",
               }}
             >
               <div className="card-body p-4">
                 <h3
                   // className="card-title font-weight-bold text-dark mb-4 d-flex align-items-center"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: "bold",
+                    // marginLeft: "80px",
+                  }}
                 >
                   Recent Event Requests
                 </h3>
                 <div
-                // className="p-3 border rounded"
-                // style={{
-                //   background: "#f8fafc",
-                //   borderRadius: "16px !important",
-                //   borderColor: "#e2e8f0 !important",
-                // }}
+                  // className="p-3 border rounded"
+                  style={{
+                    // background: "#f8fafc",
+                    // borderRadius: "16px !important",
+                    // borderColor: "#e2e8f0 !important",
+                    width: "100%",
+                    marginLeft: "80px",
+                  }}
                 >
                   {renderApprovedTable("", approvedhomeList, [
                     "#",
