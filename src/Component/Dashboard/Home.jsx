@@ -148,7 +148,15 @@ const Home = () => {
   );
 
   const renderApprovedTable = (title, data, columns) => (
-    <div className="recent-requests">
+    <div
+      style={{
+        width: "100%",
+        textAlign: "center",
+        fontSize: "0.7rem",
+        fontWeight: "normal",
+      }}
+      className="table-striped"
+    >
       <p style={{ fontSize: "0.7erm" }}>{title}</p>
       <table>
         <thead>
@@ -207,7 +215,7 @@ const Home = () => {
               <div
                 className="card-body"
                 style={{
-                  paddingTop: "40px",
+                  paddingTop: "30px",
                   paddingLeft: "50px",
                   paddingRight: "50px",
                 }}
@@ -434,28 +442,21 @@ const Home = () => {
                 borderRadius: "24px",
                 background: "rgba(255, 255, 255, 0.95)",
                 backdropFilter: "blur(20px)",
-                // marginLeft: "00px",
               }}
             >
               <div className="card-body p-4">
                 <h3
-                  // className="card-title font-weight-bold text-dark mb-4 d-flex align-items-center"
                   style={{
                     fontSize: "0.8rem",
                     fontWeight: "bold",
-                    // marginLeft: "80px",
                   }}
                 >
                   Recent Event Requests
                 </h3>
+
                 <div
-                  // className="p-3 border rounded"
                   style={{
-                    // background: "#f8fafc",
-                    // borderRadius: "16px !important",
-                    // borderColor: "#e2e8f0 !important",
                     width: "100%",
-                    marginLeft: "80px",
                   }}
                 >
                   {renderApprovedTable("", approvedhomeList, [
