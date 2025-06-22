@@ -113,23 +113,23 @@ const Dashboard = () => {
 
       {/* Main content */}
       <div className={`main-content ${isSidebarCollapsed ? "expanded" : ""}`}>
-        <div className="content-area">
-          <Switch>
-            <Route exact path="/dashboard-menu">
-              <Redirect to="/dashboard-menu/home" />
-            </Route>
-            <Route path="/dashboard-menu/home" component={Home} />
-            <Route path="/dashboard-menu/statistics" component={Statistics} />
-            <Route
-              path="/dashboard-menu/reports/home-reports"
-              component={HomeReports}
-            />
-            <Route
-              path="/dashboard-menu/reports/business-reports"
-              component={BusinessReports}
-            />
-          </Switch>
-        </div>
+        {/* <div className="content-area"> */}
+        <Switch>
+          <Route exact path="/dashboard-menu">
+            <Redirect to="/dashboard-menu/home" />
+          </Route>
+          <Route path="/dashboard-menu/home" component={Home} />
+          <Route path="/dashboard-menu/statistics" component={Statistics} />
+          <Route
+            path="/dashboard-menu/reports/home-reports"
+            component={HomeReports}
+          />
+          <Route
+            path="/dashboard-menu/reports/business-reports"
+            component={BusinessReports}
+          />
+        </Switch>
+        {/* </div> */}
       </div>
     </div>
   );

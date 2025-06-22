@@ -184,6 +184,12 @@ const Home = () => {
   return (
     <>
       <div className="home-container">
+        <div className="horizontal-rule mb-4">
+          <hr />
+          <h5 className="horizontal-rule-text" style={{ fontSize: "16px" }}>
+            Event Request Status Count
+          </h5>
+        </div>
         <div
           className="charts-container"
           style={{
@@ -201,14 +207,15 @@ const Home = () => {
               padding: "20px",
             }}
           >
+            <br />
             {/* First row - Total Count */}
             <div
               style={{
-                height: "60px",
+                height: "40px",
                 width: "100%",
                 marginBottom: "20px",
-                backgroundColor: "#57636f",
-                color: "#fff",
+                backgroundColor: "#f0f4f8",
+                color: "black",
                 padding: "10px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
@@ -216,7 +223,7 @@ const Home = () => {
               }}
             >
               <h6>
-                Event Total Count: <br />
+                Total Count:
                 <b>{homeRequestCount}</b>
               </h6>
             </div>
@@ -252,7 +259,7 @@ const Home = () => {
                   height: "60px",
                   width: "32%",
                   marginBottom: "20px",
-                  backgroundColor: "darkred",
+                  backgroundColor: "#E53935",
                   color: "#fff",
                   padding: "10px",
                   borderRadius: "8px",
@@ -270,8 +277,8 @@ const Home = () => {
                   height: "60px",
                   width: "32%",
                   marginBottom: "20px",
-                  backgroundColor: "#FFC107",
-                  color: "black",
+                  backgroundColor: "#f1ba16",
+                  color: "white",
                   padding: "10px",
                   borderRadius: "8px",
                   fontSize: "0.7rem",
@@ -298,7 +305,7 @@ const Home = () => {
               paddingBottom: "20px",
             }}
           >
-            <h6>Event Request Approval Chart</h6>
+            {/* <h6>Event Request Approval Chart</h6> */}
             <Pie data={homeapprovalPieData} options={Pieoptions} />
           </div>
         </div>
