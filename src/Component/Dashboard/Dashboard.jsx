@@ -89,10 +89,10 @@ const Dashboard = () => {
                         : ""
                     }
                   >
-                    Home Reports
+                    All Requests
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/dashboard-menu/reports/business-reports"
                     style={{ fontSize: "14px" }}
@@ -104,7 +104,7 @@ const Dashboard = () => {
                   >
                     Business Reports
                   </Link>
-                </li>
+                </li> */}
               </ul>
             )}
           </li>
@@ -124,10 +124,10 @@ const Dashboard = () => {
             path="/dashboard-menu/reports/home-reports"
             component={HomeReports}
           />
-          <Route
+          {/* <Route
             path="/dashboard-menu/reports/business-reports"
             component={BusinessReports}
-          />
+          /> */}
         </Switch>
         {/* </div> */}
       </div>
