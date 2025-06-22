@@ -559,85 +559,162 @@ const HomeReports = () => {
 
   return (
     <div className="home-reports-container">
-      <div
-        className="date-filters"
-        style={{
-          display: "flex",
-          alignItems: "flex-end",
-          gap: "1rem",
-          flexWrap: "wrap",
-          marginBottom: "1rem",
-        }}
-      >
-        <div
-          className="date-input"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <select
-            value={selectedDepartment}
-            onChange={(e) => setSelectedDepartment(e.target.value)}
-            className="select-dropdown"
+      <div className="row align-items-end mb-3">
+        <div className="col-lg-3 col-md-6 col-sm-12 mb-2">
+          <div className="form-group mb-0">
+            <label
+              className="form-label text-muted font-weight-semibold mb-2"
+              style={{ fontSize: "0.8rem" }}
+            >
+              Department
+            </label>
+            <select
+              value={selectedDepartment}
+              onChange={(e) => setSelectedDepartment(e.target.value)}
+              className="form-control shadow-sm border-0"
+              style={{
+                fontSize: "0.8rem",
+                height: "40px",
+                borderRadius: "12px",
+                background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+                border: "2px solid #e2e8f0",
+                transition: "all 0.3s ease",
+                cursor: "pointer",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#667eea";
+                e.target.style.boxShadow =
+                  "0 0 0 0.2rem rgba(102, 126, 234, 0.25)";
+                e.target.style.background = "#ffffff";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.boxShadow = "none";
+                e.target.style.background =
+                  "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)";
+              }}
+            >
+              <option value="">Select Department</option>
+              {depId.map((data) => (
+                <option key={data.rowId} value={data.rowId}>
+                  {data.depName}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-sm-12 mb-2">
+          <div className="form-group mb-0">
+            <label
+              className="form-label text-muted font-weight-semibold mb-2"
+              style={{ fontSize: "0.8rem" }}
+            >
+              Start Date
+            </label>
+            <input
+              type="date"
+              className="form-control shadow-sm border-0"
+              style={{
+                fontSize: "0.8rem",
+                height: "40px",
+                borderRadius: "12px",
+                background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+                border: "2px solid #e2e8f0",
+                transition: "all 0.3s ease",
+              }}
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#667eea";
+                e.target.style.boxShadow =
+                  "0 0 0 0.2rem rgba(102, 126, 234, 0.25)";
+                e.target.style.background = "#ffffff";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.boxShadow = "none";
+                e.target.style.background =
+                  "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)";
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-sm-12 mb-2">
+          <div className="form-group mb-0">
+            <label
+              className="form-label text-muted font-weight-semibold mb-2"
+              style={{ fontSize: "0.8rem" }}
+            >
+              End Date
+            </label>
+            <input
+              type="date"
+              className="form-control shadow-sm border-0"
+              style={{
+                fontSize: "0.8rem",
+                height: "40px",
+                borderRadius: "12px",
+                background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+                border: "2px solid #e2e8f0",
+                transition: "all 0.3s ease",
+              }}
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              onFocus={(e) => {
+                e.target.style.borderColor = "#667eea";
+                e.target.style.boxShadow =
+                  "0 0 0 0.2rem rgba(102, 126, 234, 0.25)";
+                e.target.style.background = "#ffffff";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.boxShadow = "none";
+                e.target.style.background =
+                  "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)";
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-sm-12 mb-2 d-flex align-items-end">
+          <button
+            onClick={handleViewClick}
+            className="btn btn-primary shadow-sm font-weight-bold text-uppercase w-100"
             style={{
               fontSize: "0.8rem",
-              minWidth: "150px",
               height: "40px",
+              borderRadius: "12px",
+              background:
+                "linear-gradient(135deg, rgb(0 0 0) 0%, rgb(75 97 162) 100%)",
+              border: "none",
+              transition: "all 0.3s ease",
+              letterSpacing: "0.5px",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.transform = "translateY(-2px)";
+              e.target.style.boxShadow = "0 8px 16px rgba(102, 126, 234, 0.4)";
+              e.target.style.background =
+                "linear-gradient(135deg, rgb(0 0 0) 0%, rgb(75 97 162) 100%)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = "translateY(0)";
+              e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
+              e.target.style.background =
+                "linear-gradient(135deg, rgb(0 0 0) 0%, rgb(75 97 162) 100%)";
+            }}
+            onMouseDown={(e) => {
+              e.target.style.transform = "translateY(0) scale(0.98)";
+            }}
+            onMouseUp={(e) => {
+              e.target.style.transform = "translateY(-2px) scale(1)";
             }}
           >
-            <option value="">Select Department</option>
-            {depId.map((data) => (
-              <option key={data.rowId} value={data.rowId}>
-                {data.depName}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div
-          className="date-input"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label style={{ fontSize: "0.8rem" }}>Start Date</label>
-          <input
-            type="date"
-            style={{
-              fontSize: "0.8rem",
-              height: "40px",
-              minWidth: "150px",
-            }}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-
-        <div
-          className="date-input"
-          style={{ display: "flex", flexDirection: "column" }}
-        >
-          <label style={{ fontSize: "0.8rem" }}>End Date</label>
-          <input
-            style={{
-              fontSize: "0.8rem",
-              height: "40px",
-              minWidth: "150px",
-            }}
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
+            View
+          </button>
         </div>
       </div>
-      <button
-        onClick={handleViewClick}
-        className="view-button"
-        style={{
-          fontSize: "0.8rem",
-          height: "34px",
-          minWidth: "100px",
-          alignSelf: "center", // aligns the button vertically with inputs
-        }}
-      >
-        View
-      </button>
 
       {isTableVisible && (
         <div className="table-container">
