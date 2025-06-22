@@ -90,7 +90,7 @@ const HomeReports = () => {
   const GetBusinessRequest = async (startDate, endDate, deptId) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-all-eventRequest?startDate=${startDate}&endDate=${endDate}&approvingDepTypeID=${deptId}`,
+        `${URL.BASE_URL}/api/EventEntity/get-all-eventRequest?startDate=${startDate}&endDate=${endDate}&ApprovingDepId=${deptId}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -103,6 +103,7 @@ const HomeReports = () => {
     } catch (error) {
       console.error("Error fetching home request details:", error);
       setError("Failed to fetch home requests. Please try again later.");
+      setIsTableVisible(false);
     } finally {
       setisLoading(false);
     }
