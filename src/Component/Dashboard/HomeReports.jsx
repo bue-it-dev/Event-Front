@@ -60,10 +60,10 @@ const HomeReports = () => {
   };
   const GetAllDepartment = () => {
     axios
-      .get(`${URL.BASE_URL}/api/Dashboard/get-homeRequest-all-departments`, {
+      .get(`${URL.BASE_URL}/api/EventEntity/get-approval-departments-schema`, {
         headers: { Authorization: `Bearer ${getToken()}` },
       })
-      .then((response) => setDepId(response.data))
+      .then((response) => setDepId(response.data.data))
       .catch((error) => console.error(error));
   };
 
@@ -90,7 +90,7 @@ const HomeReports = () => {
   const GetBusinessRequest = async (startDate, endDate, deptId) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-all-eventRequest/`,
+        `${URL.BASE_URL}/api/EventEntity/get-all-eventRequest?startDate=${startDate}&endDate=${endDate}&approvingDepTypeID=${deptId}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -584,8 +584,8 @@ const HomeReports = () => {
           >
             <option value="">Select Department</option>
             {depId.map((data) => (
-              <option key={data.id} value={data.id}>
-                {data.name}
+              <option key={data.rowId} value={data.rowId}>
+                {data.depName}
               </option>
             ))}
           </select>
