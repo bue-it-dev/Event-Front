@@ -89,6 +89,7 @@ import Home from "./Component/Dashboard/Home";
 import Statistics from "./Component/Dashboard/Statistics";
 import BusinessReports from "./Component/Dashboard/BusinessReports";
 import HomeReports from "./Component/Dashboard/HomeReports";
+import ReportRequestsDetails from "./Component/Dashboard/ReportRequestsDetails";
 // import MARCOMTabs from "./Component/Marcom/MARCOMTabs";
 function App() {
   const [user, { setUser }] = useUser();
@@ -252,6 +253,10 @@ function App() {
                           component={COOAllRequestsDetails}
                         />
                         <ProtectedRoute
+                          path="/report-event-request-details"
+                          component={ReportRequestsDetails}
+                        />
+                        <ProtectedRoute
                           path="/event-request-list-vcb"
                           component={BusinessRequestListVCB}
                         />
@@ -376,6 +381,10 @@ function App() {
                     <ProtectedRoute
                       path="/all-event-request-list-bom"
                       component={BOMAllEventRequestsList}
+                    />
+                    <ProtectedRoute
+                      path="/report-event-request-details"
+                      component={ReportRequestsDetails}
                     />
                     <ProtectedRoute
                       path="/all-event-request-details-bom"
