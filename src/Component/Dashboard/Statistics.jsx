@@ -455,6 +455,12 @@ const Statistics = () => {
     <>
       {/* Business request Transfer Statistics */}
       <div>
+        <div className="horizontal-rule mb-4">
+          <hr className="border-secondary" />
+          <h5 className="horizontal-rule-text fs-5 text-dark">
+            Budget Service Statisitics
+          </h5>
+        </div>
         <div className="chart">
           {/* Filters Section - Always visible */}
           <div className="row mb-3">
@@ -702,7 +708,12 @@ const Statistics = () => {
               </div>
             )}
         </div>
-        <br />
+        <div className="horizontal-rule mb-4">
+          <hr className="border-secondary" />
+          <h5 className="horizontal-rule-text fs-5 text-dark">
+            Marcom Service Statisitics
+          </h5>
+        </div>
         <div className="chart">
           {/* Filters Section - Always visible */}
           <div className="row mb-3">
@@ -828,6 +839,12 @@ const Statistics = () => {
             )}
         </div>
         <br />
+        <div className="horizontal-rule mb-4">
+          <hr className="border-secondary" />
+          <h5 className="horizontal-rule-text fs-5 text-dark">
+            IT Service Statisitics
+          </h5>
+        </div>
         <div className="chart">
           {/* Filters Section - Always visible */}
           <div className="row mb-3">
