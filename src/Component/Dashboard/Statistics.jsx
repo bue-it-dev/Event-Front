@@ -13,6 +13,7 @@ const Statistics = () => {
   const [eventBudgetCostloading, seteventBudgetCostloading] = useState(true);
   const [eventMarcomloading, seteventMarcomloading] = useState(true);
   const [eventITloading, seteventITloading] = useState(true);
+  const [eventITComploading, seteventITComploading] = useState(true);
   const [eventTransloading, seteventTransloading] = useState(true);
   const [eventTransComploading, seteventTransComploading] = useState(true);
   const [eventAccommCountloading, seteventAccommCountloading] = useState(true);
@@ -22,6 +23,7 @@ const Statistics = () => {
   const [eventBudgetCosterror, seteventBudgetCosterror] = useState(null);
   const [eventMarcomError, seteventMarcomError] = useState(null);
   const [eventITError, seteventITError] = useState(null);
+  const [eventITCompError, seteventITCompError] = useState(null);
   const [eventTransError, seteventTransError] = useState(null);
   const [eventTransCompError, seteventTransCompError] = useState(null);
   const [eventAccommCountError, seteventAccommCountError] = useState(null);
@@ -71,6 +73,17 @@ const Statistics = () => {
   const [ITPerDepartmentStartDate, setITPerDepartmentStartDate] =
     useState(null);
   const [ITPerDepartmentEndDate, setITPerDepartmentEndDate] = useState(null);
+
+  //IT Component Count Per Department Statistics State Variables
+  const [eventITCompperdepartment, seteventITCompperdepartment] = useState([]);
+  const [
+    ITCompperdepartmentselectedDepType,
+    setITCompperdepartmentselectedDepType,
+  ] = useState("");
+  const [ITCompPerDepartmentStartDate, setITCompPerDepartmentStartDate] =
+    useState(null);
+  const [ITCompPerDepartmentEndDate, setITCompPerDepartmentEndDate] =
+    useState(null);
 
   //Event Transportation Per Department Statistics State Variables
   const [eventTransperdepartment, seteventTransperdepartment] = useState([]);
@@ -219,7 +232,68 @@ const Statistics = () => {
   };
 
   const ITPerDepartmentHeaders = ["departmentName", "count"];
+  // IT Service Type Count Bar Chart & CSV Data Preparation
+  const eventITCompCountdata = (() => {
+    // Get unique service types from the data
+    const serviceTypes = [
+      ...new Set(eventITCompperdepartment.map((item) => item.serviceType)),
+    ];
 
+    // Get unique departments
+    const departments = [
+      ...new Set(eventITCompperdepartment.map((item) => item.departmentName)),
+    ];
+
+    // Create header row with department name and all service types
+    const header = ["Department", ...serviceTypes];
+
+    // Create data rows for each department
+    const dataRows = departments
+      .map((department) => {
+        const row = [department];
+
+        // For each service type, find the count for this department
+        serviceTypes.forEach((serviceType) => {
+          const found = eventITCompperdepartment.find(
+            (item) =>
+              item.departmentName === department &&
+              item.serviceType === serviceType
+          );
+          row.push(found ? found.count : 0);
+        });
+
+        return row;
+      })
+      .filter((row) => {
+        // Filter out departments with no counts (all service types are 0)
+        return row.slice(1).some((count) => count > 0);
+      });
+
+    return [header, ...dataRows];
+  })();
+
+  const eventITCompCountoptions = {
+    title: "IT Component Per Department Statistics",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Department",
+      textStyle: { fontSize: 12, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b", "#2a4a5b"], // Added more colors for potential service types
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  // Headers for CSV export
+  const ITCompCountHeaders = ["departmentName", "serviceType", "count"];
   //Trans Per Department Cost Bar Chart & CSV Data Preparation
   const eventTransperdepartmentdata = [
     ["Department", "count"],
@@ -290,7 +364,7 @@ const Statistics = () => {
   })();
 
   const eventTransCompCountoptions = {
-    title: "Transportation Service Type Statistics",
+    title: "Transportation Type Per Department Statistics",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
@@ -566,6 +640,45 @@ const Statistics = () => {
       seteventITloading(false);
     }
   };
+
+  // for Event IT Component Per Department Statistics
+  const GetITCompCountPerDepartment = async (
+    ITCompPerDepartmentStartDate,
+    ITCompPerDepartmentEndDate,
+    ITCompperdepartmentselectedDepType
+  ) => {
+    try {
+      seteventITComploading(true);
+      seteventITCompError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (ITCompPerDepartmentStartDate)
+        params.append("startDate", ITCompPerDepartmentStartDate);
+      if (ITCompPerDepartmentEndDate)
+        params.append("endDate", ITCompPerDepartmentEndDate);
+      if (ITCompperdepartmentselectedDepType)
+        params.append("approvingDepTypeID", ITCompperdepartmentselectedDepType);
+
+      const url = `${URL.BASE_URL}/api/EventDashboard/department-it-type-count${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventITCompperdepartment(response.data.data || []);
+    } catch (eventITCompError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventITCompError("No data available for the selected criteria.");
+    } finally {
+      seteventITComploading(false);
+    }
+  };
   // for Event Transportation Per Department Statistics
   const GetTransCountPerDepartment = async (
     TransPerDepartmentStartDate,
@@ -770,6 +883,11 @@ const Statistics = () => {
           ITPerDepartmentEndDate,
           ITperdepartmentselectedDepType
         ),
+        GetITCompCountPerDepartment(
+          ITCompPerDepartmentStartDate,
+          ITCompPerDepartmentEndDate,
+          ITCompperdepartmentselectedDepType
+        ),
         GetTransCountPerDepartment(
           TransPerDepartmentStartDate,
           TransPerDepartmentEndDate,
@@ -820,6 +938,9 @@ const Statistics = () => {
     AccommCountCompStartDate,
     AccommCompCountEndDate,
     AccommCountCompselectedDepType,
+    ITCompPerDepartmentStartDate,
+    ITCompPerDepartmentEndDate,
+    ITCompperdepartmentselectedDepType,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -867,6 +988,20 @@ const Statistics = () => {
     eventITloading && eventITperdepartment.length === 0 && !eventITError;
 
   if (isITInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isITCompInitialLoad =
+    eventITComploading &&
+    eventITCompperdepartment.length === 0 &&
+    !eventITCompError;
+
+  if (isITCompInitialLoad) {
     return (
       <Spin
         size="large"
@@ -1321,9 +1456,7 @@ const Statistics = () => {
         <br />
         <div className="horizontal-rule mb-4">
           <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">
-            IT Service Statisitics
-          </h5>
+          <h5 className="horizontal-rule-text fs-5 text-dark">IT Service</h5>
         </div>
         <div className="chart">
           {/* Filters Section - Always visible */}
@@ -1444,6 +1577,131 @@ const Statistics = () => {
           {!eventITError &&
             !eventITloading &&
             eventITperdepartment.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <br />
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={ITCompperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setITCompperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventITComploading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITCompPerDepartmentStartDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="ITCompPerDepartmentStartDate"
+                  value={ITCompPerDepartmentStartDate || ""}
+                  onChange={(e) =>
+                    setITCompPerDepartmentStartDate(e.target.value || null)
+                  }
+                  disabled={eventITComploading}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITCompPerDepartmentEndDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="ITCompPerDepartmentEndDate"
+                  value={ITCompPerDepartmentEndDate || ""}
+                  onChange={(e) =>
+                    setITCompPerDepartmentEndDate(e.target.value || null)
+                  }
+                  disabled={eventITComploading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventITComploading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventITCompError && (
+            <Alert
+              message={eventITCompError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventITCompError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventITCompError && eventITCompperdepartment.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventITCompCountdata}
+                options={eventITCompCountoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventITCompperdepartment}
+                headers={ITCompCountHeaders}
+                filename="event_request_IT_Component_per_department_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventITCompError &&
+            !eventITComploading &&
+            eventITCompperdepartment.length === 0 && (
               <div style={{ textAlign: "center", padding: "50px" }}>
                 <p>No data available for the selected criteria.</p>
               </div>
