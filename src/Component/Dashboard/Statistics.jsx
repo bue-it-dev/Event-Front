@@ -12,9 +12,11 @@ const Statistics = () => {
   const [loading, setLoading] = useState(true);
   const [eventBudgetCostloading, seteventBudgetCostloading] = useState(true);
   const [eventMarcomloading, seteventMarcomloading] = useState(true);
+  const [eventITloading, seteventITloading] = useState(true);
   const [error, setError] = useState(null);
   const [eventBudgetCosterror, seteventBudgetCosterror] = useState(null);
   const [eventMarcomError, seteventMarcomError] = useState(null);
+  const [eventITError, seteventITError] = useState(null);
   const [depTypes, setdepTypes] = useState([]);
   //Event Budget Per Department Statistics State Variables
   const [eventbudgetperdepartment, seteventbudgetperdepartment] = useState([]);
@@ -51,6 +53,14 @@ const Statistics = () => {
     useState(null);
   const [MarcomPerDepartmentEndDate, setMarcomPerDepartmentEndDate] =
     useState(null);
+
+  //IT Count Per Department Statistics State Variables
+  const [eventITperdepartment, seteventITperdepartment] = useState([]);
+  const [ITperdepartmentselectedDepType, setITperdepartmentselectedDepType] =
+    useState("");
+  const [ITPerDepartmentStartDate, setITPerDepartmentStartDate] =
+    useState(null);
+  const [ITPerDepartmentEndDate, setITPerDepartmentEndDate] = useState(null);
   //Budget Per Department Bar Chart & CSV Data Preparation
   const eventbudgetperdepartmentdata = [
     ["Department", "count"],
@@ -137,6 +147,35 @@ const Statistics = () => {
   };
 
   const MarcomPerDepartmentHeaders = ["departmentName", "count"];
+
+  //IT Per Department Cost Bar Chart & CSV Data Preparation
+  const eventITperdepartmentdata = [
+    ["Department", "count"],
+    ...eventITperdepartment
+      .filter((dept) => dept.count > 0)
+      .map((department) => [department.departmentName, department.count]),
+  ];
+  const eventITperdepartmentoptions = {
+    title: "Event IT Requests Count per Department",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Department",
+      textStyle: { fontSize: 14, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const ITPerDepartmentHeaders = ["departmentName", "count"];
   // Function to fetch Data from the Backend
   // for Event Budget Per Department Statistics
   const GetBudgetPerDepartment = async (
@@ -259,6 +298,46 @@ const Statistics = () => {
       seteventMarcomloading(false);
     }
   };
+  // for Event IT Per Department Statistics
+  const GetITCountPerDepartment = async (
+    ITPerDepartmentStartDate,
+    ITPerDepartmentEndDate,
+    ITperdepartmentselectedDepType
+  ) => {
+    try {
+      seteventITloading(true);
+      seteventITError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (ITPerDepartmentStartDate)
+        params.append("startDate", ITPerDepartmentStartDate);
+      if (ITPerDepartmentEndDate)
+        params.append("endDate", ITPerDepartmentEndDate);
+      if (ITperdepartmentselectedDepType)
+        params.append("approvingDepTypeID", ITperdepartmentselectedDepType);
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/get-it-count-for-departments${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventITperdepartment(response.data.data || []);
+    } catch (eventITError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventITError("No data available for the selected criteria.");
+    } finally {
+      seteventITloading(false);
+    }
+  };
   const getallDepartmentTypes = async () => {
     try {
       const response = await axios.get(
@@ -294,6 +373,11 @@ const Statistics = () => {
           MarcomPerDepartmentEndDate,
           marcomperdepartmentselectedDepType
         ),
+        GetITCountPerDepartment(
+          ITPerDepartmentStartDate,
+          ITPerDepartmentEndDate,
+          ITperdepartmentselectedDepType
+        ),
         getallDepartmentTypes(),
       ]);
     };
@@ -309,6 +393,9 @@ const Statistics = () => {
     MarcomPerDepartmentStartDate,
     MarcomPerDepartmentEndDate,
     marcomperdepartmentselectedDepType,
+    ITPerDepartmentStartDate,
+    ITPerDepartmentEndDate,
+    ITperdepartmentselectedDepType,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -344,6 +431,18 @@ const Statistics = () => {
     !eventMarcomError;
 
   if (isMarcomInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isITInitialLoad =
+    eventITloading && eventITperdepartment.length === 0 && !eventITError;
+
+  if (isITInitialLoad) {
     return (
       <Spin
         size="large"
@@ -723,6 +822,131 @@ const Statistics = () => {
           {!eventMarcomError &&
             !eventMarcomloading &&
             eventmarcomperdepartment.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <br />
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={ITperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setITperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventITloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITPerDepartmentStartDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="ITPerDepartmentStartDate"
+                  value={ITPerDepartmentStartDate || ""}
+                  onChange={(e) =>
+                    setITPerDepartmentStartDate(e.target.value || null)
+                  }
+                  disabled={eventITloading}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITPerDepartmentEndDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="ITPerDepartmentEndDate"
+                  value={ITPerDepartmentEndDate || ""}
+                  onChange={(e) =>
+                    setITPerDepartmentEndDate(e.target.value || null)
+                  }
+                  disabled={eventITloading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventITloading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventITError && (
+            <Alert
+              message={eventITError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventITError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventITError && eventITperdepartment.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventITperdepartmentdata}
+                options={eventITperdepartmentoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventITperdepartment}
+                headers={ITPerDepartmentHeaders}
+                filename="event_request_IT_per_department_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventITError &&
+            !eventITloading &&
+            eventITperdepartment.length === 0 && (
               <div style={{ textAlign: "center", padding: "50px" }}>
                 <p>No data available for the selected criteria.</p>
               </div>
