@@ -13,10 +13,14 @@ const Statistics = () => {
   const [eventBudgetCostloading, seteventBudgetCostloading] = useState(true);
   const [eventMarcomloading, seteventMarcomloading] = useState(true);
   const [eventITloading, seteventITloading] = useState(true);
+  const [eventTransloading, seteventTransloading] = useState(true);
+  const [eventTransComploading, seteventTransComploading] = useState(true);
   const [error, setError] = useState(null);
   const [eventBudgetCosterror, seteventBudgetCosterror] = useState(null);
   const [eventMarcomError, seteventMarcomError] = useState(null);
   const [eventITError, seteventITError] = useState(null);
+  const [eventTransError, seteventTransError] = useState(null);
+  const [eventTransCompError, seteventTransCompError] = useState(null);
   const [depTypes, setdepTypes] = useState([]);
   //Event Budget Per Department Statistics State Variables
   const [eventbudgetperdepartment, seteventbudgetperdepartment] = useState([]);
@@ -61,6 +65,23 @@ const Statistics = () => {
   const [ITPerDepartmentStartDate, setITPerDepartmentStartDate] =
     useState(null);
   const [ITPerDepartmentEndDate, setITPerDepartmentEndDate] = useState(null);
+
+  //Event Transportation Per Department Statistics State Variables
+  const [eventTransperdepartment, seteventTransperdepartment] = useState([]);
+  const [
+    TransperdepartmentselectedDepType,
+    setTransperdepartmentselectedDepType,
+  ] = useState("");
+  const [TransPerDepartmentStartDate, setTransPerDepartmentStartDate] =
+    useState(null);
+  const [TransPerDepartmentEndDate, setTransPerDepartmentEndDate] =
+    useState(null);
+  //Event Transportation Component Count Statistics State Variables
+  const [eventTransCompCount, seteventTransCompCount] = useState([]);
+  const [TransCompCountselectedDepType, setTransCompCountselectedDepType] =
+    useState("");
+  const [TransCompCountStartDate, setTransCompCountStartDate] = useState(null);
+  const [TransCompCountEndDate, setTransCompCountEndDate] = useState(null);
   //Budget Per Department Bar Chart & CSV Data Preparation
   const eventbudgetperdepartmentdata = [
     ["Department", "count"],
@@ -176,6 +197,100 @@ const Statistics = () => {
   };
 
   const ITPerDepartmentHeaders = ["departmentName", "count"];
+
+  //Trans Per Department Cost Bar Chart & CSV Data Preparation
+  const eventTransperdepartmentdata = [
+    ["Department", "count"],
+    ...eventTransperdepartment
+      .filter((dept) => dept.count > 0)
+      .map((department) => [department.departmentName, department.count]),
+  ];
+  const eventTransperdepartmentoptions = {
+    title: "Event Transportation Requests Count per Department",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Department",
+      textStyle: { fontSize: 14, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const TransPerDepartmentHeaders = ["departmentName", "count"];
+
+  // Transportation Service Type Count Bar Chart & CSV Data Preparation
+  const eventTransCompCountdata = (() => {
+    // Get unique service types from the data
+    const serviceTypes = [
+      ...new Set(eventTransCompCount.map((item) => item.serviceType)),
+    ];
+
+    // Get unique departments
+    const departments = [
+      ...new Set(eventTransCompCount.map((item) => item.departmentName)),
+    ];
+
+    // Create header row with department name and all service types
+    const header = ["Department", ...serviceTypes];
+
+    // Create data rows for each department
+    const dataRows = departments
+      .map((department) => {
+        const row = [department];
+
+        // For each service type, find the count for this department
+        serviceTypes.forEach((serviceType) => {
+          const found = eventTransCompCount.find(
+            (item) =>
+              item.departmentName === department &&
+              item.serviceType === serviceType
+          );
+          row.push(found ? found.count : 0);
+        });
+
+        return row;
+      })
+      .filter((row) => {
+        // Filter out departments with no counts (all service types are 0)
+        return row.slice(1).some((count) => count > 0);
+      });
+
+    return [header, ...dataRows];
+  })();
+
+  const eventTransCompCountoptions = {
+    title: "Transportation Service Type Statistics",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Department",
+      textStyle: { fontSize: 12, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b", "#2a4a5b"], // Added more colors for potential service types
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  // Headers for CSV export
+  const TransCompCountHeaders = ["departmentName", "serviceType", "count"];
+
+  //   const TransCompCountHeaders = ["departmentName", "count", "serviceType"];
   // Function to fetch Data from the Backend
   // for Event Budget Per Department Statistics
   const GetBudgetPerDepartment = async (
@@ -338,6 +453,87 @@ const Statistics = () => {
       seteventITloading(false);
     }
   };
+  // for Event Transportation Per Department Statistics
+  const GetTransCountPerDepartment = async (
+    TransPerDepartmentStartDate,
+    TransPerDepartmentEndDate,
+    TransperdepartmentselectedDepType
+  ) => {
+    try {
+      seteventTransloading(true);
+      seteventTransError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (TransPerDepartmentStartDate)
+        params.append("startDate", TransPerDepartmentStartDate);
+      if (TransPerDepartmentEndDate)
+        params.append("endDate", TransPerDepartmentEndDate);
+      if (TransperdepartmentselectedDepType)
+        params.append("approvingDepTypeID", TransperdepartmentselectedDepType);
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/get-transportation-count-for-departments${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventTransperdepartment(response.data.data || []);
+    } catch (eventTransError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventTransError("No data available for the selected criteria.");
+    } finally {
+      seteventTransloading(false);
+    }
+  };
+
+  // for Event Transportation Per Department Statistics
+  const GetTransCompCountPerDepartment = async (
+    TransCompCountStartDate,
+    TransCompCountEndDate,
+    TransCompCountselectedDepType
+  ) => {
+    try {
+      seteventTransComploading(true);
+      seteventTransCompError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (TransCompCountStartDate)
+        params.append("startDate", TransCompCountStartDate);
+      if (TransCompCountEndDate)
+        params.append("endDate", TransCompCountEndDate);
+      if (TransCompCountselectedDepType)
+        params.append("approvingDepTypeID", TransCompCountselectedDepType);
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/department-transportation-type-count${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventTransCompCount(response.data.data || []);
+    } catch (eventTransCompError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventTransCompError("No data available for the selected criteria.");
+    } finally {
+      seteventTransComploading(false);
+    }
+  };
   const getallDepartmentTypes = async () => {
     try {
       const response = await axios.get(
@@ -378,6 +574,16 @@ const Statistics = () => {
           ITPerDepartmentEndDate,
           ITperdepartmentselectedDepType
         ),
+        GetTransCountPerDepartment(
+          TransPerDepartmentStartDate,
+          TransPerDepartmentEndDate,
+          TransperdepartmentselectedDepType
+        ),
+        GetTransCompCountPerDepartment(
+          TransCompCountStartDate,
+          TransCompCountEndDate,
+          TransCompCountselectedDepType
+        ),
         getallDepartmentTypes(),
       ]);
     };
@@ -396,6 +602,12 @@ const Statistics = () => {
     ITPerDepartmentStartDate,
     ITPerDepartmentEndDate,
     ITperdepartmentselectedDepType,
+    TransPerDepartmentStartDate,
+    TransPerDepartmentEndDate,
+    TransperdepartmentselectedDepType,
+    TransCompCountStartDate,
+    TransCompCountEndDate,
+    TransCompCountselectedDepType,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -443,6 +655,34 @@ const Statistics = () => {
     eventITloading && eventITperdepartment.length === 0 && !eventITError;
 
   if (isITInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isTransInitialLoad =
+    eventTransloading &&
+    eventTransperdepartment.length === 0 &&
+    !eventTransError;
+
+  if (isTransInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isTransCompCountInitialLoad =
+    eventTransComploading &&
+    eventTransCompCount.length === 0 &&
+    !eventTransCompError;
+
+  if (isTransCompCountInitialLoad) {
     return (
       <Spin
         size="large"
@@ -964,6 +1204,260 @@ const Statistics = () => {
           {!eventITError &&
             !eventITloading &&
             eventITperdepartment.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <div className="horizontal-rule mb-4">
+          <hr className="border-secondary" />
+          <h5 className="horizontal-rule-text fs-5 text-dark">
+            Transportation Service
+          </h5>
+        </div>
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={TransperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setTransperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventTransloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransPerDepartmentStartDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="TransPerDepartmentStartDate"
+                  value={TransPerDepartmentStartDate || ""}
+                  onChange={(e) =>
+                    setTransPerDepartmentStartDate(e.target.value || null)
+                  }
+                  disabled={eventTransloading}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransPerDepartmentEndDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="TransPerDepartmentEndDate"
+                  value={TransPerDepartmentEndDate || ""}
+                  onChange={(e) =>
+                    setTransPerDepartmentEndDate(e.target.value || null)
+                  }
+                  disabled={eventTransloading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventTransloading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventTransError && (
+            <Alert
+              message={eventTransError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventTransError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventTransError && eventTransperdepartment.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventTransperdepartmentdata}
+                options={eventTransperdepartmentoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventTransperdepartment}
+                headers={TransPerDepartmentHeaders}
+                filename="event_request_Transportation_per_department_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventTransError &&
+            !eventTransloading &&
+            eventTransperdepartment.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.8rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={TransCompCountselectedDepType}
+                    onChange={(e) =>
+                      setTransCompCountselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventTransComploading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransCompCountStartDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="TransCompCountStartDate"
+                  value={TransCompCountStartDate || ""}
+                  onChange={(e) =>
+                    setTransCompCountStartDate(e.target.value || null)
+                  }
+                  disabled={eventTransComploading}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransCompCountEndDate"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.8rem" }}
+                  className="form-control"
+                  id="TransCompCountEndDate"
+                  value={TransCompCountEndDate || ""}
+                  onChange={(e) =>
+                    setTransCompCountEndDate(e.target.value || null)
+                  }
+                  disabled={eventTransComploading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventTransComploading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventTransCompError && (
+            <Alert
+              message={eventTransCompError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventTransCompError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventTransCompError && eventTransCompCount.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventTransCompCountdata}
+                options={eventTransCompCountoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventTransCompCount}
+                headers={TransCompCountHeaders}
+                filename="event_request_Transportation_Most_Used_Component_per_department_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventTransCompError &&
+            !eventTransComploading &&
+            eventTransCompCount.length === 0 && (
               <div style={{ textAlign: "center", padding: "50px" }}>
                 <p>No data available for the selected criteria.</p>
               </div>
