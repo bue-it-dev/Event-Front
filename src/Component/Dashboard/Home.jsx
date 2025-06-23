@@ -461,8 +461,8 @@ const Home = () => {
                 >
                   {renderApprovedTable("", approvedhomeList, [
                     "#",
-                    "Name",
                     "Title",
+                    "Name",
                     "Date of Submission",
                     "Status",
                   ])}
