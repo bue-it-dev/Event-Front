@@ -9,6 +9,8 @@ import JSONToCSVDownloader from "../shared_components/JSONToCSVDownloader";
 
 const Statistics = () => {
   //State variables for Statistics component
+  //Overview
+  const [Overviewloading, setOverviewloading] = useState(true);
   //Budget Loading
   const [loading, setLoading] = useState(true);
   const [eventBudgetCostloading, seteventBudgetCostloading] = useState(true);
@@ -29,6 +31,8 @@ const Statistics = () => {
     useState(true);
   const [eventAccommCompCountloading, seteventAccommCompCountloading] =
     useState(true);
+  //OverView Error
+  const [Overviewerror, setOverviewerror] = useState(null);
   //Budget Error
   const [error, setError] = useState(null);
   const [eventBudgetCosterror, seteventBudgetCosterror] = useState(null);
@@ -49,6 +53,18 @@ const Statistics = () => {
     useState(null);
   //Department Types State Variables
   const [depTypes, setdepTypes] = useState([]);
+  //Overview Statistics State Variables
+  const [eventapprovaloverviewState, seteventapprovaloverviewState] = useState(
+    []
+  );
+  const [
+    eventapprovaloverviewselectedDepType,
+    seteventapprovaloverviewselectedDepType,
+  ] = useState("");
+  const [eventapprovaloverviewStartDate, seteventapprovaloverviewStartDate] =
+    useState(null);
+  const [eventapprovaloverviewEndDate, seteventapprovaloverviewEndDate] =
+    useState(null);
   //Event Budget Per Department Statistics State Variables
   const [eventbudgetperdepartment, seteventbudgetperdepartment] = useState([]);
   const [
@@ -157,6 +173,54 @@ const Statistics = () => {
   const [AccommCountCompStartDate, setAccommCountCompStartDate] =
     useState(null);
   const [AccommCompCountEndDate, setAccommCompCountEndDate] = useState(null);
+  //Request Approval Summary Chart and CSV Data Preparation
+  //Home Request Count Chart
+  const eventapprovaloverviewdata = [
+    ["Department", "Approved", "Rejected", "Pending"],
+    ...eventapprovaloverviewState
+      .filter(
+        (dept) =>
+          dept.approvedCount > 0 ||
+          dept.rejectedCount > 0 ||
+          dept.pendingCount > 0
+        // dept.totalCount > 0
+      )
+      .map((department) => [
+        department.departmentName,
+        department.approvedCount,
+        department.rejectedCount,
+        department.pendingCount,
+        // department.totalCount,
+      ]),
+  ];
+
+  const eventapprovaloverviewoptions = {
+    title: "Event Request Statistics",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Department",
+      textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#4CAF50", "#E53935", "#FFC107", "#3c89db"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const eventapprovaloverviewheaders = [
+    "departmentName",
+    "approvedCount",
+    "rejectedCount",
+    "pendingCount",
+    // "totalCount",
+  ];
   //Budget Per Department Bar Chart & CSV Data Preparation
   const eventbudgetperdepartmentdata = [
     ["Department", "count"],
@@ -611,6 +675,46 @@ const Statistics = () => {
   const AccommCompCountHeaders = ["departmentName", "serviceType", "count"];
   //   const TransCompCountHeaders = ["departmentName", "count", "serviceType"];
   // Function to fetch Data from the Backend
+  // Event Overivew  Per Department Statistics
+  const GetOveriewRequestApprovals = async (
+    eventapprovaloverviewStartDate,
+    eventapprovaloverviewEndDate,
+    eventapprovaloverviewselectedDepType
+  ) => {
+    try {
+      setOverviewloading(true);
+      setOverviewerror(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (eventapprovaloverviewStartDate)
+        params.append("startDate", eventapprovaloverviewStartDate);
+      if (eventapprovaloverviewEndDate)
+        params.append("endDate", eventapprovaloverviewEndDate);
+      if (eventapprovaloverviewselectedDepType)
+        params.append(
+          "approvingDepTypeID",
+          eventapprovaloverviewselectedDepType
+        );
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/get-approval-summary-for-departments${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventapprovaloverviewState(response.data.data || []);
+    } catch (Overviewerror) {
+      console.error("Error fetching transportation statistics:", error);
+      setOverviewerror("No data available for the selected criteria.");
+    } finally {
+      setOverviewloading(false);
+    }
+  };
   // for Event Budget Per Department Statistics
   const GetBudgetPerDepartment = async (
     BudgetPerDepartmentStartDate,
@@ -1112,6 +1216,11 @@ const Statistics = () => {
   useEffect(() => {
     const fetchData = async () => {
       await Promise.all([
+        GetOveriewRequestApprovals(
+          eventapprovaloverviewStartDate,
+          eventapprovaloverviewEndDate,
+          eventapprovaloverviewselectedDepType
+        ),
         GetBudgetPerDepartment(
           BudgetPerDepartmentStartDate,
           BudgetPerDepartmentEndDate,
@@ -1206,9 +1315,26 @@ const Statistics = () => {
     TransServiceCountEndDate,
     AccommServiceCountStartDate,
     AccommServiceCountEndDate,
+    eventapprovaloverviewStartDate,
+    eventapprovaloverviewEndDate,
+    eventapprovaloverviewselectedDepType,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
+  const isOverviewInitialLoad =
+    Overviewloading &&
+    eventapprovaloverviewState.length === 0 &&
+    !Overviewerror;
+
+  if (isOverviewInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
   const isInitialLoad =
     loading && eventbudgetperdepartment.length === 0 && !error;
 
@@ -1377,6 +1503,134 @@ const Statistics = () => {
     <>
       {/* Business request Transfer Statistics */}
       <div>
+        <div className="horizontal-rule mb-4">
+          <hr className="border-secondary" />
+          <h5 className="horizontal-rule-text fs-5 text-dark">Summary</h5>
+        </div>
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={eventapprovaloverviewselectedDepType}
+                    onChange={(e) =>
+                      seteventapprovaloverviewselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={Overviewloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="eventapprovaloverviewStartDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="eventapprovaloverviewStartDate"
+                  value={eventapprovaloverviewStartDate || ""}
+                  onChange={(e) =>
+                    seteventapprovaloverviewStartDate(e.target.value || null)
+                  }
+                  disabled={Overviewloading}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="eventapprovaloverviewEndDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="eventapprovaloverviewEndDate"
+                  value={eventapprovaloverviewEndDate || ""}
+                  onChange={(e) =>
+                    seteventapprovaloverviewEndDate(e.target.value || null)
+                  }
+                  disabled={Overviewloading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {Overviewloading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {Overviewerror && (
+            <Alert
+              message={Overviewerror}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => setOverviewerror(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!Overviewerror && eventapprovaloverviewState.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventapprovaloverviewdata}
+                options={eventapprovaloverviewoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventapprovaloverviewState}
+                headers={eventapprovaloverviewheaders}
+                filename="request_approval_summary_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!Overviewerror &&
+            !Overviewloading &&
+            eventapprovaloverviewState.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
         <div className="horizontal-rule mb-4">
           <hr className="border-secondary" />
           <h5 className="horizontal-rule-text fs-5 text-dark">
