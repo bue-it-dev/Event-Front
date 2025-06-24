@@ -9,28 +9,42 @@ import JSONToCSVDownloader from "../shared_components/JSONToCSVDownloader";
 
 const Statistics = () => {
   //State variables for Statistics component
+  //Budget Loading
   const [loading, setLoading] = useState(true);
   const [eventBudgetCostloading, seteventBudgetCostloading] = useState(true);
+  //Marcom Loading
   const [eventMarcomloading, seteventMarcomloading] = useState(true);
+  //IT Loading
   const [eventITloading, seteventITloading] = useState(true);
   const [eventITComploading, seteventITComploading] = useState(true);
   const [eventITServiceloading, seteventITServiceloading] = useState(true);
+  //Transportation Loading
   const [eventTransloading, seteventTransloading] = useState(true);
+  const [eventTransServiceloading, seteventTransServiceloading] =
+    useState(true);
   const [eventTransComploading, seteventTransComploading] = useState(true);
+  //Accommodation Loading
   const [eventAccommCountloading, seteventAccommCountloading] = useState(true);
   const [eventAccommCompCountloading, seteventAccommCompCountloading] =
     useState(true);
+  //Budget Error
   const [error, setError] = useState(null);
   const [eventBudgetCosterror, seteventBudgetCosterror] = useState(null);
+  //Marcom Error
   const [eventMarcomError, seteventMarcomError] = useState(null);
+  //IT Error
   const [eventITError, seteventITError] = useState(null);
   const [eventITCompError, seteventITCompError] = useState(null);
   const [eventITServiceError, seteventITServiceError] = useState(null);
+  //Transportation Error
   const [eventTransError, seteventTransError] = useState(null);
+  const [eventTransSericeError, seteventTransSericeError] = useState(null);
   const [eventTransCompError, seteventTransCompError] = useState(null);
+  //Accommodation Error
   const [eventAccommCountError, seteventAccommCountError] = useState(null);
   const [eventAccommCountCompError, seteventAccommCountCompError] =
     useState(null);
+  //Department Types State Variables
   const [depTypes, setdepTypes] = useState([]);
   //Event Budget Per Department Statistics State Variables
   const [eventbudgetperdepartment, seteventbudgetperdepartment] = useState([]);
@@ -103,6 +117,14 @@ const Statistics = () => {
   const [TransPerDepartmentStartDate, setTransPerDepartmentStartDate] =
     useState(null);
   const [TransPerDepartmentEndDate, setTransPerDepartmentEndDate] =
+    useState(null);
+
+  //Event Transportation Component Most used Statistics State Variables
+  const [eventTransSerivceCountState, seteventTransSerivceCountState] =
+    useState([]);
+  const [TransServiceCountStartDate, setTransServiceCountStartDate] =
+    useState(null);
+  const [TransServiceCountEndDate, setTransServiceCountEndDate] =
     useState(null);
 
   //Event Transportation Component Count Statistics State Variables
@@ -271,6 +293,7 @@ const Statistics = () => {
   };
 
   const ITServiceCountHeaders = ["serviceType", "totalCount"];
+
   // IT Service Type Count Bar Chart & CSV Data Preparation
   const eventITCompCountdata = (() => {
     // Get unique service types from the data
@@ -333,6 +356,7 @@ const Statistics = () => {
 
   // Headers for CSV export
   const ITCompCountHeaders = ["departmentName", "serviceType", "count"];
+
   //Trans Per Department Cost Bar Chart & CSV Data Preparation
   const eventTransperdepartmentdata = [
     ["Department", "count"],
@@ -361,6 +385,36 @@ const Statistics = () => {
   };
 
   const TransPerDepartmentHeaders = ["departmentName", "count"];
+
+  //IT Service Count Bar Chart & CSV Data Preparation
+  const eventTransServiceCountdata = [
+    ["Component", "Count"],
+    ...eventTransSerivceCountState
+      .filter((dept) => dept.totalCount > 0)
+      .sort((a, b) => b.totalCount - a.totalCount) // descending sort
+      .map((department) => [department.serviceType, department.totalCount]),
+  ];
+  const eventTransServiceCountoptions = {
+    title: "Event Transportation Requests Most Used Service",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Component",
+      textStyle: { fontSize: 14, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const TransServiceCountHeaders = ["serviceType", "totalCount"];
 
   // Transportation Service Type Count Bar Chart & CSV Data Preparation
   const eventTransCompCountdata = (() => {
@@ -796,6 +850,45 @@ const Statistics = () => {
     }
   };
 
+  const GetTransServiceCount = async (
+    TransServiceCountStartDate,
+    TransServiceCountEndDate
+  ) => {
+    try {
+      seteventTransServiceloading(true);
+      seteventTransSericeError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (TransServiceCountStartDate)
+        params.append("startDate", TransServiceCountStartDate);
+      if (TransServiceCountEndDate)
+        params.append("endDate", TransServiceCountEndDate);
+      //   if (ITperdepartmentselectedDepType)
+      //     params.append("approvingDepTypeID", ITperdepartmentselectedDepType);
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/transportation-service-type-totals${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventTransSerivceCountState(response.data.data || []);
+    } catch (eventTransSericeError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventTransSericeError("No data available for the selected criteria.");
+    } finally {
+      seteventTransServiceloading(false);
+    }
+  };
+
   // for Event Transportation Per Department Statistics
   const GetTransCompCountPerDepartment = async (
     TransCompCountStartDate,
@@ -970,6 +1063,10 @@ const Statistics = () => {
           TransPerDepartmentEndDate,
           TransperdepartmentselectedDepType
         ),
+        GetTransServiceCount(
+          TransServiceCountStartDate,
+          TransServiceCountEndDate
+        ),
         GetTransCompCountPerDepartment(
           TransCompCountStartDate,
           TransCompCountEndDate,
@@ -985,6 +1082,7 @@ const Statistics = () => {
           AccommCompCountEndDate,
           AccommCountCompselectedDepType
         ),
+
         getallDepartmentTypes(),
       ]);
     };
@@ -1020,6 +1118,8 @@ const Statistics = () => {
     ITCompperdepartmentselectedDepType,
     ITServiceCountStartDate,
     ITServiceCountEndDate,
+    TransServiceCountStartDate,
+    TransServiceCountEndDate,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -1109,6 +1209,20 @@ const Statistics = () => {
     !eventTransError;
 
   if (isTransInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isTransServiceCountInitialLoad =
+    eventTransServiceloading &&
+    eventTransSerivceCountState.length === 0 &&
+    !eventTransSericeError;
+
+  if (isTransServiceCountInitialLoad) {
     return (
       <Spin
         size="large"
@@ -2050,6 +2164,130 @@ const Statistics = () => {
           {!eventTransError &&
             !eventTransloading &&
             eventTransperdepartment.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            {/* <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={TransperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setTransperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventTransloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div> */}
+            <div className="col-md-6 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransServiceCountStartDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="TransServiceCountStartDate"
+                  value={TransServiceCountStartDate || ""}
+                  onChange={(e) =>
+                    setTransServiceCountStartDate(e.target.value || null)
+                  }
+                  disabled={eventTransServiceloading}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="TransServiceCountEndDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="TransServiceCountEndDate"
+                  value={TransServiceCountEndDate || ""}
+                  onChange={(e) =>
+                    setTransServiceCountEndDate(e.target.value || null)
+                  }
+                  disabled={eventTransServiceloading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventTransloading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventTransSericeError && (
+            <Alert
+              message={eventTransSericeError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventTransSericeError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventTransSericeError && eventTransSerivceCountState.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventTransServiceCountdata}
+                options={eventTransServiceCountoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventTransSerivceCountState}
+                headers={TransServiceCountHeaders}
+                filename="event_request_Transportation_Most_Used_Component_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventTransSericeError &&
+            !eventTransServiceloading &&
+            eventTransSerivceCountState.length === 0 && (
               <div style={{ textAlign: "center", padding: "50px" }}>
                 <p>No data available for the selected criteria.</p>
               </div>
