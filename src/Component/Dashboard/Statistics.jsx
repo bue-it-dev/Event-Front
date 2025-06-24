@@ -1505,7 +1505,7 @@ const Statistics = () => {
       <div>
         <div className="horizontal-rule mb-4">
           <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">Summary</h5>
+          <h5 className="horizontal-rule-text fs-5 text-dark">Statistics</h5>
         </div>
         <div className="chart">
           {/* Filters Section - Always visible */}
