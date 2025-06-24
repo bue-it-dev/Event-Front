@@ -25,6 +25,8 @@ const Statistics = () => {
   const [eventTransComploading, seteventTransComploading] = useState(true);
   //Accommodation Loading
   const [eventAccommCountloading, seteventAccommCountloading] = useState(true);
+  const [eventAccommServiceloading, seteventAccommServiceloading] =
+    useState(true);
   const [eventAccommCompCountloading, seteventAccommCompCountloading] =
     useState(true);
   //Budget Error
@@ -42,6 +44,7 @@ const Statistics = () => {
   const [eventTransCompError, seteventTransCompError] = useState(null);
   //Accommodation Error
   const [eventAccommCountError, seteventAccommCountError] = useState(null);
+  const [eventAccommServiceError, seteventAccommServiceError] = useState(null);
   const [eventAccommCountCompError, seteventAccommCountCompError] =
     useState(null);
   //Department Types State Variables
@@ -140,7 +143,13 @@ const Statistics = () => {
     useState("");
   const [AccommCountStartDate, setAccommCountStartDate] = useState(null);
   const [AccommCountEndDate, setAccommCountEndDate] = useState(null);
-
+  //Event Accommodation Component Most used Statistics State Variables
+  const [eventAccommSerivceCountState, seteventAccommSerivceCountState] =
+    useState([]);
+  const [AccommServiceCountStartDate, setAccommServiceCountStartDate] =
+    useState(null);
+  const [AccommServiceCountEndDate, setAccommServiceCountEndDate] =
+    useState(null);
   //Event Accommodation Component Count Statistics State Variables
   const [eventAccommCompCount, seteventAccommCompCount] = useState([]);
   const [AccommCountCompselectedDepType, setAccommCountCompselectedDepType] =
@@ -386,7 +395,7 @@ const Statistics = () => {
 
   const TransPerDepartmentHeaders = ["departmentName", "count"];
 
-  //IT Service Count Bar Chart & CSV Data Preparation
+  //Transportation Service Count Bar Chart & CSV Data Preparation
   const eventTransServiceCountdata = [
     ["Component", "Count"],
     ...eventTransSerivceCountState
@@ -479,7 +488,7 @@ const Statistics = () => {
   // Headers for CSV export
   const TransCompCountHeaders = ["departmentName", "serviceType", "count"];
 
-  //Trans Per Department Cost Bar Chart & CSV Data Preparation
+  //Accommodation Per Department Cost Bar Chart & CSV Data Preparation
   const eventAccommCountdata = [
     ["Department", "count"],
     ...eventTransperdepartment
@@ -508,7 +517,37 @@ const Statistics = () => {
 
   const AccommCountPerDepartmentHeaders = ["departmentName", "count"];
 
-  // Transportation Service Type Count Bar Chart & CSV Data Preparation
+  //Transportation Service Count Bar Chart & CSV Data Preparation
+  const eventAccommServiceCountdata = [
+    ["Component", "Count"],
+    ...eventAccommSerivceCountState
+      .filter((dept) => dept.totalCount > 0)
+      .sort((a, b) => b.totalCount - a.totalCount) // descending sort
+      .map((department) => [department.serviceType, department.totalCount]),
+  ];
+  const eventAccommServiceCountoptions = {
+    title: "Event Accommodation Requests Most Used Service",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Component",
+      textStyle: { fontSize: 14, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const AccommServiceCountHeaders = ["serviceType", "totalCount"];
+
+  // Accommodation Service Type Count Bar Chart & CSV Data Preparation
   const eventAccommCompCountdata = (() => {
     // Get unique service types from the data
     const serviceTypes = [
@@ -970,6 +1009,46 @@ const Statistics = () => {
     }
   };
 
+  // for Event Accommodation Count Per Department Statistics
+  const GetAccommServiceCount = async (
+    AccommServiceCountStartDate,
+    AccommServiceCountEndDate
+  ) => {
+    try {
+      eventAccommServiceloading(true);
+      eventAccommServiceError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (AccommServiceCountStartDate)
+        params.append("startDate", AccommServiceCountStartDate);
+      if (AccommServiceCountEndDate)
+        params.append("endDate", AccommServiceCountEndDate);
+
+      const url = `${
+        URL.BASE_URL
+      }/api/EventDashboard/accommodation-service-type-totals${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventAccommSerivceCountState(response.data.data || []);
+    } catch (eventAccommServiceError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventAccommServiceError(
+        "No data available for the selected criteria."
+      );
+    } finally {
+      seteventAccommServiceloading(false);
+    }
+  };
+
   // for Event Transportation Per Department Statistics
   const GetAccommCompCountPerDepartment = async (
     AccommCountCompStartDate,
@@ -1077,6 +1156,10 @@ const Statistics = () => {
           AccommCountEndDate,
           AccommCountselectedDepType
         ),
+        GetAccommServiceCount(
+          AccommServiceCountStartDate,
+          AccommServiceCountEndDate
+        ),
         GetAccommCompCountPerDepartment(
           AccommCountCompStartDate,
           AccommCompCountEndDate,
@@ -1120,6 +1203,8 @@ const Statistics = () => {
     ITServiceCountEndDate,
     TransServiceCountStartDate,
     TransServiceCountEndDate,
+    AccommServiceCountStartDate,
+    AccommServiceCountEndDate,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -1251,6 +1336,20 @@ const Statistics = () => {
     !eventAccommCountError;
 
   if (isAccommCountInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isAccommServiceCountInitialLoad =
+    eventAccommServiceloading &&
+    eventAccommSerivceCountState.length === 0 &&
+    !eventAccommServiceError;
+
+  if (isAccommServiceCountInitialLoad) {
     return (
       <Spin
         size="large"
@@ -2538,6 +2637,131 @@ const Statistics = () => {
         {!eventAccommCountError &&
           !eventAccommCountloading &&
           eventAccommCountData.length === 0 && (
+            <div style={{ textAlign: "center", padding: "50px" }}>
+              <p>No data available for the selected criteria.</p>
+            </div>
+          )}
+      </div>
+      <div className="chart">
+        {/* Filters Section - Always visible */}
+        <div className="row mb-3">
+          {/* <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={TransperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setTransperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventTransloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div> */}
+          <div className="col-md-6 col-sm-4">
+            <div className="form-group">
+              <label
+                htmlFor="AccommServiceCountStartDate"
+                style={{ fontSize: "0.7rem" }}
+              >
+                Start Date
+              </label>
+              <input
+                type="date"
+                style={{ fontSize: "0.7rem" }}
+                className="form-control"
+                id="AccommServiceCountStartDate"
+                value={AccommServiceCountStartDate || ""}
+                onChange={(e) =>
+                  setAccommServiceCountStartDate(e.target.value || null)
+                }
+                disabled={eventAccommServiceloading}
+              />
+            </div>
+          </div>
+          <div className="col-md-6 col-sm-4">
+            <div className="form-group">
+              <label
+                htmlFor="AccommServiceCountEndDate"
+                style={{ fontSize: "0.7rem" }}
+              >
+                End Date
+              </label>
+              <input
+                type="date"
+                style={{ fontSize: "0.7rem" }}
+                className="form-control"
+                id="AccommServiceCountEndDate"
+                value={AccommServiceCountEndDate || ""}
+                onChange={(e) =>
+                  setAccommServiceCountEndDate(e.target.value || null)
+                }
+                disabled={eventAccommServiceloading}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Loading indicator for filter changes */}
+        {eventAccommServiceloading && (
+          <div style={{ textAlign: "center", margin: "20px 0" }}>
+            <Spin size="small" /> Loading...
+          </div>
+        )}
+
+        {/* Error Message */}
+        {eventAccommServiceError && (
+          <Alert
+            message={eventAccommServiceError}
+            type="error"
+            showIcon
+            style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+            //   closable
+            onClose={() => seteventAccommServiceError(null)}
+          />
+        )}
+
+        {/* Chart and Download Section */}
+        {!eventAccommServiceError &&
+          eventAccommSerivceCountState.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventAccommServiceCountdata}
+                options={eventAccommServiceCountoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventAccommSerivceCountState}
+                headers={AccommServiceCountHeaders}
+                filename="event_request_Accommodation_Most_Used_Component_report.csv"
+              />
+            </>
+          )}
+
+        {/* No Data Message */}
+        {!eventAccommServiceError &&
+          !eventAccommServiceloading &&
+          eventAccommSerivceCountState.length === 0 && (
             <div style={{ textAlign: "center", padding: "50px" }}>
               <p>No data available for the selected criteria.</p>
             </div>
