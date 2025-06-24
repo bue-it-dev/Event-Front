@@ -1010,13 +1010,13 @@ const Statistics = () => {
   };
 
   // for Event Accommodation Count Per Department Statistics
-  const GetAccommServiceCount = async (
+  const GetAccommServiceCounts = async (
     AccommServiceCountStartDate,
     AccommServiceCountEndDate
   ) => {
     try {
-      eventAccommServiceloading(true);
-      eventAccommServiceError(null);
+      seteventAccommServiceloading(true);
+      seteventAccommServiceError(null);
 
       // Construct query parameters dynamically
       const params = new URLSearchParams();
@@ -1037,10 +1037,11 @@ const Statistics = () => {
 
       seteventAccommSerivceCountState(response.data.data || []);
     } catch (eventAccommServiceError) {
-      //   console.eventMarcomError(
-      //     "Error fetching transportation statistics:",
-      //     eventMarcomError
-      //   );
+      console.log(
+        "Error fetching transportation statistics:",
+        eventAccommServiceError
+      );
+
       seteventAccommServiceError(
         "No data available for the selected criteria."
       );
@@ -1156,16 +1157,16 @@ const Statistics = () => {
           AccommCountEndDate,
           AccommCountselectedDepType
         ),
-        GetAccommServiceCount(
-          AccommServiceCountStartDate,
-          AccommServiceCountEndDate
-        ),
+
         GetAccommCompCountPerDepartment(
           AccommCountCompStartDate,
           AccommCompCountEndDate,
           AccommCountCompselectedDepType
         ),
-
+        GetAccommServiceCounts(
+          AccommServiceCountStartDate,
+          AccommServiceCountEndDate
+        ),
         getallDepartmentTypes(),
       ]);
     };
