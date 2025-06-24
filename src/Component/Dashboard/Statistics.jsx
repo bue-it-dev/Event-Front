@@ -14,6 +14,7 @@ const Statistics = () => {
   const [eventMarcomloading, seteventMarcomloading] = useState(true);
   const [eventITloading, seteventITloading] = useState(true);
   const [eventITComploading, seteventITComploading] = useState(true);
+  const [eventITServiceloading, seteventITServiceloading] = useState(true);
   const [eventTransloading, seteventTransloading] = useState(true);
   const [eventTransComploading, seteventTransComploading] = useState(true);
   const [eventAccommCountloading, seteventAccommCountloading] = useState(true);
@@ -24,6 +25,7 @@ const Statistics = () => {
   const [eventMarcomError, seteventMarcomError] = useState(null);
   const [eventITError, seteventITError] = useState(null);
   const [eventITCompError, seteventITCompError] = useState(null);
+  const [eventITServiceError, seteventITServiceError] = useState(null);
   const [eventTransError, seteventTransError] = useState(null);
   const [eventTransCompError, seteventTransCompError] = useState(null);
   const [eventAccommCountError, seteventAccommCountError] = useState(null);
@@ -84,6 +86,13 @@ const Statistics = () => {
     useState(null);
   const [ITCompPerDepartmentEndDate, setITCompPerDepartmentEndDate] =
     useState(null);
+
+  //IT Serivce Count Per Department Statistics State Variables
+  const [eventITServiceCountState, seteventITServiceCountState] = useState([]);
+  const [ITServiceCountselectedDepType, setITServiceCountselectedDepType] =
+    useState("");
+  const [ITServiceCountStartDate, setITServiceCountStartDate] = useState(null);
+  const [ITServiceCountEndDate, setITServiceCountEndDate] = useState(null);
 
   //Event Transportation Per Department Statistics State Variables
   const [eventTransperdepartment, seteventTransperdepartment] = useState([]);
@@ -232,6 +241,36 @@ const Statistics = () => {
   };
 
   const ITPerDepartmentHeaders = ["departmentName", "count"];
+
+  //IT Service Count Bar Chart & CSV Data Preparation
+  const eventITServiceCountdata = [
+    ["Component", "Count"],
+    ...eventITServiceCountState
+      .filter((dept) => dept.totalCount > 0)
+      .sort((a, b) => b.totalCount - a.totalCount) // descending sort
+      .map((department) => [department.serviceType, department.totalCount]),
+  ];
+  const eventITServiceCountoptions = {
+    title: "Event IT Requests Most Used Service",
+    chartArea: { width: "50%" },
+    isStacked: true,
+    hAxis: {
+      title: "Count",
+      minValue: 0,
+      textStyle: { fontSize: 12 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    vAxis: {
+      title: "Component",
+      textStyle: { fontSize: 14, maxLines: 3 },
+      titleTextStyle: { fontSize: 12 },
+    },
+    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    legend: { position: "top", textStyle: { fontSize: 12 } },
+    bar: { groupWidth: "65%" },
+  };
+
+  const ITServiceCountHeaders = ["serviceType", "totalCount"];
   // IT Service Type Count Bar Chart & CSV Data Preparation
   const eventITCompCountdata = (() => {
     // Get unique service types from the data
@@ -641,6 +680,43 @@ const Statistics = () => {
     }
   };
 
+  const GetITServiceCount = async (
+    ITServiceCountStartDate,
+    ITServiceCountEndDate
+  ) => {
+    try {
+      seteventITServiceloading(true);
+      seteventITServiceError(null);
+
+      // Construct query parameters dynamically
+      const params = new URLSearchParams();
+      if (ITServiceCountStartDate)
+        params.append("startDate", ITServiceCountStartDate);
+      if (ITServiceCountEndDate)
+        params.append("endDate", ITServiceCountEndDate);
+      //   if (ITperdepartmentselectedDepType)
+      //     params.append("approvingDepTypeID", ITperdepartmentselectedDepType);
+
+      const url = `${URL.BASE_URL}/api/EventDashboard/it-service-type-totals${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
+
+      seteventITServiceCountState(response.data.data || []);
+    } catch (eventITServiceError) {
+      //   console.eventMarcomError(
+      //     "Error fetching transportation statistics:",
+      //     eventMarcomError
+      //   );
+      seteventITServiceError("No data available for the selected criteria.");
+    } finally {
+      seteventITServiceloading(false);
+    }
+  };
+
   // for Event IT Component Per Department Statistics
   const GetITCompCountPerDepartment = async (
     ITCompPerDepartmentStartDate,
@@ -883,6 +959,7 @@ const Statistics = () => {
           ITPerDepartmentEndDate,
           ITperdepartmentselectedDepType
         ),
+        GetITServiceCount(ITServiceCountStartDate, ITServiceCountEndDate),
         GetITCompCountPerDepartment(
           ITCompPerDepartmentStartDate,
           ITCompPerDepartmentEndDate,
@@ -941,6 +1018,8 @@ const Statistics = () => {
     ITCompPerDepartmentStartDate,
     ITCompPerDepartmentEndDate,
     ITCompperdepartmentselectedDepType,
+    ITServiceCountStartDate,
+    ITServiceCountEndDate,
   ]);
 
   // Show loading only when there's no data yet and it's the initial load
@@ -988,6 +1067,20 @@ const Statistics = () => {
     eventITloading && eventITperdepartment.length === 0 && !eventITError;
 
   if (isITInitialLoad) {
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+      />
+    );
+  }
+
+  const isITServiceCountInitialLoad =
+    eventITServiceloading &&
+    eventITServiceCountState.length === 0 &&
+    !eventITServiceError;
+
+  if (isITServiceCountInitialLoad) {
     return (
       <Spin
         size="large"
@@ -1084,13 +1177,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={budgetperdepartmentselectedDepType}
                     onChange={(e) =>
@@ -1113,13 +1206,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="BudgetPerDepartmentStartDate"
                   value={BudgetPerDepartmentStartDate || ""}
@@ -1134,13 +1227,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="BudgetPerDepartmentEndDate"
                   value={BudgetPerDepartmentEndDate || ""}
@@ -1207,13 +1300,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={budgetperdepartmentcostselectedDepType}
                     onChange={(e) =>
@@ -1236,13 +1329,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="BudgetPerDepartmentCostStartDate"
                   value={BudgetPerDepartmentCostStartDate || ""}
@@ -1257,13 +1350,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentCostEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="BudgetPerDepartmentCostEndDate"
                   value={BudgetPerDepartmentCostEndDate || ""}
@@ -1337,13 +1430,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={marcomperdepartmentselectedDepType}
                     onChange={(e) =>
@@ -1366,13 +1459,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="MarcomPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="MarcomPerDepartmentStartDate"
                   value={MarcomPerDepartmentStartDate || ""}
@@ -1387,13 +1480,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="MarcomPerDepartmentEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="MarcomPerDepartmentEndDate"
                   value={MarcomPerDepartmentEndDate || ""}
@@ -1466,13 +1559,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={ITperdepartmentselectedDepType}
                     onChange={(e) =>
@@ -1495,13 +1588,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="ITPerDepartmentStartDate"
                   value={ITPerDepartmentStartDate || ""}
@@ -1516,13 +1609,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITPerDepartmentEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="ITPerDepartmentEndDate"
                   value={ITPerDepartmentEndDate || ""}
@@ -1586,18 +1679,143 @@ const Statistics = () => {
         <div className="chart">
           {/* Filters Section - Always visible */}
           <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+            {/* <div className="col-12 col-sm-4">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
+                    className="form-select form-select-lg custom-select"
+                    value={ITperdepartmentselectedDepType}
+                    onChange={(e) =>
+                      setITperdepartmentselectedDepType(e.target.value)
+                    }
+                    name="otherTransferId"
+                    disabled={eventITServiceloading}
+                  >
+                    <option value="">All Department Types</option>
+                    {depTypes.map((data) => (
+                      <option key={data.rowId} value={data.rowId}>
+                        {data.depTypeName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div> */}
+            <div className="col-md-6 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITServiceCountStartDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="ITServiceCountStartDate"
+                  value={ITServiceCountStartDate || ""}
+                  onChange={(e) =>
+                    setITServiceCountStartDate(e.target.value || null)
+                  }
+                  disabled={eventITServiceloading}
+                />
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-4">
+              <div className="form-group">
+                <label
+                  htmlFor="ITServiceCountEndDate"
+                  style={{ fontSize: "0.7rem" }}
+                >
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  style={{ fontSize: "0.7rem" }}
+                  className="form-control"
+                  id="ITServiceCountEndDate"
+                  value={ITServiceCountEndDate || ""}
+                  onChange={(e) =>
+                    setITServiceCountEndDate(e.target.value || null)
+                  }
+                  disabled={eventITServiceloading}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Loading indicator for filter changes */}
+          {eventITServiceloading && (
+            <div style={{ textAlign: "center", margin: "20px 0" }}>
+              <Spin size="small" /> Loading...
+            </div>
+          )}
+
+          {/* Error Message */}
+          {eventITServiceError && (
+            <Alert
+              message={eventITServiceError}
+              type="error"
+              showIcon
+              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
+              //   closable
+              onClose={() => seteventITServiceError(null)}
+            />
+          )}
+
+          {/* Chart and Download Section */}
+          {!eventITServiceError && eventITServiceCountState.length > 0 && (
+            <>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventITServiceCountdata}
+                options={eventITServiceCountoptions}
+                legendToggle
+              />
+              <JSONToCSVDownloader
+                data={eventITServiceCountState}
+                headers={ITServiceCountHeaders}
+                filename="event_request_IT_Service_count_report.csv"
+              />
+            </>
+          )}
+
+          {/* No Data Message */}
+          {!eventITServiceError &&
+            !eventITServiceloading &&
+            eventITServiceCountState.length === 0 && (
+              <div style={{ textAlign: "center", padding: "50px" }}>
+                <p>No data available for the selected criteria.</p>
+              </div>
+            )}
+        </div>
+        <br />
+        <div className="chart">
+          {/* Filters Section - Always visible */}
+          <div className="row mb-3">
+            <div className="col-12 col-sm-4">
+              <div>
+                <div className="form-group">
+                  <label
+                    htmlFor="departmentType"
+                    style={{ fontSize: "0.7rem" }}
+                  >
+                    Department Type
+                  </label>
+                  <select
+                    id="departmentType"
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={ITCompperdepartmentselectedDepType}
                     onChange={(e) =>
@@ -1620,13 +1838,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITCompPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="ITCompPerDepartmentStartDate"
                   value={ITCompPerDepartmentStartDate || ""}
@@ -1641,13 +1859,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITCompPerDepartmentEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="ITCompPerDepartmentEndDate"
                   value={ITCompPerDepartmentEndDate || ""}
@@ -1721,13 +1939,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={TransperdepartmentselectedDepType}
                     onChange={(e) =>
@@ -1750,13 +1968,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransPerDepartmentStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="TransPerDepartmentStartDate"
                   value={TransPerDepartmentStartDate || ""}
@@ -1771,13 +1989,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransPerDepartmentEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="TransPerDepartmentEndDate"
                   value={TransPerDepartmentEndDate || ""}
@@ -1845,13 +2063,13 @@ const Statistics = () => {
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                   >
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.8rem" }}
+                    style={{ fontSize: "0.7rem" }}
                     className="form-select form-select-lg custom-select"
                     value={TransCompCountselectedDepType}
                     onChange={(e) =>
@@ -1874,13 +2092,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransCompCountStartDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="TransCompCountStartDate"
                   value={TransCompCountStartDate || ""}
@@ -1895,13 +2113,13 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransCompCountEndDate"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                 >
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-control"
                   id="TransCompCountEndDate"
                   value={TransCompCountEndDate || ""}
@@ -1974,12 +2192,12 @@ const Statistics = () => {
           <div className="col-12 col-sm-4">
             <div>
               <div className="form-group">
-                <label htmlFor="departmentType" style={{ fontSize: "0.8rem" }}>
+                <label htmlFor="departmentType" style={{ fontSize: "0.7rem" }}>
                   Department Type
                 </label>
                 <select
                   id="departmentType"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-select form-select-lg custom-select"
                   value={AccommCountselectedDepType}
                   onChange={(e) =>
@@ -2002,13 +2220,13 @@ const Statistics = () => {
             <div className="form-group">
               <label
                 htmlFor="TransCompCountStartDate"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
               >
                 Start Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
                 className="form-control"
                 id="AccommCountStartDate"
                 value={AccommCountStartDate || ""}
@@ -2023,13 +2241,13 @@ const Statistics = () => {
             <div className="form-group">
               <label
                 htmlFor="AccommCountEndDate"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
               >
                 End Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
                 className="form-control"
                 id="AccommCountEndDate"
                 value={AccommCountEndDate || ""}
@@ -2093,12 +2311,12 @@ const Statistics = () => {
           <div className="col-12 col-sm-4">
             <div>
               <div className="form-group">
-                <label htmlFor="departmentType" style={{ fontSize: "0.8rem" }}>
+                <label htmlFor="departmentType" style={{ fontSize: "0.7rem" }}>
                   Department Type
                 </label>
                 <select
                   id="departmentType"
-                  style={{ fontSize: "0.8rem" }}
+                  style={{ fontSize: "0.7rem" }}
                   className="form-select form-select-lg custom-select"
                   value={AccommCountCompselectedDepType}
                   onChange={(e) =>
@@ -2121,13 +2339,13 @@ const Statistics = () => {
             <div className="form-group">
               <label
                 htmlFor="TransCompCountStartDate"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
               >
                 Start Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
                 className="form-control"
                 id="AccommCountCompStartDate"
                 value={AccommCountCompStartDate || ""}
@@ -2142,13 +2360,13 @@ const Statistics = () => {
             <div className="form-group">
               <label
                 htmlFor="AccommCountEndDate"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
               >
                 End Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.8rem" }}
+                style={{ fontSize: "0.7rem" }}
                 className="form-control"
                 id="AccommCompCountEndDate"
                 value={AccommCompCountEndDate || ""}
