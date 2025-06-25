@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useEffect } from "react";
 const EventFilesSection = ({ eventData, setEventData }) => {
   const handleFileChange = (e, index) => {
     const selectedFiles = Array.from(e.target.files);
@@ -42,6 +42,29 @@ const EventFilesSection = ({ eventData, setEventData }) => {
     const value = e.target.value === "national" ? 0 : 1;
     setEventData({ ...eventData, isVip: value });
   };
+  // inside your component
+  useEffect(() => {
+    if (
+      eventData.IsStaffStudents !== 1 &&
+      eventData.IsChairBoardPrisidentVcb !== 0
+    ) {
+      setEventData((prevData) => ({
+        ...prevData,
+        IsChairBoardPrisidentVcb: 0,
+      }));
+    }
+    if (
+      eventData.IsOthers !== 1 &&
+      (eventData.isVip !== 0 || eventData.isInernationalGuest !== 0)
+    ) {
+      setEventData((prevData) => ({
+        ...prevData,
+        IsChairBoardPrisidentVcb: 0,
+        isVip: 0,
+        isInernationalGuest: 0,
+      }));
+    }
+  }, [eventData.IsStaffStudents, eventData.IsOthers]);
   return (
     <div className="container-fluid">
       <div
