@@ -426,9 +426,9 @@ const EventDetailsAccommodation = () => {
       // Format the createdAt date for each item
       const formattedData = responseData.map((item) => ({
         ...item,
-        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
+        createdAt: item.createdAt,
       }));
-
+      //? item.createdAt.split("T")[0] : "",
       setApprovalTracker(formattedData);
     } catch (error) {
       console.error("Error fetching home request details:", error);

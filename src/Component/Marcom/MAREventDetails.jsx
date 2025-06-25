@@ -431,7 +431,16 @@ const MAREventDetails = () => {
       // Format the createdAt date for each item
       const formattedData = responseData.map((item) => ({
         ...item,
-        createdAt: item.createdAt ? item.createdAt.split("T")[0] : "",
+        createdAt: item.createdAt
+          ? new Date(item.createdAt).toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+          : "",
       }));
 
       setApprovalTracker(formattedData);
@@ -711,7 +720,7 @@ const MAREventDetails = () => {
           : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
-      createdAt: data.createdAt,
+      createdAt: data.statusName == "Pending" ? "N/A" : data.createdAt,
     })),
   };
   // --- Toggle Handlers ---
