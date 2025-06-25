@@ -243,7 +243,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -272,7 +272,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -301,7 +301,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -330,7 +330,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -360,7 +360,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -422,7 +422,17 @@ const Statistics = () => {
       textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b", "#2a4a5b"], // Added more colors for potential service types
+    colors: [
+      "#79c1fb", // light blue
+      "#65a2d5", // medium blue
+      "#43749b", // desaturated blue
+      "#355c7b", // deep blue
+      "#2a4a5b", // deep teal
+      "#4c6b82", // steel blue (replacement for green)
+      "#597f9c", // cool denim (replacement for red)
+      "#3f5e74", // desaturated indigo (replacement for purple)
+      "#5a6e7f", // blue-gray (replacement for black)
+    ],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -452,7 +462,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -482,7 +492,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -544,7 +554,7 @@ const Statistics = () => {
       textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#79c1fb", "#65a2d5", "#43749b", "#355c7b", "#2a4a5b"], // Added more colors for potential service types
+    colors: ["#65a2d5", "#43749b", "#43749b", "#355c7b", "#2a4a5b"], // Added more colors for potential service types
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -574,7 +584,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };
@@ -604,7 +614,7 @@ const Statistics = () => {
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
-    colors: ["#57636f", "#65a2d5", "#43749b", "#355c7b"],
+    colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
     legend: { position: "top", textStyle: { fontSize: 12 } },
     bar: { groupWidth: "65%" },
   };

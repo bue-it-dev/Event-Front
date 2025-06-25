@@ -39,11 +39,11 @@ const JSONToCSVDownloader = ({ data, headers, filename = "data.csv" }) => {
   };
 
   const buttonStyle = {
-    backgroundColor: "green",
+    backgroundColor: "#57636f",
     color: "#fff",
     border: "none",
     padding: "8px 16px", // Reduced padding
-    fontSize: "14px", // Reduced font size
+    fontSize: "0.7rem", // Reduced font size
     fontWeight: "bold",
     borderRadius: "6px", // Slightly smaller border radius
     cursor: "pointer",
