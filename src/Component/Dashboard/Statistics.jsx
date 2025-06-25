@@ -229,7 +229,7 @@ const Statistics = () => {
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventbudgetperdepartmentoptions = {
-    title: "Event Budget Requests by Department",
+    title: "Event Budget Requests by Department / Faculty",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
