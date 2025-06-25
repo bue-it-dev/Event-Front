@@ -360,7 +360,7 @@ const EventRequestDetailsVCB = () => {
           : data.approvalLevelName,
       userName: data.userName,
       statusName: data.statusName,
-      createdAt: data.createdAt,
+      createdAt: data.statusName == "Pending" ? "N/A" : data.createdAt,
     })),
   };
   // --- Toggle Handlers ---

@@ -258,7 +258,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                             GetFiles(eventData.officeOfPresedentFilePath)
                           }
                         >
-                          View File
+                          View
                         </button>
                       </a>
                     )}
@@ -346,7 +346,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                         }}
                         onClick={() => GetFiles(eventData.visitAgendaFilePath)}
                       >
-                        View File
+                        View
                       </button>
                     </a>
                   )}
@@ -504,7 +504,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                                       GetFiles(eventData.passports[index])
                                     }
                                   >
-                                    View Passport
+                                    View
                                   </button>
                                 </a>
                               )}
