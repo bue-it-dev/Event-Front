@@ -81,7 +81,7 @@ const BOM = () => {
             Business Operation Manager
           </button>
 
-          {/* <button
+          <button
             className="btn me-2"
             style={{
               backgroundColor:
@@ -89,11 +89,12 @@ const BOM = () => {
               color: activeButton === "Dashboard" ? "white" : "black", // White text when active, black when inactive
               border: "none",
               marginRight: "15px",
+              fontSize: "0.7rem", // Increased font size for better visibility
             }}
             onClick={handledashboardClick}
           >
             Dashboard
-          </button> */}
+          </button>
         </div>
       ) : (
         <>
