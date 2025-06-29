@@ -436,7 +436,10 @@ const UpdateEventPassportInfo = ({
               <small className="text-danger">{errors.eventEndDate}</small>
             )}
           </div>
-          <div className="horizontal-rule mb-4">
+          <div
+            className="horizontal-rule"
+            style={{ marginTop: "50px", marginBottom: "-1px" }}
+          >
             <hr className="border-secondary" />
             <h5 className="horizontal-rule-text fs-5 text-dark">
               Organizer Info

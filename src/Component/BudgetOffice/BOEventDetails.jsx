@@ -1125,7 +1125,7 @@ const BOEventDetails = () => {
                         onClick={() => UpdateEventRequestBudgetOfficeAsync()}
                         disabled={isLoading}
                       >
-                        {isLoading ? "Save" : "Save"}
+                        {isLoading ? "Submit" : "Submit"}
                       </button>
                       <button
                         type="submit"
@@ -1289,7 +1289,7 @@ const BOEventDetails = () => {
                                 setOpenRejectNotes(false);
                               }}
                             >
-                              {isLoading ? "Save" : "Save"}
+                              {isLoading ? "Submit" : "Submit"}
                             </button>
                           </div>
                         </div>
@@ -1336,7 +1336,7 @@ const BOEventDetails = () => {
                               }
                               disabled={isLoading}
                             >
-                              {isLoading ? "Save" : "Save"}
+                              {isLoading ? "Submit" : "Submit"}
                             </button>
                           </div>
                           {/* Approve Button */}
@@ -1503,7 +1503,7 @@ const BOEventDetails = () => {
                                     setOpenRejectNotes(false);
                                   }}
                                 >
-                                  {isLoading ? "Save" : "Save"}
+                                  {isLoading ? "Submit" : "Submit"}
                                 </button>
                               </div>
                             </div>

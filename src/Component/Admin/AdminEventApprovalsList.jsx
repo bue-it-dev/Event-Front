@@ -123,11 +123,11 @@ const AdminEventApprovalsList = () => {
       { label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" },
       //{ label: "Organizer Email", field: "OrganizerEmail", sort: "asc" }
-      // {
-      //   label: "Approving Deptartment",
-      //   field: "approvingDeptName",
-      //   sort: "asc",
-      // },
+      {
+        label: "Approving Deptartment",
+        field: "approvingDeptName",
+        sort: "asc",
+      },
       // { label: "Start Date", field: "eventStartDate", sort: "asc" },
       // { label: "End Date", field: "eventEndDate", sort: "asc" },
       { label: "Creation Date", field: "createdAt", sort: "asc" },

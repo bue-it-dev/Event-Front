@@ -1312,7 +1312,7 @@ const GetApprovalDetails = () => {
                                 setOpenRejectNotes(false);
                               }}
                             >
-                              {isLoading ? "Save" : "Save"}
+                              {isLoading ? "Submit" : "Submit"}
                             </button>
                           </div>
                         </div>

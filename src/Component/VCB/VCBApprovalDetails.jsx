@@ -1313,7 +1313,7 @@ const VCBApprovalDetails = () => {
                                 setOpenRejectNotes(false);
                               }}
                             >
-                              {isLoading ? "Save" : "Save"}
+                              {isLoading ? "Submit" : "Submit"}
                             </button>
                           </div>
                         </div>
