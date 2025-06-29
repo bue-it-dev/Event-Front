@@ -875,8 +875,9 @@ const BOEventDetails = () => {
       // Wait for the backend response
       console.log("Payload", payload);
       await AddBudgetOfficeEventRequest(payload);
+      await handleApproval(1); // Assuming 1 is the status ID for approval
       setisLoading(false);
-      setisBOSubmitted(true);
+      // setisBOSubmitted(true);
       // toast.success("Budget Office data added successfully", {
       //   position: "top-center",
       // });
@@ -1115,7 +1116,7 @@ const BOEventDetails = () => {
                         className="btn btn-success-approve btn-sm"
                         style={{
                           transition: "0.3s ease",
-                          backgroundColor: "#57636f",
+                          backgroundColor: "darkgreen",
                           color: "white",
                           padding: "4px 8px",
                           fontSize: "0.7rem",
@@ -1125,7 +1126,7 @@ const BOEventDetails = () => {
                         onClick={() => UpdateEventRequestBudgetOfficeAsync()}
                         disabled={isLoading}
                       >
-                        {isLoading ? "Submit" : "Submit"}
+                        {isLoading ? "Approve" : "Approve"}
                       </button>
                       <button
                         type="submit"
@@ -1297,223 +1298,223 @@ const BOEventDetails = () => {
                     )}
                   </div>
                 </>
-              ) : (
-                <>
-                  {status == "Pending" && isBOSubmitted == true ? (
-                    <>
-                      <div className="row">
-                        <div className="row g-1">
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "green",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              onClick={() => handleApproval(1)}
-                              disabled={isLoading}
-                            >
-                              {isLoading ? "Approve" : "Approve"}
-                            </button>
-                          </div>
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "#57636f",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              onClick={() =>
-                                UpdateEventRequestBudgetOfficeAsync()
-                              }
-                              disabled={isLoading}
-                            >
-                              {isLoading ? "Submit" : "Submit"}
-                            </button>
-                          </div>
-                          {/* Approve Button */}
-                          {/* Reject Button */}
-                          <div className="col-md-4">
-                            <button
-                              type="submit"
-                              className="btn w-75"
-                              style={{
-                                transition: "0.3s ease",
-                                backgroundColor: "darkred",
-                                color: "white",
-                                padding: "4px 8px",
-                                fontSize: "0.7rem",
-                              }}
-                              disabled={isLoading}
-                              onClick={() => setOpenRejectNotes(true)}
-                            >
-                              Reject
-                            </button>
-                          </div>
-                        </div>
-                        {openrejectnotes && (
-                          <div
-                            style={{
-                              position: "fixed",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: "100%",
-                              backgroundColor: "rgba(0, 0, 0, 0.5)",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              zIndex: 1050,
-                            }}
-                          >
-                            {/* Dialog Box */}
-                            <div
-                              style={{
-                                backgroundColor: "white",
-                                borderRadius: "8px",
-                                padding: "20px",
-                                width: "90%",
-                                maxWidth: "500px",
-                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                              }}
-                            >
-                              {/* Dialog Header */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  marginBottom: "15px",
-                                  borderBottom: "1px solid #dee2e6",
-                                  paddingBottom: "10px",
-                                }}
-                              >
-                                <h5
-                                  style={{
-                                    margin: 0,
-                                    fontSize: "0.7rem",
-                                    fontWeight: "bold",
-                                    color: "#333",
-                                  }}
-                                >
-                                  Reject Request
-                                </h5>
-                                <button
-                                  type="button"
-                                  style={{
-                                    background: "none",
-                                    border: "none",
-                                    fontSize: "0.7rem",
-                                    cursor: "pointer",
-                                    color: "#999",
-                                  }}
-                                  onClick={() => setOpenRejectNotes(false)}
-                                >
-                                  ×
-                                </button>
-                              </div>
+              ) : //   <>
+              //     {status == "Pending" && isBOSubmitted == true ? (
+              //       <>
+              //         <div className="row">
+              //           <div className="row g-1">
+              //             <div className="col-md-4">
+              //               <button
+              //                 type="submit"
+              //                 className="btn w-75"
+              //                 style={{
+              //                   transition: "0.3s ease",
+              //                   backgroundColor: "green",
+              //                   color: "white",
+              //                   padding: "4px 8px",
+              //                   fontSize: "0.7rem",
+              //                 }}
+              //                 onClick={() => handleApproval(1)}
+              //                 disabled={isLoading}
+              //               >
+              //                 {isLoading ? "Approve" : "Approve"}
+              //               </button>
+              //             </div>
+              //             <div className="col-md-4">
+              //               <button
+              //                 type="submit"
+              //                 className="btn w-75"
+              //                 style={{
+              //                   transition: "0.3s ease",
+              //                   backgroundColor: "#57636f",
+              //                   color: "white",
+              //                   padding: "4px 8px",
+              //                   fontSize: "0.7rem",
+              //                 }}
+              //                 onClick={() =>
+              //                   UpdateEventRequestBudgetOfficeAsync()
+              //                 }
+              //                 disabled={isLoading}
+              //               >
+              //                 {isLoading ? "Submit" : "Submit"}
+              //               </button>
+              //             </div>
+              //             {/* Approve Button */}
+              //             {/* Reject Button */}
+              //             <div className="col-md-4">
+              //               <button
+              //                 type="submit"
+              //                 className="btn w-75"
+              //                 style={{
+              //                   transition: "0.3s ease",
+              //                   backgroundColor: "darkred",
+              //                   color: "white",
+              //                   padding: "4px 8px",
+              //                   fontSize: "0.7rem",
+              //                 }}
+              //                 disabled={isLoading}
+              //                 onClick={() => setOpenRejectNotes(true)}
+              //               >
+              //                 Reject
+              //               </button>
+              //             </div>
+              //           </div>
+              //           {openrejectnotes && (
+              //             <div
+              //               style={{
+              //                 position: "fixed",
+              //                 top: 0,
+              //                 left: 0,
+              //                 width: "100%",
+              //                 height: "100%",
+              //                 backgroundColor: "rgba(0, 0, 0, 0.5)",
+              //                 display: "flex",
+              //                 justifyContent: "center",
+              //                 alignItems: "center",
+              //                 zIndex: 1050,
+              //               }}
+              //             >
+              //               {/* Dialog Box */}
+              //               <div
+              //                 style={{
+              //                   backgroundColor: "white",
+              //                   borderRadius: "8px",
+              //                   padding: "20px",
+              //                   width: "90%",
+              //                   maxWidth: "500px",
+              //                   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              //                 }}
+              //               >
+              //                 {/* Dialog Header */}
+              //                 <div
+              //                   style={{
+              //                     display: "flex",
+              //                     justifyContent: "space-between",
+              //                     alignItems: "center",
+              //                     marginBottom: "15px",
+              //                     borderBottom: "1px solid #dee2e6",
+              //                     paddingBottom: "10px",
+              //                   }}
+              //                 >
+              //                   <h5
+              //                     style={{
+              //                       margin: 0,
+              //                       fontSize: "0.7rem",
+              //                       fontWeight: "bold",
+              //                       color: "#333",
+              //                     }}
+              //                   >
+              //                     Reject Request
+              //                   </h5>
+              //                   <button
+              //                     type="button"
+              //                     style={{
+              //                       background: "none",
+              //                       border: "none",
+              //                       fontSize: "0.7rem",
+              //                       cursor: "pointer",
+              //                       color: "#999",
+              //                     }}
+              //                     onClick={() => setOpenRejectNotes(false)}
+              //                   >
+              //                     ×
+              //                   </button>
+              //                 </div>
 
-                              {/* Dialog Body */}
-                              <div style={{ marginBottom: "20px" }}>
-                                {/* <label
-                              htmlFor="rejectionReason"
-                              style={{
-                                display: "block",
-                                marginBottom: "8px",
-                                fontSize: "0.7rem",
-                                fontWeight: "500",
-                                color: "#333",
-                              }}
-                            >
-                              Reject Notes
-                            </label> */}
-                                <textarea
-                                  id="rejectionReason"
-                                  name="rejectionReason"
-                                  value={eventData.rejectionReason}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    seteventData({
-                                      ...eventData,
-                                      rejectionReason: value,
-                                    });
-                                  }}
-                                  style={{
-                                    width: "100%",
-                                    padding: "8px",
-                                    border: "1px solid #ced4da",
-                                    borderRadius: "4px",
-                                    fontSize: "0.7rem",
-                                    resize: "vertical",
-                                    // minHeight: "100px",
-                                  }}
-                                  required
-                                  rows="3"
-                                  placeholder="Enter the reject comments"
-                                />
-                              </div>
+              //                 {/* Dialog Body */}
+              //                 <div style={{ marginBottom: "20px" }}>
+              //                   {/* <label
+              //                 htmlFor="rejectionReason"
+              //                 style={{
+              //                   display: "block",
+              //                   marginBottom: "8px",
+              //                   fontSize: "0.7rem",
+              //                   fontWeight: "500",
+              //                   color: "#333",
+              //                 }}
+              //               >
+              //                 Reject Notes
+              //               </label> */}
+              //                   <textarea
+              //                     id="rejectionReason"
+              //                     name="rejectionReason"
+              //                     value={eventData.rejectionReason}
+              //                     onChange={(e) => {
+              //                       const value = e.target.value;
+              //                       seteventData({
+              //                         ...eventData,
+              //                         rejectionReason: value,
+              //                       });
+              //                     }}
+              //                     style={{
+              //                       width: "100%",
+              //                       padding: "8px",
+              //                       border: "1px solid #ced4da",
+              //                       borderRadius: "4px",
+              //                       fontSize: "0.7rem",
+              //                       resize: "vertical",
+              //                       // minHeight: "100px",
+              //                     }}
+              //                     required
+              //                     rows="3"
+              //                     placeholder="Enter the reject comments"
+              //                   />
+              //                 </div>
 
-                              {/* Dialog Footer */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                  gap: "10px",
-                                }}
-                              >
-                                <button
-                                  type="button"
-                                  style={{
-                                    padding: "6px 12px",
-                                    fontSize: "0.7rem",
-                                    backgroundColor: "#6c757d",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    transition: "0.3s ease",
-                                  }}
-                                  onClick={() => setOpenRejectNotes(false)}
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  style={{
-                                    padding: "6px 12px",
-                                    fontSize: "0.7rem",
-                                    backgroundColor: "darkred",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "4px",
-                                    cursor: "pointer",
-                                    transition: "0.3s ease",
-                                  }}
-                                  disabled={isLoading}
-                                  onClick={() => {
-                                    handleApproval(0);
-                                    setOpenRejectNotes(false);
-                                  }}
-                                >
-                                  {isLoading ? "Submit" : "Submit"}
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  ) : null}
-                </>
-              )}
+              //                 {/* Dialog Footer */}
+              //                 <div
+              //                   style={{
+              //                     display: "flex",
+              //                     justifyContent: "flex-end",
+              //                     gap: "10px",
+              //                   }}
+              //                 >
+              //                   <button
+              //                     type="button"
+              //                     style={{
+              //                       padding: "6px 12px",
+              //                       fontSize: "0.7rem",
+              //                       backgroundColor: "#6c757d",
+              //                       color: "white",
+              //                       border: "none",
+              //                       borderRadius: "4px",
+              //                       cursor: "pointer",
+              //                       transition: "0.3s ease",
+              //                     }}
+              //                     onClick={() => setOpenRejectNotes(false)}
+              //                   >
+              //                     Cancel
+              //                   </button>
+              //                   <button
+              //                     type="button"
+              //                     style={{
+              //                       padding: "6px 12px",
+              //                       fontSize: "0.7rem",
+              //                       backgroundColor: "darkred",
+              //                       color: "white",
+              //                       border: "none",
+              //                       borderRadius: "4px",
+              //                       cursor: "pointer",
+              //                       transition: "0.3s ease",
+              //                     }}
+              //                     disabled={isLoading}
+              //                     onClick={() => {
+              //                       handleApproval(0);
+              //                       setOpenRejectNotes(false);
+              //                     }}
+              //                   >
+              //                     {isLoading ? "Submit" : "Submit"}
+              //                   </button>
+              //                 </div>
+              //               </div>
+              //             </div>
+              //           )}
+              //         </div>
+              //       </>
+              //     ) : null}
+              //   </>
+              // )}
+              null}
               {status == "Approved" ? (
                 <>
                   <button
