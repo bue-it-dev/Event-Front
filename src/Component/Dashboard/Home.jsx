@@ -69,7 +69,7 @@ const Home = () => {
       {
         label: "Event Request Approval Count",
         data: [approvedPercentage, rejectedPercentage, pendingPercentage],
-        backgroundColor: ["#4CAF50", "#E53935", "#FFC107"],
+        backgroundColor: ["#4CAF50", "#E53935", "#d19d00"],
         hoverBackgroundColor: ["green", "red", "orange"],
       },
     ],
@@ -79,12 +79,15 @@ const Home = () => {
       legend: {
         display: true,
         position: "left",
+        font: {
+          size: 13,
+        },
       },
       datalabels: {
         display: true,
         color: "#fff",
         font: {
-          size: 12,
+          size: 13,
         },
         formatter: (value, context) => {
           const data = context.chart.data.datasets[0].data;
@@ -106,7 +109,7 @@ const Home = () => {
           businessApproval.rejectedCount,
           businessApproval.pendingCount,
         ],
-        backgroundColor: ["#4CAF50", "#E53935", "#FFC107"],
+        backgroundColor: ["#4CAF50", "#E53935", "#d19d00"],
         hoverBackgroundColor: ["green", "red", "orange"],
       },
     ],
@@ -152,7 +155,7 @@ const Home = () => {
       style={{
         width: "100%",
         textAlign: "center",
-        fontSize: "0.7rem",
+        fontSize: "0.8rem",
         fontWeight: "normal",
       }}
       className="table-striped"
@@ -205,12 +208,12 @@ const Home = () => {
               }}
             >
               <div>
-                <h3
+                <p
                   className="card-title font-weight-bold text-dark text-center "
                   style={{ fontSize: "0.8rem", paddingTop: "25px" }}
                 >
                   Request Count Distribution
-                </h3>
+                </p>
               </div>
               <div
                 className="card-body"
@@ -247,7 +250,7 @@ const Home = () => {
                         <p
                           className="card-text text-muted text-uppercase font-weight-bold mb-2 text-center"
                           style={{
-                            fontSize: "0.7rem",
+                            fontSize: "0.8rem",
                             letterSpacing: "0.5px",
                             width: "100%", // Ensures full width for centering
                           }}
@@ -256,7 +259,7 @@ const Home = () => {
                         </p>
                         <h3
                           className="card-title mb-0 font-weight-bold text-dark"
-                          style={{ fontSize: "0.7rem" }}
+                          style={{ fontSize: "0.8rem" }}
                         >
                           {homeRequestCount}
                         </h3>
@@ -272,8 +275,9 @@ const Home = () => {
                     <div
                       className="card border-0 text-white text-center h-100"
                       style={{
-                        background:
-                          "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                        // background:
+                        //   "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                        backgroundColor: "#4CAF50",
                         borderRadius: "16px",
                         boxShadow: "0 8px 16px rgba(16, 185, 129, 0.3)",
                         transition: "all 0.3s ease",
@@ -296,7 +300,7 @@ const Home = () => {
                         <p
                           className="card-text mb-1 font-weight-bold"
                           style={{
-                            fontSize: "0.7rem",
+                            fontSize: "0.8rem",
                             opacity: "0.9",
                           }}
                         >
@@ -304,7 +308,7 @@ const Home = () => {
                         </p>
                         <h4
                           className="card-title mb-0 font-weight-bold"
-                          style={{ fontSize: "0.7rem" }}
+                          style={{ fontSize: "0.8rem" }}
                         >
                           {homeApproval.approved}
                         </h4>
@@ -317,8 +321,9 @@ const Home = () => {
                     <div
                       className="card border-0 text-white text-center h-100"
                       style={{
-                        background:
-                          "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                        // background:
+                        //   "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                        backgroundColor: "#E53935",
                         borderRadius: "16px",
                         boxShadow: "0 8px 16px rgba(239, 68, 68, 0.3)",
                         transition: "all 0.3s ease",
@@ -341,7 +346,7 @@ const Home = () => {
                         <p
                           className="card-text mb-1 font-weight-bold"
                           style={{
-                            fontSize: "0.7rem",
+                            fontSize: "0.8rem",
                             opacity: "0.9",
                           }}
                         >
@@ -349,7 +354,7 @@ const Home = () => {
                         </p>
                         <h4
                           className="card-title mb-0 font-weight-bold"
-                          style={{ fontSize: "0.7rem" }}
+                          style={{ fontSize: "0.8rem" }}
                         >
                           {homeApproval.rejected}
                         </h4>
@@ -362,8 +367,9 @@ const Home = () => {
                     <div
                       className="card border-0 text-white text-center h-100"
                       style={{
-                        background:
-                          "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                        // background:
+                        //   "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                        backgroundColor: "#d19d00",
                         borderRadius: "16px",
                         boxShadow: "0 8px 16px rgba(245, 158, 11, 0.3)",
                         transition: "all 0.3s ease",
@@ -386,7 +392,7 @@ const Home = () => {
                         <p
                           className="card-text mb-1 font-weight-bold"
                           style={{
-                            fontSize: "0.7rem",
+                            fontSize: "0.8rem",
                             opacity: "0.9",
                           }}
                         >
@@ -394,7 +400,7 @@ const Home = () => {
                         </p>
                         <h4
                           className="card-title mb-0 font-weight-bold"
-                          style={{ fontSize: "0.7rem" }}
+                          style={{ fontSize: "0.8rem" }}
                         >
                           {homeApproval.pending}
                         </h4>
@@ -417,14 +423,20 @@ const Home = () => {
               }}
             >
               <div className="card-body p-4 d-flex flex-column align-items-center">
-                <h3
+                <p
                   className="card-title font-weight-bold text-dark text-center mb-4"
                   style={{ fontSize: "0.8rem" }}
                 >
                   Request Percentage Distribution
-                </h3>
+                </p>
                 <div className="w-100 d-flex justify-content-center">
-                  <div style={{ maxWidth: "500px", width: "100%" }}>
+                  <div
+                    style={{
+                      maxWidth: "500px",
+                      width: "100%",
+                      fontSize: "0.8rem",
+                    }}
+                  >
                     <Pie data={homeapprovalPieData} options={Pieoptions} />
                   </div>
                 </div>
@@ -445,14 +457,14 @@ const Home = () => {
               }}
             >
               <div className="card-body p-4">
-                <h3
+                <p
                   style={{
                     fontSize: "0.8rem",
                     fontWeight: "bold",
                   }}
                 >
                   Recent Event Requests
-                </h3>
+                </p>
 
                 <div
                   style={{
