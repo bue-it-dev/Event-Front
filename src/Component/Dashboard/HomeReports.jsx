@@ -184,6 +184,54 @@ const HomeReports = () => {
       ),
     },
     {
+      field: "createdAt",
+      headerName: "Submission Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.createdAt}>
+          <span className="table-cell-trucate">{params.row.createdAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "confirmedAt",
+      headerName: "Confrimation Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.confirmedAt}>
+          <span className="table-cell-trucate">{params.row.confirmedAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "updateAt",
+      headerName: "Modification Date",
+      width: 190,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.updateAt}>
+          <span className="table-cell-trucate">{params.row.updateAt}</span>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "statusName",
+      headerName: "Status",
+      width: 190,
+      align: "left",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.statusName}>
+          <span className="table-cell-trucate">{params.row.statusName}</span>
+        </Tooltip>
+      ),
+    },
+    {
       field: "organizerMobile",
       headerName: "Organizer Mobile",
       width: 172,
@@ -458,54 +506,6 @@ const HomeReports = () => {
           <span className="table-cell-trucate">
             {params.row.isInernationalGuest}
           </span>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "confirmedAt",
-      headerName: "Confrimation Date",
-      width: 190,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <Tooltip title={params.row.confirmedAt}>
-          <span className="table-cell-trucate">{params.row.confirmedAt}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "updateAt",
-      headerName: "Modification Date",
-      width: 190,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <Tooltip title={params.row.updateAt}>
-          <span className="table-cell-trucate">{params.row.updateAt}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "createdAt",
-      headerName: "Submission Date",
-      width: 190,
-      align: "center",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <Tooltip title={params.row.createdAt}>
-          <span className="table-cell-trucate">{params.row.createdAt}</span>
-        </Tooltip>
-      ),
-    },
-    {
-      field: "statusName",
-      headerName: "Status",
-      width: 190,
-      align: "left",
-      headerAlign: "center",
-      renderCell: (params) => (
-        <Tooltip title={params.row.statusName}>
-          <span className="table-cell-trucate">{params.row.statusName}</span>
         </Tooltip>
       ),
     },
