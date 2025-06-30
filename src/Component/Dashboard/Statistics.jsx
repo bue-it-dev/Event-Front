@@ -195,18 +195,18 @@ const Statistics = () => {
   ];
 
   const eventapprovaloverviewoptions = {
-    title: "Event Request Statistics",
+    title: "Request Status by Department",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 }, // Limit to 3 lines
+      textStyle: { fontSize: 12, maxLines: 3 }, // Limit to 3 lines
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#4CAF50", "#E53935", "#FFC107", "#3c89db"],
@@ -214,33 +214,40 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
+  // const eventapprovaloverviewheaders = [
+  //   "departmentName",
+  //   "approvedCount",
+  //   "rejectedCount",
+  //   "pendingCount",
+  //   // "totalCount",
+  // ];
+
   const eventapprovaloverviewheaders = [
-    "departmentName",
-    "approvedCount",
-    "rejectedCount",
-    "pendingCount",
-    // "totalCount",
+    { key: "departmentName", label: "Department Name" },
+    { key: "approvedCount", label: "Approved" },
+    { key: "rejectedCount", label: "Rejected" },
+    { key: "pendingCount", label: "Pending" },
   ];
   //Budget Per Department Bar Chart & CSV Data Preparation
   const eventbudgetperdepartmentdata = [
-    ["Department", "count"],
+    ["Department", "Number of Requests"],
     ...eventbudgetperdepartment
       .filter((dept) => dept.count > 0)
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventbudgetperdepartmentoptions = {
-    title: "Event Budget Requests by Department / Faculty",
+    title: "Departments Requesting Budget Service",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -248,28 +255,31 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const BudgetPerDepartmentHeaders = ["departmentName", "count"];
+  const BudgetPerDepartmentHeaders = [
+    { key: "departmentName", label: "Department Name" },
+    { key: "count", label: "Number of Requests" },
+  ];
 
   //Budget Per Department Cost Bar Chart & CSV Data Preparation
   const eventbudgetperdepartmentCostdata = [
-    ["Department", "count"],
+    ["Department", "Total Estimated Cost (EGP)"],
     ...eventbudgetperdepartmentcost
       .filter((dept) => dept.totalBudget > 0)
       .map((department) => [department.departmentName, department.totalBudget]),
   ];
   const eventbudgetperdepartmentcostoptions = {
-    title: "Event Budget Requests by Department Estimated Cost",
+    title: "Total Estimated Cost by Department",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Total Cost (EGP)",
+      title: "Total Estimated Cost (EGP)",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -277,28 +287,31 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const BudgetPerDepartmentCostHeaders = ["departmentName", "totalBudget"];
+  const BudgetPerDepartmentCostHeaders = [
+    { key: "departmentName", label: "Department Name" },
+    { key: "totalBudget", label: "Total Estimated Cost (EGP)" },
+  ];
 
   //Marcom Per Department Cost Bar Chart & CSV Data Preparation
   const eventmarcomperdepartmentdata = [
-    ["Department", "count"],
+    ["Department", "Number of Requests"],
     ...eventmarcomperdepartment
       .filter((dept) => dept.count > 0)
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventmarcomperdepartmentoptions = {
-    title: "Event Marcom Requests Count per Department",
+    title: "Departments Requesting Marcom Service",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -306,28 +319,31 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const MarcomPerDepartmentHeaders = ["departmentName", "count"];
+  const MarcomPerDepartmentHeaders = [
+    { key: "departmentName", label: "Department Name" },
+    { key: "count", label: "Number of Requests" },
+  ];
 
   //IT Per Department Cost Bar Chart & CSV Data Preparation
   const eventITperdepartmentdata = [
-    ["Department", "count"],
+    ["Department", "Number of Requests"],
     ...eventITperdepartment
       .filter((dept) => dept.count > 0)
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventITperdepartmentoptions = {
-    title: "Event IT Requests Count per Department",
+    title: "Departments Requesting IT Service",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -335,28 +351,31 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const ITPerDepartmentHeaders = ["departmentName", "count"];
+  const ITPerDepartmentHeaders = [
+    { key: "departmentName", label: "Department Name" },
+    { key: "count", label: "Number of Requests" },
+  ];
 
   //IT Service Count Bar Chart & CSV Data Preparation
   const eventITServiceCountdata = [
-    ["Component", "Count"],
+    ["IT Component", "Number of Uses"],
     ...eventITServiceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
       .map((department) => [department.serviceType, department.totalCount]),
   ];
   const eventITServiceCountoptions = {
-    title: "Event IT Requests Most Used Service",
+    title: "Most Used IT Components",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
-      title: "Component",
+      title: "IT Component",
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
@@ -365,7 +384,10 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const ITServiceCountHeaders = ["serviceType", "totalCount"];
+  const ITServiceCountHeaders = [
+    { key: "serviceType", label: "IT Component" },
+    { key: "totalCount", label: "Number of Uses" },
+  ];
 
   // IT Service Type Count Bar Chart & CSV Data Preparation
   const eventITCompCountdata = (() => {
@@ -408,11 +430,11 @@ const Statistics = () => {
   })();
 
   const eventITCompCountoptions = {
-    title: "IT Component Per Department Statistics",
+    title: "Most Used IT Component by Department",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -438,28 +460,32 @@ const Statistics = () => {
   };
 
   // Headers for CSV export
-  const ITCompCountHeaders = ["departmentName", "serviceType", "count"];
+  const ITCompCountHeaders = [
+    { key: "departmentName", label: "Department" },
+    { key: "serviceType", label: "IT Component" },
+    { key: "count", label: "Number of Uses" },
+  ];
 
   //Trans Per Department Cost Bar Chart & CSV Data Preparation
   const eventTransperdepartmentdata = [
-    ["Department", "count"],
+    ["Department", "Number of Requests"],
     ...eventTransperdepartment
       .filter((dept) => dept.count > 0)
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventTransperdepartmentoptions = {
-    title: "Event Transportation Requests Count per Department",
+    title: "Departments Requesting Transportation Service",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -467,29 +493,32 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const TransPerDepartmentHeaders = ["departmentName", "count"];
+  const TransPerDepartmentHeaders = [
+    { key: "departmentName", label: "Department" },
+    { key: "count", label: "Number of Requests" },
+  ];
 
   //Transportation Service Count Bar Chart & CSV Data Preparation
   const eventTransServiceCountdata = [
-    ["Component", "Count"],
+    ["Tranportation Service", "Number of Uses"],
     ...eventTransSerivceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
       .map((department) => [department.serviceType, department.totalCount]),
   ];
   const eventTransServiceCountoptions = {
-    title: "Event Transportation Requests Most Used Service",
+    title: "Most Used Transportation Services",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
-      title: "Component",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      title: "Tranportation Service",
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -497,7 +526,10 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const TransServiceCountHeaders = ["serviceType", "totalCount"];
+  const TransServiceCountHeaders = [
+    { key: "serviceType", label: "Tranportation Service" },
+    { key: "totalCount", label: "Number of Uses" },
+  ];
 
   // Transportation Service Type Count Bar Chart & CSV Data Preparation
   const eventTransCompCountdata = (() => {
@@ -540,11 +572,11 @@ const Statistics = () => {
   })();
 
   const eventTransCompCountoptions = {
-    title: "Transportation Type Per Department Statistics",
+    title: "Most Used Transportation Service by Department",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -560,7 +592,11 @@ const Statistics = () => {
   };
 
   // Headers for CSV export
-  const TransCompCountHeaders = ["departmentName", "serviceType", "count"];
+  const TransCompCountHeaders = [
+    { key: "departmentName", label: "Department" },
+    { key: "serviceType", label: "Service Type" },
+    { key: "count", label: "Number of Uses" },
+  ];
 
   //Accommodation Per Department Cost Bar Chart & CSV Data Preparation
   const eventAccommCountdata = [
@@ -924,7 +960,7 @@ const Statistics = () => {
     }
   };
 
-  // for Event IT Component Per Department Statistics
+  // for Event Most Used IT Component by Department
   const GetITCompCountPerDepartment = async (
     ITCompPerDepartmentStartDate,
     ITCompPerDepartmentEndDate,
