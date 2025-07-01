@@ -600,24 +600,24 @@ const Statistics = () => {
 
   //Accommodation Per Department Cost Bar Chart & CSV Data Preparation
   const eventAccommCountdata = [
-    ["Department", "count"],
+    ["Department", "Number of Requests"],
     ...eventTransperdepartment
       .filter((dept) => dept.count > 0)
       .map((department) => [department.departmentName, department.count]),
   ];
   const eventAccommCountoptions = {
-    title: "Event Accommodation Requests Count per Department",
+    title: "Departments Requesting Accommodation Service",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Requests",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
       title: "Department",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -625,28 +625,31 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const AccommCountPerDepartmentHeaders = ["departmentName", "count"];
+  const AccommCountPerDepartmentHeaders = [
+    { key: "departmentName", label: "Department" },
+    { key: "count", label: "Number of Requests" },
+  ];
 
   //Transportation Service Count Bar Chart & CSV Data Preparation
   const eventAccommServiceCountdata = [
-    ["Component", "Count"],
+    ["Component", "Number of Uses"],
     ...eventAccommSerivceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
       .map((department) => [department.serviceType, department.totalCount]),
   ];
   const eventAccommServiceCountoptions = {
-    title: "Event Accommodation Requests Most Used Service",
+    title: "Most Used Accommodation Services",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
     },
     vAxis: {
-      title: "Component",
+      title: "Accommodation Service",
       textStyle: { fontSize: 14, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
@@ -655,7 +658,10 @@ const Statistics = () => {
     bar: { groupWidth: "65%" },
   };
 
-  const AccommServiceCountHeaders = ["serviceType", "totalCount"];
+  const AccommServiceCountHeaders = [
+    { key: "serviceType", label: "Accommodation Service" },
+    { key: "totalCount", label: "Number of Uses" },
+  ];
 
   // Accommodation Service Type Count Bar Chart & CSV Data Preparation
   const eventAccommCompCountdata = (() => {
@@ -698,11 +704,11 @@ const Statistics = () => {
   })();
 
   const eventAccommCompCountoptions = {
-    title: "Accommodation Type Per Department Statistics",
+    title: "Most Used Accommodation Service by Department",
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Count",
+      title: "Number of Uses",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -718,7 +724,12 @@ const Statistics = () => {
   };
 
   // Headers for CSV export
-  const AccommCompCountHeaders = ["departmentName", "serviceType", "count"];
+  const AccommCompCountHeaders = [
+    { key: "departmentName", label: "Department Name" },
+    { key: "serviceType", label: "Accommodation Service" },
+    { key: "totalCount", label: "Number of Uses" },
+  ];
+
   //   const TransCompCountHeaders = ["departmentName", "count", "serviceType"];
   // Function to fetch Data from the Backend
   // Event Overivew  Per Department Statistics
