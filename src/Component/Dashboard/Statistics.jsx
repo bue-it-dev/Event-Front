@@ -376,7 +376,7 @@ const Statistics = () => {
     },
     vAxis: {
       title: "IT Component",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
@@ -650,7 +650,7 @@ const Statistics = () => {
     },
     vAxis: {
       title: "Accommodation Service",
-      textStyle: { fontSize: 14, maxLines: 3 },
+      textStyle: { fontSize: 12, maxLines: 3 },
       titleTextStyle: { fontSize: 12 },
     },
     colors: ["#43749b", "#65a2d5", "#43749b", "#355c7b"],
