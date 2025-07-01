@@ -30,6 +30,7 @@ import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
 import GetEventPassportInfo from "../shared_components/GetEventPassportInfo";
 import GETEventSelections from "../shared_components/GETEventSelections";
 import GetEventFilesSection from "../shared_components/GetEventFilesSection";
+import { set } from "react-hook-form";
 const BOEventDetails = () => {
   const history = useHistory();
   const [isBOSubmitted, setisBOSubmitted] = useState(false);
@@ -874,6 +875,24 @@ const BOEventDetails = () => {
       };
       // Wait for the backend response
       console.log("Payload", payload);
+      if (eventData.budgetCode == null || eventData.budgetCode == "") {
+        toast.error("Please enter a budget code");
+        setisLoading(false);
+        return;
+      }
+      if (
+        eventData.budgetCostCenter == null ||
+        eventData.budgetCostCenter == ""
+      ) {
+        toast.error("Please enter a budget cost center");
+        setisLoading(false);
+        return;
+      }
+      if (eventData.budgetlineName == null || eventData.budgetlineName == "") {
+        toast.error("Please enter a budget line name");
+        setisLoading(false);
+        return;
+      }
       await AddBudgetOfficeEventRequest(payload);
       await handleApproval(1); // Assuming 1 is the status ID for approval
       setisLoading(false);
