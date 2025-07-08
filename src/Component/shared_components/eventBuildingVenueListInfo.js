@@ -76,7 +76,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
     >
       <div className="row align-items-center">
         {/* Building Select */}
-        <div className="col-md-6">
+        <div className="col-md-4">
           <select
             className="form-control custom-select custom-select-lg"
             style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
@@ -99,7 +99,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
 
         {/* Venue Select (Shown Only When Building is Selected) */}
         {selectedBuildingId && (
-          <div className="col-md-5 mt-3 mt-md-0">
+          <div className="col-md-4 mt-3 mt-md-0">
             <select
               className="form-control custom-select custom-select-lg"
               style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
@@ -121,10 +121,13 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
           </div>
         )}
         {selectedVenueTypeId && (
-          <div className="col-md-5 mt-3 mt-md-0">
+          <div className="col-md-3">
             <select
               className="form-control custom-select custom-select-lg"
-              style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
+              style={{
+                fontSize: "0.7rem",
+                backgroundColor: "#ffff",
+              }}
               onChange={(e) => {
                 const venueId = e.target.value;
                 seteventData((prev) => {
@@ -151,10 +154,10 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
         )}
 
         {/* Delete Button */}
-        <div className="col-md-1 d-flex justify-content-center align-items-center mt-3 mt-md-0">
+        <div className="col-md-1">
           <button
             type="button"
-            className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
+            className="btn btn-outline-danger rounded-circle"
             // style={{ width: "42px", height: "42px" }}
             style={{
               width: "24px", // ~1.5rem
