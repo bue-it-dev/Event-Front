@@ -8,6 +8,8 @@ import Select from "react-select";
 const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
   const [buildings, setBuildings] = useState([]);
   const [selectedBuildingId, setSelectedBuildingId] = useState(null);
+  const [selectedVenueTypeId, setselectedVenueTypeId] = useState(null);
+  const [venueTypes, setVenueTypes] = useState([]);
   const [venues, setVenues] = useState([]);
 
   // Get List of Buildings
@@ -28,10 +30,28 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
   };
 
   // Get List of Venues for Selected Building
-  const getVenues = async (buildingId) => {
+  const getVenuesTypes = async (buildingId) => {
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
+        `${URL.BASE_URL}/api/EventEntity/get-venuse-types?buildinId=${buildingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        }
+      );
+      setVenueTypes(response.data.data);
+      console.log("buildingID", buildingId);
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+    }
+  };
+
+  // Get List of Venues for Selected Building
+  const getVenues = async (buildingId, venueId) => {
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}&venueTypeId=${venueId}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
@@ -63,7 +83,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
             onChange={(e) => {
               const buildingId = e.target.value;
               setSelectedBuildingId(buildingId);
-              getVenues(buildingId);
+              getVenuesTypes(buildingId);
             }}
             name="buildings"
             required
@@ -85,6 +105,28 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
               style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
               onChange={(e) => {
                 const venueId = e.target.value;
+                setselectedVenueTypeId(venueId);
+                getVenues(selectedBuildingId, venueId);
+              }}
+              name="venues"
+              required
+            >
+              <option value="">Select Venue Type</option>
+              {venueTypes.map((venue) => (
+                <option key={venue.venueId} value={venue.venueId}>
+                  {venue.venueName}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {selectedVenueTypeId && (
+          <div className="col-md-5 mt-3 mt-md-0">
+            <select
+              className="form-control custom-select custom-select-lg"
+              style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
+              onChange={(e) => {
+                const venueId = e.target.value;
                 seteventData((prev) => {
                   const updatedVenues = [...prev.BuildingVenues];
                   updatedVenues[index] = {
@@ -98,7 +140,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
               name="venues"
               required
             >
-              <option value="">Select venue</option>
+              <option value="">Select Venue Type</option>
               {venues.map((venue) => (
                 <option key={venue.venueId} value={venue.venueId}>
                   {venue.venueName}
