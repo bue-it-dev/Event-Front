@@ -89,7 +89,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
             name="buildings"
             required
           >
-            <option value="">Select building</option>
+            <option value="">Select Building</option>
             {buildings.map((data) => (
               <option key={data.buildingId} value={data.buildingId}>
                 {data.building}
@@ -144,7 +144,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
               name="venues"
               required
             >
-              <option value="">Select Venue Type</option>
+              <option value="">Select Venue</option>
               {venues.map((venue) => (
                 <option key={venue.venueId} value={venue.venueId}>
                   {venue.venueName}

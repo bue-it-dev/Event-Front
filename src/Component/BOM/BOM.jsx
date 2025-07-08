@@ -78,7 +78,7 @@ const BOM = () => {
             }}
             onClick={handleBOMClick}
           >
-            Business Operation Manager
+            BO Manager
           </button>
 
           <button

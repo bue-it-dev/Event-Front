@@ -88,7 +88,7 @@ const Admin = () => {
             }}
             onClick={handleBOMClick}
           >
-            Business Operation Manager
+            BO Manager
           </button>
 
           <button

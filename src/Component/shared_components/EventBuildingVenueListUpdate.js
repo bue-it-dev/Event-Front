@@ -154,7 +154,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
             name="buildings"
             required
           >
-            <option value="">Select building</option>
+            <option value="">Select Building</option>
             {buildings.map((data) => (
               <option key={data.buildingId} value={data.buildingId}>
                 {data.building}
@@ -175,7 +175,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
               name="venues"
               required
             >
-              <option value="">Select venue type</option>
+              <option value="">Select Venue Type</option>
               {venueTypes.map((venue) => (
                 <option key={venue.venueTypeId} value={venue.venueTypeId}>
                   {venue.venue}
@@ -195,7 +195,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
               name="venues"
               required
             >
-              <option value="">Select venue</option>
+              <option value="">Select Venue</option>
               {venues.map((venue) => (
                 <option key={venue.venueId} value={venue.venueId}>
                   {venue.venueName}

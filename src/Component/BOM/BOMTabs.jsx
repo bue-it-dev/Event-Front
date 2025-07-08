@@ -81,11 +81,11 @@ const BOMTabs = () => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab
+          {/* <LinkTab
             label="All Requests"
             href="/all-event-request-list-bom"
             {...a11yProps(0)}
-          />
+          /> */}
           <LinkTab
             label="My Approvals"
             href="/event-approval-list-bom"
