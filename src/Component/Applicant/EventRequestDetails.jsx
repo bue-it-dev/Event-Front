@@ -183,6 +183,7 @@ const EventRequestDetails = () => {
     buildingVenues: [
       {
         eventId: 0,
+        venueTypeId: 0,
         venueId: 0,
         buildingId: 0,
       },

@@ -5,6 +5,7 @@ import URL from "../Util/config";
 
 const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   const [buildings, setBuildings] = useState([]);
+  const [venueTypes, setvenueTypes] = useState([]);
   const [venues, setVenues] = useState([]);
 
   // ✅ Ensure buildingVenues exists in eventData
@@ -20,6 +21,8 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   // ✅ Extract stored Building & Venue IDs
   const selectedBuildingId =
     eventData.buildingVenues?.[index]?.buildingId || "";
+  const selectedVenueTypeId =
+    eventData.buildingVenues?.[index]?.venueTypeId || "";
   const selectedVenueId = eventData.buildingVenues?.[index]?.venueId || "";
 
   // ✅ Fetch Buildings
@@ -38,11 +41,27 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   };
 
   // ✅ Fetch Venues for Selected Building
-  const fetchVenues = async (buildingId) => {
+  const fetchVenueTypes = async (buildingId) => {
     if (!buildingId) return;
     try {
       const response = await axios.get(
-        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}`,
+        `${URL.BASE_URL}/api/EventEntity/get-venuse-types?buildinId=${buildingId}`,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      );
+      setvenueTypes(response.data.data);
+    } catch (error) {
+      console.error("❌ Error fetching venues:", error);
+    }
+  };
+
+  // ✅ Fetch Venues for Selected Building
+  const fetchVenues = async (buildingId, venueId) => {
+    if (!buildingId) return;
+    try {
+      const response = await axios.get(
+        `${URL.BASE_URL}/api/EventEntity/get-venuse?buildinId=${buildingId}&venueTypeId=${venueId}`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
@@ -61,7 +80,10 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
   // ✅ Fetch venues when the selected building changes
   useEffect(() => {
     if (selectedBuildingId) {
-      fetchVenues(selectedBuildingId);
+      fetchVenueTypes(selectedBuildingId);
+    }
+    if (selectedVenueTypeId) {
+      fetchVenues(selectedBuildingId, selectedVenueTypeId);
     }
   }, [selectedBuildingId]);
 
@@ -74,15 +96,31 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
 
       updatedBuildingVenues[index] = {
         buildingId,
+        venueTypeId: "", // Reset venueName when building changes
         venueId: "", // Reset venue when building changes
       };
 
       return { ...prevState, buildingVenues: updatedBuildingVenues };
     });
 
-    fetchVenues(buildingId);
+    fetchVenueTypes(buildingId);
   };
+  // ✅ Handle Venue Change
+  const handleVenueTypeChange = (e) => {
+    const venueTypeId = e.target.value;
 
+    seteventData((prevState) => {
+      const updatedBuildingVenues = [...(prevState.buildingVenues || [])];
+
+      updatedBuildingVenues[index] = {
+        ...updatedBuildingVenues[index],
+        venueTypeId,
+      };
+
+      return { ...prevState, buildingVenues: updatedBuildingVenues };
+    });
+    fetchVenues(selectedBuildingId, venueTypeId);
+  };
   // ✅ Handle Venue Change
   const handleVenueChange = (e) => {
     const venueId = e.target.value;
@@ -106,7 +144,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
     >
       <div className="row align-items-center">
         {/* Building Select */}
-        <div className="col-md-6">
+        <div className="col-md-4">
           {/* <label className="form-label font-weight-bold">Select Building</label> */}
           <select
             className="form-control custom-select custom-select-lg"
@@ -127,7 +165,27 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
 
         {/* Venue Select (Shown Only When Building is Selected) */}
         {selectedBuildingId && (
-          <div className="col-md-5 mt-3 mt-md-0">
+          <div className="col-md-4 mt-3 mt-md-0">
+            {/* <label className="form-label font-weight-bold">Select Venue</label> */}
+            <select
+              className="form-control custom-select custom-select-lg"
+              style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
+              value={selectedVenueTypeId}
+              onChange={handleVenueTypeChange}
+              name="venues"
+              required
+            >
+              <option value="">Select venue type</option>
+              {venueTypes.map((venue) => (
+                <option key={venue.venueId} value={venue.venueId}>
+                  {venue.venueName}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+        {selectedVenueTypeId && (
+          <div className="col-md-3">
             {/* <label className="form-label font-weight-bold">Select Venue</label> */}
             <select
               className="form-control custom-select custom-select-lg"
@@ -149,7 +207,7 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
         {eventData.confirmedAt == null ? (
           <>
             {/* Delete Button */}
-            <div className="col-md-1 d-flex justify-content-center align-items-center mt-3 mt-md-0">
+            <div className="col-md-1">
               <button
                 type="button"
                 className="btn btn-outline-danger rounded-circle p-2 d-flex align-items-center justify-content-center"
