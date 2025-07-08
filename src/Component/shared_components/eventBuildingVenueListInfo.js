@@ -76,13 +76,14 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
     >
       <div className="row align-items-center">
         {/* Building Select */}
-        <div className="col-md-4">
+        <div className="col-md-5">
           <select
             className="form-control custom-select custom-select-lg"
             style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
             onChange={(e) => {
               const buildingId = e.target.value;
               setSelectedBuildingId(buildingId);
+              setselectedVenueTypeId(null);
               getVenuesTypes(buildingId);
             }}
             name="buildings"
@@ -99,7 +100,7 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
 
         {/* Venue Select (Shown Only When Building is Selected) */}
         {selectedBuildingId && (
-          <div className="col-md-4 mt-3 mt-md-0">
+          <div className="col-md-3 mt-3 mt-md-0">
             <select
               className="form-control custom-select custom-select-lg"
               style={{ fontSize: "0.7rem", backgroundColor: "#ffff" }}
@@ -113,8 +114,8 @@ const EventBuildingVenueListInfo = ({ index, eventData, seteventData }) => {
             >
               <option value="">Select Venue Type</option>
               {venueTypes.map((venue) => (
-                <option key={venue.venueId} value={venue.venueId}>
-                  {venue.venueName}
+                <option key={venue.venueTypeId} value={venue.venueTypeId}>
+                  {venue.venue}
                 </option>
               ))}
             </select>

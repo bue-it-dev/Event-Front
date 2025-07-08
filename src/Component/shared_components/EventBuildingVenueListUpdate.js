@@ -177,8 +177,8 @@ const EventBuildingVenueListUpdate = ({ index, eventData, seteventData }) => {
             >
               <option value="">Select venue type</option>
               {venueTypes.map((venue) => (
-                <option key={venue.venueId} value={venue.venueId}>
-                  {venue.venueName}
+                <option key={venue.venueTypeId} value={venue.venueTypeId}>
+                  {venue.venue}
                 </option>
               ))}
             </select>
