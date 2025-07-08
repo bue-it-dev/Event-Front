@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import URL from "../Util/config";
 import "./Applicant.css";
 import { MDBDataTable } from "mdbreact";
@@ -10,6 +10,10 @@ import { getToken } from "../Util/Authenticate";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
+import EventBuildingVenueListGET from "../shared_components/EventBuildingVenueListGET";
+import EventFilesSectionGET from "../shared_components/EventFilesSectionGET";
+import GetEventPassportInfo from "../shared_components/GetEventPassportInfo";
+import GETEventSelections from "../shared_components/GETEventSelections";
 import EventInfo from "../shared_components/EventPassportInfo";
 import EventSelections from "../shared_components/EventSelections";
 import EventFilesSection from "../shared_components/EventFilesSection";
@@ -183,6 +187,7 @@ const AdminMyEventRequetDetails = () => {
     buildingVenues: [
       {
         eventId: 0,
+        venueTypeId: 0,
         venueId: 0,
         buildingId: 0,
       },
@@ -875,6 +880,9 @@ const AdminMyEventRequetDetails = () => {
   const [ITChoice, setITChoice] = useState(false);
   const [TransportChoice, setTransportChoice] = useState(false);
   const [AccommodationChoice, setAccommodationChoice] = useState(false);
+  const eventInfoRef = useRef(null);
+  const venueSectionRef = useRef(null);
+  const ServiceSectionRef = useRef(null);
   // useEffect(() => {
   //   if (updatehometravelData.confrimedat != null) {
   //     await GetEventApprovalsTracker(requestId);
@@ -895,10 +903,18 @@ const AdminMyEventRequetDetails = () => {
       isValidationValid = true;
     } else {
       toast.error("Employee name is required.");
+      eventInfoRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (!eventData.buildingVenues || eventData.buildingVenues.length === 0) {
       toast.error("Select the event venue(s).");
+      venueSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       return;
     }
     if (eventData.hasIt == 1) {
@@ -906,6 +922,10 @@ const AdminMyEventRequetDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one IT component.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -914,6 +934,10 @@ const AdminMyEventRequetDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Transportation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -922,6 +946,10 @@ const AdminMyEventRequetDetails = () => {
         isValidationValid = true;
       } else {
         toast.error("Please select at least one Accommodation choice.");
+        ServiceSectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
         return;
       }
     }
@@ -991,302 +1019,545 @@ const AdminMyEventRequetDetails = () => {
               <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
                 Event Details
               </h5>
-              <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Event Info
-                  </h5>
-                </div>
-                <UpdateEventPassportInfo
-                  eventData={eventData}
-                  seteventData={seteventData}
-                  employeeSelected={employeeSelected}
-                  setemployeeSelected={setemployeeSelected}
-                />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Venues
-                  </h5>
-                </div>
-                {eventData.confirmedAt == null ? (
-                  <div className="d-flex align-items-center mb-3">
-                    <button
-                      type="button"
-                      className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "24px", // ~1.5rem
-                        height: "24px",
-                        fontSize: "0.7rem",
-                        borderRadius: "50%",
-                        marginRight: "10px",
-                        transition: "0.3s ease",
-                        backgroundColor: "#57636f",
-                        padding: "0",
-                      }}
-                      onClick={addBuildingVenue}
-                    >
-                      +
-                    </button>
-                    <p
-                      className="text-dark mb-0"
-                      style={{ fontSize: "0.7rem" }}
-                    >
-                      Add Venue(s)
-                    </p>
-                  </div>
-                ) : null}
-
-                {eventData?.buildingVenues?.map((_, index) => (
-                  <EventBuildingVenueListUpdate
-                    key={index}
-                    index={index}
-                    eventData={eventData}
-                    seteventData={seteventData}
-                  />
-                ))}
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-6  text-dark">
-                    Services
-                  </h5>
-                </div>
-                <UpdateEventSelections
-                  eventData={eventData}
-                  seteventData={seteventData}
-                  setITChoice={setITChoice}
-                  setTransportChoice={setTransportChoice}
-                  setAccommodationChoice={setAccommodationChoice}
-                />
-                <br />
-                <br />
-                <div className="horizontal-rule mb-4">
-                  <hr className="border-secondary" />
-                  <h5 className="horizontal-rule-text fs-5 text-dark">
-                    Attendance
-                  </h5>
-                </div>
-
-                <UpdateEventFilesSection
-                  eventData={eventData}
-                  setEventData={seteventData}
-                  handleFileChange={handleFileChange}
-                />
-                <br />
-                {eventData.budgetCode != null ? (
-                  <>
+              {eventData.confirmedAt == null ? (
+                <>
+                  <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
                     <div className="horizontal-rule mb-4">
-                      <hr />
-                      <h5 className="horizontal-rule-text fs-5">
-                        Budget Office
+                      <hr className="border-secondary" />
+                      <h5 className="horizontal-rule-text fs-5 text-dark">
+                        Event Info
                       </h5>
                     </div>
-                    <div className="mb-4">
-                      <div className="mb-4">
-                        <div className="row">
-                          <div className="col-md-4 mb-4">
-                            <input
-                              type="text"
-                              placeholder="Enter budget code"
-                              id="budgetCode"
-                              name="budgetCode"
-                              value={eventData.budgetCode || ""} // Adjusted to match state structure
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                seteventData({
-                                  ...eventData,
-                                  budgetCode: value,
-                                });
-                              }}
-                              className="form-control form-control-lg"
-                              style={{ fontSize: "0.7rem" }}
-                              disabled
-                            />
-                          </div>
-                          <div className="col-md-4 mb-4">
-                            <input
-                              placeholder="Enter budget cost center"
-                              type="text"
-                              id="budgetCostCenter"
-                              name="budgetCostCenter"
-                              value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                seteventData({
-                                  ...eventData,
-                                  budgetCostCenter: value,
-                                });
-                              }}
-                              className="form-control form-control-lg"
-                              style={{ fontSize: "0.7rem" }}
-                              disabled
-                            />
-                          </div>
-                          <div className="col-md-4 mb-4">
-                            <input
-                              type="text"
-                              placeholder="Enter budget line name"
-                              id="budgetlineName"
-                              name="budgetlineName"
-                              value={eventData.budgetlineName || ""} // Adjusted to match state structure
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                seteventData({
-                                  ...eventData,
-                                  budgetlineName: value,
-                                });
-                              }}
-                              className="form-control form-control-lg"
-                              style={{ fontSize: "0.7rem" }}
-                              disabled
-                              title="Only letters and spaces are allowed"
-                              // pattern="[a-zA-Z ]*"
-                            />
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-12 mb-4">
-                            <textarea
-                              type="text"
-                              placeholder="Enter notes if needed"
-                              id="notes"
-                              name="notes"
-                              value={eventData.notes || ""} // Adjusted to match state structure
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                seteventData({
-                                  ...eventData,
-                                  notes: value,
-                                });
-                              }}
-                              className="form-control form-control-lg"
-                              style={{ fontSize: "0.7rem" }}
-                              disabled
-                              rows={2}
-                              title="Only letters and spaces are allowed"
-                              // pattern="[a-zA-Z ]*"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ) : null}
-
-                {eventData.confirmedAt == null ? (
-                  <>
-                    <div className="row justify-content-center mt-3">
-                      <div
-                        className="d-flex justify-content-center"
-                        style={{ gap: "1rem", flexWrap: "wrap" }}
-                      >
-                        <button
-                          type="submit"
-                          className="btn btn-dark btn-lg"
-                          style={{
-                            transition: "0.3s ease",
-                            backgroundColor: "#57636f",
-                            padding: "6px 16px",
-                            fontSize: "0.7rem",
-                            whiteSpace: "nowrap",
-                          }}
-                          disabled={!isSubmitEnabled || isLoading}
-                          onClick={() => setClickedButtonId(1)}
-                        >
-                          {isLoading ? "Save Draft" : "Save Draft"}
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn btn-dark btn-lg"
-                          style={{
-                            transition: "0.3s ease",
-                            backgroundColor: "#57636f",
-                            padding: "6px 16px",
-                            fontSize: "0.7rem",
-                            whiteSpace: "nowrap",
-                          }}
-                          disabled={!isSubmitEnabled || isLoading}
-                          onClick={() => setClickedButtonId(2)}
-                        >
-                          {isLoading ? "Submit" : "Submit"}
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div
-                      className="horizontal-rule"
-                      style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
-                    >
-                      <hr />
-                      <h5
-                        className="horizontal-rule-text"
-                        style={{ marginBottom: "0" }}
-                      >
-                        Approvals Hierarchy
-                      </h5>
-                    </div>
-                    <div
-                      className="row"
-                      style={{ marginTop: "0", paddingTop: "0" }}
-                    >
-                      <Table responsive style={{ marginTop: "0" }}>
-                        <MDBDataTable
-                          className="custom-table"
-                          striped
-                          bordered
-                          hover
-                          data={data}
-                          paging={false} // Disables pagination
-                          scrollX={false} // Disables horizontal scrolling
-                          scrollY={false} // Disables vertical scrolling
-                          order={["Number", "asc"]}
-                          entries={10}
-                          searching={false} // Disables the search bar
+                    <div ref={venueSectionRef}>
+                      <div ref={eventInfoRef}>
+                        <UpdateEventPassportInfo
+                          eventData={eventData}
+                          seteventData={seteventData}
+                          employeeSelected={employeeSelected}
+                          setemployeeSelected={setemployeeSelected}
                         />
-                      </Table>
+                      </div>
+                      <div className="horizontal-rule mb-4">
+                        <hr className="border-secondary" />
+                        <h5 className="horizontal-rule-text fs-5 text-dark">
+                          Venues
+                        </h5>
+                      </div>
                     </div>
-                    {eventData.rejectionReason != null ? (
+                    {eventData.confirmedAt == null ? (
+                      <div className="d-flex align-items-center mb-3">
+                        <button
+                          type="button"
+                          className="btn btn-dark btn-sm d-flex align-items-center justify-content-center"
+                          style={{
+                            width: "24px", // ~1.5rem
+                            height: "24px",
+                            fontSize: "0.7rem",
+                            borderRadius: "50%",
+                            marginRight: "10px",
+                            transition: "0.3s ease",
+                            backgroundColor: "#57636f",
+                            padding: "0",
+                          }}
+                          onClick={addBuildingVenue}
+                        >
+                          +
+                        </button>
+                        <p
+                          className="text-dark mb-0"
+                          style={{ fontSize: "0.7rem" }}
+                        >
+                          Add Venue(s)
+                        </p>
+                      </div>
+                    ) : null}
+
+                    {eventData?.buildingVenues?.map((_, index) => (
+                      <EventBuildingVenueListUpdate
+                        key={index}
+                        index={index}
+                        eventData={eventData}
+                        seteventData={seteventData}
+                      />
+                    ))}
+                    <div ref={ServiceSectionRef}>
+                      <div className="horizontal-rule mb-4">
+                        <hr className="border-secondary" />
+                        <h5 className="horizontal-rule-text fs-6  text-dark">
+                          Services
+                        </h5>
+                      </div>
+                      <UpdateEventSelections
+                        eventData={eventData}
+                        seteventData={seteventData}
+                        setITChoice={setITChoice}
+                        setTransportChoice={setTransportChoice}
+                        setAccommodationChoice={setAccommodationChoice}
+                      />
+                      <br />
+                      <br />
+                    </div>
+                    <div className="horizontal-rule mb-4">
+                      <hr className="border-secondary" />
+                      <h5 className="horizontal-rule-text fs-5 text-dark">
+                        Attendance
+                      </h5>
+                    </div>
+
+                    <UpdateEventFilesSection
+                      eventData={eventData}
+                      setEventData={seteventData}
+                      handleFileChange={handleFileChange}
+                    />
+                    <br />
+                    {eventData.budgetCode != null ? (
                       <>
                         <div className="horizontal-rule mb-4">
-                          <h5 className="horizontal-rule-text">
-                            Reject Comment
+                          <hr />
+                          <h5 className="horizontal-rule-text fs-5">
+                            Budget Office
                           </h5>
                         </div>
-
-                        <textarea
-                          id="rejectionReason"
-                          name="rejectionReason"
-                          value={eventData.rejectionReason}
-                          disabled
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            seteventData({
-                              ...eventData,
-                              rejectionReason: value,
-                            });
-                          }}
-                          className="form-control"
-                          required
-                          rows="3"
-                          placeholder="Enter the reject comments"
-                          style={{
-                            fontSize: "0.7rem",
-                            textAlign: "justify",
-                            lineHeight: "1.4",
-                            padding: "8px",
-                            maxWidth: "85%",
-                            margin: "0 auto",
-                            display: "block",
-                          }}
-                        />
+                        <div className="mb-4">
+                          <div className="mb-4">
+                            <div className="row">
+                              <div className="col-md-4 mb-4">
+                                <input
+                                  type="text"
+                                  placeholder="Enter budget code"
+                                  id="budgetCode"
+                                  name="budgetCode"
+                                  value={eventData.budgetCode || ""} // Adjusted to match state structure
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    seteventData({
+                                      ...eventData,
+                                      budgetCode: value,
+                                    });
+                                  }}
+                                  className="form-control form-control-lg"
+                                  style={{ fontSize: "0.7rem" }}
+                                  disabled
+                                />
+                              </div>
+                              <div className="col-md-4 mb-4">
+                                <input
+                                  placeholder="Enter budget cost center"
+                                  type="text"
+                                  id="budgetCostCenter"
+                                  name="budgetCostCenter"
+                                  value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    seteventData({
+                                      ...eventData,
+                                      budgetCostCenter: value,
+                                    });
+                                  }}
+                                  className="form-control form-control-lg"
+                                  style={{ fontSize: "0.7rem" }}
+                                  disabled
+                                />
+                              </div>
+                              <div className="col-md-4 mb-4">
+                                <input
+                                  type="text"
+                                  placeholder="Enter budget line name"
+                                  id="budgetlineName"
+                                  name="budgetlineName"
+                                  value={eventData.budgetlineName || ""} // Adjusted to match state structure
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    seteventData({
+                                      ...eventData,
+                                      budgetlineName: value,
+                                    });
+                                  }}
+                                  className="form-control form-control-lg"
+                                  style={{ fontSize: "0.7rem" }}
+                                  disabled
+                                  title="Only letters and spaces are allowed"
+                                  // pattern="[a-zA-Z ]*"
+                                />
+                              </div>
+                            </div>
+                            <div className="row">
+                              <div className="col-12 mb-4">
+                                <textarea
+                                  type="text"
+                                  placeholder="Enter notes if needed"
+                                  id="notes"
+                                  name="notes"
+                                  value={eventData.notes || ""} // Adjusted to match state structure
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    seteventData({
+                                      ...eventData,
+                                      notes: value,
+                                    });
+                                  }}
+                                  className="form-control form-control-lg"
+                                  style={{ fontSize: "0.7rem" }}
+                                  disabled
+                                  rows={2}
+                                  title="Only letters and spaces are allowed"
+                                  // pattern="[a-zA-Z ]*"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </>
                     ) : null}
-                  </>
-                )}
-              </ValidatorForm>
+
+                    {eventData.confirmedAt == null ? (
+                      <>
+                        <div className="row justify-content-center mt-3">
+                          <div
+                            className="d-flex justify-content-center"
+                            style={{ gap: "1rem", flexWrap: "wrap" }}
+                          >
+                            <button
+                              type="submit"
+                              className="btn btn-dark btn-lg"
+                              style={{
+                                transition: "0.3s ease",
+                                backgroundColor: "#57636f",
+                                padding: "6px 16px",
+                                fontSize: "0.7rem",
+                                whiteSpace: "nowrap",
+                              }}
+                              disabled={!isSubmitEnabled || isLoading}
+                              onClick={() => setClickedButtonId(1)}
+                            >
+                              {isLoading ? "Save Draft" : "Save Draft"}
+                            </button>
+                            <button
+                              type="submit"
+                              className="btn btn-dark btn-lg"
+                              style={{
+                                transition: "0.3s ease",
+                                backgroundColor: "#57636f",
+                                padding: "6px 16px",
+                                fontSize: "0.7rem",
+                                whiteSpace: "nowrap",
+                              }}
+                              disabled={!isSubmitEnabled || isLoading}
+                              onClick={() => setClickedButtonId(2)}
+                            >
+                              {isLoading ? "Submit" : "Submit"}
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="horizontal-rule"
+                          style={{
+                            marginBottom: "0.25rem",
+                            marginTop: "2.5rem",
+                          }}
+                        >
+                          <hr />
+                          <h5
+                            className="horizontal-rule-text"
+                            style={{ marginBottom: "0" }}
+                          >
+                            Approvals Hierarchy
+                          </h5>
+                        </div>
+                        <div
+                          className="row"
+                          style={{ marginTop: "0", paddingTop: "0" }}
+                        >
+                          <Table responsive style={{ marginTop: "0" }}>
+                            <MDBDataTable
+                              className="custom-table"
+                              striped
+                              bordered
+                              hover
+                              data={data}
+                              paging={false} // Disables pagination
+                              scrollX={false} // Disables horizontal scrolling
+                              scrollY={false} // Disables vertical scrolling
+                              order={["Number", "asc"]}
+                              entries={10}
+                              searching={false} // Disables the search bar
+                            />
+                          </Table>
+                        </div>
+                        {eventData.rejectionReason != null ? (
+                          <>
+                            <div className="horizontal-rule mb-4">
+                              <h5 className="horizontal-rule-text">
+                                Reject Comment
+                              </h5>
+                            </div>
+
+                            <textarea
+                              id="rejectionReason"
+                              name="rejectionReason"
+                              value={eventData.rejectionReason}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  rejectionReason: value,
+                                });
+                              }}
+                              className="form-control"
+                              required
+                              rows="3"
+                              placeholder="Enter the reject comments"
+                              style={{
+                                fontSize: "0.7rem",
+                                textAlign: "justify",
+                                lineHeight: "1.4",
+                                padding: "8px",
+                                maxWidth: "85%",
+                                margin: "0 auto",
+                                display: "block",
+                              }}
+                            />
+                          </>
+                        ) : null}
+                      </>
+                    )}
+                  </ValidatorForm>
+                </>
+              ) : (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Event Info
+                    </h5>
+                  </div>
+                  <div>
+                    <div>
+                      <GetEventPassportInfo
+                        eventData={eventData}
+                        seteventData={seteventData}
+                        employeeSelected={employeeSelected}
+                        setemployeeSelected={setemployeeSelected}
+                      />
+                    </div>
+                    <div className="horizontal-rule mb-4">
+                      <hr className="border-secondary" />
+                      <h5 className="horizontal-rule-text fs-5 text-dark">
+                        Venues
+                      </h5>
+                    </div>
+                  </div>
+                  <div className="justify-content-center">
+                    {eventData?.buildingVenues?.map((_, index) => (
+                      <EventBuildingVenueListGET
+                        key={index}
+                        index={index}
+                        eventData={eventData}
+                        seteventData={seteventData}
+                      />
+                    ))}
+                  </div>
+                  <div>
+                    <div className="horizontal-rule mb-4">
+                      <hr className="border-secondary" />
+                      <h5 className="horizontal-rule-text fs-6  text-dark">
+                        Services
+                      </h5>
+                    </div>
+                    <GETEventSelections
+                      eventData={eventData}
+                      seteventData={seteventData}
+                      setITChoice={setITChoice}
+                      setTransportChoice={setTransportChoice}
+                      setAccommodationChoice={setAccommodationChoice}
+                    />
+                    <br />
+                    <br />
+                  </div>
+                  <div className="horizontal-rule mb-4">
+                    <hr className="border-secondary" />
+                    <h5 className="horizontal-rule-text fs-5 text-dark">
+                      Attendance
+                    </h5>
+                  </div>
+
+                  <EventFilesSectionGET
+                    eventData={eventData}
+                    setEventData={seteventData}
+                    handleFileChange={handleFileChange}
+                  />
+                  <br />
+                  {eventData.budgetCode != null ? (
+                    <>
+                      <div className="horizontal-rule mb-4">
+                        <hr />
+                        <h5 className="horizontal-rule-text fs-5">
+                          Budget Office
+                        </h5>
+                      </div>
+                      <div className="mb-4">
+                        <div className="mb-4">
+                          <div className="row">
+                            <div className="col-md-4 mb-4">
+                              <input
+                                type="text"
+                                placeholder="Enter budget code"
+                                id="budgetCode"
+                                name="budgetCode"
+                                value={eventData.budgetCode || ""} // Adjusted to match state structure
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  seteventData({
+                                    ...eventData,
+                                    budgetCode: value,
+                                  });
+                                }}
+                                className="form-control form-control-lg"
+                                style={{ fontSize: "0.7rem" }}
+                                disabled
+                              />
+                            </div>
+                            <div className="col-md-4 mb-4">
+                              <input
+                                placeholder="Enter budget cost center"
+                                type="text"
+                                id="budgetCostCenter"
+                                name="budgetCostCenter"
+                                value={eventData.budgetCostCenter || ""} // Adjusted to match state structure
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  seteventData({
+                                    ...eventData,
+                                    budgetCostCenter: value,
+                                  });
+                                }}
+                                className="form-control form-control-lg"
+                                style={{ fontSize: "0.7rem" }}
+                                disabled
+                              />
+                            </div>
+                            <div className="col-md-4 mb-4">
+                              <input
+                                type="text"
+                                placeholder="Enter budget line name"
+                                id="budgetlineName"
+                                name="budgetlineName"
+                                value={eventData.budgetlineName || ""} // Adjusted to match state structure
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  seteventData({
+                                    ...eventData,
+                                    budgetlineName: value,
+                                  });
+                                }}
+                                className="form-control form-control-lg"
+                                style={{ fontSize: "0.7rem" }}
+                                disabled
+                                title="Only letters and spaces are allowed"
+                                // pattern="[a-zA-Z ]*"
+                              />
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-12 mb-4">
+                              <textarea
+                                type="text"
+                                placeholder="Enter notes if needed"
+                                id="notes"
+                                name="notes"
+                                value={eventData.notes || ""} // Adjusted to match state structure
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  seteventData({
+                                    ...eventData,
+                                    notes: value,
+                                  });
+                                }}
+                                className="form-control form-control-lg"
+                                style={{ fontSize: "0.7rem" }}
+                                disabled
+                                rows={2}
+                                title="Only letters and spaces are allowed"
+                                // pattern="[a-zA-Z ]*"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : null}
+                  <div
+                    className="horizontal-rule"
+                    style={{ marginBottom: "0.25rem", marginTop: "2.5rem" }}
+                  >
+                    <hr />
+                    <h5
+                      className="horizontal-rule-text"
+                      style={{ marginBottom: "0" }}
+                    >
+                      Approvals Hierarchy
+                    </h5>
+                  </div>
+                  <div
+                    className="row"
+                    style={{ marginTop: "0", paddingTop: "0" }}
+                  >
+                    <Table responsive style={{ marginTop: "0" }}>
+                      <MDBDataTable
+                        className="custom-table"
+                        striped
+                        bordered
+                        hover
+                        data={data}
+                        paging={false} // Disables pagination
+                        scrollX={false} // Disables horizontal scrolling
+                        scrollY={false} // Disables vertical scrolling
+                        order={["Number", "asc"]}
+                        entries={10}
+                        searching={false} // Disables the search bar
+                      />
+                    </Table>
+                  </div>
+                  {eventData.rejectionReason != null ? (
+                    <>
+                      <div className="horizontal-rule mb-4">
+                        <h5 className="horizontal-rule-text">Reject Comment</h5>
+                      </div>
+
+                      <textarea
+                        id="rejectionReason"
+                        name="rejectionReason"
+                        value={eventData.rejectionReason}
+                        disabled
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          seteventData({
+                            ...eventData,
+                            rejectionReason: value,
+                          });
+                        }}
+                        className="form-control"
+                        required
+                        rows="3"
+                        placeholder="Enter the reject comments"
+                        style={{
+                          fontSize: "0.7rem",
+                          textAlign: "justify",
+                          lineHeight: "1.4",
+                          padding: "8px",
+                          maxWidth: "85%",
+                          margin: "0 auto",
+                          display: "block",
+                        }}
+                      />
+                    </>
+                  ) : null}
+                </>
+              )}
             </div>
           </div>
         </div>
