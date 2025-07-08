@@ -168,6 +168,10 @@ function App() {
                       component={BOMAllEventRequestsList}
                     />
                     <ProtectedRoute
+                      path="/report-event-request-details"
+                      component={ReportRequestsDetails}
+                    />
+                    <ProtectedRoute
                       path="/all-event-request-details-bom"
                       component={BOMAllRequestsDetails}
                     />
