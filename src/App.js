@@ -143,11 +143,11 @@ function App() {
                     ? BudgetOffice
                     : user.type === "IT"
                     ? IT
-                    : user.type === "SecurityCheck"
-                    ? SecurityCheck
-                    : user.type === "Public Affairs"
-                    ? PublicAffairs
-                    : user.type === "Accommodation"
+                    : // : user.type === "SecurityCheck"
+                    // ? SecurityCheck
+                    // : user.type === "Public Affairs"
+                    // ? PublicAffairs
+                    user.type === "Accommodation"
                     ? Accommodation
                     : user.type === "Transportation"
                     ? Transportation
@@ -155,7 +155,10 @@ function App() {
                     ? EAF
                     : user.type === "Campus" ||
                       user.type === "Security" ||
-                      user.type === "HSE"
+                      user.type === "HSE" ||
+                      user.type === "Public Affairs" ||
+                      user.type === "Maintenance" ||
+                      user.type === "Medical Service"
                     ? AckAfterBudget
                     : Applicant
                 }
@@ -534,22 +537,23 @@ function App() {
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
-              ) : user.type === "Public Affairs" ? (
-                <>
-                  <Switch>
-                    <ProtectedRoute
-                      path="/event-approval-list-public-affairs"
-                      component={EventListPublicAffairs}
-                    />
-                    <ProtectedRoute
-                      path="/event-details-public-affairs"
-                      component={EventDetailsPublicAffairs}
-                    />
-                    <Route path="/" exact component={PublicAffairs} />
-                    <Route path="*" exact component={Page404} />
-                  </Switch>
-                </>
-              ) : user.type === "Accommodation" ? (
+              ) : // ) : user.type === "Public Affairs" ? (
+              //   <>
+              //     <Switch>
+              //       <ProtectedRoute
+              //         path="/event-approval-list-public-affairs"
+              //         component={EventListPublicAffairs}
+              //       />
+              //       <ProtectedRoute
+              //         path="/event-details-public-affairs"
+              //         component={EventDetailsPublicAffairs}
+              //       />
+              //       <Route path="/" exact component={PublicAffairs} />
+              //       <Route path="*" exact component={Page404} />
+              //     </Switch>
+              //   </>
+              // )
+              user.type === "Accommodation" ? (
                 <>
                   <Switch>
                     <ProtectedRoute
@@ -611,7 +615,10 @@ function App() {
                 </>
               ) : user.type === "Campus" ||
                 user.type === "Security" ||
-                user.type === "HSE" ? (
+                user.type === "HSE" ||
+                user.type === "Maintenance" ||
+                user.type === "Medical Service" ||
+                user.type === "Public Affairs" ? (
                 <>
                   <Switch>
                     <ProtectedRoute

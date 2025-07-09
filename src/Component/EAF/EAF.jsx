@@ -81,7 +81,20 @@ const EAF = () => {
           >
             Estate and Facilities Director
           </button>
-
+          <button
+            className="btn me-2"
+            style={{
+              backgroundColor:
+                activeButton === "Dashboard" ? "#587dbb" : "#D3D3D3", // Baby blue when active, grey when inactive
+              color: activeButton === "Dashboard" ? "white" : "black", // White text when active, black when inactive
+              border: "none",
+              marginRight: "15px",
+              fontSize: "0.7rem", // Increased font size for better visibility
+            }}
+            onClick={handledashboardClick}
+          >
+            Dashboard
+          </button>
           {/* <button
             className="btn me-2"
             style={{

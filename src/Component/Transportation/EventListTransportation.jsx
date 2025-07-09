@@ -154,7 +154,7 @@ const EventListTransportation = () => {
       organizerEmail: event.organizerEmail || "N/A",
       statusName:
         event.approvalName == "Acknowledgement"
-          ? "Acknowledge"
+          ? "Acknowledged"
           : event.statusName,
       approvalName: event.approvalName,
       actions: (

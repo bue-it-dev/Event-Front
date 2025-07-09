@@ -104,6 +104,8 @@ const Login = () => {
                           14: "Estates and Facilities Executive Director",
                           15: "COO",
                           16: "Staff",
+                          17: "Maintenance",
+                          18: "Medical Service",
                         };
                         setUser({
                           ...user,
