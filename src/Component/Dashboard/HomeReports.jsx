@@ -220,6 +220,18 @@ const HomeReports = () => {
       ),
     },
     {
+      field: "approvalName",
+      headerName: "Approver",
+      width: 190,
+      align: "left",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.approvalName}>
+          <span className="table-cell-trucate">{params.row.approvalName}</span>
+        </Tooltip>
+      ),
+    },
+    {
       field: "statusName",
       headerName: "Status",
       width: 190,
@@ -546,6 +558,7 @@ const HomeReports = () => {
     isVip: event.isVip ? "Yes" : "No",
     isInernationalGuest: event.isInernationalGuest ? "Yes" : "No",
     nomParticipants: event.nomParticipants || "N/A",
+    approvalName: event.approvalName || "N/A",
   }));
 
   const handleViewClick = () => {
