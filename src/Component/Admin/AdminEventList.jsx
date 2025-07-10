@@ -131,6 +131,7 @@ const AdminEventList = () => {
       { label: "Creation Date", field: "createdAt", sort: "asc" },
       { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
       { label: "Modification Date", field: "updateAt", sort: "asc" },
+      { label: "Approver", field: "approvalName", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Action", field: "actions", sort: "disabled" },
     ],
@@ -151,8 +152,27 @@ const AdminEventList = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       //OrganizerMobile: event.organizerMobile || "N/A",
       //OrganizerEmail : event.OrganizerEmail || "N/A",
+      approvalName: event.approvalName || "N/A",
       statusName:
-        event.statusName == "Pending" ? "Submitted" : event.statusName,
+        event.statusName == "Pending"
+          ? "Pending"
+          : event.statusName == "public Affairs Approved"
+          ? "Public Affairs"
+          : event.statusName == "OfficeOfThePresident Approved"
+          ? "Office Of The President Approved"
+          : event.statusName == "OfficeOfThePresident Rejected"
+          ? "Office Of The President Rejected"
+          : event.statusName == "BudgetOffice Approved"
+          ? "Budget Office Approved"
+          : event.statusName == "BOM Approved"
+          ? "BO Manager Approved"
+          : event.statusName == "BOM Rejected"
+          ? "BO Manager Rejected"
+          : event.statusName == "EAF Approved"
+          ? "Estate & Facilities Director Approved"
+          : event.statusName == "EAF Rejected"
+          ? "Estate & Facilities Director Rejected"
+          : event.statusName,
       actions: (
         <div
           className="d-flex justify-content-center align-items-center"

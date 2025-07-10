@@ -131,6 +131,7 @@ const MyEvents = () => {
       { label: "Creation Date", field: "createdAt", sort: "asc" },
       { label: "Confrimation Date", field: "confirmedAt", sort: "asc" },
       { label: "Modification Date", field: "updateAt", sort: "asc" },
+      { label: "Approver", field: "approvalName", sort: "asc" },
       { label: "Status", field: "statusName", sort: "asc" },
       { label: "Action", field: "actions", sort: "disabled" },
     ],
@@ -151,9 +152,10 @@ const MyEvents = () => {
       approvingDeptName: event.approvingDeptName || "N/A",
       //OrganizerMobile: event.organizerMobile || "N/A",
       //OrganizerEmail : event.OrganizerEmail || "N/A",
+      approvalName: event.approvalName || "N/A",
       statusName:
         event.statusName == "Pending"
-          ? "Submitted"
+          ? "Pending"
           : event.statusName == "public Affairs Approved"
           ? "Public Affairs"
           : event.statusName == "OfficeOfThePresident Approved"
