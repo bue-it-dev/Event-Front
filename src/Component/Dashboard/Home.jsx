@@ -178,7 +178,10 @@ const Home = () => {
                 <td>{request.organizerName || "Unknown"}</td>
                 <td>{new Date(request.createdAt).toLocaleDateString()}</td>
                 {request.statusName !== undefined && (
-                  <td>{request.statusName}</td>
+                  <>
+                    <td>{request.approvalName}</td>
+                    <td>{request.statusName}</td>
+                  </>
                 )}
               </tr>
             ))
@@ -476,6 +479,7 @@ const Home = () => {
                     "Title",
                     "Name",
                     "Date of Submission",
+                    "Approver",
                     "Status",
                   ])}
                 </div>
