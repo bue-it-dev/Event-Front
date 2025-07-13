@@ -409,6 +409,16 @@ const AddEventRequest = () => {
         );
         return;
       }
+      if (eventData.isInernationalGuest == 1) {
+        console.log("I am here");
+        if (!eventData.passportData || eventData.passportData.length === 0) {
+          console.log("I am here in passport DATA");
+          toast.error(
+            "Please upload the passport file for international guests."
+          );
+          return;
+        }
+      }
     }
     handleSubmit(clickedButtonId);
   };

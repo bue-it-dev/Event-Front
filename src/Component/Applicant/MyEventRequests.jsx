@@ -155,7 +155,7 @@ const MyEvents = () => {
       approvalName: event.approvalName || "N/A",
       statusName:
         event.statusName == "Pending"
-          ? "Pending"
+          ? "Submitted"
           : event.statusName == "public Affairs Approved"
           ? "Public Affairs"
           : event.statusName == "OfficeOfThePresident Approved"

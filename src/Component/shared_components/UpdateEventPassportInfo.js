@@ -243,7 +243,7 @@ const UpdateEventPassportInfo = ({
             `}
             </style>
             <div className="col-lg-6">
-              <input
+              <textarea
                 type="text"
                 id="eventTitle"
                 name="eventTitle"
@@ -253,6 +253,7 @@ const UpdateEventPassportInfo = ({
                 className="form-control form-control-lg w-100"
                 required
                 placeholder="Title"
+                rows={1}
               />
               {errors.eventTitle && (
                 <small className="text-danger">{errors.eventTitle}</small>

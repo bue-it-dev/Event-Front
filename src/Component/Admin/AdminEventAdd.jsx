@@ -409,6 +409,16 @@ const AdminEventAdd = () => {
         );
         return;
       }
+      if (eventData.isInernationalGuest == 1) {
+        console.log("I am here");
+        if (!eventData.passportData || eventData.passportData.length === 0) {
+          console.log("I am here in passport DATA");
+          toast.error(
+            "Please upload the passport file for international guests."
+          );
+          return;
+        }
+      }
     }
     handleSubmit(clickedButtonId);
   };
@@ -440,16 +450,16 @@ const AdminEventAdd = () => {
                   role="alert"
                   className="align-items-center"
                   style={{
-                    backgroundColor: "lightorange",
+                    backgroundColor: "#e7e7e7",
                     color: "black",
-                    fontSize: ".8rem",
-                    // fontWeight: "bold",
+                    fontSize: ".7rem",
+                    fontWeight: "bold",
                     borderRadius: "0.25rem",
                     height: "auto",
                     padding: "0.25rem 0.5rem",
-                    marginTop: "1rem",
-                    width: "auto", // adjust as needed
+                    width: "auto%", // adjust as needed
                     textAlign: "center", // optional: center text inside
+                    marginTop: "0.5rem",
                   }}
                 >
                   Check venue availability before submitting the event request

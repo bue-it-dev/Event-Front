@@ -965,6 +965,15 @@ const EventRequestDetails = () => {
         );
         return;
       }
+      if (eventData.isInernationalGuest == 1) {
+        if (!eventData.passports || eventData.passports.length === 0) {
+          console.log("I am here in passport DATA");
+          toast.error(
+            "Please upload the passport file for international guests."
+          );
+          return;
+        }
+      }
     }
 
     handleSubmit(clickedButtonId);

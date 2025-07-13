@@ -136,13 +136,13 @@ const EventInfo = ({
     let newErrors = { ...errors };
 
     switch (name) {
-      case "EventTitle":
-        if (!/^[a-zA-Z ]+$/.test(value.trim())) {
-          newErrors[name] = "Event title must contain only letters.";
-        } else {
-          delete newErrors[name];
-        }
-        break;
+      // case "EventTitle":
+      //   if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+      //     newErrors[name] = "Event title must contain only letters.";
+      //   } else {
+      //     delete newErrors[name];
+      //   }
+      //   break;
 
       case "NomParticipants":
         if (!/^\d+$/.test(value) || parseInt(value, 10) < 1) {
@@ -247,7 +247,7 @@ const EventInfo = ({
             `}
             </style>
             <div className="col-lg-6">
-              <input
+              <textarea
                 type="text"
                 id="EventTitle"
                 name="EventTitle"
@@ -256,6 +256,7 @@ const EventInfo = ({
                 onChange={handleChange}
                 className="form-control form-control-lg w-100"
                 required
+                rows={1}
                 placeholder="Title"
               />
               {errors.EventTitle && (
