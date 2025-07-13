@@ -435,6 +435,26 @@ const AdminEventAdd = () => {
               <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
                 Request Event
               </h5>
+              <div className="d-flex justify-content-center">
+                <div
+                  role="alert"
+                  className="align-items-center"
+                  style={{
+                    backgroundColor: "lightorange",
+                    color: "black",
+                    fontSize: ".8rem",
+                    // fontWeight: "bold",
+                    borderRadius: "0.25rem",
+                    height: "auto",
+                    padding: "0.25rem 0.5rem",
+                    marginTop: "1rem",
+                    width: "auto", // adjust as needed
+                    textAlign: "center", // optional: center text inside
+                  }}
+                >
+                  Check venue availability before submitting the event request
+                </div>
+              </div>
               <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
                 <div className="horizontal-rule mb-4">
                   <hr className="border-secondary" />
