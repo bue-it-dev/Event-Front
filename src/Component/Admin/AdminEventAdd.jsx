@@ -432,7 +432,7 @@ const AdminEventAdd = () => {
         <div className="col-lg-6 col-xl-6">
           <div className="card rounded-3 shadow-lg border-0">
             <div className="card-body p-4 p-md-5">
-              <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
+              <h5 className="card-header bg-white text-white border-bottom">
                 Request Event
               </h5>
               <div className="d-flex justify-content-center">

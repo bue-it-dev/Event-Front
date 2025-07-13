@@ -432,7 +432,7 @@ const AddEventRequest = () => {
         <div className="col-lg-6 col-xl-6">
           <div className="card rounded-3 shadow-lg border-0">
             <div className="card-body p-4 p-md-5">
-              <h5 className="card-header bg-white text-white border-bottom pb-3 fs-4">
+              <h5 className="card-header bg-white text-white border-bottom">
                 Request Event
               </h5>
               <div className="d-flex justify-content-center">
@@ -440,16 +440,16 @@ const AddEventRequest = () => {
                   role="alert"
                   className="align-items-center"
                   style={{
-                    backgroundColor: "lightorange",
+                    backgroundColor: "#e7e7e7",
                     color: "black",
-                    fontSize: ".8rem",
-                    // fontWeight: "bold",
+                    fontSize: ".7rem",
+                    fontWeight: "bold",
                     borderRadius: "0.25rem",
                     height: "auto",
                     padding: "0.25rem 0.5rem",
-                    marginTop: "1rem",
-                    width: "auto", // adjust as needed
+                    width: "auto%", // adjust as needed
                     textAlign: "center", // optional: center text inside
+                    marginTop: "0.5rem",
                   }}
                 >
                   Check venue availability before submitting the event request
