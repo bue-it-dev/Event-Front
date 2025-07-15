@@ -4258,6 +4258,7 @@ const Statistics = () => {
                     transition: "all 0.3s ease",
                     boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                     padding: "10px 12px",
+                    height: "2.5rem",
                   }}
                   className="form-control"
                   id="TransServiceCountStartDate"
@@ -4298,6 +4299,7 @@ const Statistics = () => {
                     transition: "all 0.3s ease",
                     boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                     padding: "10px 12px",
+                    height: "2.5rem",
                   }}
                   className="form-control"
                   id="TransServiceCountEndDate"
