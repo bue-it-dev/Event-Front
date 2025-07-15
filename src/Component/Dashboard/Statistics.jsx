@@ -1271,73 +1271,69 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([
-        GetOveriewRequestApprovals(
-          eventapprovaloverviewStartDate,
-          eventapprovaloverviewEndDate,
-          eventapprovaloverviewselectedDepType
-        ),
-        GetBudgetPerDepartment(
-          BudgetPerDepartmentStartDate,
-          BudgetPerDepartmentEndDate,
-          budgetperdepartmentselectedDepType
-        ),
-        GetBudgetPerDepartmentCost(
-          BudgetPerDepartmentCostStartDate,
-          BudgetPerDepartmentCostEndDate,
-          budgetperdepartmentcostselectedDepType
-        ),
-        GetMarcomCountPerDepartment(
-          MarcomPerDepartmentStartDate,
-          MarcomPerDepartmentEndDate,
-          marcomperdepartmentselectedDepType
-        ),
-        GetITCountPerDepartment(
-          ITPerDepartmentStartDate,
-          ITPerDepartmentEndDate,
-          ITperdepartmentselectedDepType
-        ),
-        GetITServiceCount(ITServiceCountStartDate, ITServiceCountEndDate),
-        GetITCompCountPerDepartment(
-          ITCompPerDepartmentStartDate,
-          ITCompPerDepartmentEndDate,
-          ITCompperdepartmentselectedDepType
-        ),
-        GetTransCountPerDepartment(
-          TransPerDepartmentStartDate,
-          TransPerDepartmentEndDate,
-          TransperdepartmentselectedDepType
-        ),
-        GetTransServiceCount(
-          TransServiceCountStartDate,
-          TransServiceCountEndDate
-        ),
-        GetTransCompCountPerDepartment(
-          TransCompCountStartDate,
-          TransCompCountEndDate,
-          TransCompCountselectedDepType
-        ),
-        GetAccommCountPerDepartment(
-          AccommCountStartDate,
-          AccommCountEndDate,
-          AccommCountselectedDepType
-        ),
+    // const fetchData = async () => {
+    //   await Promise.all([
+    GetOveriewRequestApprovals(
+      eventapprovaloverviewStartDate,
+      eventapprovaloverviewEndDate,
+      eventapprovaloverviewselectedDepType
+    );
+    GetBudgetPerDepartment(
+      BudgetPerDepartmentStartDate,
+      BudgetPerDepartmentEndDate,
+      budgetperdepartmentselectedDepType
+    );
+    GetBudgetPerDepartmentCost(
+      BudgetPerDepartmentCostStartDate,
+      BudgetPerDepartmentCostEndDate,
+      budgetperdepartmentcostselectedDepType
+    );
+    GetMarcomCountPerDepartment(
+      MarcomPerDepartmentStartDate,
+      MarcomPerDepartmentEndDate,
+      marcomperdepartmentselectedDepType
+    );
+    GetITCountPerDepartment(
+      ITPerDepartmentStartDate,
+      ITPerDepartmentEndDate,
+      ITperdepartmentselectedDepType
+    );
+    GetITServiceCount(ITServiceCountStartDate, ITServiceCountEndDate);
+    GetITCompCountPerDepartment(
+      ITCompPerDepartmentStartDate,
+      ITCompPerDepartmentEndDate,
+      ITCompperdepartmentselectedDepType
+    );
+    GetTransCountPerDepartment(
+      TransPerDepartmentStartDate,
+      TransPerDepartmentEndDate,
+      TransperdepartmentselectedDepType
+    );
+    GetTransServiceCount(TransServiceCountStartDate, TransServiceCountEndDate);
+    GetTransCompCountPerDepartment(
+      TransCompCountStartDate,
+      TransCompCountEndDate,
+      TransCompCountselectedDepType
+    );
+    GetAccommCountPerDepartment(
+      AccommCountStartDate,
+      AccommCountEndDate,
+      AccommCountselectedDepType
+    );
+    GetAccommCompCountPerDepartment(
+      AccommCountCompStartDate,
+      AccommCompCountEndDate,
+      AccommCountCompselectedDepType
+    );
+    GetAccommServiceCounts(
+      AccommServiceCountStartDate,
+      AccommServiceCountEndDate
+    );
+    getallDepartmentTypes();
+    //   ]);
+    // };
 
-        GetAccommCompCountPerDepartment(
-          AccommCountCompStartDate,
-          AccommCompCountEndDate,
-          AccommCountCompselectedDepType
-        ),
-        GetAccommServiceCounts(
-          AccommServiceCountStartDate,
-          AccommServiceCountEndDate
-        ),
-        getallDepartmentTypes(),
-      ]);
-    };
-
-    fetchData();
+    // fetchData();
   }, [
     BudgetPerDepartmentStartDate,
     BudgetPerDepartmentEndDate,
@@ -1560,31 +1556,106 @@ const Statistics = () => {
     <>
       {/* Business request Transfer Statistics */}
       <div>
-        <div className="horizontal-rule mb-4">
-          <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">Statistics</h5>
+        <div>
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px 0",
+            }}
+          >
+            <hr
+              style={{
+                border: "none",
+                height: "2px",
+                background:
+                  "linear-gradient(90deg, transparent, #0058af, transparent)",
+                margin: "0",
+                position: "absolute",
+                top: "50%",
+                left: "0",
+                right: "0",
+                transform: "translateY(-50%)",
+              }}
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "12px 30px",
+                borderRadius: "25px",
+                boxShadow: "0 4px 12px lightgrey",
+                border: "2px solid #0058af",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <h5
+                style={{
+                  margin: "0",
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#2c3e50",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Statistics
+              </h5>
+            </div>
+          </div>
         </div>
-        <div className="chart">
+
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={eventapprovaloverviewselectedDepType}
                     onChange={(e) =>
                       seteventapprovaloverviewselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={Overviewloading}
                   >
                     <option value="">All Department Types</option>
@@ -1597,23 +1668,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="eventapprovaloverviewStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="eventapprovaloverviewStartDate"
                   value={eventapprovaloverviewStartDate || ""}
                   onChange={(e) =>
                     seteventapprovaloverviewStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={Overviewloading}
                 />
               </div>
@@ -1622,19 +1713,39 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="eventapprovaloverviewEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="eventapprovaloverviewEndDate"
                   value={eventapprovaloverviewEndDate || ""}
                   onChange={(e) =>
                     seteventapprovaloverviewEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={Overviewloading}
                 />
               </div>
@@ -1643,78 +1754,293 @@ const Statistics = () => {
 
           {/* Loading indicator for filter changes */}
           {/* {Overviewloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
+    <div style={{ textAlign: "center", margin: "20px 0" }}>
+      <Spin size="small" /> Loading...
+    </div>
+  )} */}
 
           {/* Error Message */}
           {Overviewerror && (
-            <Alert
-              message={Overviewerror}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => setOverviewerror(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {Overviewerror}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => setOverviewerror(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!Overviewerror && eventapprovaloverviewState.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventapprovaloverviewdata}
-                options={eventapprovaloverviewoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventapprovaloverviewState}
-                headers={eventapprovaloverviewheaders}
-                filename="request_approval_summary_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              {/* <div
+                style={{
+                  marginBottom: "20px",
+                  paddingBottom: "15px",
+                  borderBottom: "2px solid #e9ecef",
+                }}
+              >
+                <h5
+                  style={{
+                    color: "#495057",
+                    fontWeight: "600",
+                    margin: "0",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <i
+                    className="fas fa-chart-bar mr-2"
+                    style={{ color: "#007bff" }}
+                  ></i>
+                  Request Approval Summary
+                </h5>
+              </div> */}
+
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventapprovaloverviewdata}
+                  options={eventapprovaloverviewoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventapprovaloverviewState}
+                  headers={eventapprovaloverviewheaders}
+                  filename="request_approval_summary_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!Overviewerror &&
             !Overviewloading &&
             eventapprovaloverviewState.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
-        <div className="horizontal-rule mb-4">
-          <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">
-            Budget Service
-          </h5>
+
+        <div>
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px 0",
+            }}
+          >
+            <hr
+              style={{
+                border: "none",
+                height: "2px",
+                background:
+                  "linear-gradient(90deg, transparent, #0058af, transparent)",
+                margin: "0",
+                position: "absolute",
+                top: "50%",
+                left: "0",
+                right: "0",
+                transform: "translateY(-50%)",
+              }}
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "12px 30px",
+                borderRadius: "25px",
+                boxShadow: "0 4px 12px lightgrey",
+                border: "2px solid #0058af",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <h5
+                style={{
+                  margin: "0",
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#2c3e50",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Budget Service
+              </h5>
+            </div>
+          </div>
         </div>
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={budgetperdepartmentselectedDepType}
                     onChange={(e) =>
                       setbudgetperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={loading}
                   >
                     <option value="">All Department Types</option>
@@ -1727,23 +2053,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="BudgetPerDepartmentStartDate"
                   value={BudgetPerDepartmentStartDate || ""}
                   onChange={(e) =>
                     setBudgetPerDepartmentStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={loading}
                 />
               </div>
@@ -1752,92 +2098,252 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="BudgetPerDepartmentEndDate"
                   value={BudgetPerDepartmentEndDate || ""}
                   onChange={(e) =>
                     setBudgetPerDepartmentEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={loading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {loading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {error && (
-            <Alert
-              message={error}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => setError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {error}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => setError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!error && eventbudgetperdepartment.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventbudgetperdepartmentdata}
-                options={eventbudgetperdepartmentoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventbudgetperdepartment}
-                headers={BudgetPerDepartmentHeaders}
-                filename="event_request_budget_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventbudgetperdepartmentdata}
+                  options={eventbudgetperdepartmentoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventbudgetperdepartment}
+                  headers={BudgetPerDepartmentHeaders}
+                  filename="event_request_budget_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!error && !loading && eventbudgetperdepartment.length === 0 && (
-            <div style={{ textAlign: "center", padding: "50px" }}>
-              <p>No data available for the selected criteria.</p>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                backgroundColor: "#ffffff",
+                borderRadius: "12px",
+                border: "2px dashed #dee2e6",
+                margin: "20px 0",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <i
+                  className="fas fa-chart-line"
+                  style={{
+                    fontSize: "0.7rem",
+                    color: "#6c757d",
+                    marginBottom: "15px",
+                  }}
+                ></i>
+              </div>
+              <h6
+                style={{
+                  color: "#6c757d",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                No Data Available
+              </h6>
+              <p
+                style={{
+                  color: "#868e96",
+                  margin: "0",
+                  fontSize: "0.7rem",
+                }}
+              >
+                No data available for the selected criteria. Try adjusting your
+                filters.
+              </p>
             </div>
           )}
         </div>
+
         <br />
-        <div className="chart">
+
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
-                    htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    htmlFor="departmentType2"
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
-                    id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    id="departmentType2"
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={budgetperdepartmentcostselectedDepType}
                     onChange={(e) =>
                       setbudgetperdepartmentcostselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventBudgetCostloading}
                   >
                     <option value="">All Department Types</option>
@@ -1850,23 +2356,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
-                  htmlFor="BudgetPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  htmlFor="BudgetPerDepartmentCostStartDate"
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="BudgetPerDepartmentCostStartDate"
                   value={BudgetPerDepartmentCostStartDate || ""}
                   onChange={(e) =>
                     setBudgetPerDepartmentCostStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventBudgetCostloading}
                 />
               </div>
@@ -1875,99 +2401,304 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="BudgetPerDepartmentCostEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="BudgetPerDepartmentCostEndDate"
                   value={BudgetPerDepartmentCostEndDate || ""}
                   onChange={(e) =>
                     setBudgetPerDepartmenCostEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventBudgetCostloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventBudgetCosterror && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventBudgetCosterror && (
-            <Alert
-              message={error}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventBudgetCosterror(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventBudgetCosterror}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventBudgetCosterror(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventBudgetCosterror && eventbudgetperdepartmentcost.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventbudgetperdepartmentCostdata}
-                options={eventbudgetperdepartmentcostoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventbudgetperdepartmentcost}
-                headers={BudgetPerDepartmentCostHeaders}
-                filename="event_request_cost_budget_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventbudgetperdepartmentCostdata}
+                  options={eventbudgetperdepartmentcostoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventbudgetperdepartmentcost}
+                  headers={BudgetPerDepartmentCostHeaders}
+                  filename="event_request_cost_budget_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventBudgetCosterror &&
             !eventBudgetCostloading &&
             eventbudgetperdepartmentcost.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
-        <div className="horizontal-rule mb-4">
-          <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">
-            Marcom Service Statisitics
-          </h5>
+
+        <div>
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px 0",
+            }}
+          >
+            <hr
+              style={{
+                border: "none",
+                height: "2px",
+                background:
+                  "linear-gradient(90deg, transparent, #0058af, transparent)",
+                margin: "0",
+                position: "absolute",
+                top: "50%",
+                left: "0",
+                right: "0",
+                transform: "translateY(-50%)",
+              }}
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "12px 30px",
+                borderRadius: "25px",
+                boxShadow: "0 4px 12px lightgrey",
+                border: "2px solid #0058af",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <h5
+                style={{
+                  margin: "0",
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#2c3e50",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Marcom Service
+              </h5>
+            </div>
+          </div>
         </div>
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "auto",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={marcomperdepartmentselectedDepType}
                     onChange={(e) =>
                       setmarcomperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventMarcomloading}
                   >
                     <option value="">All Department Types</option>
@@ -1980,23 +2711,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="MarcomPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="MarcomPerDepartmentStartDate"
                   value={MarcomPerDepartmentStartDate || ""}
                   onChange={(e) =>
                     setMarcomPerDepartmentStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventMarcomloading}
                 />
               </div>
@@ -2005,98 +2756,304 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="MarcomPerDepartmentEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="MarcomPerDepartmentEndDate"
                   value={MarcomPerDepartmentEndDate || ""}
                   onChange={(e) =>
                     setMarcomPerDepartmentEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventMarcomloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventMarcomloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventMarcomError && (
-            <Alert
-              message={eventMarcomError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventMarcomError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventMarcomError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventMarcomError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventMarcomError && eventmarcomperdepartment.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventmarcomperdepartmentdata}
-                options={eventmarcomperdepartmentoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventmarcomperdepartment}
-                headers={MarcomPerDepartmentHeaders}
-                filename="event_request_marcom_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventmarcomperdepartmentdata}
+                  options={eventmarcomperdepartmentoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventmarcomperdepartment}
+                  headers={MarcomPerDepartmentHeaders}
+                  filename="event_request_marcom_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventMarcomError &&
             !eventMarcomloading &&
             eventmarcomperdepartment.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
+
         <br />
-        <div className="horizontal-rule mb-4">
-          <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">IT Service</h5>
+        <div>
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px 0",
+            }}
+          >
+            <hr
+              style={{
+                border: "none",
+                height: "2px",
+                background:
+                  "linear-gradient(90deg, transparent, #0058af, transparent)",
+                margin: "0",
+                position: "absolute",
+                top: "50%",
+                left: "0",
+                right: "0",
+                transform: "translateY(-50%)",
+              }}
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "12px 30px",
+                borderRadius: "25px",
+                boxShadow: "0 4px 12px lightgrey",
+                border: "2px solid #0058af",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <h5
+                style={{
+                  margin: "0",
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#2c3e50",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                IT Service
+              </h5>
+            </div>
+          </div>
         </div>
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={ITperdepartmentselectedDepType}
                     onChange={(e) =>
                       setITperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventITloading}
                   >
                     <option value="">All Department Types</option>
@@ -2109,23 +3066,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="ITPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="ITPerDepartmentStartDate"
                   value={ITPerDepartmentStartDate || ""}
                   onChange={(e) =>
                     setITPerDepartmentStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITloading}
                 />
               </div>
@@ -2134,219 +3111,506 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITPerDepartmentEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="ITPerDepartmentEndDate"
                   value={ITPerDepartmentEndDate || ""}
                   onChange={(e) =>
                     setITPerDepartmentEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventITloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventITError && (
-            <Alert
-              message={eventITError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventITError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventITError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventITError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventITError && eventITperdepartment.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventITperdepartmentdata}
-                options={eventITperdepartmentoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventITperdepartment}
-                headers={ITPerDepartmentHeaders}
-                filename="event_request_IT_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventITperdepartmentdata}
+                  options={eventITperdepartmentoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventITperdepartment}
+                  headers={ITPerDepartmentHeaders}
+                  filename="event_request_IT_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventITError &&
             !eventITloading &&
             eventITperdepartment.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
+
         <br />
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            {/* <div className="col-12 col-sm-4">
-              <div>
-                <div className="form-group">
-                  <label
-                    htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                  >
-                    Department Type
-                  </label>
-                  <select
-                    id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                    className="form-select form-select-lg custom-select"
-                    value={ITperdepartmentselectedDepType}
-                    onChange={(e) =>
-                      setITperdepartmentselectedDepType(e.target.value)
-                    }
-                    name="otherTransferId"
-                    //disabled={eventITServiceloading}
-                  >
-                    <option value="">All Department Types</option>
-                    {depTypes.map((data) => (
-                      <option key={data.rowId} value={data.rowId}>
-                        {data.depTypeName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div> */}
-            <div className="col-md-6 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-md-6 col-sm-6 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="ITServiceCountStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                  }}
                   className="form-control"
                   id="ITServiceCountStartDate"
                   value={ITServiceCountStartDate || ""}
                   onChange={(e) =>
                     setITServiceCountStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITServiceloading}
                 />
               </div>
             </div>
-            <div className="col-md-6 col-sm-4">
+            <div className="col-md-6 col-sm-6">
               <div className="form-group">
                 <label
                   htmlFor="ITServiceCountEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                  }}
                   className="form-control"
                   id="ITServiceCountEndDate"
                   value={ITServiceCountEndDate || ""}
                   onChange={(e) =>
                     setITServiceCountEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITServiceloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventITServiceloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventITServiceError && (
-            <Alert
-              message={eventITServiceError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventITServiceError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventITServiceError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventITServiceError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventITServiceError && eventITServiceCountState.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventITServiceCountdata}
-                options={eventITServiceCountoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventITServiceCountState}
-                headers={ITServiceCountHeaders}
-                filename="event_request_IT_Service_count_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventITServiceCountdata}
+                  options={eventITServiceCountoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventITServiceCountState}
+                  headers={ITServiceCountHeaders}
+                  filename="event_request_IT_Service_count_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventITServiceError &&
             !eventITServiceloading &&
             eventITServiceCountState.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
+
         <br />
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={ITCompperdepartmentselectedDepType}
                     onChange={(e) =>
                       setITCompperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventITComploading}
                   >
                     <option value="">All Department Types</option>
@@ -2359,23 +3623,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="ITCompPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="ITCompPerDepartmentStartDate"
                   value={ITCompPerDepartmentStartDate || ""}
                   onChange={(e) =>
                     setITCompPerDepartmentStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITComploading}
                 />
               </div>
@@ -2384,99 +3668,303 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="ITCompPerDepartmentEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="ITCompPerDepartmentEndDate"
                   value={ITCompPerDepartmentEndDate || ""}
                   onChange={(e) =>
                     setITCompPerDepartmentEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventITComploading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventITComploading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventITCompError && (
-            <Alert
-              message={eventITCompError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventITCompError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventITCompError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventITCompError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventITCompError && eventITCompperdepartment.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventITCompCountdata}
-                options={eventITCompCountoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventITCompperdepartment}
-                headers={ITCompCountHeaders}
-                filename="event_request_IT_Component_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventITCompCountdata}
+                  options={eventITCompCountoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventITCompperdepartment}
+                  headers={ITCompCountHeaders}
+                  filename="event_request_IT_Component_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventITCompError &&
             !eventITComploading &&
             eventITCompperdepartment.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
-        <div className="horizontal-rule mb-4">
-          <hr className="border-secondary" />
-          <h5 className="horizontal-rule-text fs-5 text-dark">
-            Transportation Service
-          </h5>
+
+        <div>
+          <div
+            style={{
+              position: "relative",
+              textAlign: "center",
+              marginBottom: "30px",
+              padding: "20px 0",
+            }}
+          >
+            <hr
+              style={{
+                border: "none",
+                height: "2px",
+                background:
+                  "linear-gradient(90deg, transparent, #0058af, transparent)",
+                margin: "0",
+                position: "absolute",
+                top: "50%",
+                left: "0",
+                right: "0",
+                transform: "translateY(-50%)",
+              }}
+            />
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#f8f9fa",
+                padding: "12px 30px",
+                borderRadius: "25px",
+                boxShadow: "0 4px 12px lightgrey",
+                border: "2px solid #0058af",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <h5
+                style={{
+                  margin: "0",
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#2c3e50",
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                }}
+              >
+                Transportation Service
+              </h5>
+            </div>
+          </div>
         </div>
-        <div className="chart">
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={TransperdepartmentselectedDepType}
                     onChange={(e) =>
                       setTransperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventTransloading}
                   >
                     <option value="">All Department Types</option>
@@ -2489,23 +3977,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="TransPerDepartmentStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="TransPerDepartmentStartDate"
                   value={TransPerDepartmentStartDate || ""}
                   onChange={(e) =>
                     setTransPerDepartmentStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransloading}
                 />
               </div>
@@ -2514,217 +4022,504 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransPerDepartmentEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="TransPerDepartmentEndDate"
                   value={TransPerDepartmentEndDate || ""}
                   onChange={(e) =>
                     setTransPerDepartmentEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventTransloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventTransError && (
-            <Alert
-              message={eventTransError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventTransError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventTransError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventTransError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventTransError && eventTransperdepartment.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventTransperdepartmentdata}
-                options={eventTransperdepartmentoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventTransperdepartment}
-                headers={TransPerDepartmentHeaders}
-                filename="event_request_Transportation_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventTransperdepartmentdata}
+                  options={eventTransperdepartmentoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventTransperdepartment}
+                  headers={TransPerDepartmentHeaders}
+                  filename="event_request_Transportation_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventTransError &&
             !eventTransloading &&
             eventTransperdepartment.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
-        <div className="chart">
+
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            {/* <div className="col-12 col-sm-4">
-              <div>
-                <div className="form-group">
-                  <label
-                    htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                  >
-                    Department Type
-                  </label>
-                  <select
-                    id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                    className="form-select form-select-lg custom-select"
-                    value={TransperdepartmentselectedDepType}
-                    onChange={(e) =>
-                      setTransperdepartmentselectedDepType(e.target.value)
-                    }
-                    name="otherTransferId"
-                    //disabled={eventTransloading}
-                  >
-                    <option value="">All Department Types</option>
-                    {depTypes.map((data) => (
-                      <option key={data.rowId} value={data.rowId}>
-                        {data.depTypeName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div> */}
-            <div className="col-md-6 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-md-6 col-sm-6 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="TransServiceCountStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                  }}
                   className="form-control"
                   id="TransServiceCountStartDate"
                   value={TransServiceCountStartDate || ""}
                   onChange={(e) =>
                     setTransServiceCountStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransServiceloading}
                 />
               </div>
             </div>
-            <div className="col-md-6 col-sm-4">
+            <div className="col-md-6 col-sm-6">
               <div className="form-group">
                 <label
                   htmlFor="TransServiceCountEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                  }}
                   className="form-control"
                   id="TransServiceCountEndDate"
                   value={TransServiceCountEndDate || ""}
                   onChange={(e) =>
                     setTransServiceCountEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransServiceloading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventTransloading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventTransSericeError && (
-            <Alert
-              message={eventTransSericeError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventTransSericeError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventTransSericeError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventTransSericeError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventTransSericeError && eventTransSerivceCountState.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventTransServiceCountdata}
-                options={eventTransServiceCountoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventTransSerivceCountState}
-                headers={TransServiceCountHeaders}
-                filename="event_request_Transportation_Most_Used_Component_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventTransServiceCountdata}
+                  options={eventTransServiceCountoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventTransSerivceCountState}
+                  headers={TransServiceCountHeaders}
+                  filename="event_request_Transportation_Most_Used_Component_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventTransSericeError &&
             !eventTransServiceloading &&
             eventTransSerivceCountState.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
-        <div className="chart">
+
+        <div
+          className="chart"
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "25px",
+            borderRadius: "12px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          }}
+        >
           {/* Filters Section - Always visible */}
-          <div className="row mb-3">
-            <div className="col-12 col-sm-4">
+          <div className="row mb-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div>
                 <div className="form-group">
                   <label
                     htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      fontWeight: "600",
+                      color: "#495057",
+                      marginBottom: "8px",
+                      display: "block",
+                    }}
                   >
+                    <i
+                      className="fas fa-building mr-2"
+                      style={{ color: "#6c757d" }}
+                    ></i>
                     Department Type
                   </label>
                   <select
                     id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
+                    style={{
+                      fontSize: "0.7rem",
+                      borderRadius: "8px",
+                      border: "2px solid #e9ecef",
+                      transition: "all 0.3s ease",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                      height: "2.5rem",
+                    }}
                     className="form-select form-select-lg custom-select"
                     value={TransCompCountselectedDepType}
                     onChange={(e) =>
                       setTransCompCountselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
+                    onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                    onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                     //disabled={eventTransComploading}
                   >
                     <option value="">All Department Types</option>
@@ -2737,23 +4532,43 @@ const Statistics = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-sm-4">
+            <div className="col-12 col-sm-4 mb-3 mb-sm-0">
               <div className="form-group">
                 <label
                   htmlFor="TransCompCountStartDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-alt mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Start Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="TransCompCountStartDate"
                   value={TransCompCountStartDate || ""}
                   onChange={(e) =>
                     setTransCompCountStartDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransComploading}
                 />
               </div>
@@ -2762,97 +4577,303 @@ const Statistics = () => {
               <div className="form-group">
                 <label
                   htmlFor="TransCompCountEndDate"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
                 >
+                  <i
+                    className="fas fa-calendar-check mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   End Date
                 </label>
                 <input
                   type="date"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    padding: "10px 12px",
+                    height: "2.5rem",
+                  }}
                   className="form-control"
                   id="TransCompCountEndDate"
                   value={TransCompCountEndDate || ""}
                   onChange={(e) =>
                     setTransCompCountEndDate(e.target.value || null)
                   }
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventTransComploading}
                 />
               </div>
             </div>
           </div>
 
-          {/* Loading indicator for filter changes */}
-          {/* {eventTransComploading && (
-            <div style={{ textAlign: "center", margin: "20px 0" }}>
-              <Spin size="small" /> Loading...
-            </div>
-          )} */}
-
           {/* Error Message */}
           {eventTransCompError && (
-            <Alert
-              message={eventTransCompError}
-              type="error"
-              showIcon
-              style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-              //   closable
-              onClose={() => seteventTransCompError(null)}
-            />
+            <div
+              className="alert alert-danger alert-dismissible"
+              style={{
+                fontSize: "0.7rem",
+                padding: "15px 20px",
+                margin: "20px 0",
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+                backgroundColor: "#f8d7da",
+                borderLeft: "4px solid #dc3545",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fas fa-exclamation-triangle mr-3"
+                  style={{ color: "#dc3545", fontSize: "0.7rem" }}
+                ></i>
+                <span style={{ color: "#721c24", fontWeight: "500" }}>
+                  {eventTransCompError}
+                </span>
+              </div>
+              <button
+                type="button"
+                className="close"
+                onClick={() => seteventTransCompError(null)}
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  fontSize: "0.7rem",
+                  color: "#721c24",
+                  cursor: "pointer",
+                }}
+              >
+                <span>&times;</span>
+              </button>
+            </div>
           )}
 
           {/* Chart and Download Section */}
           {!eventTransCompError && eventTransCompCount.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventTransCompCountdata}
-                options={eventTransCompCountoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventTransCompCount}
-                headers={TransCompCountHeaders}
-                filename="event_request_Transportation_Most_Used_Component_per_department_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventTransCompCountdata}
+                  options={eventTransCompCountoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventTransCompCount}
+                  headers={TransCompCountHeaders}
+                  filename="event_request_Transportation_Most_Used_Component_per_department_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
           {/* No Data Message */}
           {!eventTransCompError &&
             !eventTransComploading &&
             eventTransCompCount.length === 0 && (
-              <div style={{ textAlign: "center", padding: "50px" }}>
-                <p>No data available for the selected criteria.</p>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "60px 20px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "12px",
+                  border: "2px dashed #dee2e6",
+                  margin: "20px 0",
+                }}
+              >
+                <div style={{ marginBottom: "20px" }}>
+                  <i
+                    className="fas fa-chart-line"
+                    style={{
+                      fontSize: "25px",
+                      color: "#6c757d",
+                      // marginBottom: "15px",
+                    }}
+                  ></i>
+                </div>
+                <h6
+                  style={{
+                    color: "#6c757d",
+                    fontWeight: "500",
+                    marginBottom: "10px",
+                  }}
+                >
+                  No Data Available
+                </h6>
+                <p
+                  style={{
+                    color: "#868e96",
+                    margin: "0",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  No data available for the selected criteria. Try adjusting
+                  your filters.
+                </p>
               </div>
             )}
         </div>
       </div>
-      <div className="horizontal-rule mb-4">
-        <hr className="border-secondary" />
-        <h5 className="horizontal-rule-text fs-5 text-dark">
-          Accommodation Service
-        </h5>
+      <div>
+        <div
+          style={{
+            position: "relative",
+            textAlign: "center",
+            marginBottom: "30px",
+            padding: "20px 0",
+          }}
+        >
+          <hr
+            style={{
+              border: "none",
+              height: "2px",
+              background:
+                "linear-gradient(90deg, transparent, #0058af, transparent)",
+              margin: "0",
+              position: "absolute",
+              top: "50%",
+              left: "0",
+              right: "0",
+              transform: "translateY(-50%)",
+            }}
+          />
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              backgroundColor: "#f8f9fa",
+              padding: "12px 30px",
+              borderRadius: "25px",
+              boxShadow: "0 4px 12px lightgrey",
+              border: "2px solid #0058af",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            <h5
+              style={{
+                margin: "0",
+                fontSize: "0.7rem",
+                fontWeight: "600",
+                color: "#2c3e50",
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+              }}
+            >
+              Accommodation Service
+            </h5>
+          </div>
+        </div>
       </div>
-      <div className="chart">
+      <div
+        className="chart"
+        style={{
+          backgroundColor: "#f8f9fa",
+          padding: "25px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        }}
+      >
         {/* Filters Section - Always visible */}
-        <div className="row mb-3">
-          <div className="col-12 col-sm-4">
+        <div className="row mb-4">
+          <div className="col-12 col-sm-4 mb-3 mb-sm-0">
             <div>
               <div className="form-group">
-                <label htmlFor="departmentType" style={{ fontSize: "0.7rem" }}>
+                <label
+                  htmlFor="departmentType"
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
+                >
+                  <i
+                    className="fas fa-building mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Department Type
                 </label>
                 <select
                   id="departmentType"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    height: "2.5rem",
+                  }}
                   className="form-select form-select-lg custom-select"
                   value={AccommCountselectedDepType}
                   onChange={(e) =>
                     setAccommCountselectedDepType(e.target.value)
                   }
                   name="otherTransferId"
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventAccommCountloading}
                 >
                   <option value="">All Department Types</option>
@@ -2865,23 +4886,43 @@ const Statistics = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 col-sm-4">
+          <div className="col-12 col-sm-4 mb-3 mb-sm-0">
             <div className="form-group">
               <label
-                htmlFor="TransCompCountStartDate"
-                style={{ fontSize: "0.7rem" }}
+                htmlFor="AccommCountStartDate"
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-alt mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 Start Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommCountStartDate"
                 value={AccommCountStartDate || ""}
                 onChange={(e) =>
                   setAccommCountStartDate(e.target.value || null)
                 }
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommCountloading}
               />
             </div>
@@ -2890,213 +4931,503 @@ const Statistics = () => {
             <div className="form-group">
               <label
                 htmlFor="AccommCountEndDate"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-check mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 End Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommCountEndDate"
                 value={AccommCountEndDate || ""}
                 onChange={(e) => setAccommCountEndDate(e.target.value || null)}
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommCountloading}
               />
             </div>
           </div>
         </div>
 
-        {/* Loading indicator for filter changes */}
-        {/* {eventAccommCountloading && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <Spin size="small" /> Loading...
-          </div>
-        )} */}
-
         {/* Error Message */}
         {eventAccommCountError && (
-          <Alert
-            message={eventAccommCountError}
-            type="error"
-            showIcon
-            style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-            //   closable
-            onClose={() => seteventAccommCountError(null)}
-          />
+          <div
+            className="alert alert-danger alert-dismissible"
+            style={{
+              fontSize: "0.7rem",
+              padding: "15px 20px",
+              margin: "20px 0",
+              borderRadius: "8px",
+              border: "none",
+              boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+              backgroundColor: "#f8d7da",
+              borderLeft: "4px solid #dc3545",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <i
+                className="fas fa-exclamation-triangle mr-3"
+                style={{ color: "#dc3545", fontSize: "0.7rem" }}
+              ></i>
+              <span style={{ color: "#721c24", fontWeight: "500" }}>
+                {eventAccommCountError}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="close"
+              onClick={() => seteventAccommCountError(null)}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                fontSize: "0.7rem",
+                color: "#721c24",
+                cursor: "pointer",
+              }}
+            >
+              <span>&times;</span>
+            </button>
+          </div>
         )}
 
         {/* Chart and Download Section */}
         {!eventAccommCountError && eventAccommCountData.length > 0 && (
-          <>
-            <Chart
-              chartType="BarChart"
-              width="100%"
-              height="500px"
-              data={eventAccommCountdata}
-              options={eventAccommCountoptions}
-              legendToggle
-            />
-            <JSONToCSVDownloader
-              data={eventAccommCountData}
-              headers={AccommCountPerDepartmentHeaders}
-              filename="event_request_Accommodation_per_department_report.csv"
-            />
-          </>
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "25px",
+              borderRadius: "12px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+              border: "1px solid #e9ecef",
+            }}
+          >
+            <div style={{ marginBottom: "20px" }}>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventAccommCountdata}
+                options={eventAccommCountoptions}
+                legendToggle
+              />
+            </div>
+
+            <div
+              style={{
+                textAlign: "center",
+                paddingTop: "15px",
+                borderTop: "1px solid #e9ecef",
+              }}
+            >
+              <JSONToCSVDownloader
+                data={eventAccommCountData}
+                headers={AccommCountPerDepartmentHeaders}
+                filename="event_request_Accommodation_per_department_report.csv"
+                style={{
+                  backgroundColor: "#28a745",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  fontSize: "0.7rem",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = "#218838";
+                  e.target.style.transform = "translateY(-1px)";
+                  e.target.style.boxShadow = "0 4px 8px rgba(40, 167, 69, 0.4)";
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = "#28a745";
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 2px 4px rgba(40, 167, 69, 0.3)";
+                }}
+              >
+                <i className="fas fa-download mr-2"></i>
+                Download CSV Report
+              </JSONToCSVDownloader>
+            </div>
+          </div>
         )}
 
         {/* No Data Message */}
         {!eventAccommCountError &&
           !eventAccommCountloading &&
           eventAccommCountData.length === 0 && (
-            <div style={{ textAlign: "center", padding: "50px" }}>
-              <p>No data available for the selected criteria.</p>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                backgroundColor: "#ffffff",
+                borderRadius: "12px",
+                border: "2px dashed #dee2e6",
+                margin: "20px 0",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <i
+                  className="fas fa-chart-line"
+                  style={{
+                    fontSize: "0.7rem",
+                    color: "#6c757d",
+                    marginBottom: "15px",
+                  }}
+                ></i>
+              </div>
+              <h6
+                style={{
+                  color: "#6c757d",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                No Data Available
+              </h6>
+              <p
+                style={{
+                  color: "#868e96",
+                  margin: "0",
+                  fontSize: "0.7rem",
+                }}
+              >
+                No data available for the selected criteria. Try adjusting your
+                filters.
+              </p>
             </div>
           )}
       </div>
-      <div className="chart">
+
+      <div
+        className="chart"
+        style={{
+          backgroundColor: "#f8f9fa",
+          padding: "25px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        }}
+      >
         {/* Filters Section - Always visible */}
-        <div className="row mb-3">
-          {/* <div className="col-12 col-sm-4">
-              <div>
-                <div className="form-group">
-                  <label
-                    htmlFor="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                  >
-                    Department Type
-                  </label>
-                  <select
-                    id="departmentType"
-                    style={{ fontSize: "0.7rem" }}
-                    className="form-select form-select-lg custom-select"
-                    value={TransperdepartmentselectedDepType}
-                    onChange={(e) =>
-                      setTransperdepartmentselectedDepType(e.target.value)
-                    }
-                    name="otherTransferId"
-                    //disabled={eventTransloading}
-                  >
-                    <option value="">All Department Types</option>
-                    {depTypes.map((data) => (
-                      <option key={data.rowId} value={data.rowId}>
-                        {data.depTypeName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div> */}
-          <div className="col-md-6 col-sm-4">
+        <div className="row mb-4">
+          <div className="col-md-6 col-sm-6 mb-3 mb-sm-0">
             <div className="form-group">
               <label
                 htmlFor="AccommServiceCountStartDate"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-alt mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 Start Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommServiceCountStartDate"
                 value={AccommServiceCountStartDate || ""}
                 onChange={(e) =>
                   setAccommServiceCountStartDate(e.target.value || null)
                 }
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommServiceloading}
               />
             </div>
           </div>
-          <div className="col-md-6 col-sm-4">
+          <div className="col-md-6 col-sm-6">
             <div className="form-group">
               <label
                 htmlFor="AccommServiceCountEndDate"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-check mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 End Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommServiceCountEndDate"
                 value={AccommServiceCountEndDate || ""}
                 onChange={(e) =>
                   setAccommServiceCountEndDate(e.target.value || null)
                 }
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommServiceloading}
               />
             </div>
           </div>
         </div>
 
-        {/* Loading indicator for filter changes */}
-        {/* {eventAccommServiceloading && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <Spin size="small" /> Loading...
-          </div>
-        )} */}
-
         {/* Error Message */}
         {eventAccommServiceError && (
-          <Alert
-            message={eventAccommServiceError}
-            type="error"
-            showIcon
-            style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-            //   closable
-            onClose={() => seteventAccommServiceError(null)}
-          />
+          <div
+            className="alert alert-danger alert-dismissible"
+            style={{
+              fontSize: "0.7rem",
+              padding: "15px 20px",
+              margin: "20px 0",
+              borderRadius: "8px",
+              border: "none",
+              boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+              backgroundColor: "#f8d7da",
+              borderLeft: "4px solid #dc3545",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <i
+                className="fas fa-exclamation-triangle mr-3"
+                style={{ color: "#dc3545", fontSize: "0.7rem" }}
+              ></i>
+              <span style={{ color: "#721c24", fontWeight: "500" }}>
+                {eventAccommServiceError}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="close"
+              onClick={() => seteventAccommServiceError(null)}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                fontSize: "0.7rem",
+                color: "#721c24",
+                cursor: "pointer",
+              }}
+            >
+              <span>&times;</span>
+            </button>
+          </div>
         )}
 
         {/* Chart and Download Section */}
         {!eventAccommServiceError &&
           eventAccommSerivceCountState.length > 0 && (
-            <>
-              <Chart
-                chartType="BarChart"
-                width="100%"
-                height="500px"
-                data={eventAccommServiceCountdata}
-                options={eventAccommServiceCountoptions}
-                legendToggle
-              />
-              <JSONToCSVDownloader
-                data={eventAccommSerivceCountState}
-                headers={AccommServiceCountHeaders}
-                filename="event_request_Accommodation_Most_Used_Component_report.csv"
-              />
-            </>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                padding: "25px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                border: "1px solid #e9ecef",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <Chart
+                  chartType="BarChart"
+                  width="100%"
+                  height="500px"
+                  data={eventAccommServiceCountdata}
+                  options={eventAccommServiceCountoptions}
+                  legendToggle
+                />
+              </div>
+
+              <div
+                style={{
+                  textAlign: "center",
+                  paddingTop: "15px",
+                  borderTop: "1px solid #e9ecef",
+                }}
+              >
+                <JSONToCSVDownloader
+                  data={eventAccommSerivceCountState}
+                  headers={AccommServiceCountHeaders}
+                  filename="event_request_Accommodation_Most_Used_Component_report.csv"
+                  style={{
+                    backgroundColor: "#28a745",
+                    color: "white",
+                    border: "none",
+                    padding: "12px 24px",
+                    borderRadius: "8px",
+                    fontSize: "0.7rem",
+                    fontWeight: "500",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.backgroundColor = "#218838";
+                    e.target.style.transform = "translateY(-1px)";
+                    e.target.style.boxShadow =
+                      "0 4px 8px rgba(40, 167, 69, 0.4)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.backgroundColor = "#28a745";
+                    e.target.style.transform = "translateY(0)";
+                    e.target.style.boxShadow =
+                      "0 2px 4px rgba(40, 167, 69, 0.3)";
+                  }}
+                >
+                  <i className="fas fa-download mr-2"></i>
+                  Download CSV Report
+                </JSONToCSVDownloader>
+              </div>
+            </div>
           )}
 
         {/* No Data Message */}
         {!eventAccommServiceError &&
           !eventAccommServiceloading &&
           eventAccommSerivceCountState.length === 0 && (
-            <div style={{ textAlign: "center", padding: "50px" }}>
-              <p>No data available for the selected criteria.</p>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                backgroundColor: "#ffffff",
+                borderRadius: "12px",
+                border: "2px dashed #dee2e6",
+                margin: "20px 0",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <i
+                  className="fas fa-chart-line"
+                  style={{
+                    fontSize: "0.7rem",
+                    color: "#6c757d",
+                    marginBottom: "15px",
+                  }}
+                ></i>
+              </div>
+              <h6
+                style={{
+                  color: "#6c757d",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                No Data Available
+              </h6>
+              <p
+                style={{
+                  color: "#868e96",
+                  margin: "0",
+                  fontSize: "0.7rem",
+                }}
+              >
+                No data available for the selected criteria. Try adjusting your
+                filters.
+              </p>
             </div>
           )}
       </div>
-      <div className="chart">
+
+      <div
+        className="chart"
+        style={{
+          backgroundColor: "#f8f9fa",
+          padding: "25px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        }}
+      >
         {/* Filters Section - Always visible */}
-        <div className="row mb-3">
-          <div className="col-12 col-sm-4">
+        <div className="row mb-4">
+          <div className="col-12 col-sm-4 mb-3 mb-sm-0">
             <div>
               <div className="form-group">
-                <label htmlFor="departmentType" style={{ fontSize: "0.7rem" }}>
+                <label
+                  htmlFor="departmentType"
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "600",
+                    color: "#495057",
+                    marginBottom: "8px",
+                    display: "block",
+                  }}
+                >
+                  <i
+                    className="fas fa-building mr-2"
+                    style={{ color: "#6c757d" }}
+                  ></i>
                   Department Type
                 </label>
                 <select
                   id="departmentType"
-                  style={{ fontSize: "0.7rem" }}
+                  style={{
+                    fontSize: "0.7rem",
+                    borderRadius: "8px",
+                    border: "2px solid #e9ecef",
+                    transition: "all 0.3s ease",
+                    boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                    height: "2.5rem",
+                  }}
                   className="form-select form-select-lg custom-select"
                   value={AccommCountCompselectedDepType}
                   onChange={(e) =>
                     setAccommCountCompselectedDepType(e.target.value)
                   }
                   name="otherTransferId"
+                  onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                  onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                   //disabled={eventAccommCompCountloading}
                 >
                   <option value="">All Department Types</option>
@@ -3109,23 +5440,43 @@ const Statistics = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 col-sm-4">
+          <div className="col-12 col-sm-4 mb-3 mb-sm-0">
             <div className="form-group">
               <label
-                htmlFor="TransCompCountStartDate"
-                style={{ fontSize: "0.7rem" }}
+                htmlFor="AccommCountCompStartDate"
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-alt mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 Start Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommCountCompStartDate"
                 value={AccommCountCompStartDate || ""}
                 onChange={(e) =>
                   setAccommCountCompStartDate(e.target.value || null)
                 }
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommCompCountloading}
               />
             </div>
@@ -3133,70 +5484,199 @@ const Statistics = () => {
           <div className="col-12 col-sm-4">
             <div className="form-group">
               <label
-                htmlFor="AccommCountEndDate"
-                style={{ fontSize: "0.7rem" }}
+                htmlFor="AccommCompCountEndDate"
+                style={{
+                  fontSize: "0.7rem",
+                  fontWeight: "600",
+                  color: "#495057",
+                  marginBottom: "8px",
+                  display: "block",
+                }}
               >
+                <i
+                  className="fas fa-calendar-check mr-2"
+                  style={{ color: "#6c757d" }}
+                ></i>
                 End Date
               </label>
               <input
                 type="date"
-                style={{ fontSize: "0.7rem" }}
+                style={{
+                  fontSize: "0.7rem",
+                  borderRadius: "8px",
+                  border: "2px solid #e9ecef",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+                  padding: "10px 12px",
+                  height: "2.5rem",
+                }}
                 className="form-control"
                 id="AccommCompCountEndDate"
                 value={AccommCompCountEndDate || ""}
                 onChange={(e) =>
                   setAccommCompCountEndDate(e.target.value || null)
                 }
+                onFocus={(e) => (e.target.style.borderColor = "#007bff")}
+                onBlur={(e) => (e.target.style.borderColor = "#e9ecef")}
                 //disabled={eventAccommCompCountloading}
               />
             </div>
           </div>
         </div>
 
-        {/* Loading indicator for filter changes */}
-        {/* {eventAccommCompCountloading && (
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <Spin size="small" /> Loading...
-          </div>
-        )} */}
-
         {/* Error Message */}
         {eventAccommCountCompError && (
-          <Alert
-            message={eventAccommCountCompError}
-            type="error"
-            showIcon
-            style={{ fontSize: "16px", padding: "12px", margin: "20px 0" }}
-            //   closable
-            onClose={() => seteventAccommCountCompError(null)}
-          />
+          <div
+            className="alert alert-danger alert-dismissible"
+            style={{
+              fontSize: "0.7rem",
+              padding: "15px 20px",
+              margin: "20px 0",
+              borderRadius: "8px",
+              border: "none",
+              boxShadow: "0 2px 8px rgba(220, 53, 69, 0.2)",
+              backgroundColor: "#f8d7da",
+              borderLeft: "4px solid #dc3545",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <i
+                className="fas fa-exclamation-triangle mr-3"
+                style={{ color: "#dc3545", fontSize: "0.7rem" }}
+              ></i>
+              <span style={{ color: "#721c24", fontWeight: "500" }}>
+                {eventAccommCountCompError}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="close"
+              onClick={() => seteventAccommCountCompError(null)}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                fontSize: "0.7rem",
+                color: "#721c24",
+                cursor: "pointer",
+              }}
+            >
+              <span>&times;</span>
+            </button>
+          </div>
         )}
 
         {/* Chart and Download Section */}
         {!eventAccommCountCompError && eventAccommCompCount.length > 0 && (
-          <>
-            <Chart
-              chartType="BarChart"
-              width="100%"
-              height="500px"
-              data={eventAccommCompCountdata}
-              options={eventAccommCompCountoptions}
-              legendToggle
-            />
-            <JSONToCSVDownloader
-              data={eventAccommCompCount}
-              headers={AccommCompCountHeaders}
-              filename="event_request_Accommodation__Comp_per_department_report.csv"
-            />
-          </>
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "25px",
+              borderRadius: "12px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+              border: "1px solid #e9ecef",
+            }}
+          >
+            <div style={{ marginBottom: "20px" }}>
+              <Chart
+                chartType="BarChart"
+                width="100%"
+                height="500px"
+                data={eventAccommCompCountdata}
+                options={eventAccommCompCountoptions}
+                legendToggle
+              />
+            </div>
+
+            <div
+              style={{
+                textAlign: "center",
+                paddingTop: "15px",
+                borderTop: "1px solid #e9ecef",
+              }}
+            >
+              <JSONToCSVDownloader
+                data={eventAccommCompCount}
+                headers={AccommCompCountHeaders}
+                filename="event_request_Accommodation__Comp_per_department_report.csv"
+                style={{
+                  backgroundColor: "#28a745",
+                  color: "white",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  fontSize: "0.7rem",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 4px rgba(40, 167, 69, 0.3)",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = "#218838";
+                  e.target.style.transform = "translateY(-1px)";
+                  e.target.style.boxShadow = "0 4px 8px rgba(40, 167, 69, 0.4)";
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = "#28a745";
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.boxShadow = "0 2px 4px rgba(40, 167, 69, 0.3)";
+                }}
+              >
+                <i className="fas fa-download mr-2"></i>
+                Download CSV Report
+              </JSONToCSVDownloader>
+            </div>
+          </div>
         )}
 
         {/* No Data Message */}
         {!eventAccommCountCompError &&
           !eventAccommCompCountloading &&
           eventAccommCompCount.length === 0 && (
-            <div style={{ textAlign: "center", padding: "50px" }}>
-              <p>No data available for the selected criteria.</p>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                backgroundColor: "#ffffff",
+                borderRadius: "12px",
+                border: "2px dashed #dee2e6",
+                margin: "20px 0",
+              }}
+            >
+              <div style={{ marginBottom: "20px" }}>
+                <i
+                  className="fas fa-chart-line"
+                  style={{
+                    fontSize: "0.7rem",
+                    color: "#6c757d",
+                    marginBottom: "15px",
+                  }}
+                ></i>
+              </div>
+              <h6
+                style={{
+                  color: "#6c757d",
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                No Data Available
+              </h6>
+              <p
+                style={{
+                  color: "#868e96",
+                  margin: "0",
+                  fontSize: "0.7rem",
+                }}
+              >
+                No data available for the selected criteria. Try adjusting your
+                filters.
+              </p>
             </div>
           )}
       </div>
