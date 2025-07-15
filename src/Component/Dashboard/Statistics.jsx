@@ -1585,7 +1585,7 @@ const Statistics = () => {
                       seteventapprovaloverviewselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={Overviewloading}
+                    //disabled={Overviewloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -1614,7 +1614,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     seteventapprovaloverviewStartDate(e.target.value || null)
                   }
-                  disabled={Overviewloading}
+                  //disabled={Overviewloading}
                 />
               </div>
             </div>
@@ -1635,18 +1635,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     seteventapprovaloverviewEndDate(e.target.value || null)
                   }
-                  disabled={Overviewloading}
+                  //disabled={Overviewloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {Overviewloading && (
+          {/* {Overviewloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {Overviewerror && (
@@ -1715,7 +1715,7 @@ const Statistics = () => {
                       setbudgetperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={loading}
+                    //disabled={loading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -1744,7 +1744,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setBudgetPerDepartmentStartDate(e.target.value || null)
                   }
-                  disabled={loading}
+                  //disabled={loading}
                 />
               </div>
             </div>
@@ -1765,18 +1765,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setBudgetPerDepartmentEndDate(e.target.value || null)
                   }
-                  disabled={loading}
+                  //disabled={loading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {loading && (
+          {/* {loading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {error && (
@@ -1838,7 +1838,7 @@ const Statistics = () => {
                       setbudgetperdepartmentcostselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventBudgetCostloading}
+                    //disabled={eventBudgetCostloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -1867,7 +1867,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setBudgetPerDepartmentCostStartDate(e.target.value || null)
                   }
-                  disabled={eventBudgetCostloading}
+                  //disabled={eventBudgetCostloading}
                 />
               </div>
             </div>
@@ -1888,18 +1888,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setBudgetPerDepartmenCostEndDate(e.target.value || null)
                   }
-                  disabled={eventBudgetCostloading}
+                  //disabled={eventBudgetCostloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventBudgetCosterror && (
+          {/* {eventBudgetCosterror && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventBudgetCosterror && (
@@ -1968,7 +1968,7 @@ const Statistics = () => {
                       setmarcomperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventMarcomloading}
+                    //disabled={eventMarcomloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -1997,7 +1997,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setMarcomPerDepartmentStartDate(e.target.value || null)
                   }
-                  disabled={eventMarcomloading}
+                  //disabled={eventMarcomloading}
                 />
               </div>
             </div>
@@ -2018,18 +2018,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setMarcomPerDepartmentEndDate(e.target.value || null)
                   }
-                  disabled={eventMarcomloading}
+                  //disabled={eventMarcomloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventMarcomloading && (
+          {/* {eventMarcomloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventMarcomError && (
@@ -2097,7 +2097,7 @@ const Statistics = () => {
                       setITperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventITloading}
+                    //disabled={eventITloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2126,7 +2126,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITPerDepartmentStartDate(e.target.value || null)
                   }
-                  disabled={eventITloading}
+                  //disabled={eventITloading}
                 />
               </div>
             </div>
@@ -2147,18 +2147,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITPerDepartmentEndDate(e.target.value || null)
                   }
-                  disabled={eventITloading}
+                  //disabled={eventITloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventITloading && (
+          {/* {eventITloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventITError && (
@@ -2222,7 +2222,7 @@ const Statistics = () => {
                       setITperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventITServiceloading}
+                    //disabled={eventITServiceloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2251,7 +2251,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITServiceCountStartDate(e.target.value || null)
                   }
-                  disabled={eventITServiceloading}
+                  //disabled={eventITServiceloading}
                 />
               </div>
             </div>
@@ -2272,18 +2272,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITServiceCountEndDate(e.target.value || null)
                   }
-                  disabled={eventITServiceloading}
+                  //disabled={eventITServiceloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventITServiceloading && (
+          {/* {eventITServiceloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventITServiceError && (
@@ -2347,7 +2347,7 @@ const Statistics = () => {
                       setITCompperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventITComploading}
+                    //disabled={eventITComploading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2376,7 +2376,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITCompPerDepartmentStartDate(e.target.value || null)
                   }
-                  disabled={eventITComploading}
+                  //disabled={eventITComploading}
                 />
               </div>
             </div>
@@ -2397,18 +2397,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setITCompPerDepartmentEndDate(e.target.value || null)
                   }
-                  disabled={eventITComploading}
+                  //disabled={eventITComploading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventITComploading && (
+          {/* {eventITComploading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventITCompError && (
@@ -2477,7 +2477,7 @@ const Statistics = () => {
                       setTransperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventTransloading}
+                    //disabled={eventTransloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2506,7 +2506,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransPerDepartmentStartDate(e.target.value || null)
                   }
-                  disabled={eventTransloading}
+                  //disabled={eventTransloading}
                 />
               </div>
             </div>
@@ -2527,18 +2527,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransPerDepartmentEndDate(e.target.value || null)
                   }
-                  disabled={eventTransloading}
+                  //disabled={eventTransloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventTransloading && (
+          {/* {eventTransloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventTransError && (
@@ -2601,7 +2601,7 @@ const Statistics = () => {
                       setTransperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventTransloading}
+                    //disabled={eventTransloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2630,7 +2630,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransServiceCountStartDate(e.target.value || null)
                   }
-                  disabled={eventTransServiceloading}
+                  //disabled={eventTransServiceloading}
                 />
               </div>
             </div>
@@ -2651,18 +2651,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransServiceCountEndDate(e.target.value || null)
                   }
-                  disabled={eventTransServiceloading}
+                  //disabled={eventTransServiceloading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventTransloading && (
+          {/* {eventTransloading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventTransSericeError && (
@@ -2725,7 +2725,7 @@ const Statistics = () => {
                       setTransCompCountselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventTransComploading}
+                    //disabled={eventTransComploading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -2754,7 +2754,7 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransCompCountStartDate(e.target.value || null)
                   }
-                  disabled={eventTransComploading}
+                  //disabled={eventTransComploading}
                 />
               </div>
             </div>
@@ -2775,18 +2775,18 @@ const Statistics = () => {
                   onChange={(e) =>
                     setTransCompCountEndDate(e.target.value || null)
                   }
-                  disabled={eventTransComploading}
+                  //disabled={eventTransComploading}
                 />
               </div>
             </div>
           </div>
 
           {/* Loading indicator for filter changes */}
-          {eventTransComploading && (
+          {/* {eventTransComploading && (
             <div style={{ textAlign: "center", margin: "20px 0" }}>
               <Spin size="small" /> Loading...
             </div>
-          )}
+          )} */}
 
           {/* Error Message */}
           {eventTransCompError && (
@@ -2853,7 +2853,7 @@ const Statistics = () => {
                     setAccommCountselectedDepType(e.target.value)
                   }
                   name="otherTransferId"
-                  disabled={eventAccommCountloading}
+                  //disabled={eventAccommCountloading}
                 >
                   <option value="">All Department Types</option>
                   {depTypes.map((data) => (
@@ -2882,7 +2882,7 @@ const Statistics = () => {
                 onChange={(e) =>
                   setAccommCountStartDate(e.target.value || null)
                 }
-                disabled={eventAccommCountloading}
+                //disabled={eventAccommCountloading}
               />
             </div>
           </div>
@@ -2901,18 +2901,18 @@ const Statistics = () => {
                 id="AccommCountEndDate"
                 value={AccommCountEndDate || ""}
                 onChange={(e) => setAccommCountEndDate(e.target.value || null)}
-                disabled={eventAccommCountloading}
+                //disabled={eventAccommCountloading}
               />
             </div>
           </div>
         </div>
 
         {/* Loading indicator for filter changes */}
-        {eventAccommCountloading && (
+        {/* {eventAccommCountloading && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <Spin size="small" /> Loading...
           </div>
-        )}
+        )} */}
 
         {/* Error Message */}
         {eventAccommCountError && (
@@ -2975,7 +2975,7 @@ const Statistics = () => {
                       setTransperdepartmentselectedDepType(e.target.value)
                     }
                     name="otherTransferId"
-                    disabled={eventTransloading}
+                    //disabled={eventTransloading}
                   >
                     <option value="">All Department Types</option>
                     {depTypes.map((data) => (
@@ -3004,7 +3004,7 @@ const Statistics = () => {
                 onChange={(e) =>
                   setAccommServiceCountStartDate(e.target.value || null)
                 }
-                disabled={eventAccommServiceloading}
+                //disabled={eventAccommServiceloading}
               />
             </div>
           </div>
@@ -3025,18 +3025,18 @@ const Statistics = () => {
                 onChange={(e) =>
                   setAccommServiceCountEndDate(e.target.value || null)
                 }
-                disabled={eventAccommServiceloading}
+                //disabled={eventAccommServiceloading}
               />
             </div>
           </div>
         </div>
 
         {/* Loading indicator for filter changes */}
-        {eventAccommServiceloading && (
+        {/* {eventAccommServiceloading && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <Spin size="small" /> Loading...
           </div>
-        )}
+        )} */}
 
         {/* Error Message */}
         {eventAccommServiceError && (
@@ -3097,7 +3097,7 @@ const Statistics = () => {
                     setAccommCountCompselectedDepType(e.target.value)
                   }
                   name="otherTransferId"
-                  disabled={eventAccommCompCountloading}
+                  //disabled={eventAccommCompCountloading}
                 >
                   <option value="">All Department Types</option>
                   {depTypes.map((data) => (
@@ -3126,7 +3126,7 @@ const Statistics = () => {
                 onChange={(e) =>
                   setAccommCountCompStartDate(e.target.value || null)
                 }
-                disabled={eventAccommCompCountloading}
+                //disabled={eventAccommCompCountloading}
               />
             </div>
           </div>
@@ -3147,18 +3147,18 @@ const Statistics = () => {
                 onChange={(e) =>
                   setAccommCompCountEndDate(e.target.value || null)
                 }
-                disabled={eventAccommCompCountloading}
+                //disabled={eventAccommCompCountloading}
               />
             </div>
           </div>
         </div>
 
         {/* Loading indicator for filter changes */}
-        {eventAccommCompCountloading && (
+        {/* {eventAccommCompCountloading && (
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <Spin size="small" /> Loading...
           </div>
-        )}
+        )} */}
 
         {/* Error Message */}
         {eventAccommCountCompError && (
