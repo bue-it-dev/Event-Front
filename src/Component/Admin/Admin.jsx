@@ -13,6 +13,7 @@ const Admin = () => {
   const [userID, setUserID] = useState(null); // State to store the userID
   const [isHead, setIsHead] = useState(false); // State to conditionally show buttons
   const [isEAFHead, setisEAFHead] = useState(false); // State to conditionally show buttons
+  const [isHeadIT, setIsHeadIT] = useState(false); // State to conditionally show buttons
   const history = useHistory(); // useHistory hook
 
   useEffect(() => {
@@ -33,6 +34,10 @@ const Admin = () => {
         console.log("User is Head of Department:", retrievedUserID);
       } else if (retrievedUserID === "33") {
         setisEAFHead(true); // Set to true if the user is head of department
+      }
+      // 5. Check if userID is 67
+      if (retrievedUserID === "67") {
+        setIsHeadIT(true); // Set to true if the user is head of department
       }
     }
   }, []);
@@ -61,6 +66,23 @@ const Admin = () => {
   return (
     <div>
       {/* Conditionally show buttons if userID is 55 */}
+      {/* Conditionally show buttons if userID is 55 */}
+      {isHeadIT && (
+        <button
+          className="btn me-2"
+          style={{
+            backgroundColor:
+              activeButton === "Dashboard" ? "#587dbb" : "#D3D3D3", // Baby blue when active, grey when inactive
+            color: activeButton === "Dashboard" ? "white" : "black", // White text when active, black when inactive
+            border: "none",
+            marginRight: "15px",
+            fontSize: "0.7rem", // Increased font size for better visibility
+          }}
+          onClick={handledashboardClick}
+        >
+          Dashboard
+        </button>
+      )}
       {isHead ? (
         <div className="button-group" style={{ marginBottom: "20px" }}>
           <button
