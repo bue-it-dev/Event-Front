@@ -358,7 +358,7 @@ const Statistics = () => {
 
   //IT Service Count Bar Chart & CSV Data Preparation
   const eventITServiceCountdata = [
-    ["IT Component", "Number of Uses"],
+    ["IT Component", "Usage Count"],
     ...eventITServiceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
@@ -369,7 +369,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -386,7 +386,7 @@ const Statistics = () => {
 
   const ITServiceCountHeaders = [
     { key: "serviceType", label: "IT Component" },
-    { key: "totalCount", label: "Number of Uses" },
+    { key: "totalCount", label: "Usage Count" },
   ];
 
   // IT Service Type Count Bar Chart & CSV Data Preparation
@@ -434,7 +434,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -463,7 +463,7 @@ const Statistics = () => {
   const ITCompCountHeaders = [
     { key: "departmentName", label: "Department" },
     { key: "serviceType", label: "IT Component" },
-    { key: "count", label: "Number of Uses" },
+    { key: "count", label: "Usage Count" },
   ];
 
   //Trans Per Department Cost Bar Chart & CSV Data Preparation
@@ -500,7 +500,7 @@ const Statistics = () => {
 
   //Transportation Service Count Bar Chart & CSV Data Preparation
   const eventTransServiceCountdata = [
-    ["Tranportation Service", "Number of Uses"],
+    ["Tranportation Service", "Usage Count"],
     ...eventTransSerivceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
@@ -511,7 +511,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -528,7 +528,7 @@ const Statistics = () => {
 
   const TransServiceCountHeaders = [
     { key: "serviceType", label: "Tranportation Service" },
-    { key: "totalCount", label: "Number of Uses" },
+    { key: "totalCount", label: "Usage Count" },
   ];
 
   // Transportation Service Type Count Bar Chart & CSV Data Preparation
@@ -576,7 +576,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -595,7 +595,7 @@ const Statistics = () => {
   const TransCompCountHeaders = [
     { key: "departmentName", label: "Department" },
     { key: "serviceType", label: "Service Type" },
-    { key: "count", label: "Number of Uses" },
+    { key: "count", label: "Usage Count" },
   ];
 
   //Accommodation Per Department Cost Bar Chart & CSV Data Preparation
@@ -632,7 +632,7 @@ const Statistics = () => {
 
   //Transportation Service Count Bar Chart & CSV Data Preparation
   const eventAccommServiceCountdata = [
-    ["Component", "Number of Uses"],
+    ["Component", "Usage Count"],
     ...eventAccommSerivceCountState
       .filter((dept) => dept.totalCount > 0)
       .sort((a, b) => b.totalCount - a.totalCount) // descending sort
@@ -643,7 +643,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -660,7 +660,7 @@ const Statistics = () => {
 
   const AccommServiceCountHeaders = [
     { key: "serviceType", label: "Accommodation Service" },
-    { key: "totalCount", label: "Number of Uses" },
+    { key: "totalCount", label: "Usage Count" },
   ];
 
   // Accommodation Service Type Count Bar Chart & CSV Data Preparation
@@ -708,7 +708,7 @@ const Statistics = () => {
     chartArea: { width: "50%" },
     isStacked: true,
     hAxis: {
-      title: "Number of Uses",
+      title: "Usage Count",
       minValue: 0,
       textStyle: { fontSize: 12 },
       titleTextStyle: { fontSize: 12 },
@@ -727,7 +727,7 @@ const Statistics = () => {
   const AccommCompCountHeaders = [
     { key: "departmentName", label: "Department Name" },
     { key: "serviceType", label: "Accommodation Service" },
-    { key: "totalCount", label: "Number of Uses" },
+    { key: "totalCount", label: "Usage Count" },
   ];
 
   //   const TransCompCountHeaders = ["departmentName", "count", "serviceType"];

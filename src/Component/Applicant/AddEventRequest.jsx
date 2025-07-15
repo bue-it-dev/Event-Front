@@ -462,7 +462,8 @@ const AddEventRequest = () => {
                     marginTop: "0.5rem",
                   }}
                 >
-                  Check venue availability before submitting the event request
+                  Please check venue availability before submitting the event
+                  request
                 </div>
               </div>
               <ValidatorForm onSubmit={onClickeSubmit} className="px-md-2">
