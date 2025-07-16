@@ -1271,286 +1271,305 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await Promise.all([
     GetOveriewRequestApprovals(
       eventapprovaloverviewStartDate,
       eventapprovaloverviewEndDate,
       eventapprovaloverviewselectedDepType
     );
+  }, [
+    eventapprovaloverviewStartDate,
+    eventapprovaloverviewEndDate,
+    eventapprovaloverviewselectedDepType,
+  ]); // Empty dependency array to run only once on mount
+  useEffect(() => {
     GetBudgetPerDepartment(
       BudgetPerDepartmentStartDate,
       BudgetPerDepartmentEndDate,
       budgetperdepartmentselectedDepType
     );
+  }, [
+    BudgetPerDepartmentStartDate,
+    BudgetPerDepartmentEndDate,
+    budgetperdepartmentselectedDepType,
+  ]);
+  useEffect(() => {
     GetBudgetPerDepartmentCost(
       BudgetPerDepartmentCostStartDate,
       BudgetPerDepartmentCostEndDate,
       budgetperdepartmentcostselectedDepType
     );
+  }, [
+    BudgetPerDepartmentCostStartDate,
+    BudgetPerDepartmentCostEndDate,
+    budgetperdepartmentcostselectedDepType,
+  ]);
+  useEffect(() => {
     GetMarcomCountPerDepartment(
       MarcomPerDepartmentStartDate,
       MarcomPerDepartmentEndDate,
       marcomperdepartmentselectedDepType
     );
+  }, [
+    MarcomPerDepartmentStartDate,
+    MarcomPerDepartmentEndDate,
+    marcomperdepartmentselectedDepType,
+  ]);
+  useEffect(() => {
     GetITCountPerDepartment(
       ITPerDepartmentStartDate,
       ITPerDepartmentEndDate,
       ITperdepartmentselectedDepType
     );
+  }, [
+    ITPerDepartmentStartDate,
+    ITPerDepartmentEndDate,
+    ITperdepartmentselectedDepType,
+  ]);
+  useEffect(() => {
     GetITServiceCount(ITServiceCountStartDate, ITServiceCountEndDate);
+  }, [ITServiceCountStartDate, ITServiceCountEndDate]);
+  useEffect(() => {
     GetITCompCountPerDepartment(
       ITCompPerDepartmentStartDate,
       ITCompPerDepartmentEndDate,
       ITCompperdepartmentselectedDepType
     );
+  }, [
+    ITCompPerDepartmentStartDate,
+    ITCompPerDepartmentEndDate,
+    ITCompperdepartmentselectedDepType,
+  ]);
+  useEffect(() => {
     GetTransCountPerDepartment(
       TransPerDepartmentStartDate,
       TransPerDepartmentEndDate,
       TransperdepartmentselectedDepType
     );
+  }, [
+    TransPerDepartmentStartDate,
+    TransPerDepartmentEndDate,
+    TransperdepartmentselectedDepType,
+  ]);
+  useEffect(() => {
     GetTransServiceCount(TransServiceCountStartDate, TransServiceCountEndDate);
+  }, [TransServiceCountStartDate, TransServiceCountEndDate]);
+  useEffect(() => {
     GetTransCompCountPerDepartment(
       TransCompCountStartDate,
       TransCompCountEndDate,
       TransCompCountselectedDepType
     );
+  }, [
+    TransCompCountStartDate,
+    TransCompCountEndDate,
+    TransCompCountselectedDepType,
+  ]);
+  useEffect(() => {
     GetAccommCountPerDepartment(
       AccommCountStartDate,
       AccommCountEndDate,
       AccommCountselectedDepType
     );
+  }, [AccommCountStartDate, AccommCountEndDate, AccommCountselectedDepType]);
+  useEffect(() => {
     GetAccommCompCountPerDepartment(
       AccommCountCompStartDate,
       AccommCompCountEndDate,
       AccommCountCompselectedDepType
     );
+  }, [
+    AccommCountCompStartDate,
+    AccommCompCountEndDate,
+    AccommCountCompselectedDepType,
+  ]);
+  useEffect(() => {
     GetAccommServiceCounts(
       AccommServiceCountStartDate,
       AccommServiceCountEndDate
     );
+  }, [AccommServiceCountStartDate, AccommServiceCountEndDate]);
+  useEffect(() => {
     getallDepartmentTypes();
-    //   ]);
-    // };
+  }, []);
 
-    // fetchData();
-  }, [
-    BudgetPerDepartmentStartDate,
-    BudgetPerDepartmentEndDate,
-    budgetperdepartmentselectedDepType,
-    BudgetPerDepartmentCostStartDate,
-    BudgetPerDepartmentCostEndDate,
-    budgetperdepartmentcostselectedDepType,
-    MarcomPerDepartmentStartDate,
-    MarcomPerDepartmentEndDate,
-    marcomperdepartmentselectedDepType,
-    ITPerDepartmentStartDate,
-    ITPerDepartmentEndDate,
-    ITperdepartmentselectedDepType,
-    TransPerDepartmentStartDate,
-    TransPerDepartmentEndDate,
-    TransperdepartmentselectedDepType,
-    TransCompCountStartDate,
-    TransCompCountEndDate,
-    TransCompCountselectedDepType,
-    AccommCountStartDate,
-    AccommCountEndDate,
-    AccommCountselectedDepType,
-    AccommCountCompStartDate,
-    AccommCompCountEndDate,
-    AccommCountCompselectedDepType,
-    ITCompPerDepartmentStartDate,
-    ITCompPerDepartmentEndDate,
-    ITCompperdepartmentselectedDepType,
-    ITServiceCountStartDate,
-    ITServiceCountEndDate,
-    TransServiceCountStartDate,
-    TransServiceCountEndDate,
-    AccommServiceCountStartDate,
-    AccommServiceCountEndDate,
-    eventapprovaloverviewStartDate,
-    eventapprovaloverviewEndDate,
-    eventapprovaloverviewselectedDepType,
-  ]);
+  // // Show loading only when there's no data yet and it's the initial load
+  // const isOverviewInitialLoad =
+  //   Overviewloading &&
+  //   eventapprovaloverviewState.length === 0 &&
+  //   !Overviewerror;
 
-  // Show loading only when there's no data yet and it's the initial load
-  const isOverviewInitialLoad =
-    Overviewloading &&
-    eventapprovaloverviewState.length === 0 &&
-    !Overviewerror;
+  // if (isOverviewInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isOverviewInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isInitialLoad =
+  //   loading && eventbudgetperdepartment.length === 0 && !error;
 
-  const isInitialLoad =
-    loading && eventbudgetperdepartment.length === 0 && !error;
+  // if (isInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isBudgetCostInitialLoad =
+  //   eventBudgetCostloading &&
+  //   eventbudgetperdepartmentCostdata.length === 0 &&
+  //   !eventBudgetCosterror;
 
-  const isBudgetCostInitialLoad =
-    eventBudgetCostloading &&
-    eventbudgetperdepartmentCostdata.length === 0 &&
-    !eventBudgetCosterror;
+  // if (isBudgetCostInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isBudgetCostInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isMarcomInitialLoad =
+  //   eventMarcomloading &&
+  //   eventmarcomperdepartment.length === 0 &&
+  //   !eventMarcomError;
 
-  const isMarcomInitialLoad =
-    eventMarcomloading &&
-    eventmarcomperdepartment.length === 0 &&
-    !eventMarcomError;
+  // if (isMarcomInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isMarcomInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isITInitialLoad =
+  //   eventITloading && eventITperdepartment.length === 0 && !eventITError;
 
-  const isITInitialLoad =
-    eventITloading && eventITperdepartment.length === 0 && !eventITError;
+  // if (isITInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isITInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isITServiceCountInitialLoad =
+  //   eventITServiceloading &&
+  //   eventITServiceCountState.length === 0 &&
+  //   !eventITServiceError;
 
-  const isITServiceCountInitialLoad =
-    eventITServiceloading &&
-    eventITServiceCountState.length === 0 &&
-    !eventITServiceError;
+  // if (isITServiceCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isITServiceCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isITCompInitialLoad =
+  //   eventITComploading &&
+  //   eventITCompperdepartment.length === 0 &&
+  //   !eventITCompError;
 
-  const isITCompInitialLoad =
-    eventITComploading &&
-    eventITCompperdepartment.length === 0 &&
-    !eventITCompError;
+  // if (isITCompInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isITCompInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isTransInitialLoad =
+  //   eventTransloading &&
+  //   eventTransperdepartment.length === 0 &&
+  //   !eventTransError;
 
-  const isTransInitialLoad =
-    eventTransloading &&
-    eventTransperdepartment.length === 0 &&
-    !eventTransError;
+  // if (isTransInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isTransInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isTransServiceCountInitialLoad =
+  //   eventTransServiceloading &&
+  //   eventTransSerivceCountState.length === 0 &&
+  //   !eventTransSericeError;
 
-  const isTransServiceCountInitialLoad =
-    eventTransServiceloading &&
-    eventTransSerivceCountState.length === 0 &&
-    !eventTransSericeError;
+  // if (isTransServiceCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isTransServiceCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isTransCompCountInitialLoad =
+  //   eventTransComploading &&
+  //   eventTransCompCount.length === 0 &&
+  //   !eventTransCompError;
 
-  const isTransCompCountInitialLoad =
-    eventTransComploading &&
-    eventTransCompCount.length === 0 &&
-    !eventTransCompError;
+  // if (isTransCompCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isTransCompCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isAccommCountInitialLoad =
+  //   eventAccommCountloading &&
+  //   eventAccommCountData.length === 0 &&
+  //   !eventAccommCountError;
 
-  const isAccommCountInitialLoad =
-    eventAccommCountloading &&
-    eventAccommCountData.length === 0 &&
-    !eventAccommCountError;
+  // if (isAccommCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isAccommCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isAccommServiceCountInitialLoad =
+  //   eventAccommServiceloading &&
+  //   eventAccommSerivceCountState.length === 0 &&
+  //   !eventAccommServiceError;
 
-  const isAccommServiceCountInitialLoad =
-    eventAccommServiceloading &&
-    eventAccommSerivceCountState.length === 0 &&
-    !eventAccommServiceError;
+  // if (isAccommServiceCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
-  if (isAccommServiceCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // const isAccommCompCountInitialLoad =
+  //   eventAccommCompCountloading &&
+  //   eventAccommCompCount.length === 0 &&
+  //   !eventAccommCountCompError;
 
-  const isAccommCompCountInitialLoad =
-    eventAccommCompCountloading &&
-    eventAccommCompCount.length === 0 &&
-    !eventAccommCountCompError;
-
-  if (isAccommCompCountInitialLoad) {
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
-      />
-    );
-  }
+  // if (isAccommCompCountInitialLoad) {
+  //   return (
+  //     <Spin
+  //       size="large"
+  //       style={{ display: "block", margin: "50px auto", fontSize: "24px" }}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -1632,10 +1651,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -1680,10 +1695,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -1721,10 +1732,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -2017,10 +2024,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -2065,10 +2068,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -2106,10 +2105,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -2320,10 +2315,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -2368,10 +2359,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -2409,10 +2396,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -2674,10 +2657,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -2723,10 +2702,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -2764,10 +2739,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -3030,10 +3001,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -3078,10 +3045,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -3119,10 +3082,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -3333,10 +3292,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -3373,10 +3328,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -3587,10 +3538,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -3635,10 +3582,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -3676,10 +3619,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -3941,10 +3880,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -3989,10 +3924,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -4030,10 +3961,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -4243,10 +4170,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -4284,10 +4207,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
@@ -4498,10 +4417,6 @@ const Statistics = () => {
                       display: "block",
                     }}
                   >
-                    <i
-                      className="fas fa-building mr-2"
-                      style={{ color: "#6c757d" }}
-                    ></i>
                     Department Type
                   </label>
                   <select
@@ -4546,10 +4461,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-alt mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   Start Date
                 </label>
                 <input
@@ -4587,10 +4498,6 @@ const Statistics = () => {
                     display: "block",
                   }}
                 >
-                  <i
-                    className="fas fa-calendar-check mr-2"
-                    style={{ color: "#6c757d" }}
-                  ></i>
                   End Date
                 </label>
                 <input
