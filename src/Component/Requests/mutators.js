@@ -325,6 +325,22 @@ const SaveEvent = async (application) => {
     throw err;
   }
 };
+const ReturnRequesttoRequester = async (id) => {
+  try {
+    await axios.post(
+      `${URL.BASE_URL}/api/EventEntity/return-request-for-revision/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
 // const UpdateFiles = async (
 //   EventId,
 //   passportData = [],
@@ -586,4 +602,5 @@ export {
   UpdateEventApproval,
   UpdateEventAcknowledge,
   AddBudgetOfficeEventRequest,
+  ReturnRequesttoRequester,
 };

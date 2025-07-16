@@ -106,6 +106,7 @@ const Login = () => {
                           16: "Staff",
                           17: "Maintenance",
                           18: "Medical Service",
+                          19: "Event Office",
                         };
                         setUser({
                           ...user,

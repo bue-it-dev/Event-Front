@@ -60,6 +60,8 @@ import EventDetailsPublicAffairs from "./Component/PublicAffairs/EventDetailsPub
 import EventListPublicAffairs from "./Component/PublicAffairs/EventListPublicAffairs";
 import EventListAccommodation from "./Component/Accommodation/EventListAccommodation";
 import EventDetailsAccommodation from "./Component/Accommodation/EventDetailsAccommodation";
+import EventOfficeRequestList from "./Component/EventOffice/EventOfficeRequestList";
+import EventOfficeRequestDetails from "./Component/EventOffice/EventOfficeRequestDetails";
 import EventListTransportation from "./Component/Transportation/EventListTransportation";
 import EventDetailsTransportation from "./Component/Transportation/EventDetailsTransportation";
 import Transportation from "./Component/Transportation/Transportation";
@@ -90,6 +92,7 @@ import Statistics from "./Component/Dashboard/Statistics";
 import BusinessReports from "./Component/Dashboard/BusinessReports";
 import HomeReports from "./Component/Dashboard/HomeReports";
 import ReportRequestsDetails from "./Component/Dashboard/ReportRequestsDetails";
+import EventOffice from "./Component/EventOffice/EventOffice";
 // import MARCOMTabs from "./Component/Marcom/MARCOMTabs";
 function App() {
   const [user, { setUser }] = useUser();
@@ -149,6 +152,8 @@ function App() {
                     // ? PublicAffairs
                     user.type === "Accommodation"
                     ? Accommodation
+                    : user.type === "Event Office"
+                    ? EventOffice
                     : user.type === "Transportation"
                     ? Transportation
                     : user.type === "Estates and Facilities Executive Director"
@@ -565,6 +570,21 @@ function App() {
                       component={EventDetailsAccommodation}
                     />
                     <Route path="/" exact component={Accommodation} />
+                    <Route path="*" exact component={Page404} />
+                  </Switch>
+                </>
+              ) : user.type === "Event Office" ? (
+                <>
+                  <Switch>
+                    <ProtectedRoute
+                      path="/event-approval-list-event-office"
+                      component={EventOfficeRequestList}
+                    />
+                    <ProtectedRoute
+                      path="/event-details-event-office"
+                      component={EventOfficeRequestDetails}
+                    />
+                    <Route path="/" exact component={EventOffice} />
                     <Route path="*" exact component={Page404} />
                   </Switch>
                 </>
