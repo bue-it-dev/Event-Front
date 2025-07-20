@@ -325,11 +325,11 @@ const SaveEvent = async (application) => {
     throw err;
   }
 };
-const ReturnRequesttoRequester = async (id) => {
+const ReturnRequesttoRequester = async (application) => {
   try {
     await axios.post(
-      `${URL.BASE_URL}/api/EventEntity/return-request-for-revision/${id}`,
-      {},
+      `${URL.BASE_URL}/api/EventEntity/return-request-for-revision/`,
+      { ...application },
       {
         headers: {
           Authorization: `Bearer ${getToken()}`,

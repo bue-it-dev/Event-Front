@@ -38,6 +38,7 @@ const EventDetailsBOM = () => {
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
   const [openrejectnotes, setOpenRejectNotes] = useState(false);
+  const [openBOMNotes, setopenBOMNotes] = useState(false);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -152,6 +153,7 @@ const EventDetailsBOM = () => {
     officeOfPresedentFilePath: null,
     visitAgendaFilePath: null,
     confirmedAt: null,
+    notesBOM: "",
     isVip: 0,
     passports: [],
     itcomponentEvents: [
@@ -594,6 +596,7 @@ const EventDetailsBOM = () => {
           userTypeId: 11,
           eventId: requestId,
           rejectionReason: eventData.rejectionReason, // This will now have the latest value
+          notesBOM: eventData.notesBOM, // Include BOM notes if needed
         };
         // Debugging log
         console.log("Updated payload:", payload);
@@ -1106,6 +1109,74 @@ const EventDetailsBOM = () => {
                   />
                 </Table>
               </div>
+              {eventData.returnNotes != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <h5 className="horizontal-rule-text">Return Comment</h5>
+                  </div>
+
+                  <textarea
+                    id="returnNotes"
+                    name="returnNotes"
+                    value={eventData.returnNotes}
+                    disabled
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      seteventData({
+                        ...eventData,
+                        returnNotes: value,
+                      });
+                    }}
+                    className="form-control"
+                    required
+                    rows="3"
+                    placeholder="Enter the reject comments"
+                    style={{
+                      fontSize: "0.7rem",
+                      textAlign: "justify",
+                      lineHeight: "1.4",
+                      padding: "8px",
+                      maxWidth: "85%",
+                      margin: "0 auto",
+                      display: "block",
+                    }}
+                  />
+                </>
+              ) : null}
+              {eventData.notesBOM != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <h5 className="horizontal-rule-text">BO Manager Comment</h5>
+                  </div>
+
+                  <textarea
+                    id="notesBOM"
+                    name="notesBOM"
+                    value={eventData.notesBOM}
+                    disabled
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      seteventData({
+                        ...eventData,
+                        notesBOM: value,
+                      });
+                    }}
+                    className="form-control"
+                    required
+                    rows="3"
+                    placeholder="Enter the reject comments"
+                    style={{
+                      fontSize: "0.7rem",
+                      textAlign: "justify",
+                      lineHeight: "1.4",
+                      padding: "8px",
+                      maxWidth: "85%",
+                      margin: "0 auto",
+                      display: "block",
+                    }}
+                  />
+                </>
+              ) : null}
               <div className="horizontal-rule mb-4">
                 <hr />
                 <h5 className="horizontal-rule-text fs-5">Approval</h5>
@@ -1126,7 +1197,7 @@ const EventDetailsBOM = () => {
                           minWidth: "110px",
                           height: "28px",
                         }}
-                        onClick={() => handleApproval(1)}
+                        onClick={() => setopenBOMNotes(true)}
                         disabled={isLoading}
                       >
                         {isLoading ? "Approve" : "Approve"}
@@ -1293,6 +1364,156 @@ const EventDetailsBOM = () => {
                               onClick={() => {
                                 handleApproval(0);
                                 setOpenRejectNotes(false);
+                              }}
+                            >
+                              {isLoading ? "Submit" : "Submit"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {openBOMNotes && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          zIndex: 1050,
+                        }}
+                      >
+                        {/* Dialog Box */}
+                        <div
+                          style={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            padding: "20px",
+                            width: "90%",
+                            maxWidth: "500px",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                          }}
+                        >
+                          {/* Dialog Header */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "15px",
+                              borderBottom: "1px solid #dee2e6",
+                              paddingBottom: "10px",
+                            }}
+                          >
+                            <h5
+                              style={{
+                                margin: 0,
+                                fontSize: "0.7rem",
+                                fontWeight: "bold",
+                                color: "#333",
+                              }}
+                            >
+                              Reject Request
+                            </h5>
+                            <button
+                              type="button"
+                              style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "0.7rem",
+                                cursor: "pointer",
+                                color: "#999",
+                              }}
+                              onClick={() => setopenBOMNotes(false)}
+                            >
+                              ×
+                            </button>
+                          </div>
+
+                          {/* Dialog Body */}
+                          <div style={{ marginBottom: "20px" }}>
+                            {/* <label
+                              htmlFor="rejectionReason"
+                              style={{
+                                display: "block",
+                                marginBottom: "8px",
+                                fontSize: "0.7rem",
+                                fontWeight: "500",
+                                color: "#333",
+                              }}
+                            >
+                              Reject Notes
+                            </label> */}
+                            <textarea
+                              id="v"
+                              name="notesBOM"
+                              value={eventData.notesBOM}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  notesBOM: value,
+                                });
+                              }}
+                              style={{
+                                width: "100%",
+                                padding: "8px",
+                                border: "1px solid #ced4da",
+                                borderRadius: "4px",
+                                fontSize: "0.7rem",
+                                resize: "vertical",
+                                // minHeight: "100px",
+                              }}
+                              required
+                              rows="3"
+                              placeholder="Enter the comments (If Needed)"
+                            />
+                          </div>
+
+                          {/* Dialog Footer */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              gap: "10px",
+                            }}
+                          >
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "#6c757d",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              onClick={() => setopenBOMNotes(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "darkgreen",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              disabled={isLoading}
+                              onClick={() => {
+                                handleApproval(1);
+                                setopenBOMNotes(false);
                               }}
                             >
                               {isLoading ? "Submit" : "Submit"}

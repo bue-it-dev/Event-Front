@@ -157,6 +157,8 @@ const AdminMyEventRequetDetails = () => {
     visitAgendaFilePath: null,
     confirmedAt: null,
     isVip: 0,
+    returnNotes: "",
+    notesBOM: "",
     passports: [],
     itcomponentEvents: [
       {
@@ -1212,6 +1214,78 @@ const AdminMyEventRequetDetails = () => {
 
                     {eventData.confirmedAt == null ? (
                       <>
+                        {eventData.returnNotes != null ? (
+                          <>
+                            <div className="horizontal-rule mb-4">
+                              <h5 className="horizontal-rule-text">
+                                Return Comment
+                              </h5>
+                            </div>
+
+                            <textarea
+                              id="returnNotes"
+                              name="returnNotes"
+                              value={eventData.returnNotes}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  returnNotes: value,
+                                });
+                              }}
+                              className="form-control"
+                              required
+                              rows="3"
+                              placeholder="Enter the reject comments"
+                              style={{
+                                fontSize: "0.7rem",
+                                textAlign: "justify",
+                                lineHeight: "1.4",
+                                padding: "8px",
+                                maxWidth: "85%",
+                                margin: "0 auto",
+                                display: "block",
+                              }}
+                            />
+                          </>
+                        ) : null}
+                        {eventData.notesBOM != null ? (
+                          <>
+                            <div className="horizontal-rule mb-4">
+                              <h5 className="horizontal-rule-text">
+                                BO Manager Comment
+                              </h5>
+                            </div>
+
+                            <textarea
+                              id="notesBOM"
+                              name="notesBOM"
+                              value={eventData.notesBOM}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  notesBOM: value,
+                                });
+                              }}
+                              className="form-control"
+                              required
+                              rows="3"
+                              placeholder="Enter the reject comments"
+                              style={{
+                                fontSize: "0.7rem",
+                                textAlign: "justify",
+                                lineHeight: "1.4",
+                                padding: "8px",
+                                maxWidth: "85%",
+                                margin: "0 auto",
+                                display: "block",
+                              }}
+                            />
+                          </>
+                        ) : null}
                         <div className="row justify-content-center mt-3">
                           <div
                             className="d-flex justify-content-center"
@@ -1287,6 +1361,78 @@ const AdminMyEventRequetDetails = () => {
                             />
                           </Table>
                         </div>
+                        {eventData.returnNotes != null ? (
+                          <>
+                            <div className="horizontal-rule mb-4">
+                              <h5 className="horizontal-rule-text">
+                                Return Comment
+                              </h5>
+                            </div>
+
+                            <textarea
+                              id="returnNotes"
+                              name="returnNotes"
+                              value={eventData.returnNotes}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  returnNotes: value,
+                                });
+                              }}
+                              className="form-control"
+                              required
+                              rows="3"
+                              placeholder="Enter the reject comments"
+                              style={{
+                                fontSize: "0.7rem",
+                                textAlign: "justify",
+                                lineHeight: "1.4",
+                                padding: "8px",
+                                maxWidth: "85%",
+                                margin: "0 auto",
+                                display: "block",
+                              }}
+                            />
+                          </>
+                        ) : null}
+                        {eventData.notesBOM != null ? (
+                          <>
+                            <div className="horizontal-rule mb-4">
+                              <h5 className="horizontal-rule-text">
+                                BO Manager Comment
+                              </h5>
+                            </div>
+
+                            <textarea
+                              id="notesBOM"
+                              name="notesBOM"
+                              value={eventData.notesBOM}
+                              disabled
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  notesBOM: value,
+                                });
+                              }}
+                              className="form-control"
+                              required
+                              rows="3"
+                              placeholder="Enter the reject comments"
+                              style={{
+                                fontSize: "0.7rem",
+                                textAlign: "justify",
+                                lineHeight: "1.4",
+                                padding: "8px",
+                                maxWidth: "85%",
+                                margin: "0 auto",
+                                display: "block",
+                              }}
+                            />
+                          </>
+                        ) : null}
                         {eventData.rejectionReason != null ? (
                           <>
                             <div className="horizontal-rule mb-4">
@@ -1522,6 +1668,76 @@ const AdminMyEventRequetDetails = () => {
                       />
                     </Table>
                   </div>
+                  {eventData.returnNotes != null ? (
+                    <>
+                      <div className="horizontal-rule mb-4">
+                        <h5 className="horizontal-rule-text">Return Comment</h5>
+                      </div>
+
+                      <textarea
+                        id="returnNotes"
+                        name="returnNotes"
+                        value={eventData.returnNotes}
+                        disabled
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          seteventData({
+                            ...eventData,
+                            returnNotes: value,
+                          });
+                        }}
+                        className="form-control"
+                        required
+                        rows="3"
+                        placeholder="Enter the reject comments"
+                        style={{
+                          fontSize: "0.7rem",
+                          textAlign: "justify",
+                          lineHeight: "1.4",
+                          padding: "8px",
+                          maxWidth: "85%",
+                          margin: "0 auto",
+                          display: "block",
+                        }}
+                      />
+                    </>
+                  ) : null}
+                  {eventData.notesBOM != null ? (
+                    <>
+                      <div className="horizontal-rule mb-4">
+                        <h5 className="horizontal-rule-text">
+                          BO Manager Comment
+                        </h5>
+                      </div>
+
+                      <textarea
+                        id="notesBOM"
+                        name="notesBOM"
+                        value={eventData.notesBOM}
+                        disabled
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          seteventData({
+                            ...eventData,
+                            notesBOM: value,
+                          });
+                        }}
+                        className="form-control"
+                        required
+                        rows="3"
+                        placeholder="Enter the reject comments"
+                        style={{
+                          fontSize: "0.7rem",
+                          textAlign: "justify",
+                          lineHeight: "1.4",
+                          padding: "8px",
+                          maxWidth: "85%",
+                          margin: "0 auto",
+                          display: "block",
+                        }}
+                      />
+                    </>
+                  ) : null}
                   {eventData.rejectionReason != null ? (
                     <>
                       <div className="horizontal-rule mb-4">

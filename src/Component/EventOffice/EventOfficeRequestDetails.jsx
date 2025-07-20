@@ -39,6 +39,7 @@ const EventOfficeRequestDetails = () => {
   const [approvalDepartments, setapprovalDepartments] = React.useState([]);
   const [passportFiles, setPassportFiles] = useState([[]]);
   const [openrejectnotes, setOpenRejectNotes] = useState(false);
+  const [openreturnnotes, setOpenReturnNotes] = useState(false);
   const [approvalTracker, setApprovalTracker] = useState([]);
   const location = useLocation();
   // Validate input and update state
@@ -154,6 +155,7 @@ const EventOfficeRequestDetails = () => {
     visitAgendaFilePath: null,
     confirmedAt: null,
     isVip: 0,
+    returnNotes: "",
     passports: [],
     itcomponentEvents: [
       {
@@ -590,7 +592,11 @@ const EventOfficeRequestDetails = () => {
   const ReturnRequest = async () => {
     try {
       setisLoading(true);
-      await ReturnRequesttoRequester(requestId);
+      const payload = {
+        requestId: requestId,
+        returnNotes: eventData.returnNotes, // This will now have the latest value
+      };
+      await ReturnRequesttoRequester(payload);
       console.log("RequestID", requestId);
       setisLoading(false);
       setTimeout(() => {
@@ -1123,6 +1129,74 @@ const EventOfficeRequestDetails = () => {
                   />
                 </Table>
               </div>
+              {eventData.returnNotes != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <h5 className="horizontal-rule-text">Return Comment</h5>
+                  </div>
+
+                  <textarea
+                    id="returnNotes"
+                    name="returnNotes"
+                    value={eventData.returnNotes}
+                    disabled
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      seteventData({
+                        ...eventData,
+                        returnNotes: value,
+                      });
+                    }}
+                    className="form-control"
+                    required
+                    rows="3"
+                    placeholder="Enter the reject comments"
+                    style={{
+                      fontSize: "0.7rem",
+                      textAlign: "justify",
+                      lineHeight: "1.4",
+                      padding: "8px",
+                      maxWidth: "85%",
+                      margin: "0 auto",
+                      display: "block",
+                    }}
+                  />
+                </>
+              ) : null}
+              {eventData.notesBOM != null ? (
+                <>
+                  <div className="horizontal-rule mb-4">
+                    <h5 className="horizontal-rule-text">BO Manager Comment</h5>
+                  </div>
+
+                  <textarea
+                    id="notesBOM"
+                    name="notesBOM"
+                    value={eventData.notesBOM}
+                    disabled
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      seteventData({
+                        ...eventData,
+                        notesBOM: value,
+                      });
+                    }}
+                    className="form-control"
+                    required
+                    rows="3"
+                    placeholder="Enter the reject comments"
+                    style={{
+                      fontSize: "0.7rem",
+                      textAlign: "justify",
+                      lineHeight: "1.4",
+                      padding: "8px",
+                      maxWidth: "85%",
+                      margin: "0 auto",
+                      display: "block",
+                    }}
+                  />
+                </>
+              ) : null}
               <div className="horizontal-rule mb-4">
                 <hr />
                 <h5 className="horizontal-rule-text fs-5">Approval</h5>
@@ -1178,7 +1252,8 @@ const EventOfficeRequestDetails = () => {
                         }}
                         className="btn btn-primary btn-lg"
                         // style={{ backgroundColor: "#FF8C00", color: "black" }}
-                        onClick={() => ReturnRequest()}
+                        // onClick={() => ReturnRequest()}
+                        onClick={() => setOpenReturnNotes(true)}
                         disabled={isLoading}
                       >
                         {isLoading
@@ -1186,7 +1261,157 @@ const EventOfficeRequestDetails = () => {
                           : "Return to Requester"}
                       </button>
                     </div>
+                    {openreturnnotes && (
+                      <div
+                        style={{
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          zIndex: 1050,
+                        }}
+                      >
+                        {/* Dialog Box */}
+                        <div
+                          style={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            padding: "20px",
+                            width: "90%",
+                            maxWidth: "500px",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                          }}
+                        >
+                          {/* Dialog Header */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "15px",
+                              borderBottom: "1px solid #dee2e6",
+                              paddingBottom: "10px",
+                            }}
+                          >
+                            <h5
+                              style={{
+                                margin: 0,
+                                fontSize: "0.7rem",
+                                fontWeight: "bold",
+                                color: "#333",
+                              }}
+                            >
+                              Return Request to Requester
+                            </h5>
+                            <button
+                              type="button"
+                              style={{
+                                background: "none",
+                                border: "none",
+                                fontSize: "0.7rem",
+                                cursor: "pointer",
+                                color: "#999",
+                              }}
+                              onClick={() => setOpenReturnNotes(false)}
+                            >
+                              ×
+                            </button>
+                          </div>
 
+                          {/* Dialog Body */}
+                          <div style={{ marginBottom: "20px" }}>
+                            {/* <label
+                              htmlFor="rejectionReason"
+                              style={{
+                                display: "block",
+                                marginBottom: "8px",
+                                fontSize: "0.7rem",
+                                fontWeight: "500",
+                                color: "#333",
+                              }}
+                            >
+                              Reject Notes
+                            </label> */}
+                            <textarea
+                              id="returnNotes"
+                              name="returnNotes"
+                              value={eventData.returnNotes}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                seteventData({
+                                  ...eventData,
+                                  returnNotes: value,
+                                });
+                              }}
+                              style={{
+                                width: "100%",
+                                padding: "8px",
+                                border: "1px solid #ced4da",
+                                borderRadius: "4px",
+                                fontSize: "0.7rem",
+                                resize: "vertical",
+                                // minHeight: "100px",
+                              }}
+                              required
+                              rows="3"
+                              placeholder="Enter the comments"
+                            />
+                          </div>
+
+                          {/* Dialog Footer */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "flex-end",
+                              gap: "10px",
+                            }}
+                          >
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "#6c757d",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              onClick={() => setOpenRejectNotes(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              style={{
+                                padding: "6px 12px",
+                                fontSize: "0.7rem",
+                                backgroundColor: "darkred",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                transition: "0.3s ease",
+                              }}
+                              disabled={isLoading}
+                              // onClick={() => {
+                              //   handleApproval(0);
+                              //   setOpenRejectNotes(false);
+                              // }}
+                              onClick={() => ReturnRequest()}
+                            >
+                              {isLoading ? "Submit" : "Submit"}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {/* Dialog Box Overlay */}
                     {openrejectnotes && (
                       <div

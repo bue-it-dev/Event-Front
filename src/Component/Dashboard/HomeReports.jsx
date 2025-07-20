@@ -244,6 +244,18 @@ const HomeReports = () => {
       ),
     },
     {
+      field: "isreturned",
+      headerName: "Returned for Update",
+      width: 190,
+      align: "left",
+      headerAlign: "center",
+      renderCell: (params) => (
+        <Tooltip title={params.row.isreturned}>
+          <span className="table-cell-trucate">{params.row.isreturned}</span>
+        </Tooltip>
+      ),
+    },
+    {
       field: "organizerMobile",
       headerName: "Organizer Mobile",
       width: 172,
@@ -559,6 +571,7 @@ const HomeReports = () => {
     isInernationalGuest: event.isInernationalGuest ? "Yes" : "No",
     nomParticipants: event.nomParticipants || "N/A",
     approvalName: event.approvalName || "N/A",
+    isreturned: event.isreturned ? "Yes" : "No",
   }));
 
   const handleViewClick = () => {
