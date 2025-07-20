@@ -176,7 +176,7 @@ const Statistics = () => {
   //Request Approval Summary Chart and CSV Data Preparation
   //Home Request Count Chart
   const eventapprovaloverviewdata = [
-    ["Department", "Approved", "Rejected", "Pending"],
+    ["Department", "Approved", "Rejected", "In Progress"],
     ...eventapprovaloverviewState
       .filter(
         (dept) =>

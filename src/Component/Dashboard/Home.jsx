@@ -64,7 +64,7 @@ const Home = () => {
   );
   // Pie chart data for requests and approvals
   const homeapprovalPieData = {
-    labels: ["Approved Request", "Rejected Request", "Pending Request"],
+    labels: ["Approved Request", "Rejected Request", "In Progress Request"],
     datasets: [
       {
         label: "Event Request Approval Count",
@@ -399,7 +399,7 @@ const Home = () => {
                             opacity: "0.9",
                           }}
                         >
-                          Pending
+                          In Progress
                         </p>
                         <h4
                           className="card-title mb-0 font-weight-bold"
