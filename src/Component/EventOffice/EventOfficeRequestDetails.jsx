@@ -1150,7 +1150,7 @@ const EventOfficeRequestDetails = () => {
                     className="form-control"
                     required
                     rows="3"
-                    placeholder="Enter the reject comments"
+                    placeholder="Add comments (optional)"
                     style={{
                       fontSize: "0.7rem",
                       textAlign: "justify",
@@ -1359,7 +1359,7 @@ const EventOfficeRequestDetails = () => {
                               }}
                               required
                               rows="3"
-                              placeholder="Enter the comments"
+                              placeholder="Add comments (optional)"
                             />
                           </div>
 
@@ -1383,7 +1383,7 @@ const EventOfficeRequestDetails = () => {
                                 cursor: "pointer",
                                 transition: "0.3s ease",
                               }}
-                              onClick={() => setOpenRejectNotes(false)}
+                              onClick={() => setOpenReturnNotes(false)}
                             >
                               Cancel
                             </button>
