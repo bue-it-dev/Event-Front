@@ -1417,7 +1417,7 @@ const EventDetailsBOM = () => {
                                 color: "#333",
                               }}
                             >
-                              Reject Request
+                              Approve Request
                             </h5>
                             <button
                               type="button"
@@ -1470,7 +1470,7 @@ const EventDetailsBOM = () => {
                               }}
                               required
                               rows="3"
-                              placeholder="Enter the comments (If Needed)"
+                              placeholder="Add comments (optional)"
                             />
                           </div>
 
