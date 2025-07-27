@@ -136,13 +136,13 @@ const UpdateEventPassportInfo = ({
     let newErrors = { ...errors };
 
     switch (name) {
-      case "eventTitle":
-        if (!/^[a-zA-Z ]+$/.test(value.trim())) {
-          newErrors[name] = "Event title must contain only letters.";
-        } else {
-          delete newErrors[name];
-        }
-        break;
+      // case "eventTitle":
+      //   if (!/^[a-zA-Z ]+$/.test(value.trim())) {
+      //     newErrors[name] = "Event title must contain only letters.";
+      //   } else {
+      //     delete newErrors[name];
+      //   }
+      //   break;
 
       case "nomParticipants":
         if (!/^\d+$/.test(value) || parseInt(value, 10) < 1) {

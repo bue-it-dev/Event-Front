@@ -240,7 +240,9 @@ function App() {
                       component={HomeReports}
                     />
                     <Route path="/" exact component={Admin} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/hod-add-event-request" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "VCB" ? (
@@ -309,7 +311,9 @@ function App() {
                           component={HomeReports}
                         />
                         <Route path="/" exact component={VCB} />
-                        <Route path="*" exact component={Page404} />
+                        <Route path="*">
+                          <Redirect to="/event-request-list-vcb" />
+                        </Route>
                       </Switch>
                     </>
                   ) : (
@@ -344,7 +348,9 @@ function App() {
                           component={MyEventDetailsVCB}
                         />
                         <Route path="/" exact component={VCB} />
-                        <Route path="*" exact component={Page404} />
+                        <Route path="*">
+                          <Redirect to="/event-request-list-vcb" />
+                        </Route>
                       </Switch>
                     </>
                   )}
@@ -377,7 +383,9 @@ function App() {
                       component={MyEventDetailsPRE}
                     />
                     <Route path="/" exact component={President} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "HR" ? (
@@ -431,7 +439,9 @@ function App() {
                       component={HomeReports}
                     />
                     <Route path="/" exact component={BOM} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-bom" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "COO" ? (
@@ -474,7 +484,9 @@ function App() {
                       component={HomeReports}
                     />
                     <Route path="/" exact component={COO} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-request-list-coo" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Budget Office" ? (
@@ -489,7 +501,9 @@ function App() {
                       component={BOEventDetails}
                     />
                     <Route path="/" exact component={BudgetOffice} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-request-list-budget-office" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Marcom" ? (
@@ -504,7 +518,9 @@ function App() {
                       component={MAREventDetails}
                     />
                     <Route path="/" exact component={Marcom} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-request-list-marcom" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "IT" ? (
@@ -517,7 +533,9 @@ function App() {
                     <ProtectedRoute path="/event-details" component={Details} />
 
                     <Route path="/" exact component={IT} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-request-list-IT" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Travel_Office" ? (
@@ -570,7 +588,9 @@ function App() {
                       component={EventDetailsAccommodation}
                     />
                     <Route path="/" exact component={Accommodation} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-accommodation" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Event Office" ? (
@@ -585,7 +605,9 @@ function App() {
                       component={EventOfficeRequestDetails}
                     />
                     <Route path="/" exact component={EventOffice} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-event-office" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Transportation" ? (
@@ -600,7 +622,9 @@ function App() {
                       component={EventDetailsTransportation}
                     />
                     <Route path="/" exact component={Transportation} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-transportation" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Estates and Facilities Executive Director" ? (
@@ -630,7 +654,9 @@ function App() {
                       component={MyEventDetailsEAF}
                     />
                     <Route path="/" exact component={EAF} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-eaf" />
+                    </Route>
                   </Switch>
                 </>
               ) : user.type === "Campus" ||
@@ -650,7 +676,9 @@ function App() {
                       component={EventDetailsAckAfterBudget}
                     />
                     <Route path="/" exact component={AckAfterBudget} />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/event-approval-list-ack" />
+                    </Route>
                   </Switch>
                 </>
               ) : (
@@ -671,7 +699,9 @@ function App() {
                       exact
                       component={EventRequestDetails}
                     />
-                    <Route path="*" exact component={Page404} />
+                    <Route path="*">
+                      <Redirect to="/my-event-requests" />
+                    </Route>
                   </Switch>
                 </>
               )}
