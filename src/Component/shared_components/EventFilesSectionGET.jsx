@@ -238,6 +238,29 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
 
                     {/* View Button (Always Shown if File Exists) */}
                     {eventData?.officeOfPresedentFilePath && (
+                      // <a
+                      //   href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`}
+                      //   target="_blank"
+                      //   className="text-decoration-none"
+                      // >
+                      //   <button
+                      //     type="button"
+                      //     className="btn btn-sm  d-flex align-items-center justify-content-center"
+                      //     style={{
+                      //       gap: "1px",
+                      //       padding: "2px 6px",
+                      //       minWidth: "65px",
+                      //       fontSize: "0.6rem",
+                      //       backgroundColor: "#57636f",
+                      //       color: "white",
+                      //     }}
+                      //     onClick={() =>
+                      //       GetFiles(eventData.officeOfPresedentFilePath)
+                      //     }
+                      //   >
+                      //     View
+                      //   </button>
+                      // </a>
                       <a
                         href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`}
                         target="_blank"
@@ -254,9 +277,34 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                             backgroundColor: "#57636f",
                             color: "white",
                           }}
-                          onClick={() =>
-                            GetFiles(eventData.officeOfPresedentFilePath)
-                          }
+                          onClick={(e) => {
+                            e.preventDefault();
+                            fetch(
+                              `${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.officeOfPresedentFilePath}`,
+                              {
+                                method: "GET",
+                                headers: {
+                                  Authorization: `Bearer ${getToken()}`,
+                                },
+                              }
+                            )
+                              .then((response) => {
+                                if (response.ok) {
+                                  return response.blob();
+                                }
+                                throw new Error("Network response was not ok.");
+                              })
+                              .then((blob) => {
+                                const url = window.URL.createObjectURL(blob);
+                                window.open(url, "_blank");
+                              })
+                              .catch((error) => {
+                                console.error(
+                                  "There has been a problem with your fetch operation:",
+                                  error
+                                );
+                              });
+                          }}
                         >
                           View
                         </button>
@@ -328,6 +376,27 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
 
                   {/* View Button (Always Shown if File Exists) */}
                   {eventData?.visitAgendaFilePath && (
+                    // <a
+                    //   href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`}
+                    //   target="_blank"
+                    //   className="text-decoration-none"
+                    // >
+                    //   <button
+                    //     type="button"
+                    //     className="btn btn-sm  d-flex align-items-center justify-content-center"
+                    //     style={{
+                    //       gap: "1px",
+                    //       padding: "2px 6px",
+                    //       minWidth: "65px",
+                    //       fontSize: "0.6rem",
+                    //       backgroundColor: "#57636f",
+                    //       color: "white",
+                    //     }}
+                    //     onClick={() => GetFiles(eventData.visitAgendaFilePath)}
+                    //   >
+                    //     View
+                    //   </button>
+                    // </a>
                     <a
                       href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`}
                       target="_blank"
@@ -344,7 +413,34 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                           backgroundColor: "#57636f",
                           color: "white",
                         }}
-                        onClick={() => GetFiles(eventData.visitAgendaFilePath)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          fetch(
+                            `${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData?.visitAgendaFilePath}`,
+                            {
+                              method: "GET",
+                              headers: {
+                                Authorization: `Bearer ${getToken()}`,
+                              },
+                            }
+                          )
+                            .then((response) => {
+                              if (response.ok) {
+                                return response.blob();
+                              }
+                              throw new Error("Network response was not ok.");
+                            })
+                            .then((blob) => {
+                              const url = window.URL.createObjectURL(blob);
+                              window.open(url, "_blank");
+                            })
+                            .catch((error) => {
+                              console.error(
+                                "There has been a problem with your fetch operation:",
+                                error
+                              );
+                            });
+                        }}
                       >
                         View
                       </button>
@@ -484,6 +580,29 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                             {eventData?.passports?.[index] &&
                               typeof eventData.passports[index] ===
                                 "string" && (
+                                // <a
+                                //   href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
+                                //   target="_blank"
+                                //   className="text-decoration-none"
+                                // >
+                                //   <button
+                                //     type="button"
+                                //     className="btn btn-sm d-flex align-items-center justify-content-center"
+                                //     style={{
+                                //       gap: "1px",
+                                //       padding: "2px 6px",
+                                //       minWidth: "65px",
+                                //       fontSize: "0.6rem",
+                                //       backgroundColor: "#57636f",
+                                //       color: "white",
+                                //     }}
+                                //     onClick={() =>
+                                //       GetFiles(eventData.passports[index])
+                                //     }
+                                //   >
+                                //     View
+                                //   </button>
+                                // </a>
                                 <a
                                   href={`${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`}
                                   target="_blank"
@@ -491,7 +610,7 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                                 >
                                   <button
                                     type="button"
-                                    className="btn btn-sm d-flex align-items-center justify-content-center"
+                                    className="btn btn-sm  d-flex align-items-center justify-content-center"
                                     style={{
                                       gap: "1px",
                                       padding: "2px 6px",
@@ -500,9 +619,37 @@ const EventFilesSectionGET = ({ eventData, setEventData }) => {
                                       backgroundColor: "#57636f",
                                       color: "white",
                                     }}
-                                    onClick={() =>
-                                      GetFiles(eventData.passports[index])
-                                    }
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      fetch(
+                                        `${URL.BASE_URL}/api/EventEntity/get-file?filePath=${eventData.passports[index]}`,
+                                        {
+                                          method: "GET",
+                                          headers: {
+                                            Authorization: `Bearer ${getToken()}`,
+                                          },
+                                        }
+                                      )
+                                        .then((response) => {
+                                          if (response.ok) {
+                                            return response.blob();
+                                          }
+                                          throw new Error(
+                                            "Network response was not ok."
+                                          );
+                                        })
+                                        .then((blob) => {
+                                          const url =
+                                            window.URL.createObjectURL(blob);
+                                          window.open(url, "_blank");
+                                        })
+                                        .catch((error) => {
+                                          console.error(
+                                            "There has been a problem with your fetch operation:",
+                                            error
+                                          );
+                                        });
+                                    }}
                                   >
                                     View
                                   </button>
