@@ -116,6 +116,7 @@ const MyEvents = () => {
   const data = {
     columns: [
       { label: "#", field: "Number", sort: "asc" },
+      { label: "Serial", field: "serial", sort: "asc" },
       { label: "Title", field: "eventTitle", sort: "asc" },
       { label: "Organizer Name", field: "OrganizerName", sort: "asc" },
       //{ label: "Organizer Mobile", field: "OrganizerMobile", sort: "asc" },
@@ -137,6 +138,7 @@ const MyEvents = () => {
     ],
     rows: events.map((event, i) => ({
       Number: i + 1,
+      serial: event.serial || "N/A",
       eventId: event.eventId,
       createdAt: new Date(event.createdAt).toLocaleDateString(),
       updateAt: event.updateAt

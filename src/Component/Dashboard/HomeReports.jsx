@@ -165,7 +165,7 @@ const HomeReports = () => {
     },
     // { field: "serial", headerName: "#", width: 150 },
     {
-      field: "id",
+      field: "serial",
       headerName: "Serial",
       width: 110,
       align: "center",
@@ -538,6 +538,7 @@ const HomeReports = () => {
   const rows = businessrequests.map((event, i) => ({
     Number: i + 1,
     id: event.eventId,
+    serial: event.serial,
     eventId: event.eventId,
     eventTitle: event.eventTitle,
     eventStartDate: event.eventStartDate,
