@@ -30,53 +30,68 @@ const Login = () => {
                   <div className="row justify-content-center">
                     <img
                       alt="BUE Logo"
-                      height="190px"
+                      height="150px"
                       id="form-img"
                       className="form-img-card"
                       src={BUELogo}
                     />
                   </div>
+                  {/* Header */}
+                  <h6 className="text-center mb-4 mt-4 font-weight-bold">
+                    Sign in to Your Event System
+                  </h6>
                   <hr className="solid" />
-                  <div className="mr-5">
-                    <div className="floating-label">
-                      <input
-                        className="floating-input inputmargin"
-                        type="text"
-                        id="inputEmail"
-                        placeholder="username"
-                        autoFocus
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        name="username"
-                        required
-                        autoComplete="off"
-                      />
-                      <label className="label-login" htmlFor="email">
-                        <b>Username</b>
-                      </label>
-                    </div>
+                  <div className="mb-4">
+                    <div
+                      // className="card shadow-lg p-4 border-0"
+                      style={{
+                        maxWidth: "300px",
+                        margin: "auto",
+                      }}
+                    >
+                      {/* Username */}
+                      <div className="form-group floating-label-group">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputEmail"
+                          placeholder=" "
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          required
+                          autoComplete="off"
+                          autoFocus
+                        />
+                        <label htmlFor="inputEmail">
+                          <b>Username</b>
+                        </label>
+                      </div>
 
-                    <div className="floating-label">
-                      <input
-                        className="floating-input inputmargin"
-                        type="password"
-                        id="inputPassword"
-                        name="password"
-                        placeholder="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                      <label className="label-login" htmlFor="password">
-                        <b>Password</b>
-                      </label>
+                      {/* Password */}
+                      <div className="form-group floating-label-group">
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="inputPassword"
+                          placeholder=" "
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                        />
+                        <label htmlFor="inputPassword">
+                          <b>Password</b>
+                        </label>
+                      </div>
                     </div>
                   </div>
                   <hr className="solid" />
                   <button
                     type="button"
-                    className="btn btn-lg btn-primary btn-block btn-signin"
-                    style={{ marginLeft: "0px", backgroundColor: "#57636f" }}
+                    className="btn btn-lg btn-primary d-block mx-auto btn-signin"
+                    style={{
+                      backgroundColor: "#57636f",
+                      width: "200px", // narrower width
+                    }}
                     data-target="#sign-in-modal"
                     id="sign-in-btn"
                     data-dismiss="modal"
@@ -116,11 +131,9 @@ const Login = () => {
                           type: roles[decodedToken.RoleID],
                         });
                         setisLoading(false);
-                        // alert("Login Successfully");
                       } catch (err) {
                         console.log("ERR", err);
                         setisLoading(false);
-                        // alert("Login Failed, Check username and password");
                         toast.error(
                           "Login Failed, Check username and password",
                           {
